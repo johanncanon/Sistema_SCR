@@ -352,7 +352,7 @@ textarea {
 
     height: 40px;
     line-height: 40px;
-
+    padding-left: 17px;
     background: #f9f6f1;
     background:-moz-linear-gradient(top, #f9f6f1 0%, #f2efea 100%); /* FF3.6+ */
     background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#f9f6f1), color-stop(100%,#f2efea)); /* Chrome,Safari4+ */
