@@ -7,34 +7,181 @@
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta charset="utf-8"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"></meta>
+        <meta name="apple-mobile-web-app-capable" content="yes"></meta>
 
-        <!-- Meta, title, CSS, favicons, etc. -->
-        <meta charset="utf-8"/>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        
         <!--ESTILOS DE PLANTILLAS NUEVAS-->
-        <h:outputStylesheet name="./css/default.css"/>
-        <h:outputStylesheet name="./css/cssLayout.css"/>
-        <title>eJEMPLO PLANTILLA</title>
-        
+
+
+        <h:outputStylesheet name="./css/bootstrap_1.css"/>
+        <!--<h:outputStylesheet name="./css/bootstrap_1.min.css"/>-->
+        <h:outputStylesheet name="./css/font-awesome_1.css"/>
+        <h:outputStylesheet name="./css/font-awesome.min_1.css"/>
+        <h:outputStylesheet name="./css/style.css"/>
+        <h:outputStylesheet name="./css/pages/dashboard.css"/>
+
+
+        <title>Sistema SCR </title>
+
     </h:head>
 
     <h:body>
 
-        <div id="top">
-            <ui:insert name="top">Top</ui:insert>
-        </div>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header" style="    margin-left: 7%;">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand cls-logo" href="#">Sistema de Calculo de Regalias <strong> SCR</strong></a>
+                </div>
 
-        <div id="content" class="center_content">
-            <ui:insert name="content">Content</ui:insert>
-        </div>
+                <form class="navbar-form navbar-right">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search" />
+                    </div>
+                    <button type="submit" class="btn btn-sm  btn-info">Submit</button>
+                </form>
 
-        <div id="bottom">
-            <ui:insert name="bottom">Bottom</ui:insert>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Link</a></li>
+                    <li class="dropdown" id="abrir-menu"><a href="" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>Drops</span> <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="">Icons</a></li>
+                            <li><a href="">FAQ</a></li>
+                            <li><a href="">Pricing Plans</a></li>
+                            <li><a href="">Login</a></li>
+                            <li><a href="">Signup</a></li>
+                            <li><a href="">404</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+
+        </nav>
+
+        <!-- /navbar -->
+
+        <!--MENU INFERIOR-->
+        <div class="subnavbar">
+            <div class="subnavbar-inner">
+                <div class="container">
+                    <ul class="mainnav">
+                        <li class="active"><a href="#"><i class="fa fa-dashboard"></i><span>Dashboard</span> </a> </li>
+                        <li><a href="#"><i class="fa fa-list-alt"></i><span>Contratos </span> </a> </li>
+                        <li><a href="#"><i class="fa fa-facetime-video"></i><span>Campos</span> </a></li>
+                        <li><a href="#"><i class="fa fa-bar-chart"></i><span>Municipios</span> </a> </li>
+                        <li><a href="#"><i class="fa fa-code"></i><span>Departamentos</span> </a> </li>
+                        <li class="dropdown" id="abrir-menu"><a href="" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>Drops</span> <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="">Icons</a></li>
+                                <li><a href="">FAQ</a></li>
+                                <li><a href="">Pricing Plans</a></li>
+                                <li><a href="">Login</a></li>
+                                <li><a href="">Signup</a></li>
+                                <li><a href="">404</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /container --> 
+            </div>
+            <!-- /subnavbar-inner --> 
         </div>
+        <!-- /subnavbar -->
+
+
+
+
+        <ui:insert name="content">Content</ui:insert>
+
+
+
+
+        <div class="extra">
+            <div class="extra-inner">
+                <b:container fluid="false">
+                    <b:row >
+                        <b:column col-sm="3" col-xs="6">
+                            <h4>
+                                About Free Admin Template</h4>
+                            <ul>
+                                <li><a href="javascript:;">EGrappler.com</a></li>
+                                <li><a href="javascript:;">Web Development Resources</a></li>
+                                <li><a href="javascript:;">Responsive HTML5 Portfolio Templates</a></li>
+                                <li><a href="javascript:;">Free Resources and Scripts</a></li>
+                            </ul>
+                        </b:column>
+                        <!-- /span3 -->
+                        <b:column col-sm="3" col-xs="6">
+                            <h4>
+                                Support</h4>
+                            <ul>
+                                <li><a href="javascript:;">Frequently Asked Questions</a></li>
+                                <li><a href="javascript:;">Ask a Question</a></li>
+                                <li><a href="javascript:;">Video Tutorial</a></li>
+                                <li><a href="javascript:;">Feedback</a></li>
+                            </ul>
+                        </b:column>
+                        <!-- /span3 -->
+                        <b:column col-sm="3" col-xs="6">
+                            <h4>
+                                Something Legal</h4>
+                            <ul>
+                                <li><a href="javascript:;">Read License</a></li>
+                                <li><a href="javascript:;">Terms of Use</a></li>
+                                <li><a href="javascript:;">Privacy Policy</a></li>
+                            </ul>
+                        </b:column>
+                        <!-- /span3 -->
+                        <b:column col-sm="3" col-xs="6">
+                            <h4>
+                                Open Source jQuery Plugins</h4>
+                            <ul>
+                                <li><a href="http://www.egrappler.com">Open Source jQuery Plugins</a></li>
+                                <li><a href="http://www.egrappler.com;">HTML5 Responsive Tempaltes</a></li>
+                                <li><a href="http://www.egrappler.com;">Free Contact Form Plugin</a></li>
+                                <li><a href="http://www.egrappler.com;">Flat UI PSD</a></li>
+                            </ul>
+                        </b:column>
+                        <!-- /span3 -->
+                    </b:row>
+                    <!-- /row --> 
+                </b:container>
+                <!-- /container --> 
+            </div>
+            <!-- /extra-inner --> 
+        </div>
+        <!-- /extra -->
+
+        <div class="footer">
+            <div class="footer-inner">
+                <div class="container">
+                    <div class="row">
+                        <div class="span12"> &copy; 2013 <a href="http://www.egrappler.com/">Bootstrap Responsive Admin Template</a>. </div>
+                        <!-- /span12 --> 
+                    </div>
+                    <!-- /row --> 
+                </div>
+                <!-- /container --> 
+            </div>
+            <!-- /footer-inner --> 
+        </div>
+        <!-- /footer --> 
+
+
+
 
     </h:body>
+
+    <!--ARCHIVOS JS ALOJADOS EN LA CARPETA DASHBOARD-->    
+
+    <h:outputScript name="./js/bootstrap.js"/>
 
 </html>
