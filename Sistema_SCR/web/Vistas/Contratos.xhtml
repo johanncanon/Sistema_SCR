@@ -25,31 +25,44 @@
 
                                 <div class="widget ">
                                     <div class="widget-header"> <i class="fa fa-list-ol"></i>
-                                        <h3> Listado de Contratos </h3>
+                                        <h3> Registro de Contratos </h3>
                                     </div>
                                     <!-- /widget-header -->
                                     <div class="widget-content">
                                         <div class="widget big-stats-container">
                                             <div class="widget-content">
+                                                <h:form id="formularioRegistro">
+                                                    <div class="form-horizontal">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-sm-4 control-label">Nombre Contrato: </label>
+                                                            <b:inputText placeholder="Nombre del contrato" value="#{contratoCT.contrato.nombre}" span="8">                                                             
+                                                            </b:inputText>
+                                                        </div>
 
-                                                <div class="form-horizontal">
-                                                    <div class="form-group">
-                                                        <label for="inputEmail3" class="col-sm-4 control-label">Nombre Contrato: </label>
-                                                        <b:inputText span="8">                                                             
-                                                        </b:inputText>
-                                                    </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label">Municipio: </label>
+                                                            <b:selectOneMenu col-xs="8" value="#{contratoCT.contrato.idmunicipio.nombre}">
+                                                                <f:selectItem itemLabel="Seleccione Municipio" noSelectionOption="true"/>
+                                                                <f:selectItems value="#{municipioCT.municipios}" var="municipio" itemLabel="#{municipio.nombre}" itemValue="#{municipio.nombre}"/>
+                                                            </b:selectOneMenu>
+                                                        </div>
+                                                            
 
-                                                    <div class="form-group">
-                                                        <label class="col-sm-4 control-label">Observaciones: </label>
-                                                        <b:inputTextarea rows="3" col-xs="8" style="margin-top: 0px "/>
-                                                    </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label">Tipo de contrato: </label>
+                                                            <b:selectOneMenu col-xs="8" value="#{contratoCT.contrato.idtipo.nombre}">
+                                                                <f:selectItem itemLabel="Seleccione Tipo de contrato" noSelectionOption="true"/>
+                                                                <f:selectItems value="#{tipoCT.tipos}" var="tipo" itemLabel="#{tipo.nombre}" itemValue="#{tipo.nombre}"/>
+                                                            </b:selectOneMenu>
+                                                        </div>
 
-                                                    <div class="form-group">
-                                                        <p:link class=" btn btn-info " style="float: right">
-                                                            <i class="fa fa-send" /> Enviar
-                                                        </p:link>
+                                                        <div class="form-group">
+                                                            <b:commandButton value="Enviar" action="#{contratoCT.registrar()}" update=":formularioRegistro :formularioLista" class=" btn btn-info " style="float: right">
+                                                                <b:iconAwesome name="send"/>
+                                                            </b:commandButton>                                                            
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                </h:form>
                                                 <!-- /widget-content --> 
                                             </div>
                                         </div>
@@ -75,7 +88,6 @@
                             <!-- /widget -->
 
                             <b:column col-lg="12" >
-
                                 <div class="widget ">
                                     <div class="widget-header"> <i class="fa fa-list-alt"></i>
                                         <h3> Listado de Contratos </h3>
@@ -84,14 +96,19 @@
                                     <div class="widget-content">
                                         <div class="widget big-stats-container">
                                             <div class="widget-content">
-                                                <b:dataTable value="#{carPool.carPool}" var="car">
-                                                    <b:dataTableColumn label="col num 1"/>
-                                                    <b:dataTableColumn label="col num 2"/>
-                                                    <b:dataTableColumn label="col num 3"/>
-                                                    <b:dataTableColumn label="col num 4"/>
-                                                    <b:dataTableColumn label="col num 5"/>
-
-                                                </b:dataTable>
+                                                <h:form id="formularioLista">
+                                                    <b:dataTable value="#{contratoCT.contratos}" var="contrato">
+                                                        <b:dataTableColumn label="Nombre">
+                                                            <h:outputLabel value="#{contrato.nombre}"/>
+                                                        </b:dataTableColumn>
+                                                        <b:dataTableColumn label="Municipio">
+                                                            <h:outputLabel value="#{contrato.idmunicipio.nombre}"/>
+                                                        </b:dataTableColumn>
+                                                        <b:dataTableColumn label="Tipo Contrato">
+                                                            <h:outputLabel value="#{contrato.idtipo.nombre}"/>
+                                                        </b:dataTableColumn>
+                                                    </b:dataTable>
+                                                </h:form>
                                             </div>
                                             <!-- /widget-content --> 
                                         </div>

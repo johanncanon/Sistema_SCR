@@ -47,6 +47,7 @@ public class Tipos implements Serializable {
     private Collection<Contratos> contratosCollection;
 
     public Tipos() {
+        idtipo = 0;
     }
 
     public Tipos(Integer idtipo) {

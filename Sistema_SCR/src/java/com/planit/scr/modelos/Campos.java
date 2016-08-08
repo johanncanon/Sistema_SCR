@@ -66,6 +66,14 @@ public class Campos implements Serializable {
         this.nombre = nombre;
     }
 
+    public Campos(Integer idcampo, String nombre, Contratos idcontrato) {
+        this.idcampo = idcampo;
+        this.nombre = nombre;
+        this.idcontrato = idcontrato;
+    }
+    
+    
+
     public Integer getIdcampo() {
         return idcampo;
     }

@@ -6,7 +6,7 @@
 package com.planit.scr.controladores;
 
 import com.planit.scr.conexion.ConexionSQL;
-import com.planit.scr.modelos.Contratos;
+import com.planit.scr.modelos.Trm;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -14,34 +14,28 @@ import java.sql.Statement;
  *
  * @author Desarrollo_Planit
  */
-public class CTContratos {
+public class TrmCT {
     
-    private Contratos contrato;
+    private Trm trm;
     private final Statement st = ConexionSQL.conexion();
 
-    public CTContratos() {
-        contrato = new Contratos(); 
+    public TrmCT() {
     }
     
-    public void init(){
-    
+    public Trm getTrm() {
+        return trm;
     }
 
-    //Getter & Setter
-    public Contratos getContrato() {
-        return contrato;
+    public void setTrm(Trm trm) {
+        this.trm = trm;
     }
 
-    public void setContrato(Contratos contrato) {
-        this.contrato = contrato;
-    }
-    
-    //Metodos 
-    public void registrar() throws Exception{
+    //Metodos
+    public void registrar() throws Exception {
         try {
             try {
                 String sql = "";
-                st.execute(sql);                
+                st.execute(sql);
             } catch (SQLException e) {
                 throw e;
             }
@@ -50,5 +44,5 @@ public class CTContratos {
         } finally {
             ConexionSQL.CerrarConexion();
         }
-    }       
+    }
 }

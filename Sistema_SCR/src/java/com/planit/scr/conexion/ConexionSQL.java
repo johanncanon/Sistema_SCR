@@ -19,14 +19,13 @@ import java.util.logging.Logger;
 public class ConexionSQL {
 
     static String clave = "yU7eywfXILoZjtaD";
- // static String clave = "root";
+    // static String clave = "root";
     static Statement ST = null;
     static Connection cn = null;
 
     public static Statement conexion() {
 
         try {
-
             try {
                 // CLASE USADA PARA EL DRIVER
                 Class.forName("org.postgresql.Driver").newInstance();
@@ -36,9 +35,7 @@ public class ConexionSQL {
                 Logger.getLogger(ConexionSQL.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            // RUTA DE LA BASE DE DATOS
-            //  String url = "jdbc:postgresql://localhost:5432/scr";
-                        
+            // RUTA DE LA BASE DE DATOS   jdbc:postgresql://192.168.100.251:5432/SCR                               
             String url = "jdbc:postgresql://192.168.100.251:5432/SCR";
             // CONECCION A LA BASE DE DATOS
             cn = DriverManager.getConnection(url, "postgres", clave);
@@ -62,7 +59,6 @@ public class ConexionSQL {
     }
 
     public static Connection CerrarConexion() throws SQLException {
-
         cn.close();
         cn = null;
         return cn;

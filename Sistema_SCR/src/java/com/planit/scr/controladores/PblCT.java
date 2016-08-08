@@ -12,18 +12,11 @@ import java.sql.Statement;
  *
  * @author Desarrollo_Planit
  */
-public class CTPbl {
-    
+public class PblCT {
+
     private final Statement st = ConexionSQL.conexion();
 
-    public CTPbl() {
-    
+    public PblCT() {
     }
-    
-    public void init() {
-    
-    }
-    
-    
-    
+
 }

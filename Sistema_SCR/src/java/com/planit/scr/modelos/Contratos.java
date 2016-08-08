@@ -68,6 +68,15 @@ public class Contratos implements Serializable {
         this.nombre = nombre;
     }
 
+    public Contratos(Integer idcontrato, String nombre, Tipos idtipo, Municipios idmunicipio) {
+        this.idcontrato = idcontrato;
+        this.nombre = nombre;
+        this.idtipo = idtipo;
+        this.idmunicipio = idmunicipio;
+    }
+    
+    
+
     public Integer getIdcontrato() {
         return idcontrato;
     }

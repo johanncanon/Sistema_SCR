@@ -6,27 +6,23 @@
 package com.planit.scr.controladores;
 
 import com.planit.scr.conexion.ConexionSQL;
+import com.planit.scr.modelos.Pbl;
 import com.planit.scr.modelos.Produccion;
-import java.sql.SQLException;
 import java.sql.Statement;
-import javax.annotation.PostConstruct;
 
 /**
  *
  * @author Desarrollo_Planit
  */
-public class CTProduccion {
-    
+public class RegaliasCT {
+
     private Produccion produccion;
     private final Statement st = ConexionSQL.conexion();
+    private Pbl pbl;
 
-    public CTProduccion() {
-        
-    }
-
-    @PostConstruct
-    public void init(){
-    
+    public RegaliasCT() {
+        produccion = new Produccion();
+        pbl = new Pbl();
     }
     
     public Produccion getProduccion() {
@@ -35,22 +31,18 @@ public class CTProduccion {
 
     public void setProduccion(Produccion produccion) {
         this.produccion = produccion;
-    }      
-    
-    //Metodos
-    public void registrar() throws Exception{
-        try {
-            try {
-                String sql = "";
-                st.execute(sql);                
-            } catch (SQLException e) {
-                throw e;
-            }
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
-        }
+    }
+
+    public Pbl getPbl() {
+        return pbl;
+    }
+
+    public void setPbl(Pbl pbl) {
+        this.pbl = pbl;
     }
     
+    //Metodos
+    public void calcularRegalias(){    
+    }
+
 }

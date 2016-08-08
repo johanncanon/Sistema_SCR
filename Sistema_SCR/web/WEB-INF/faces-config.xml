@@ -7,6 +7,16 @@
     <navigation-rule>
         <from-view-id>*</from-view-id>
         <navigation-case>
+            <from-outcome>Trm</from-outcome>
+            <to-view-id>/Vistas/Trm.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>Regalias</from-outcome>
+            <to-view-id>/Vistas/Regalias.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>Contrato</from-outcome>
             <to-view-id>/Vistas/Contratos.xhtml</to-view-id>
             <redirect/>
@@ -32,4 +42,49 @@
             <redirect/>
         </navigation-case>
     </navigation-rule>
+    <managed-bean>
+        <managed-bean-name>departamentoCT</managed-bean-name>
+        <managed-bean-class>com.planit.scr.controladores.DepartamentoCT</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>contratoCT</managed-bean-name>
+        <managed-bean-class>com.planit.scr.controladores.ContratoCT</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>municipioCT</managed-bean-name>
+        <managed-bean-class>com.planit.scr.controladores.MunicipioCT</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>campoCT</managed-bean-name>
+        <managed-bean-class>com.planit.scr.controladores.CampoCT</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>tipoCT</managed-bean-name>
+        <managed-bean-class>com.planit.scr.controladores.TipoCT</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>produccionCT</managed-bean-name>
+        <managed-bean-class>com.planit.scr.controladores.ProduccionCT</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>pblCT</managed-bean-name>
+        <managed-bean-class>com.planit.scr.controladores.PblCT</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>regaliasCT</managed-bean-name>
+        <managed-bean-class>com.planit.scr.controladores.RegaliasCT</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>trmCT</managed-bean-name>
+        <managed-bean-class>com.planit.scr.controladores.TrmCT</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
 </faces-config>

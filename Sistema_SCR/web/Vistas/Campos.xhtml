@@ -4,7 +4,6 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:b="http://bootsfaces.net/ui"
-      xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 
@@ -25,31 +24,34 @@
 
                                 <div class="widget ">
                                     <div class="widget-header"> <i class="fa fa-list-ol"></i>
-                                        <h3> Formulario de Registro de Camnpos</h3>
+                                        <h3>Registro de Campos</h3>
                                     </div>
                                     <!-- /widget-header -->
                                     <div class="widget-content">
                                         <div class="widget big-stats-container">
                                             <div class="widget-content">
+                                                <h:form id="formularioRegistro">
+                                                    <div class="form-horizontal">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-sm-4 control-label">Nombre Campo: </label>
+                                                            <b:inputText placeholder="Nombre del campo" span="8" value="#{campoCT.campo.nombre}"/>                                                            
+                                                        </div>
 
-                                                <div class="form-horizontal">
-                                                    <div class="form-group">
-                                                        <label for="inputEmail3" class="col-sm-4 control-label">Nombre Contrato: </label>
-                                                        <b:inputText span="8">                                                             
-                                                        </b:inputText>
-                                                    </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label">Contrato: </label>
+                                                            <b:selectOneMenu col-xs="8" value="#{campoCT.campo.idcontrato.nombre}">
+                                                                <f:selectItem itemLabel="Seleccione contrato" noSelectionOption="true"/>
+                                                                <f:selectItems value="#{contratoCT.contratos}" var="contrato" itemLabel="#{contrato.nombre}" itemValue="#{contrato.nombre}" />
+                                                            </b:selectOneMenu>
+                                                        </div>
 
-                                                    <div class="form-group">
-                                                        <label class="col-sm-4 control-label">Observaciones: </label>
-                                                        <b:inputTextarea rows="3" col-xs="8" style="margin-top: 0px "/>
+                                                        <div class="form-group">
+                                                            <b:commandButton action="#{campoCT.registrar()}" update=":formularioRegistro :formularioLista" class=" btn btn-info" style="float: right" value="Enviar">
+                                                                <b:iconAwesome name="send"/>
+                                                            </b:commandButton>
+                                                        </div>
                                                     </div>
-
-                                                    <div class="form-group">
-                                                        <p:link class=" btn btn-info " style="float: right">
-                                                            <i class="fa fa-send" /> Enviar
-                                                        </p:link>
-                                                    </div>
-                                                </div>
+                                                </h:form>
                                                 <!-- /widget-content --> 
                                             </div>
                                         </div>
@@ -78,20 +80,22 @@
 
                                 <div class="widget ">
                                     <div class="widget-header"> <i class="fa fa-list-alt"></i>
-                                        <h3> Listado de Contratos </h3>
+                                        <h3> Listado de Campos </h3>
                                     </div>
                                     <!-- /widget-header -->
                                     <div class="widget-content">
                                         <div class="widget big-stats-container">
                                             <div class="widget-content">
-                                                <b:dataTable value="#{carPool.carPool}" var="car">
-                                                    <b:dataTableColumn label="col num 1"/>
-                                                    <b:dataTableColumn label="col num 2"/>
-                                                    <b:dataTableColumn label="col num 3"/>
-                                                    <b:dataTableColumn label="col num 4"/>
-                                                    <b:dataTableColumn label="col num 5"/>
-
-                                                </b:dataTable>
+                                                <h:form id="formularioLista">
+                                                    <b:dataTable value="#{campoCT.campos}" var="campo">
+                                                        <b:dataTableColumn label="Nombre">
+                                                            <h:outputLabel value="#{campo.nombre}"/>
+                                                        </b:dataTableColumn>
+                                                        <b:dataTableColumn label="Contrato">
+                                                            <h:outputLabel value="#{campo.idcontrato.nombre}"/>
+                                                        </b:dataTableColumn>
+                                                    </b:dataTable>
+                                                </h:form>
                                             </div>
                                             <!-- /widget-content --> 
                                         </div>
@@ -100,12 +104,9 @@
                             </b:column>
 
                         </b:row>
-
                         <!-- /row --> 
-
                         <!-- /container --> 
                     </b:container>
-
                 </div>
                 <!-- /main-inner --> 
             </div>

@@ -47,7 +47,7 @@ public class Departamentos implements Serializable {
     private Collection<Municipios> municipiosCollection;
 
     public Departamentos() {
-        
+        iddepartamento = 0;
     }
 
     public Departamentos(Integer iddepartamento) {

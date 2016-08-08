@@ -79,6 +79,16 @@
                             </h:link>
                         </li>
                         <li>
+                            <h:link outcome="Departamentos">
+                                <i class="fa fa-map-o"></i><span>Departamentos</span> 
+                            </h:link>
+                        </li>
+                        <li>
+                            <h:link outcome="Municipios">
+                                <i class="fa fa-map-marker"></i><span>Municipios</span> 
+                            </h:link>
+                        </li>
+                        <li>
                             <h:link outcome="Contrato">
                                 <i class="fa fa-file-excel-o"></i><span>Contratos </span> 
                             </h:link>
@@ -89,13 +99,13 @@
                             </h:link>
                         </li>
                         <li>
-                            <h:link outcome="Municipios">
-                                <i class="fa fa-map-marker"></i><span>Municipios</span> 
+                            <h:link outcome="Trm">
+                                <i class="fa fa-usd"></i><span>Trm</span> 
                             </h:link>
                         </li>
                         <li>
-                            <h:link outcome="Departamentos">
-                                <i class="fa fa-map-o"></i><span>Departamentos</span> 
+                            <h:link outcome="Regalias">
+                                <i class="fa fa-calculator"></i><span>Regalias</span> 
                             </h:link>
                         </li>
                         <li class="dropdown " id="abrir-menu">
@@ -204,7 +214,10 @@
     </h:body>
 
     <!--ARCHIVOS JS ALOJADOS EN LA CARPETA DASHBOARD-->    
-    <h:outputScript name="./js/bootstrap_1.js"/>
+    <h:outputScript name="./js/bootstrap_1.js"/>   
+    <h:outputScript name="./js/moment-with-locales.min.js"/>
+    <h:outputScript name="./js/bootstrap-datetimepicker.min.js"/>
+
     <!--<h:outputScript name="./js/bootstrap.min.js"/>-->
 
 

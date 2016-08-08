@@ -52,6 +52,7 @@ public class Municipios implements Serializable {
     private Collection<Contratos> contratosCollection;
 
     public Municipios() {
+        idmunicipio = 0;
         iddepartamento = new Departamentos();
     }
 
@@ -63,6 +64,14 @@ public class Municipios implements Serializable {
         this.idmunicipio = idmunicipio;
         this.nombre = nombre;
     }
+
+    public Municipios(Integer idmunicipio, String nombre, Departamentos iddepartamento) {
+        this.idmunicipio = idmunicipio;
+        this.nombre = nombre;
+        this.iddepartamento = iddepartamento;
+    }
+    
+    
 
     public Integer getIdmunicipio() {
         return idmunicipio;
