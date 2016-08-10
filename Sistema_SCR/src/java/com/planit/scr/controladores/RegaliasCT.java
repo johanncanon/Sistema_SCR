@@ -11,6 +11,7 @@ import com.planit.scr.modelos.Contratos;
 import com.planit.scr.modelos.Municipios;
 import com.planit.scr.modelos.Pbl;
 import com.planit.scr.modelos.Produccion;
+import com.planit.scr.modelos.Regalias;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +30,7 @@ public class RegaliasCT {
     private Campos campo;
     private List<Campos> campos;
     private List<Contratos> contratos;
+    private List<Regalias> regalias;
 
     private final Statement st = ConexionSQL.conexion();
 
@@ -44,6 +46,7 @@ public class RegaliasCT {
 
         campos = new ArrayList<>();
         contratos = new ArrayList<>();
+        regalias = new ArrayList<>();
     }
 
     public Produccion getProduccion() {
@@ -94,6 +97,16 @@ public class RegaliasCT {
         this.campos = campos;
     }
 
+    public List<Regalias> getRegalias() {
+        return regalias;
+    }
+
+    public void setRegalias(List<Regalias> regalias) {
+        this.regalias = regalias;
+    }
+    
+      
+
     //Metodos
     public void calcularRegalias() throws Exception {
         MunicipioCT mct = new MunicipioCT();
@@ -125,7 +138,7 @@ public class RegaliasCT {
         } else if (vista == 2) {
             PblCT pct = new PblCT();
             pbl = pct.calcularPBL(pbl);
-            pct.regitrarPbl(pbl);
+            pct.registrarPbl(pbl);
 
             posicion++;
             if (posicion <= campos.size()) {
@@ -135,8 +148,13 @@ public class RegaliasCT {
                 } else if (posicion == campos.size()) {
                     vista = 3;
                     posicion = 0;
+                    for (int i = 0; i < campos.size(); i++) {
+//                        regalias.add(new Regalias(campos.get(i), pbl, vista, i))
+                    }
                 }
             }
+        } else if(vista == 3){
+            
         }
     }
 

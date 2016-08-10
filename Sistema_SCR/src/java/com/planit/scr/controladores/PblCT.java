@@ -21,7 +21,7 @@ public class PblCT {
     public PblCT() {
     }
 
-    public void regitrarPbl(Pbl pbl) throws Exception {
+    public void registrarPbl(Pbl pbl) throws Exception {
         try {
             try {
                 String sql = "INSERT INTO public.pbl (v1, v2, vt, pf, px, ctc, cmt, ctmc, ctmd, cr, ct1, cce, ctme, ct2, idcampo, trimestre, prc)"
@@ -49,6 +49,5 @@ public class PblCT {
         pbl.setCt2(pbl.getCce() + pbl.getCtme());
         pbl.setPrc((pbl.getPf() - pbl.getCt1())*(pbl.getV1()/pbl.getVt()) + (pbl.getPx() - pbl.getCt2())*(pbl.getV2()/pbl.getVt()));
         return pbl;
-    }
-            
+    }            
 }
