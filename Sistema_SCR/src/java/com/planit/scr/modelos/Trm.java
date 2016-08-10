@@ -45,9 +45,10 @@ public class Trm implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fecha;
     @Column(name = "valor")
-    private BigInteger valor;
+    private Integer valor;
 
     public Trm() {
+        fecha = new Date();
     }
 
     public Trm(Integer idtrm) {
@@ -59,6 +60,12 @@ public class Trm implements Serializable {
         this.fecha = fecha;
     }
 
+    public Trm(Integer idtrm, Date fecha, Integer valor) {
+        this.idtrm = idtrm;
+        this.fecha = fecha;
+        this.valor = valor;
+    }
+       
     public Integer getIdtrm() {
         return idtrm;
     }
@@ -75,14 +82,15 @@ public class Trm implements Serializable {
         this.fecha = fecha;
     }
 
-    public BigInteger getValor() {
+    public Integer getValor() {
         return valor;
     }
 
-    public void setValor(BigInteger valor) {
+    public void setValor(Integer valor) {
         this.valor = valor;
     }
 
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -1,14 +1,194 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
         <ui:composition template="./template.xhtml">
 
             <ui:define name="content">
-                content
+                <div class="main">
+                    <div class="main-inner">
+                        <b:container fluid="false" >
+
+                            <div style="margin-bottom: 30px">
+                                <h2> Calculo de regalias <small>Calculo de regalias.</small> </h2>
+                            </div>
+                            <b:row>
+                                <h:form id="formularioRegistro">
+                                    <c:choose>
+                                        <c:when test="#{regaliasCT.vista == 0}">
+                                            <b:column col-lg="6" >
+                                                <div class="widget ">
+                                                    <div class="widget-header"> <i class="fa fa-list-ol"></i>
+                                                        <h3> Registro de Produccion </h3>
+                                                    </div>
+                                                    <!-- /widget-header -->
+                                                    <div class="widget-content">
+                                                        <div class="widget big-stats-container">
+                                                            <div class="widget-content">
+
+                                                                <div class="form-horizontal">
+                                                                    <div class="form-group">
+                                                                        <label for="inputCampo" class="col-sm-4 control-label">Municipio al que calculara regalias: </label>
+                                                                        <b:selectOneMenu value="#{regaliasCT.municipio.nombre}" col-xs="8">
+                                                                            <f:selectItem noSelectionOption="true" itemLabel="Seleccione municipio"/>
+                                                                            <f:selectItems value="#{municipioCT.municipios}" var="municipio" itemLabel="#{municipio.nombre}" itemValue="#{municipio.nombre}"/>
+                                                                        </b:selectOneMenu>
+                                                                    </div>                                                                      
+
+                                                                    <div class="form-group">
+                                                                        <b:commandButton value="Enviar" action="#{regaliasCT.calcularRegalias()}" update=":formularioRegistro" class="btn btn-info " style="float: right">
+                                                                            <b:iconAwesome name="send"></b:iconAwesome>
+                                                                        </b:commandButton>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- /widget-content --> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </b:column>
+                                        </c:when>
+                                        <c:when test="#{regaliasCT.vista == 1}">
+                                            <b:column col-lg="6" >
+                                                <div class="widget ">
+                                                    <div class="widget-header"> <i class="fa fa-list-ol"></i>
+                                                        <h3> Registro de Produccion </h3>
+                                                    </div>
+                                                    <!-- /widget-header -->
+                                                    <div class="widget-content">
+                                                        <div class="widget big-stats-container">
+                                                            <div class="widget-content">
+
+                                                                <div class="form-horizontal">
+                                                                    <div class="form-group">
+                                                                        <label for="inputCampo" class="col-sm-4 control-label">Campo: </label>
+                                                                        <p:outputLabel value="#{regaliasCT.produccion.idcampo.nombre}" id="inputCampo"/>                                                             
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="inputValor" class="col-sm-4 control-label">Volumen promedio diario (BPPD): </label>
+                                                                        <b:inputText value="#{regaliasCT.produccion.produccion}" id="inputValor" placeholder="Volumen promedio diario" span="8"/>                                                             
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <b:commandButton value="Enviar" action="#{regaliasCT.calcularRegalias()}" update=":formularioRegistro" class="btn btn-info " style="float: right">
+                                                                            <b:iconAwesome name="send"></b:iconAwesome>
+                                                                        </b:commandButton>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- /widget-content --> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </b:column>
+                                        </c:when>
+                                        <c:when test="#{regaliasCT.vista == 2}">
+                                            <b:column col-lg="6" >
+                                                <div class="widget ">
+                                                    <div class="widget-header"> <i class="fa fa-list-ol"></i>
+                                                        <h3> PBL </h3>
+                                                    </div>
+                                                    <!-- /widget-header -->
+                                                    <div class="widget-content">
+                                                        <div class="widget big-stats-container">
+                                                            <div class="widget-content">                                                            
+                                                                <div class="form-horizontal">                                                           
+                                                                    
+                                                                    <div class="form-group">
+                                                                        <label for="inputCampo" class="col-sm-4 control-label">Campo: </label>
+                                                                        <p:outputLabel value="#{regaliasCT.pbl.idcampo.nombre}" id="inputCampo"/>                                                             
+                                                                    </div>
+                                                                    
+                                                                    <div class="form-group">
+                                                                        <label for="inputPF" class="col-sm-4 control-label">PF: </label>
+                                                                        <b:inputText id="inputPF" value="#{regaliasCT.pbl.pf}" placeholder="Promedio ponderado de ecopetrol" span="8"/>                                                             
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="inputPX" class="col-sm-4 control-label">PX: </label>
+                                                                        <b:inputText id="inputPX"   value="#{regaliasCT.pbl.px}" placeholder="Promedio ponderado efectivo de exportacion" span="8"/>                                                             
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="inputV1" class="col-sm-4 control-label">Volumen de crudo refinado: </label>
+                                                                        <b:inputText id="inputV1" value="#{regaliasCT.pbl.v1}" placeholder="Volumen de crudo refinado" span="8"/>                                                             
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="inputV2" class="col-sm-4 control-label">Volumen de crudo exportado: </label>
+                                                                        <b:inputText id="inputV2" value="#{regaliasCT.pbl.v2}" placeholder="Volumen de crudo exportado" span="8"/>                                                             
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="inputCTC" class="col-sm-4 control-label">CTC: </label>
+                                                                        <b:inputText id="inputCTC" value="#{regaliasCT.pbl.ctc}" placeholder="Costo de transporte de crudo" span="8"/>                                                             
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="inputCMT" class="col-sm-4 control-label">CMT: </label>
+                                                                        <b:inputText id="inputCMT" value="#{regaliasCT.pbl.cmt}" placeholder="Costo de transporte de productos a la refineria" span="8"/>                                                             
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="inputCTMC" class="col-sm-4 control-label">CTMC: </label>
+                                                                        <b:inputText id="inputCTMC" value="#{regaliasCT.pbl.ctmc}" placeholder="Costo trasiego y manejo de crudo de refinacion" span="8"/>                                                             
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="inputCTMD" class="col-sm-4 control-label">CTMD: </label>
+                                                                        <b:inputText id="inputCTMD" value="#{regaliasCT.pbl.ctmd}" placeholder="Costo de trasiego y manejo de los derivados" span="8"/>                                                             
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="inputCR" class="col-sm-4 control-label">CR: </label>
+                                                                        <b:inputText id="inputCR" value="#{regaliasCT.pbl.cr}" placeholder="Costo de refinacion" span="8"/>                                                             
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="inputCCE" class="col-sm-4 control-label">CCE: </label>
+                                                                        <b:inputText id="inputCCE" value="#{regaliasCT.pbl.cce}" placeholder="Costo transporte crudo a puerto de embarque" span="8"/>                                                             
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="inputCTME" class="col-sm-4 control-label">CTME: </label>
+                                                                        <b:inputText id="inputCTME" value="#{regaliasCT.pbl.ctme}" placeholder="Costo trasiego y manejo de crudo de exportacion" span="8"/>                                                             
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <b:commandButton value="Enviar" action="#{regaliasCT.calcularRegalias()}" update=":formularioRegistro" class="btn btn-info " style="float: right">
+                                                                            <b:iconAwesome name="send"></b:iconAwesome>
+                                                                        </b:commandButton>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- /widget-content --> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </b:column>
+                                        </c:when>
+                                    </c:choose>
+                                </h:form>
+                                <!-- /widget -->
+                            </b:row>
+                            <!-- /row --> 
+                            <!-- /container --> 
+                        </b:container>
+
+                    </div>
+                    <!-- /main-inner --> 
+                </div>
             </ui:define>
 
         </ui:composition>

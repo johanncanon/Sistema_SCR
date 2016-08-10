@@ -21,7 +21,7 @@ public class ProduccionCT {
     private final Statement st = ConexionSQL.conexion();
 
     public ProduccionCT() {
-        
+        produccion = new Produccion();
     }
 
     @PostConstruct
@@ -38,19 +38,17 @@ public class ProduccionCT {
     }
 
     //Metodos
-    public void registrar() throws Exception {
+    public void registrar(Produccion p) throws Exception {
         try {
             try {
-                String sql = "";
+                String sql = "INSERT INTO public.produccion (idcampo, fecha, produccion)"
+                        + " VALUES('" + p.getIdcampo().getIdcampo() + "', '" + p.getFecha() + "', '" + p.getProduccion() + "')";
                 st.execute(sql);
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
     }
-
 }

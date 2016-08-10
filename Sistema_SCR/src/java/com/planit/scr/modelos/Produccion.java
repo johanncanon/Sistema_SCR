@@ -6,7 +6,6 @@
 package com.planit.scr.modelos;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -48,7 +47,7 @@ public class Produccion implements Serializable {
     private Date fecha;
     @Basic(optional = false)
     @Column(name = "produccion")
-    private BigInteger produccion;
+    private Integer produccion;
     @JoinColumn(name = "idcampo", referencedColumnName = "idcampo")
     @ManyToOne(optional = false)
     private Campos idcampo;
@@ -61,11 +60,14 @@ public class Produccion implements Serializable {
         this.idproduccion = idproduccion;
     }
 
-    public Produccion(Integer idproduccion, Date fecha, BigInteger produccion) {
+    public Produccion(Integer idproduccion, Date fecha, Integer produccion, Campos idcampo) {
         this.idproduccion = idproduccion;
         this.fecha = fecha;
         this.produccion = produccion;
+        this.idcampo = idcampo;
     }
+
+   
 
     public Integer getIdproduccion() {
         return idproduccion;
@@ -83,13 +85,13 @@ public class Produccion implements Serializable {
         this.fecha = fecha;
     }
 
-    public BigInteger getProduccion() {
+    public Integer getProduccion() {
         return produccion;
     }
 
-    public void setProduccion(BigInteger produccion) {
+    public void setProduccion(Integer produccion) {
         this.produccion = produccion;
-    }
+    }   
 
     public Campos getIdcampo() {
         return idcampo;

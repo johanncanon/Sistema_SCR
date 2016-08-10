@@ -6,7 +6,6 @@
 package com.planit.scr.modelos;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Pbl.findAll", query = "SELECT p FROM Pbl p"),
     @NamedQuery(name = "Pbl.findByIdpbl", query = "SELECT p FROM Pbl p WHERE p.idpbl = :idpbl"),
     @NamedQuery(name = "Pbl.findByV1", query = "SELECT p FROM Pbl p WHERE p.v1 = :v1"),
-    @NamedQuery(name = "Pbl.findByV", query = "SELECT p FROM Pbl p WHERE p.v = :v"),
+    @NamedQuery(name = "Pbl.findByV2", query = "SELECT p FROM Pbl p WHERE p.v2 = :v2"),
     @NamedQuery(name = "Pbl.findByVt", query = "SELECT p FROM Pbl p WHERE p.vt = :vt"),
     @NamedQuery(name = "Pbl.findByPf", query = "SELECT p FROM Pbl p WHERE p.pf = :pf"),
     @NamedQuery(name = "Pbl.findByPx", query = "SELECT p FROM Pbl p WHERE p.px = :px"),
@@ -44,7 +43,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Pbl.findByCce", query = "SELECT p FROM Pbl p WHERE p.cce = :cce"),
     @NamedQuery(name = "Pbl.findByCtme", query = "SELECT p FROM Pbl p WHERE p.ctme = :ctme"),
     @NamedQuery(name = "Pbl.findByCt2", query = "SELECT p FROM Pbl p WHERE p.ct2 = :ct2"),
-    @NamedQuery(name = "Pbl.findByTrimestre", query = "SELECT p FROM Pbl p WHERE p.trimestre = :trimestre")})
+    @NamedQuery(name = "Pbl.findByTrimestre", query = "SELECT p FROM Pbl p WHERE p.trimestre = :trimestre"),
+    @NamedQuery(name = "Pbl.findByPrc", query = "SELECT p FROM Pbl p WHERE p.prc = :prc")})
 public class Pbl implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,65 +54,67 @@ public class Pbl implements Serializable {
     private Integer idpbl;
     @Basic(optional = false)
     @Column(name = "v1")
-    private BigInteger v1;
+    private double v1;
     @Basic(optional = false)
-    @Column(name = "v")
-    private BigInteger v;
+    @Column(name = "v2")
+    private double v2;
     @Basic(optional = false)
     @Column(name = "vt")
-    private BigInteger vt;
+    private double vt;
     @Basic(optional = false)
     @Column(name = "pf")
-    private BigInteger pf;
+    private double pf;
     @Basic(optional = false)
     @Column(name = "px")
-    private BigInteger px;
+    private double px;
     @Basic(optional = false)
     @Column(name = "ctc")
-    private BigInteger ctc;
+    private double ctc;
     @Basic(optional = false)
     @Column(name = "cmt")
-    private BigInteger cmt;
+    private double cmt;
     @Basic(optional = false)
     @Column(name = "ctmc")
-    private BigInteger ctmc;
+    private double ctmc;
     @Basic(optional = false)
     @Column(name = "ctmd")
-    private BigInteger ctmd;
+    private double ctmd;
     @Basic(optional = false)
     @Column(name = "cr")
-    private BigInteger cr;
+    private double cr;
     @Basic(optional = false)
     @Column(name = "ct1")
-    private BigInteger ct1;
+    private double ct1;
     @Basic(optional = false)
     @Column(name = "cce")
-    private BigInteger cce;
+    private double cce;
     @Basic(optional = false)
     @Column(name = "ctme")
-    private BigInteger ctme;
+    private double ctme;
     @Basic(optional = false)
     @Column(name = "ct2")
-    private BigInteger ct2;
+    private double ct2;
     @Basic(optional = false)
     @Column(name = "trimestre")
     private int trimestre;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "prc")
+    private Double prc;
     @JoinColumn(name = "idcampo", referencedColumnName = "idcampo")
     @ManyToOne(optional = false)
     private Campos idcampo;
 
     public Pbl() {
-        idcampo = new Campos();
     }
 
     public Pbl(Integer idpbl) {
         this.idpbl = idpbl;
     }
 
-    public Pbl(Integer idpbl, BigInteger v1, BigInteger v, BigInteger vt, BigInteger pf, BigInteger px, BigInteger ctc, BigInteger cmt, BigInteger ctmc, BigInteger ctmd, BigInteger cr, BigInteger ct1, BigInteger cce, BigInteger ctme, BigInteger ct2, int trimestre) {
+    public Pbl(Integer idpbl, double v1, double v2, double vt, double pf, double px, double ctc, double cmt, double ctmc, double ctmd, double cr, double ct1, double cce, double ctme, double ct2, int trimestre) {
         this.idpbl = idpbl;
         this.v1 = v1;
-        this.v = v;
+        this.v2 = v2;
         this.vt = vt;
         this.pf = pf;
         this.px = px;
@@ -136,115 +138,115 @@ public class Pbl implements Serializable {
         this.idpbl = idpbl;
     }
 
-    public BigInteger getV1() {
+    public double getV1() {
         return v1;
     }
 
-    public void setV1(BigInteger v1) {
+    public void setV1(double v1) {
         this.v1 = v1;
     }
 
-    public BigInteger getV() {
-        return v;
+    public double getV2() {
+        return v2;
     }
 
-    public void setV(BigInteger v) {
-        this.v = v;
+    public void setV2(double v2) {
+        this.v2 = v2;
     }
 
-    public BigInteger getVt() {
+    public double getVt() {
         return vt;
     }
 
-    public void setVt(BigInteger vt) {
+    public void setVt(double vt) {
         this.vt = vt;
     }
 
-    public BigInteger getPf() {
+    public double getPf() {
         return pf;
     }
 
-    public void setPf(BigInteger pf) {
+    public void setPf(double pf) {
         this.pf = pf;
     }
 
-    public BigInteger getPx() {
+    public double getPx() {
         return px;
     }
 
-    public void setPx(BigInteger px) {
+    public void setPx(double px) {
         this.px = px;
     }
 
-    public BigInteger getCtc() {
+    public double getCtc() {
         return ctc;
     }
 
-    public void setCtc(BigInteger ctc) {
+    public void setCtc(double ctc) {
         this.ctc = ctc;
     }
 
-    public BigInteger getCmt() {
+    public double getCmt() {
         return cmt;
     }
 
-    public void setCmt(BigInteger cmt) {
+    public void setCmt(double cmt) {
         this.cmt = cmt;
     }
 
-    public BigInteger getCtmc() {
+    public double getCtmc() {
         return ctmc;
     }
 
-    public void setCtmc(BigInteger ctmc) {
+    public void setCtmc(double ctmc) {
         this.ctmc = ctmc;
     }
 
-    public BigInteger getCtmd() {
+    public double getCtmd() {
         return ctmd;
     }
 
-    public void setCtmd(BigInteger ctmd) {
+    public void setCtmd(double ctmd) {
         this.ctmd = ctmd;
     }
 
-    public BigInteger getCr() {
+    public double getCr() {
         return cr;
     }
 
-    public void setCr(BigInteger cr) {
+    public void setCr(double cr) {
         this.cr = cr;
     }
 
-    public BigInteger getCt1() {
+    public double getCt1() {
         return ct1;
     }
 
-    public void setCt1(BigInteger ct1) {
+    public void setCt1(double ct1) {
         this.ct1 = ct1;
     }
 
-    public BigInteger getCce() {
+    public double getCce() {
         return cce;
     }
 
-    public void setCce(BigInteger cce) {
+    public void setCce(double cce) {
         this.cce = cce;
     }
 
-    public BigInteger getCtme() {
+    public double getCtme() {
         return ctme;
     }
 
-    public void setCtme(BigInteger ctme) {
+    public void setCtme(double ctme) {
         this.ctme = ctme;
     }
 
-    public BigInteger getCt2() {
+    public double getCt2() {
         return ct2;
     }
 
-    public void setCt2(BigInteger ct2) {
+    public void setCt2(double ct2) {
         this.ct2 = ct2;
     }
 
@@ -254,6 +256,14 @@ public class Pbl implements Serializable {
 
     public void setTrimestre(int trimestre) {
         this.trimestre = trimestre;
+    }
+
+    public Double getPrc() {
+        return prc;
+    }
+
+    public void setPrc(Double prc) {
+        this.prc = prc;
     }
 
     public Campos getIdcampo() {

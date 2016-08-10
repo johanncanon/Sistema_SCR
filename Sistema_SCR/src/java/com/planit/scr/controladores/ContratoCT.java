@@ -122,4 +122,25 @@ public class ContratoCT {
         return listacontratos;
     }
 
+    public List<Contratos> consultarContratosSegunMunicipio(Municipios municipio) throws Exception {
+        List<Contratos> listacontratos = new ArrayList<>();
+        TipoCT tct = new TipoCT();
+        MunicipioCT mct = new MunicipioCT();
+        try {
+            try {
+                String sql = "SELECT idcontrato, nombre, idmunicipio, idtipo FROM public.contratos "
+                        + "WHERE idmunicipio = " + municipio.getIdmunicipio() + "";
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()) {
+                    listacontratos.add(new Contratos(rs.getInt(1), rs.getString(2), tct.consultarTipo(new Tipos(rs.getInt(4))), mct.consultarMunicipio(new Municipios(rs.getInt(3)))));
+                }
+            } catch (SQLException e) {
+                throw e;
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return listacontratos;
+    }
+
 }

@@ -8,6 +8,7 @@ package com.planit.scr.controladores;
 import com.planit.scr.conexion.ConexionSQL;
 import com.planit.scr.modelos.Campos;
 import com.planit.scr.modelos.Contratos;
+import com.planit.scr.modelos.Municipios;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -30,6 +31,7 @@ public class CampoCT {
     public CampoCT() {
         campo = new Campos();
         campos = new ArrayList<>();
+        System.out.println("" + Thread.currentThread().getContextClassLoader().getResource("/").getPath());
     }
 
     @PostConstruct
@@ -59,6 +61,7 @@ public class CampoCT {
 
     //Metodos     
     public void registrar() throws Exception {
+        System.out.println("" + Thread.currentThread().getContextClassLoader().getResource("/").getPath());
         ContratoCT ct = new ContratoCT();
         campo.setIdcontrato(ct.consultarContrato(campo.getIdcontrato()));
         try {
@@ -101,7 +104,27 @@ public class CampoCT {
         ContratoCT ct = new ContratoCT();
         try {
             try {
-                String sql = "SELECT idcampo, nombre, idcontrato FROM public.campos";                       
+                String sql = "SELECT idcampo, nombre, idcontrato FROM public.campos";
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()) {
+                    listacampos.add(new Campos(rs.getInt(1), rs.getString(2), ct.consultarContrato(new Contratos(rs.getInt(3)))));
+                }
+            } catch (SQLException e) {
+                throw e;
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return listacampos;
+    }
+
+    public List<Campos> consultarCampos(Municipios municipio) throws Exception {
+        List<Campos> listacampos = new ArrayList<>();
+        ContratoCT ct = new ContratoCT();
+        try {
+            try {
+                String sql = "SELECT campos.idcampo, campos.nombre, campos.idcontrato FROM public.campos as campos, public.contratos as contratos, public.municipios as municipios"
+                        + " WHERE campos.idcontrato = contratos.idcontrato and contratos.idmunicipio = municipios.idmunicipio and municipios.idmunicipio = " + municipio.getIdmunicipio() + "";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     listacampos.add(new Campos(rs.getInt(1), rs.getString(2), ct.consultarContrato(new Contratos(rs.getInt(3)))));
