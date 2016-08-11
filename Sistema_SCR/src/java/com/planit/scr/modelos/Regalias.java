@@ -15,7 +15,7 @@ public class Regalias {
     private Produccion produccion;
     private Pbl pbl;
     private double porcentaje;
-    private int regalias;
+    private double regalias;
 
     public Regalias() {
         campo = new Campos();
@@ -28,13 +28,23 @@ public class Regalias {
         this.campo = campo;
     }    
 
-    public Regalias(Campos campo, Produccion produccion, Pbl pbl, double porcentaje, int regalias) {
+    public Regalias(Campos campo, Produccion produccion, Pbl pbl, double porcentaje, double regalias) {
         this.campo = campo;
         this.produccion = produccion;
         this.pbl = pbl;
         this.porcentaje = porcentaje;
         this.regalias = regalias;
+    }   
+             
+    public double getRegalias() {
+        return regalias;
     }
+
+    public void setRegalias(double regalias) {
+        this.regalias = regalias;
+    }
+    
+      
 
     public Produccion getProduccion() {
         return produccion;
@@ -69,12 +79,5 @@ public class Regalias {
         this.porcentaje = porcentaje;
     }
 
-    public int getRegalias() {
-        return regalias;
-    }
-
-    public void setRegalias(int regalias) {
-        this.regalias = regalias;
-    }  
        
 }

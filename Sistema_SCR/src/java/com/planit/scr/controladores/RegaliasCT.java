@@ -30,7 +30,7 @@ public class RegaliasCT {
 
     protected List<Produccion> producciones;
     protected List<Pbl> pbls;
-    protected List<Campos> campos;   
+    protected List<Campos> campos;
     private List<Regalias> regalias;
 
     private final Statement st = ConexionSQL.conexion();
@@ -46,7 +46,7 @@ public class RegaliasCT {
         municipio = new Municipios();
         campo = new Campos();
 
-        campos = new ArrayList<>();        
+        campos = new ArrayList<>();
         regalias = new ArrayList<>();
         pbls = new ArrayList<>();
         producciones = new ArrayList<>();
@@ -90,7 +90,7 @@ public class RegaliasCT {
 
     public void setCampo(Campos campo) {
         this.campo = campo;
-    } 
+    }
 
     public int getMes() {
         return mes;
@@ -107,17 +107,15 @@ public class RegaliasCT {
     public void setRegalias(List<Regalias> regalias) {
         this.regalias = regalias;
     }
-    
-    
 
     //Metodos
     public String calcularRegalias() throws Exception {
-        MunicipioCT mct = new MunicipioCT();       
+        MunicipioCT mct = new MunicipioCT();
         CampoCT cct = new CampoCT();
         String ruta = "";
         if (vista == 0) {
             vista = 1;
-            municipio = mct.consultarMunicipio(municipio);            
+            municipio = mct.consultarMunicipio(municipio);
             campos = cct.consultarCampos(municipio);
             produccion.setIdcampo(campos.get(0));
         } else if (vista == 1) {
@@ -128,6 +126,7 @@ public class RegaliasCT {
             posicion++;
             if (posicion <= campos.size()) {
                 if (posicion < campos.size()) {
+                    produccion = new Produccion();
                     produccion.setIdcampo(campos.get(posicion));
 
                 } else if (posicion == campos.size()) {
@@ -137,7 +136,7 @@ public class RegaliasCT {
                 }
             }
         } else if (vista == 2) {
-          PblCT pct = new PblCT();
+            PblCT pct = new PblCT();
             pbl = pct.calcularPBL(pbl);
             if (mes <= 3) {
                 pbl.setTrimestre(1);
@@ -154,20 +153,25 @@ public class RegaliasCT {
             pbl = new Pbl();
             posicion++;
             if (posicion <= campos.size()) {
-                if (posicion < campos.size()) {                   
+                if (posicion < campos.size()) {
                     pbl.setIdcampo(campos.get(posicion));
                 } else if (posicion == campos.size()) {
                     ruta = "Resultado";
                     posicion = 0;
                     for (int i = 0; i < campos.size(); i++) {
-                        double regalia = (((double)(producciones.get(i).getProduccion() * 30) * pbls.get(i).getPrc()) * (double)(20 / 100) * 1750);
-                        regalias.add(new Regalias(campos.get(i), producciones.get(i), pbls.get(i), 20, (int) regalia));
+
+                        double prodMes = producciones.get(i).getProduccion() * 30;
+                        double porcentaje = (double) 20 / 100;
+                        double precioLiquidacion = pbls.get(i).getPrc();
+                        double regalia = prodMes * precioLiquidacion * porcentaje * 3200;
+                        
+                        regalias.add(new Regalias(campos.get(i), producciones.get(i), pbls.get(i), 20, regalia));
                     }
                 }
             }
         }
-        
-        return ruta;
+
+                    return ruta;
     }
 
 }
