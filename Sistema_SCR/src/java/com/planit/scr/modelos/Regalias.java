@@ -12,23 +12,38 @@ package com.planit.scr.modelos;
 public class Regalias {
     
     private Campos campo;
+    private Produccion produccion;
     private Pbl pbl;
     private double porcentaje;
     private int regalias;
 
     public Regalias() {
+        campo = new Campos();
+        produccion = new Produccion();
+        pbl = new Pbl();       
+       
     }
 
     public Regalias(Campos campo) {
         this.campo = campo;
     }    
-    
-    public Regalias(Campos campo, Pbl pbl, double porcentaje, int regalias) {
+
+    public Regalias(Campos campo, Produccion produccion, Pbl pbl, double porcentaje, int regalias) {
         this.campo = campo;
+        this.produccion = produccion;
         this.pbl = pbl;
         this.porcentaje = porcentaje;
         this.regalias = regalias;
     }
+
+    public Produccion getProduccion() {
+        return produccion;
+    }
+
+    public void setProduccion(Produccion produccion) {
+        this.produccion = produccion;
+    }   
+   
 
     public Campos getCampo() {
         return campo;

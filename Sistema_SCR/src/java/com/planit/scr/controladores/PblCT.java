@@ -34,7 +34,7 @@ public class PblCT {
                         + " " + pbl.getCtme() + ", " + pbl.getCt2() + ","
                         + " " + pbl.getIdcampo().getIdcampo() + ", " + pbl.getTrimestre() + ","
                         + " " + pbl.getPrc() + ")";
-                st.executeQuery(sql);
+                st.execute(sql);
             } catch (SQLException e) {
                 throw e;
             }

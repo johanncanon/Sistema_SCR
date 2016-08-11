@@ -7,7 +7,6 @@ package com.planit.scr.controladores;
 
 import com.planit.scr.conexion.ConexionSQL;
 import com.planit.scr.modelos.Campos;
-import com.planit.scr.modelos.Contratos;
 import com.planit.scr.modelos.Municipios;
 import com.planit.scr.modelos.Pbl;
 import com.planit.scr.modelos.Produccion;
@@ -28,13 +27,16 @@ public class RegaliasCT {
     private Pbl pbl;
     private Municipios municipio;
     private Campos campo;
-    private List<Campos> campos;
-    private List<Contratos> contratos;
+
+    protected List<Produccion> producciones;
+    protected List<Pbl> pbls;
+    protected List<Campos> campos;   
     private List<Regalias> regalias;
 
     private final Statement st = ConexionSQL.conexion();
 
     protected int posicion = 0;
+    private int mes = 0;
 
     public RegaliasCT() {
         produccion = new Produccion();
@@ -44,9 +46,10 @@ public class RegaliasCT {
         municipio = new Municipios();
         campo = new Campos();
 
-        campos = new ArrayList<>();
-        contratos = new ArrayList<>();
+        campos = new ArrayList<>();        
         regalias = new ArrayList<>();
+        pbls = new ArrayList<>();
+        producciones = new ArrayList<>();
     }
 
     public Produccion getProduccion() {
@@ -87,14 +90,14 @@ public class RegaliasCT {
 
     public void setCampo(Campos campo) {
         this.campo = campo;
+    } 
+
+    public int getMes() {
+        return mes;
     }
 
-    public List<Campos> getCampos() {
-        return campos;
-    }
-
-    public void setCampos(List<Campos> campos) {
-        this.campos = campos;
+    public void setMes(int mes) {
+        this.mes = mes;
     }
 
     public List<Regalias> getRegalias() {
@@ -105,25 +108,23 @@ public class RegaliasCT {
         this.regalias = regalias;
     }
     
-      
+    
 
     //Metodos
-    public void calcularRegalias() throws Exception {
-        MunicipioCT mct = new MunicipioCT();
-        ContratoCT coct = new ContratoCT();
+    public String calcularRegalias() throws Exception {
+        MunicipioCT mct = new MunicipioCT();       
         CampoCT cct = new CampoCT();
-
+        String ruta = "";
         if (vista == 0) {
             vista = 1;
-            municipio = mct.consultarMunicipio(municipio);
-            contratos = coct.consultarContratosSegunMunicipio(municipio);
+            municipio = mct.consultarMunicipio(municipio);            
             campos = cct.consultarCampos(municipio);
             produccion.setIdcampo(campos.get(0));
         } else if (vista == 1) {
             ProduccionCT pct = new ProduccionCT();
             produccion.setFecha(new Date());
             pct.registrar(produccion);
-
+            producciones.add(produccion);
             posicion++;
             if (posicion <= campos.size()) {
                 if (posicion < campos.size()) {
@@ -136,26 +137,37 @@ public class RegaliasCT {
                 }
             }
         } else if (vista == 2) {
-            PblCT pct = new PblCT();
+          PblCT pct = new PblCT();
             pbl = pct.calcularPBL(pbl);
+            if (mes <= 3) {
+                pbl.setTrimestre(1);
+            } else if (mes > 3 && mes <= 6) {
+                pbl.setTrimestre(2);
+            } else if (mes > 6 && mes <= 9) {
+                pbl.setTrimestre(3);
+            } else if (mes > 9 && mes <= 12) {
+                pbl.setTrimestre(4);
+            }
             pct.registrarPbl(pbl);
+            pbls.add(pbl);
 
+            pbl = new Pbl();
             posicion++;
             if (posicion <= campos.size()) {
-                if (posicion < campos.size()) {
-                    pbl = new Pbl();
+                if (posicion < campos.size()) {                   
                     pbl.setIdcampo(campos.get(posicion));
                 } else if (posicion == campos.size()) {
-                    vista = 3;
+                    ruta = "Resultado";
                     posicion = 0;
                     for (int i = 0; i < campos.size(); i++) {
-//                        regalias.add(new Regalias(campos.get(i), pbl, vista, i))
+                        double regalia = (((double)(producciones.get(i).getProduccion() * 30) * pbls.get(i).getPrc()) * (double)(20 / 100) * 1750);
+                        regalias.add(new Regalias(campos.get(i), producciones.get(i), pbls.get(i), 20, (int) regalia));
                     }
                 }
             }
-        } else if(vista == 3){
-            
         }
+        
+        return ruta;
     }
 
 }

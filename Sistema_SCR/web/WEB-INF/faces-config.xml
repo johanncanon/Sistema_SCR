@@ -32,6 +32,11 @@
             <redirect/>
         </navigation-case>
         <navigation-case>
+            <from-outcome>Resultado</from-outcome>
+            <to-view-id>/Vistas/Resultado.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>Departamentos</from-outcome>
             <to-view-id>/Vistas/Departamentos.xhtml</to-view-id>
             <redirect/>
@@ -80,7 +85,7 @@
     <managed-bean>
         <managed-bean-name>regaliasCT</managed-bean-name>
         <managed-bean-class>com.planit.scr.controladores.RegaliasCT</managed-bean-class>
-        <managed-bean-scope>view</managed-bean-scope>
+        <managed-bean-scope>application</managed-bean-scope>
     </managed-bean>
     <managed-bean>
         <managed-bean-name>trmCT</managed-bean-name>
