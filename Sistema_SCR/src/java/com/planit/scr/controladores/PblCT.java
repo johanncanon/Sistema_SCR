@@ -7,8 +7,14 @@ package com.planit.scr.controladores;
 
 import com.planit.scr.conexion.ConexionSQL;
 import com.planit.scr.modelos.Pbl;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 
 /**
  *
@@ -42,12 +48,13 @@ public class PblCT {
             throw e;
         }
     }
-    
-    public Pbl calcularPBL(Pbl pbl){
+
+   
+    public Pbl calcularPBL(Pbl pbl) {
         pbl.setVt(pbl.getV1() + pbl.getV2());
         pbl.setCt1(pbl.getCtc() + pbl.getCtmc() + pbl.getCtmd() + pbl.getCmt() + pbl.getCr());
         pbl.setCt2(pbl.getCce() + pbl.getCtme());
-        pbl.setPrc((pbl.getPf() - pbl.getCt1())*(pbl.getV1()/pbl.getVt()) + (pbl.getPx() - pbl.getCt2())*(pbl.getV2()/pbl.getVt()));
+        pbl.setPrc((pbl.getPf() - pbl.getCt1()) * (pbl.getV1() / pbl.getVt()) + (pbl.getPx() - pbl.getCt2()) * (pbl.getV2() / pbl.getVt()));
         return pbl;
-    }            
+    }
 }

@@ -15,6 +15,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 
 /**
  *
@@ -108,6 +111,14 @@ public class RegaliasCT {
         this.regalias = regalias;
     }
 
+    public List<Pbl> getPbls() {
+        return pbls;
+    }
+
+    public void setPbls(List<Pbl> pbls) {
+        this.pbls = pbls;
+    }
+
     //Metodos
     public String calcularRegalias() throws Exception {
         MunicipioCT mct = new MunicipioCT();
@@ -164,14 +175,13 @@ public class RegaliasCT {
                         double porcentaje = (double) 20 / 100;
                         double precioLiquidacion = pbls.get(i).getPrc();
                         double regalia = prodMes * precioLiquidacion * porcentaje * 3200;
-                        
+
                         regalias.add(new Regalias(campos.get(i), producciones.get(i), pbls.get(i), 20, regalia));
                     }
                 }
             }
         }
 
-                    return ruta;
+        return ruta;
     }
-
 }

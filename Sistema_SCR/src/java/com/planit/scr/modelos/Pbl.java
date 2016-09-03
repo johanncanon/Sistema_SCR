@@ -130,6 +130,15 @@ public class Pbl implements Serializable {
         this.trimestre = trimestre;
     }
 
+    public Pbl(double v1, double v2, double pf, double px) {
+        this.v1 = v1;
+        this.v2 = v2;
+        this.pf = pf;
+        this.px = px;
+    }
+    
+    
+
     public Integer getIdpbl() {
         return idpbl;
     }
