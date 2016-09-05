@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,13 +65,17 @@ public class ValoresCT {
     }
 
     public void registrarValores() throws Exception {
+
+        Calendar C = Calendar.getInstance();
+        int sAnio = C.get(Calendar.YEAR);
+
         try {
             try {
                 String sql = "INSERT INTO public.valores (v1, v2, pf, px, trimestre)"
                         + " VALUES(" + valor.getV1() + "," + valor.getV2() + ","
                         + " " + valor.getPf() + ","
                         + " " + valor.getPx() + ","
-                        + " " + valor.getTrimestre() + ")";
+                        + " 'Trimestre " + valor.getTrimestre() + " del "+sAnio+" ')";
                 st.execute(sql);
             } catch (SQLException e) {
                 throw e;
@@ -88,11 +93,11 @@ public class ValoresCT {
         List<Valores> listaValores = new ArrayList<>();
         try {
             try {
-                String sql = "SELECT idvalores, px, pf, v1, v2, trimestre " +
-                "  FROM public.valores;";
+                String sql = "SELECT idvalores, px, pf, v1, v2, trimestre "
+                        + "  FROM public.valores;";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listaValores.add(new Valores(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4),rs.getDouble(5), rs.getString(6)));
+                    listaValores.add(new Valores(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getString(6)));
                 }
             } catch (SQLException e) {
                 throw e;
