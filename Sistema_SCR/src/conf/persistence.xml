@@ -4,7 +4,6 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>com.planit.scr.modelos.Contratos</class>
     <class>com.planit.scr.modelos.Departamentos</class>
-    <class>com.planit.scr.modelos.Campos</class>
     <class>com.planit.scr.modelos.Tipos</class>
     <class>com.planit.scr.modelos.Trm</class>
     <class>com.planit.scr.modelos.Produccion</class>
@@ -15,6 +14,7 @@
     <class>com.planit.scr.modelos.Municipios_1</class>
     <class>com.planit.scr.modelos.Departamentos_1</class>
     <class>com.planit.scr.modelos.Tipos_1</class>
+    <class>com.planit.scr.modelos.Campos</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://192.168.100.251:5432/SCR"/>

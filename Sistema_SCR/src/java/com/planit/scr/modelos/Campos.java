@@ -29,7 +29,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Campos.findAll", query = "SELECT c FROM Campos c"),
     @NamedQuery(name = "Campos.findByIdcampo", query = "SELECT c FROM Campos c WHERE c.idcampo = :idcampo"),
-    @NamedQuery(name = "Campos.findByNombre", query = "SELECT c FROM Campos c WHERE c.nombre = :nombre")})
+    @NamedQuery(name = "Campos.findByNombre", query = "SELECT c FROM Campos c WHERE c.nombre = :nombre"),
+    @NamedQuery(name = "Campos.findByCib", query = "SELECT c FROM Campos c WHERE c.cib = :cib"),
+    @NamedQuery(name = "Campos.findByCar", query = "SELECT c FROM Campos c WHERE c.car = :car"),
+    @NamedQuery(name = "Campos.findByCov", query = "SELECT c FROM Campos c WHERE c.cov = :cov")})
 public class Campos implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -40,6 +43,12 @@ public class Campos implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
+    @Column(name = "cib")
+    private String cib;
+    @Column(name = "car")
+    private String car;
+    @Column(name = "cov")
+    private String cov;
     @JoinColumn(name = "idcontrato", referencedColumnName = "idcontrato")
     @ManyToOne(optional = false)
     private Contratos idcontrato;
@@ -70,6 +79,30 @@ public class Campos implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getCib() {
+        return cib;
+    }
+
+    public void setCib(String cib) {
+        this.cib = cib;
+    }
+
+    public String getCar() {
+        return car;
+    }
+
+    public void setCar(String car) {
+        this.car = car;
+    }
+
+    public String getCov() {
+        return cov;
+    }
+
+    public void setCov(String cov) {
+        this.cov = cov;
     }
 
     public Contratos getIdcontrato() {
