@@ -6,7 +6,6 @@
 package com.planit.scr.modelos;
 
 import java.io.Serializable;
-import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,9 +32,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Valores.findByV1", query = "SELECT v FROM Valores v WHERE v.v1 = :v1"),
     @NamedQuery(name = "Valores.findByV2", query = "SELECT v FROM Valores v WHERE v.v2 = :v2"),
     @NamedQuery(name = "Valores.findByTrimestre", query = "SELECT v FROM Valores v WHERE v.trimestre = :trimestre"),
-    @NamedQuery(name = "Valores.findByVt", query = "SELECT v FROM Valores v WHERE v.vt = :vt")})
+    @NamedQuery(name = "Valores.findByVt", query = "SELECT v FROM Valores v WHERE v.vt = :vt"),
+    @NamedQuery(name = "Valores.findByCmt", query = "SELECT v FROM Valores v WHERE v.cmt = :cmt"),
+    @NamedQuery(name = "Valores.findByCtmc", query = "SELECT v FROM Valores v WHERE v.ctmc = :ctmc"),
+    @NamedQuery(name = "Valores.findByCr", query = "SELECT v FROM Valores v WHERE v.cr = :cr"),
+    @NamedQuery(name = "Valores.findByCce", query = "SELECT v FROM Valores v WHERE v.cce = :cce"),
+    @NamedQuery(name = "Valores.findByCtme", query = "SELECT v FROM Valores v WHERE v.ctme = :ctme")})
 public class Valores implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +58,16 @@ public class Valores implements Serializable {
     private String trimestre;
     @Column(name = "vt")
     private Double vt;
+    @Column(name = "cmt")
+    private String cmt;
+    @Column(name = "ctmc")
+    private String ctmc;
+    @Column(name = "cr")
+    private String cr;
+    @Column(name = "cce")
+    private String cce;
+    @Column(name = "ctme")
+    private String ctme;
 
     public Valores() {
     }
@@ -63,16 +76,7 @@ public class Valores implements Serializable {
         this.idvalores = idvalores;
     }
 
-    public Valores(Integer idvalores, Double px, Double pf, Double v1, Double v2, String trimestre) {
-        this.idvalores = idvalores;
-        this.px = px;
-        this.pf = pf;
-        this.v1 = v1;
-        this.v2 = v2;
-        this.trimestre = trimestre;
-    }
-
-    public Valores(Integer idvalores, Double px, Double pf, Double v1, Double v2, Double vt, String trimestre) {
+    public Valores(Integer idvalores, Double px, Double pf, Double v1, Double v2, String trimestre, Double vt, String cmt, String ctmc, String cr, String cce, String ctme) {
         this.idvalores = idvalores;
         this.px = px;
         this.pf = pf;
@@ -80,7 +84,14 @@ public class Valores implements Serializable {
         this.v2 = v2;
         this.trimestre = trimestre;
         this.vt = vt;
+        this.cmt = cmt;
+        this.ctmc = ctmc;
+        this.cr = cr;
+        this.cce = cce;
+        this.ctme = ctme;
     }
+    
+    
 
     public Integer getIdvalores() {
         return idvalores;
@@ -137,7 +148,46 @@ public class Valores implements Serializable {
     public void setVt(Double vt) {
         this.vt = vt;
     }
-    
+
+    public String getCmt() {
+        return cmt;
+    }
+
+    public void setCmt(String cmt) {
+        this.cmt = cmt;
+    }
+
+    public String getCtmc() {
+        return ctmc;
+    }
+
+    public void setCtmc(String ctmc) {
+        this.ctmc = ctmc;
+    }
+
+    public String getCr() {
+        return cr;
+    }
+
+    public void setCr(String cr) {
+        this.cr = cr;
+    }
+
+    public String getCce() {
+        return cce;
+    }
+
+    public void setCce(String cce) {
+        this.cce = cce;
+    }
+
+    public String getCtme() {
+        return ctme;
+    }
+
+    public void setCtme(String ctme) {
+        this.ctme = ctme;
+    }
 
     @Override
     public int hashCode() {
@@ -147,43 +197,21 @@ public class Valores implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Valores)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Valores other = (Valores) obj;
-        if (!Objects.equals(this.idvalores, other.idvalores)) {
-            return false;
-        }
-        if (!Objects.equals(this.px, other.px)) {
-            return false;
-        }
-        if (!Objects.equals(this.pf, other.pf)) {
-            return false;
-        }
-        if (!Objects.equals(this.v1, other.v1)) {
-            return false;
-        }
-        if (!Objects.equals(this.v2, other.v2)) {
-            return false;
-        }
-        if (!Objects.equals(this.trimestre, other.trimestre)) {
-            return false;
-        }
-        if (!Objects.equals(this.vt, other.vt)) {
+        Valores other = (Valores) object;
+        if ((this.idvalores == null && other.idvalores != null) || (this.idvalores != null && !this.idvalores.equals(other.idvalores))) {
             return false;
         }
         return true;
     }
 
-
-
     @Override
     public String toString() {
         return "com.planit.scr.modelos.Valores[ idvalores=" + idvalores + " ]";
     }
-
+    
 }
