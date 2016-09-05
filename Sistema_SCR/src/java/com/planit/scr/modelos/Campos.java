@@ -6,9 +6,7 @@
 package com.planit.scr.modelos;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,11 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -45,16 +40,11 @@ public class Campos implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idcampo")
-    private Collection<Pbl> pblCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idcampo")
-    private Collection<Produccion> produccionCollection;
     @JoinColumn(name = "idcontrato", referencedColumnName = "idcontrato")
     @ManyToOne(optional = false)
     private Contratos idcontrato;
 
     public Campos() {
-        idcontrato = new Contratos();
     }
 
     public Campos(Integer idcampo) {
@@ -65,14 +55,6 @@ public class Campos implements Serializable {
         this.idcampo = idcampo;
         this.nombre = nombre;
     }
-
-    public Campos(Integer idcampo, String nombre, Contratos idcontrato) {
-        this.idcampo = idcampo;
-        this.nombre = nombre;
-        this.idcontrato = idcontrato;
-    }
-    
-    
 
     public Integer getIdcampo() {
         return idcampo;
@@ -88,26 +70,6 @@ public class Campos implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    @XmlTransient
-    @JsonIgnore
-    public Collection<Pbl> getPblCollection() {
-        return pblCollection;
-    }
-
-    public void setPblCollection(Collection<Pbl> pblCollection) {
-        this.pblCollection = pblCollection;
-    }
-
-    @XmlTransient
-    @JsonIgnore
-    public Collection<Produccion> getProduccionCollection() {
-        return produccionCollection;
-    }
-
-    public void setProduccionCollection(Collection<Produccion> produccionCollection) {
-        this.produccionCollection = produccionCollection;
     }
 
     public Contratos getIdcontrato() {
