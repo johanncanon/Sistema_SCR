@@ -34,29 +34,29 @@
 
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label">Trimestre </label>
-                                                            <b:selectOneMenu col-xs="8" value="#{selectOneBean.brand}" label="Selecciona el Trimestre: ">
+                                                            <b:selectOneMenu col-xs="8" value="#{valoresCT.valores.trimestre}" label="Selecciona el Trimestre: ">
                                                                <f:selectItem itemLabel="1er Trimestre" itemValue="1"/>
                                                                 <f:selectItem itemLabel="2do Trimestre" itemValue="2"/>
                                                                 <f:selectItem itemLabel="3er Trimestre" itemValue="3"/>
                                                                 <f:selectItem itemLabel="4to Trimestre" itemValue="4"/>
                                                             </b:selectOneMenu>
-                                                            <h:message for="brandID"/>
+                                                            <h:message for="inputTrimestre"/>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="inputPF" class="col-sm-4 control-label">PF: </label>
-                                                            <b:inputText value="#{valoresCT.pbl.pf}" id="inputPF" placeholder="Nombre del departamento" span="8"/>                                                             
+                                                            <b:inputText value="#{valoresCT.valores.pf}" id="inputPF" placeholder="Nombre del departamento" span="8"/>                                                             
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="inputPX" class="col-sm-4 control-label">PX: </label>
-                                                            <b:inputText value="#{valoresCT.pbl.px}" id="inputPX" placeholder="Nombre del departamento" span="8"/>                                                             
+                                                            <b:inputText value="#{valoresCT.valores.px}" id="inputPX" placeholder="Nombre del departamento" span="8"/>                                                             
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="inputV1" class="col-sm-4 control-label">Volúmen de Crudo Refinado (V1)</label>
-                                                            <b:inputText value="#{valoresCT.pbl.v1}" id="inputV1" placeholder="Nombre del departamento" span="8"/>                                                             
+                                                            <b:inputText value="#{valoresCT.valores.v1}" id="inputV1" placeholder="Nombre del departamento" span="8"/>                                                             
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="inputV2" class="col-sm-4 control-label">Volúmen de Crudo exportado (V2)</label>
-                                                            <b:inputText value="#{valoresCT.pbl.v2}" id="inputV2" placeholder="Nombre del departamento" span="8"/>                                                             
+                                                            <b:inputText value="#{valoresCT.valores.v2}" id="inputV2" placeholder="Nombre del departamento" span="8"/>                                                             
                                                         </div>
 
                                                         <div class="form-group">
@@ -104,18 +104,21 @@
                                         <div class="widget big-stats-container">
                                             <div class="widget-content">
                                                 <h:form id="formularioLista">
-                                                    <b:dataTable value="#{valoresCT.pbls}" var="pbls">
+                                                    <b:dataTable value="#{valoresCT.valores}" var="valores">
                                                         <b:dataTableColumn label="PF">
-                                                            <h:outputLabel value="#{pbls.pf}"/>
+                                                            <h:outputLabel value="#{valores.pf}"/>
                                                         </b:dataTableColumn>
                                                         <b:dataTableColumn label="PX">
-                                                            <h:outputLabel value="#{pbls.px}"/>
+                                                            <h:outputLabel value="#{valores.px}"/>
                                                         </b:dataTableColumn>
                                                         <b:dataTableColumn label="V1">
-                                                            <h:outputLabel value="#{pbls.v1}"/>
+                                                            <h:outputLabel value="#{valores.v1}"/>
                                                         </b:dataTableColumn>
                                                         <b:dataTableColumn label="V2">
-                                                            <h:outputLabel value="#{pbls.v2}"/>
+                                                            <h:outputLabel value="#{valores.v2}"/>
+                                                        </b:dataTableColumn>
+                                                        <b:dataTableColumn label="Trimestre">
+                                                            <h:outputLabel value="#{valores.v2}"/>
                                                         </b:dataTableColumn>
                                                     </b:dataTable>
                                                 </h:form>

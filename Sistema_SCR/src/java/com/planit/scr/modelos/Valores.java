@@ -58,6 +58,15 @@ public class Valores implements Serializable {
         this.idvalores = idvalores;
     }
 
+    public Valores(Integer idvalores, Double px, Double pf, Double v1, Double v2, String trimestre) {
+        this.idvalores = idvalores;
+        this.px = px;
+        this.pf = pf;
+        this.v1 = v1;
+        this.v2 = v2;
+        this.trimestre = trimestre;
+    }
+    
     public Integer getIdvalores() {
         return idvalores;
     }

@@ -7,6 +7,7 @@ package com.planit.scr.controladores;
 
 import com.planit.scr.conexion.ConexionSQL;
 import com.planit.scr.modelos.Pbl;
+import com.planit.scr.modelos.Valores;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,76 +23,76 @@ import javax.annotation.PostConstruct;
  */
 public class ValoresCT {
 
-    private Pbl pbl;
-    private List<Pbl> pbls;
+    private Valores valor;
+    private List<Valores> valores;
     private final Statement st = ConexionSQL.conexion();
 
     public ValoresCT() {
-        pbl = new Pbl();
-        pbls = new ArrayList<>();
+        valor = new Valores();
+        valores = new ArrayList<>();
         System.out.println("" + Thread.currentThread().getContextClassLoader().getResource("/").getPath());
     }
 
-    public Pbl getPbl() {
-        return pbl;
+    public Valores getValor() {
+        return valor;
     }
 
-    public void setPbl(Pbl pbl) {
-        this.pbl = pbl;
+    public void setValor(Valores valor) {
+        this.valor = valor;
     }
 
-    public List<Pbl> getPbls() {
-        return pbls;
+    public List<Valores> getValores() {
+        return valores;
     }
 
-    public void setPbls(List<Pbl> pbls) {
-        this.pbls = pbls;
+    public void setValores(List<Valores> valores) {
+        this.valores = valores;
     }
-    
-     
 
     @PostConstruct
     public void init() {
         try {
-            pbls = consultarValores();
+            valores = consultarValores();
         } catch (Exception ex) {
             Logger.getLogger(ContratoCT.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public ValoresCT(Pbl pbl, List<Pbl> pbls) {
-        this.pbl = pbl;
-        this.pbls = pbls;
+    public ValoresCT(Valores valor, List<Valores> valores) {
+        this.valor = valor;
+        this.valores = valores;
     }
 
     public void registrarValores() throws Exception {
         try {
             try {
-                String sql = "INSERT INTO public.valores (v1, v2, pf, px)"
-                        + " VALUES(" + pbl.getV1() + "," + pbl.getV2() + ","
-                        + " " + pbl.getPf() + ","
-                        + " " + pbl.getPx() + ")";
+                String sql = "INSERT INTO public.valores (v1, v2, pf, px, trimestre)"
+                        + " VALUES(" + valor.getV1() + "," + valor.getV2() + ","
+                        + " " + valor.getPf() + ","
+                        + " " + valor.getPx() + ","
+                        + " " + valor.getTrimestre() + ")";
                 st.execute(sql);
             } catch (SQLException e) {
                 throw e;
             }
 
-            pbl = new Pbl();
-            pbls = consultarValores();
+            valor = new Valores();
+            valores = consultarValores();
 
         } catch (Exception e) {
             throw e;
         }
     }
 
-    public List<Pbl> consultarValores() throws Exception {
-        List<Pbl> listaValores = new ArrayList<>();
+    public List<Valores> consultarValores() throws Exception {
+        List<Valores> listaValores = new ArrayList<>();
         try {
             try {
-                String sql = "SELECT v1, v2, pf, px FROM public.valores";
+                String sql = "SELECT idvalores, px, pf, v1, v2, trimestre " +
+                "  FROM public.valores;";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listaValores.add(new Pbl(rs.getDouble(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4)));
+                    listaValores.add(new Valores(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4),rs.getDouble(5), rs.getString(6)));
                 }
             } catch (SQLException e) {
                 throw e;
