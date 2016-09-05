@@ -6,7 +6,6 @@
 package com.planit.scr.controladores;
 
 import com.planit.scr.conexion.ConexionSQL;
-import com.planit.scr.modelos.Pbl;
 import com.planit.scr.modelos.Valores;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -72,11 +71,17 @@ public class ValoresCT {
 
         try {
             try {
-                String sql = "INSERT INTO public.valores (v1, v2, pf, px, trimestre, vt)"
-                        + " VALUES(" + valor.getV1() + "," + valor.getV2() + ","
-                        + " " + valor.getPf() + ","
-                        + " " + valor.getPx() + ","
-                        + " 'Trimestre " + valor.getTrimestre() + " del "+sAnio+" ', "+vt+")";  
+                String sql = "INSERT INTO public.valores (px, pf, v1, v2, trimestre, vt, ctmd, cmt, ctmc, cr, cce, ctme)"
+                        + " VALUES(" + valor.getPx() + "," + valor.getPf() + ","
+                        + " " + valor.getV1() + ","
+                        + " " + valor.getV2() + ","
+                        + " 'Trimestre " + valor.getTrimestre() + " del " + sAnio + " ', " + vt + ","
+                        + " " + valor.getCtmd() + ","
+                        + " " + valor.getCmt() + ","
+                        + " " + valor.getCtmc() + ","
+                        + " " + valor.getCr() + ","
+                        + " " + valor.getCce() + ","
+                        + " " + valor.getCtme() + ")";
                 st.execute(sql);
             } catch (SQLException e) {
                 throw e;
@@ -94,11 +99,11 @@ public class ValoresCT {
         List<Valores> listaValores = new ArrayList<>();
         try {
             try {
-                String sql = "SELECT idvalores, px, pf, v1, v2, vt, trimestre "
+                String sql = "SELECT idvalores, px, pf, v1, v2, trimestre, vt, ctmd, cmt, ctmc, cr, cce, ctme "
                         + "  FROM public.valores;";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listaValores.add(new Valores(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getString(7)));
+                    listaValores.add(new Valores(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getString(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getDouble(10), rs.getDouble(11), rs.getDouble(12), rs.getDouble(13)));
                 }
             } catch (SQLException e) {
                 throw e;

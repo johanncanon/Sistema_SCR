@@ -58,6 +58,30 @@
                                                             <label for="inputV2" class="col-sm-4 control-label">Volúmen de Crudo exportado (V2)</label>
                                                             <b:inputText value="#{valoresCT.valor.v2}" id="inputV2" placeholder="Valor V2" span="8"/>                                                             
                                                         </div>
+                                                        <div class="form-group">
+                                                            <label for="inputCmt" class="col-sm-4 control-label">CMT</label>
+                                                            <b:inputText value="#{valoresCT.valor.cmt}" id="inputCmt" placeholder="Valor CMT" span="8"/>                                                             
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="inputCtmc" class="col-sm-4 control-label">CTMC</label>
+                                                            <b:inputText value="#{valoresCT.valor.ctmc}" id="inputCtmc" placeholder="Valor CTMC" span="8"/>                                                             
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="inputCtmd" class="col-sm-4 control-label">CTMD</label>
+                                                            <b:inputText value="#{valoresCT.valor.ctmd}" id="inputCtmd" placeholder="Valor CTMD" span="8"/>                                                             
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="inputCr" class="col-sm-4 control-label">CR</label>
+                                                            <b:inputText value="#{valoresCT.valor.cr}" id="inputCr" placeholder="Valor CR" span="8"/>                                                             
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="inputCce" class="col-sm-4 control-label">CCE</label>
+                                                            <b:inputText value="#{valoresCT.valor.cce}" id="inputCce" placeholder="Valor CCE" span="8"/>                                                             
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="inputCtme" class="col-sm-4 control-label">CTME</label>
+                                                            <b:inputText value="#{valoresCT.valor.ctme}" id="inputCtme" placeholder="Valor CTME" span="8"/>                                                             
+                                                        </div>
 
                                                         <div class="form-group">
                                                             <b:commandButton value="Enviar" update=":formularioRegistroValores :formularioLista" action="#{valoresCT.registrarValores()}" class="btn btn-info " style="float: right">
@@ -119,6 +143,24 @@
                                                         </b:dataTableColumn>
                                                         <b:dataTableColumn label="VT">
                                                             <h:outputLabel value="#{valores.vt}"/>
+                                                        </b:dataTableColumn>
+                                                        <b:dataTableColumn label="CMT">
+                                                            <h:outputLabel value="#{valores.cmt}"/>
+                                                        </b:dataTableColumn>
+                                                        <b:dataTableColumn label="CTMC">
+                                                            <h:outputLabel value="#{valores.ctmc}"/>
+                                                        </b:dataTableColumn>
+                                                        <b:dataTableColumn label="CTMD">
+                                                            <h:outputLabel value="#{valores.ctmd}"/>
+                                                        </b:dataTableColumn>
+                                                        <b:dataTableColumn label="CR">
+                                                            <h:outputLabel value="#{valores.cr}"/>
+                                                        </b:dataTableColumn>
+                                                        <b:dataTableColumn label="CCE">
+                                                            <h:outputLabel value="#{valores.cce}"/>
+                                                        </b:dataTableColumn>
+                                                        <b:dataTableColumn label="CTME">
+                                                            <h:outputLabel value="#{valores.ctme}"/>
                                                         </b:dataTableColumn>
                                                         <b:dataTableColumn label="Trimestre">
                                                             <h:outputLabel value="#{valores.trimestre}"/>
