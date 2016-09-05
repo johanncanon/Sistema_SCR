@@ -54,6 +54,7 @@ public class Campos implements Serializable {
     private Contratos idcontrato;
 
     public Campos() {
+        idcontrato = new Contratos();
     }
 
     public Campos(Integer idcampo) {
@@ -64,6 +65,23 @@ public class Campos implements Serializable {
         this.idcampo = idcampo;
         this.nombre = nombre;
     }
+
+    public Campos(Integer idcampo, String nombre, Contratos idcontrato) {
+        this.idcampo = idcampo;
+        this.nombre = nombre;
+        this.idcontrato = idcontrato;
+    }
+
+    public Campos(Integer idcampo, String nombre, String cib, String car, String cov, Contratos idcontrato) {
+        this.idcampo = idcampo;
+        this.nombre = nombre;
+        this.cib = cib;
+        this.car = car;
+        this.cov = cov;
+        this.idcontrato = idcontrato;
+    }
+    
+    
 
     public Integer getIdcampo() {
         return idcampo;

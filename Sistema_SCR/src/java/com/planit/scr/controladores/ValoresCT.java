@@ -68,14 +68,15 @@ public class ValoresCT {
 
         Calendar C = Calendar.getInstance();
         int sAnio = C.get(Calendar.YEAR);
+        double vt = ((valor.getV1() + valor.getV2()));
 
         try {
             try {
-                String sql = "INSERT INTO public.valores (v1, v2, pf, px, trimestre)"
+                String sql = "INSERT INTO public.valores (v1, v2, pf, px, trimestre, vt)"
                         + " VALUES(" + valor.getV1() + "," + valor.getV2() + ","
                         + " " + valor.getPf() + ","
                         + " " + valor.getPx() + ","
-                        + " 'Trimestre " + valor.getTrimestre() + " del "+sAnio+" ')";
+                        + " 'Trimestre " + valor.getTrimestre() + " del "+sAnio+" ', "+vt+")";  
                 st.execute(sql);
             } catch (SQLException e) {
                 throw e;
@@ -93,11 +94,11 @@ public class ValoresCT {
         List<Valores> listaValores = new ArrayList<>();
         try {
             try {
-                String sql = "SELECT idvalores, px, pf, v1, v2, trimestre "
+                String sql = "SELECT idvalores, px, pf, v1, v2, vt, trimestre "
                         + "  FROM public.valores;";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listaValores.add(new Valores(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getString(6)));
+                    listaValores.add(new Valores(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getString(7)));
                 }
             } catch (SQLException e) {
                 throw e;

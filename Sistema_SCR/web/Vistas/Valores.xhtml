@@ -35,7 +35,7 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label">Trimestre </label>
                                                             <b:selectOneMenu col-xs="8" value="#{valoresCT.valor.trimestre}" label="Selecciona el Trimestre: ">
-                                                               <f:selectItem itemLabel="1er Trimestre" itemValue="1"/>
+                                                                <f:selectItem itemLabel="1er Trimestre" itemValue="1"/>
                                                                 <f:selectItem itemLabel="2do Trimestre" itemValue="2"/>
                                                                 <f:selectItem itemLabel="3er Trimestre" itemValue="3"/>
                                                                 <f:selectItem itemLabel="4to Trimestre" itemValue="4"/>
@@ -116,6 +116,9 @@
                                                         </b:dataTableColumn>
                                                         <b:dataTableColumn label="V2">
                                                             <h:outputLabel value="#{valores.v2}"/>
+                                                        </b:dataTableColumn>
+                                                        <b:dataTableColumn label="VT">
+                                                            <h:outputLabel value="#{valores.vt}"/>
                                                         </b:dataTableColumn>
                                                         <b:dataTableColumn label="Trimestre">
                                                             <h:outputLabel value="#{valores.trimestre}"/>

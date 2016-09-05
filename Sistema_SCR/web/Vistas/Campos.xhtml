@@ -46,20 +46,20 @@
                                                             <b:inputText placeholder="Nombre del campo" span="8" value="#{campoCT.campo.nombre}"/>                                                            
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="inputEmail3" class="col-sm-4 control-label">Complejo Industrial de Barrancaberneja (CIB): </label>
-                                                            <b:inputText placeholder="Distancia CIB" span="8" value="#{campoCT.campo.nombre}"/>                                                            
+                                                            <label for="inputEmail4" class="col-sm-4 control-label">Complejo Industrial de Barrancaberneja (CIB): </label>
+                                                            <b:inputText placeholder="Distancia CIB" span="8" value="#{campoCT.campo.cib}"/>                                                            
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="inputEmail3" class="col-sm-4 control-label">Cartajena (CAR): </label>
-                                                            <b:inputText placeholder="Distancia CAR" span="8" value="#{campoCT.campo.nombre}"/>                                                            
+                                                            <label for="inputEmail5" class="col-sm-4 control-label">Cartajena (CAR): </label>
+                                                            <b:inputText placeholder="Distancia CAR" span="8" value="#{campoCT.campo.car}"/>                                                            
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="inputEmail3" class="col-sm-4 control-label">Coveñas: </label>
-                                                            <b:inputText placeholder="Distancia Coveñas" span="8" value="#{campoCT.campo.nombre}"/>                                                            
+                                                            <label for="inputEmail6" class="col-sm-4 control-label">Coveñas: </label>
+                                                            <b:inputText placeholder="Distancia Coveñas" span="8" value="#{campoCT.campo.cov}"/>                                                            
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <b:commandButton action="#{campoCT.registrar()}" update=":formularioRegistro :formularioLista" class=" btn btn-info" style="float: right" value="Enviar">
+                                                            <b:commandButton action="#{campoCT.registrar()}" update=":formularioRegistro :formularioRegistro" class=" btn btn-info" style="float: right" value="Enviar">
                                                                 <b:iconAwesome name="send"/>
                                                             </b:commandButton>
                                                         </div>
@@ -105,13 +105,13 @@
                                                             <h:outputLabel value="#{campo.nombre}"/>
                                                         </b:dataTableColumn>
                                                         <b:dataTableColumn label="CIB">
-                                                            <h:outputLabel value="#{campo.nombre}"/>
+                                                            <h:outputLabel value="#{campo.cib}"/>
                                                         </b:dataTableColumn>
                                                         <b:dataTableColumn label="CAR">
-                                                            <h:outputLabel value="#{campo.nombre}"/>
+                                                            <h:outputLabel value="#{campo.car}"/>
                                                         </b:dataTableColumn>
                                                         <b:dataTableColumn label="Coveñas">
-                                                            <h:outputLabel value="#{campo.nombre}"/>
+                                                            <h:outputLabel value="#{campo.cov}"/>
                                                         </b:dataTableColumn>
                                                         <b:dataTableColumn label="Contrato">
                                                             <h:outputLabel value="#{campo.idcontrato.nombre}"/>
