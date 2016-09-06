@@ -82,7 +82,10 @@
                                                             <label for="inputCtme" class="col-sm-4 control-label">CTME</label>
                                                             <b:inputText value="#{valoresCT.valor.ctme}" id="inputCtme" placeholder="Valor CTME" span="8"/>                                                             
                                                         </div>
-
+                                                        <div class="form-group">
+                                                            <label for="inputAnio" class="col-sm-4 control-label">Año</label>
+                                                            <b:inputText value="#{valoresCT.valor.anio}" id="inputAnio" placeholder="Año" span="8"/>                                                             
+                                                        </div>    
                                                         <div class="form-group">
                                                             <b:commandButton value="Enviar" update=":formularioRegistroValores :formularioLista" action="#{valoresCT.registrarValores()}" class="btn btn-info " style="float: right">
                                                                 <b:iconAwesome name="send"></b:iconAwesome>
@@ -164,6 +167,9 @@
                                                         </b:dataTableColumn>
                                                         <b:dataTableColumn label="Trimestre">
                                                             <h:outputLabel value="#{valores.trimestre}"/>
+                                                        </b:dataTableColumn>
+                                                        <b:dataTableColumn label="Año">
+                                                            <h:outputLabel value="#{valores.anio}"/>
                                                         </b:dataTableColumn>
                                                     </b:dataTable>
                                                 </h:form>
