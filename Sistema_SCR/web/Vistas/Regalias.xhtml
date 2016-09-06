@@ -16,189 +16,244 @@
                 <div class="main">
                     <div class="main-inner">
                         <b:container fluid="false" >
-
-                            <div style="margin-bottom: 30px">
-                                <h2> Calculo de regalias <small>Calculo de regalias.</small> </h2>
-                            </div>
                             <b:row>
                                 <h:form id="formularioRegistro">
-                                    <c:choose>
-                                        <c:when test="#{regaliasCT.vista == 0}">
-                                            <b:column col-lg="6" >
-                                                <div class="widget ">
-                                                    <div class="widget-header"> <i class="fa fa-list-ol"></i>
-                                                        <h3> Registro de Produccion </h3>
-                                                    </div>
-                                                    <!-- /widget-header -->
+                                    <b:column col-lg="6" style="width: 100% !important;">
+                                        <div class="widget ">
+                                            <div class="widget-header"> <i class="fa fa-list-ol"></i>
+                                                <h3> Registro de Produccion </h3>
+                                            </div>
+                                            <!-- /widget-header -->
+                                            <div class="widget-content">
+                                                <div class="widget big-stats-container">
                                                     <div class="widget-content">
-                                                        <div class="widget big-stats-container">
-                                                            <div class="widget-content">
 
-                                                                <div class="form-horizontal">
-                                                                    <div class="form-group">
-                                                                        <label for="inputCampo" class="col-sm-4 control-label">Municipio al que calculara regalias: </label>
-                                                                        <b:selectOneMenu value="#{regaliasCT.municipio.nombre}" col-xs="8">
-                                                                            <f:selectItem noSelectionOption="true" itemLabel="Seleccione municipio"/>
-                                                                            <f:selectItems value="#{municipioCT.municipios}" var="municipio" itemLabel="#{municipio.nombre}" itemValue="#{municipio.nombre}"/>
-                                                                        </b:selectOneMenu>
-                                                                    </div>                                                                      
+                                                        <div class="form-horizontal">
+                                                            <div class="form-group">
+                                                                <label for="inputAnio" class="col-sm-4 control-label">Año: </label>
+                                                                <b:inputText value="#{regaliasCT.produccion.produccion}" id="inputValor" placeholder="2016" span="8"/>                                                                
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputMes" class="col-sm-4 control-label">Mes a calcular: </label>
+                                                                <b:selectOneMenu value="#{regaliasCT.mes}" col-xs="8">
+                                                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione Mes"/>
+                                                                    <f:selectItem itemLabel="Enero" itemValue="1"/>
+                                                                    <f:selectItem itemLabel="Febrero" itemValue="2"/>   
+                                                                    <f:selectItem itemLabel="Marzo" itemValue="3"/>   
+                                                                    <f:selectItem itemLabel="Abril" itemValue="4"/>   
+                                                                    <f:selectItem itemLabel="Mayo" itemValue="5"/>   
+                                                                    <f:selectItem itemLabel="Junio" itemValue="6"/>   
+                                                                    <f:selectItem itemLabel="Julio" itemValue="7"/>   
+                                                                    <f:selectItem itemLabel="Agosto" itemValue="8"/>   
+                                                                    <f:selectItem itemLabel="Septiembre" itemValue="9"/>   
+                                                                    <f:selectItem itemLabel="Octubre" itemValue="10"/>   
+                                                                    <f:selectItem itemLabel="Noviembre" itemValue="11"/>   
+                                                                    <f:selectItem itemLabel="Diciembre" itemValue="12"/>   
+                                                                </b:selectOneMenu>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputCampo" class="col-sm-4 control-label">Municipio al que calculara regalias: </label>
+                                                                <b:selectOneMenu value="#{regaliasCT.municipio.nombre}" col-xs="8" class="ajuste-Campo">
+                                                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione municipio"/>
+                                                                    <f:selectItems value="#{municipioCT.municipios}" var="municipio" itemLabel="#{municipio.nombre}" itemValue="#{municipio.nombre}" />
+                                                                </b:selectOneMenu>
+                                                            </div>                                                                      
 
-                                                                    <div class="form-group">
-                                                                        <label for="inputMes" class="col-sm-4 control-label">Mes a calcular: </label>
-                                                                        <b:selectOneMenu value="#{regaliasCT.mes}" col-xs="8">
-                                                                            <f:selectItem noSelectionOption="true" itemLabel="Seleccione municipio"/>
-                                                                            <f:selectItem itemLabel="Enero" itemValue="1"/>
-                                                                            <f:selectItem itemLabel="Febrero" itemValue="2"/>   
-                                                                            <f:selectItem itemLabel="Marzo" itemValue="3"/>   
-                                                                            <f:selectItem itemLabel="Abril" itemValue="4"/>   
-                                                                            <f:selectItem itemLabel="Mayo" itemValue="5"/>   
-                                                                            <f:selectItem itemLabel="Junio" itemValue="6"/>   
-                                                                            <f:selectItem itemLabel="Julio" itemValue="7"/>   
-                                                                            <f:selectItem itemLabel="Agosto" itemValue="8"/>   
-                                                                            <f:selectItem itemLabel="Septiembre" itemValue="9"/>   
-                                                                            <f:selectItem itemLabel="Octubre" itemValue="10"/>   
-                                                                            <f:selectItem itemLabel="Noviembre" itemValue="11"/>   
-                                                                            <f:selectItem itemLabel="Diciembre" itemValue="12"/>   
-                                                                        </b:selectOneMenu>
-                                                                    </div>
-
-
-                                                                    <div class="form-group">
-                                                                        <b:commandButton value="Enviar" action="#{regaliasCT.calcularRegalias()}" update=":formularioRegistro" class="btn btn-info " style="float: right">
-                                                                            <b:iconAwesome name="send"></b:iconAwesome>
-                                                                        </b:commandButton>
-                                                                    </div>
-                                                                </div>
-
-                                                                <!-- /widget-content --> 
+                                                            <div class="form-group">
+                                                                <b:commandButton value="Enviar" action="#{regaliasCT.calcularRegalias()}" update=":formularioRegistro" class="btn btn-info " style="float: right">
+                                                                    <b:iconAwesome name="send"></b:iconAwesome>
+                                                                </b:commandButton>
                                                             </div>
                                                         </div>
+
+                                                        <!-- /widget-content --> 
                                                     </div>
                                                 </div>
-                                            </b:column>
-                                        </c:when>
-                                        <c:when test="#{regaliasCT.vista == 1}">
-                                            <b:column col-lg="6" >
-                                                <div class="widget ">
-                                                    <div class="widget-header"> <i class="fa fa-list-ol"></i>
-                                                        <h3> Registro de Produccion </h3>
-                                                    </div>
-                                                    <!-- /widget-header -->
+                                            </div>
+                                        </div>
+                                    </b:column>
+
+                                    <b:column col-lg="6" style="width: 100% !important;">
+                                        <div class="widget " >
+                                            <div class="widget-header" > <i class="fa fa-list-ol"></i>
+                                                <h3> Registro de Producción </h3>
+                                            </div>
+                                            <div class="widget-content" >
+                                                <div class="widget big-stats-container">
                                                     <div class="widget-content">
-                                                        <div class="widget big-stats-container">
-                                                            <div class="widget-content">
 
-                                                                <div class="form-horizontal">
-                                                                    <div class="form-group">
-                                                                        <label for="inputCampo" class="col-sm-4 control-label">Campo: </label>
-                                                                        <p:outputLabel value="#{regaliasCT.produccion.idcampo.nombre}" id="inputCampo"/>                                                             
-                                                                    </div>
+                                                        <table class="order-table">
 
-                                                                    <div class="form-group">
-                                                                        <label for="inputValor" class="col-sm-4 control-label">Volumen promedio diario (BPPD): </label>
-                                                                        <b:inputText value="#{regaliasCT.produccion.produccion}" id="inputValor" placeholder="Volumen promedio diario" span="8"/>                                                             
-                                                                    </div>
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="order-table-header" scope="col">Campo</th>
+                                                                    <th class="order-table-header" scope="col">Tipo HidroCarburo</th>
+                                                                    <th class="order-table-header" scope="col">Volumen Producción</th>
+                                                                    <th class="order-table-header" scope="col">CTC</th>
+                                                                </tr>
+                                                            </thead>
 
-                                                                    <div class="form-group">
-                                                                        <b:commandButton value="Enviar" action="#{regaliasCT.calcularRegalias()}" update=":formularioRegistro" class="btn btn-info " style="float: right">
-                                                                            <b:iconAwesome name="send"></b:iconAwesome>
-                                                                        </b:commandButton>
-                                                                    </div>
-                                                                </div>
+                                                            <tbody>
+                                                                <tr class="order-table-odd-row">
+                                                                    <td>A0001</td>
+                                                                    <td>                                                            <div class="form-group">
+                                                                            <b:selectOneMenu value="#{regaliasCT.mes}" col-xs="8" class="ajuste-Campo">
+                                                                                <f:selectItem noSelectionOption="true" itemLabel="Seleccione Tipo"/>
+                                                                                <f:selectItem itemLabel="Petróleo" itemValue="P"/>
+                                                                                <f:selectItem itemLabel="Gas" itemValue="G"/>    
+                                                                            </b:selectOneMenu>
+                                                                        </div></td>
+                                                                    <td>  <b:inputText value="#{regaliasCT.produccion.produccion}" id="inputValor" placeholder="Volumen de Producción" span="8" class="ajuste-Campo"/> </td>
+                                                                    <td>  <b:inputText value="#{regaliasCT.produccion.produccion}" id="inputValor" placeholder="CTC" span="8" class="ajuste-Campo"/> </td>
+                                                                </tr>
+                                                                <tr class="order-table-even-row">
+                                                                    <td>A0002</td>
+                                                                    <td>                                                            <div class="form-group">
 
-                                                                <!-- /widget-content --> 
+                                                                            <b:selectOneMenu value="#{regaliasCT.mes}" col-xs="8" class="ajuste-Campo">
+                                                                                <f:selectItem noSelectionOption="true" itemLabel="Seleccione Tipo"/>
+                                                                                <f:selectItem itemLabel="Petróleo" itemValue="P"/>
+                                                                                <f:selectItem itemLabel="Gas" itemValue="G"/>    
+                                                                            </b:selectOneMenu>
+                                                                        </div></td>
+                                                                    <td>  <b:inputText value="#{regaliasCT.produccion.produccion}" id="inputValor" placeholder="Volumen de Producción" span="8" class="ajuste-Campo"/> </td>
+                                                                    <td>  <b:inputText value="#{regaliasCT.produccion.produccion}" id="inputValor" placeholder="CTC" span="8" class="ajuste-Campo"/> </td>
+                                                                </tr>
+                                                                <tr class="order-table-odd-row">
+                                                                    <td>A0003</td>
+                                                                    <td>                                                            <div class="form-group">
+
+                                                                            <b:selectOneMenu value="#{regaliasCT.mes}" col-xs="8" class="ajuste-Campo">
+                                                                                <f:selectItem noSelectionOption="true" itemLabel="Seleccione Tipo"/>
+                                                                                <f:selectItem itemLabel="Petróleo" itemValue="P"/>
+                                                                                <f:selectItem itemLabel="Gas" itemValue="G"/>    
+                                                                            </b:selectOneMenu>
+                                                                        </div></td>
+                                                                    <td>  <b:inputText value="#{regaliasCT.produccion.produccion}" id="inputValor" placeholder="Volumen de Producción" span="8" class="ajuste-Campo"/> </td>
+                                                                    <td>  <b:inputText value="#{regaliasCT.produccion.produccion}" id="inputValor" placeholder="CTC" span="8" class="ajuste-Campo"/> </td>
+                                                                </tr>
+                                                                <tr class="order-table-even-row">
+                                                                    <td>A0004</td>
+                                                                    <td>                                                            <div class="form-group">
+
+                                                                            <b:selectOneMenu value="#{regaliasCT.mes}" col-xs="8" class="ajuste-Campo">
+                                                                                <f:selectItem noSelectionOption="true" itemLabel="Seleccione Tipo"/>
+                                                                                <f:selectItem itemLabel="Petróleo" itemValue="P"/>
+                                                                                <f:selectItem itemLabel="Gas" itemValue="G"/>    
+                                                                            </b:selectOneMenu>
+                                                                        </div></td>
+                                                                    <td>  <b:inputText value="#{regaliasCT.produccion.produccion}" id="inputValor" placeholder="Volumen de Producción" span="8" class="ajuste-Campo"/> </td>
+                                                                    <td>  <b:inputText value="#{regaliasCT.produccion.produccion}" id="inputValor" placeholder="CTC" span="8" class="ajuste-Campo"/> </td>
+                                                                </tr>
+                                                                <tr class="order-table-odd-row">
+                                                                    <td>A0005</td>
+                                                                    <td>                                                            <div class="form-group">
+
+                                                                            <b:selectOneMenu value="#{regaliasCT.mes}" col-xs="8" class="ajuste-Campo">
+                                                                                <f:selectItem noSelectionOption="true" itemLabel="Seleccione Tipo"/>
+                                                                                <f:selectItem itemLabel="Petróleo" itemValue="P"/>
+                                                                                <f:selectItem itemLabel="Gas" itemValue="G"/>    
+                                                                            </b:selectOneMenu>
+                                                                        </div></td>
+                                                                    <td>  <b:inputText value="#{regaliasCT.produccion.produccion}" id="inputValor" placeholder="Volumen de Producción" span="8" class="ajuste-Campo"/> </td>
+                                                                    <td>  <b:inputText value="#{regaliasCT.produccion.produccion}" id="inputValor" placeholder="CTC" span="8" class="ajuste-Campo"/> </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </b:column>
+
+<!--                                    <b:column col-lg="6" >
+                                        <div class="widget ">
+                                            <div class="widget-header"> <i class="fa fa-list-ol"></i>
+                                                <h3> Registro de Produccion en el Campo Piriri</h3>
+                                            </div>
+                                             /widget-header 
+                                            <div class="widget-content">
+                                                <div class="widget big-stats-container">
+                                                    <div class="widget-content">
+
+                                                        <div class="form-horizontal">
+
+                                                            <div class="form-group">
+                                                                <label for="inputHidrocarburo" class="col-sm-4 control-label">Tipo de Hidrocarburo: </label>
+                                                                <b:selectOneMenu value="#{regaliasCT.mes}" col-xs="8" class="ajuste-Campo">
+                                                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione Tipo"/>
+                                                                    <f:selectItem itemLabel="Petróleo" itemValue="P"/>
+                                                                    <f:selectItem itemLabel="Gas" itemValue="G"/>    
+                                                                </b:selectOneMenu>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputValor" class="col-sm-4 control-label">Volumen de Producción: </label>
+                                                                <b:inputText value="#{regaliasCT.produccion.produccion}" id="inputValor" placeholder="Volumen de Producción" span="8" class="ajuste-Campo"/>                                                             
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="inputCTC" class="col-sm-4 control-label">CTC: </label>
+                                                                <b:inputText id="inputCTC" value="#{regaliasCT.pbl.ctc}" placeholder="Costo de transporte de crudo" span="8"/>                                                             
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <b:commandButton value="Enviar" action="#{regaliasCT.calcularRegalias()}" update=":formularioRegistro" class="btn btn-info " style="float: right">
+                                                                    <b:iconAwesome name="send"></b:iconAwesome>
+                                                                </b:commandButton>
                                                             </div>
                                                         </div>
+
+                                                         /widget-content  
                                                     </div>
                                                 </div>
-                                            </b:column>
-                                        </c:when>
-                                        <c:when test="#{regaliasCT.vista == 2}">
-                                            <b:column col-lg="6" >
-                                                <div class="widget ">
-                                                    <div class="widget-header"> <i class="fa fa-list-ol"></i>
-                                                        <h3> PBL </h3>
-                                                    </div>
-                                                    <!-- /widget-header -->
+                                            </div>
+                                        </div>
+                                    </b:column>
+                                    <b:column col-lg="6" >
+                                        <div class="widget ">
+                                            <div class="widget-header"> <i class="fa fa-list-ol"></i>
+                                                <h3> Registro de Produccion en el Campo Ayacucho</h3>
+                                            </div>
+                                             /widget-header 
+                                            <div class="widget-content">
+                                                <div class="widget big-stats-container">
                                                     <div class="widget-content">
-                                                        <div class="widget big-stats-container">
-                                                            <div class="widget-content">                                                            
-                                                                <div class="form-horizontal">                                                           
 
-                                                                    <div class="form-group">
-                                                                        <label for="inputCampo" class="col-sm-4 control-label">Campo: </label>
-                                                                        <p:outputLabel value="#{regaliasCT.pbl.idcampo.nombre}" id="inputCampo"/>                                                             
-                                                                    </div>
+                                                        <div class="form-horizontal">
 
-                                                                    <div class="form-group">
-                                                                        <label for="inputPF" class="col-sm-4 control-label">PF: </label>
-                                                                        <b:inputText id="inputPF" value="#{regaliasCT.pbl.pf}" placeholder="Promedio ponderado de ecopetrol" span="8"/>                                                             
-                                                                    </div>
+                                                            <div class="form-group">
+                                                                <label for="inputHidrocarburo" class="col-sm-4 control-label">Tipo de Hidrocarburo: </label>
+                                                                <b:selectOneMenu value="#{regaliasCT.mes}" col-xs="8" class="ajuste-Campo">
+                                                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione Tipo"/>
+                                                                    <f:selectItem itemLabel="Petróleo" itemValue="P"/>
+                                                                    <f:selectItem itemLabel="Gas" itemValue="G"/>    
+                                                                </b:selectOneMenu>
+                                                            </div>
 
-                                                                    <div class="form-group">
-                                                                        <label for="inputPX" class="col-sm-4 control-label">PX: </label>
-                                                                        <b:inputText id="inputPX"   value="#{regaliasCT.pbl.px}" placeholder="Promedio ponderado efectivo de exportacion" span="8"/>                                                             
-                                                                    </div>
+                                                            <div class="form-group">
+                                                                <label for="inputValor" class="col-sm-4 control-label">Volumen de Producción: </label>
+                                                                <b:inputText value="#{regaliasCT.produccion.produccion}" id="inputValor" placeholder="Volumen de Producción" span="8" class="ajuste-Campo"/>                                                             
+                                                            </div>
 
-                                                                    <div class="form-group">
-                                                                        <label for="inputV1" class="col-sm-4 control-label">Volumen de crudo refinado: </label>
-                                                                        <b:inputText id="inputV1" value="#{regaliasCT.pbl.v1}" placeholder="Volumen de crudo refinado" span="8"/>                                                             
-                                                                    </div>
+                                                            <div class="form-group">
+                                                                <label for="inputCTC" class="col-sm-4 control-label">CTC: </label>
+                                                                <b:inputText id="inputCTC" value="#{regaliasCT.pbl.ctc}" placeholder="Costo de transporte de crudo" span="8"/>                                                             
+                                                            </div>
 
-                                                                    <div class="form-group">
-                                                                        <label for="inputV2" class="col-sm-4 control-label">Volumen de crudo exportado: </label>
-                                                                        <b:inputText id="inputV2" value="#{regaliasCT.pbl.v2}" placeholder="Volumen de crudo exportado" span="8"/>                                                             
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <label for="inputCTC" class="col-sm-4 control-label">CTC: </label>
-                                                                        <b:inputText id="inputCTC" value="#{regaliasCT.pbl.ctc}" placeholder="Costo de transporte de crudo" span="8"/>                                                             
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <label for="inputCMT" class="col-sm-4 control-label">CMT: </label>
-                                                                        <b:inputText id="inputCMT" value="#{regaliasCT.pbl.cmt}" placeholder="Costo de transporte de productos a la refineria" span="8"/>                                                             
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <label for="inputCTMC" class="col-sm-4 control-label">CTMC: </label>
-                                                                        <b:inputText id="inputCTMC" value="#{regaliasCT.pbl.ctmc}" placeholder="Costo trasiego y manejo de crudo de refinacion" span="8"/>                                                             
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <label for="inputCTMD" class="col-sm-4 control-label">CTMD: </label>
-                                                                        <b:inputText id="inputCTMD" value="#{regaliasCT.pbl.ctmd}" placeholder="Costo de trasiego y manejo de los derivados" span="8"/>                                                             
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <label for="inputCR" class="col-sm-4 control-label">CR: </label>
-                                                                        <b:inputText id="inputCR" value="#{regaliasCT.pbl.cr}" placeholder="Costo de refinacion" span="8"/>                                                             
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <label for="inputCCE" class="col-sm-4 control-label">CCE: </label>
-                                                                        <b:inputText id="inputCCE" value="#{regaliasCT.pbl.cce}" placeholder="Costo transporte crudo a puerto de embarque" span="8"/>                                                             
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <label for="inputCTME" class="col-sm-4 control-label">CTME: </label>
-                                                                        <b:inputText id="inputCTME" value="#{regaliasCT.pbl.ctme}" placeholder="Costo trasiego y manejo de crudo de exportacion" span="8"/>                                                             
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <b:commandButton value="Enviar" action="#{regaliasCT.calcularRegalias()}" update=":formularioRegistro" class="btn btn-info " style="float: right">
-                                                                            <b:iconAwesome name="send"></b:iconAwesome>
-                                                                        </b:commandButton>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- /widget-content --> 
+                                                            <div class="form-group">
+                                                                <b:commandButton value="Enviar" action="#{regaliasCT.calcularRegalias()}" update=":formularioRegistro" class="btn btn-info " style="float: right">
+                                                                    <b:iconAwesome name="send"></b:iconAwesome>
+                                                                </b:commandButton>
                                                             </div>
                                                         </div>
+
+                                                         /widget-content  
                                                     </div>
                                                 </div>
-                                            </b:column>
-                                        </c:when>                                                                     
-                                    </c:choose>
+                                            </div>
+                                        </div>
+                                    </b:column>-->
                                 </h:form>
                                 <!-- /widget -->
                             </b:row>
