@@ -6,7 +6,9 @@
 package com.planit.scr.modelos;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,8 +18,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -34,6 +39,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Campos.findByCar", query = "SELECT c FROM Campos c WHERE c.car = :car"),
     @NamedQuery(name = "Campos.findByCov", query = "SELECT c FROM Campos c WHERE c.cov = :cov")})
 public class Campos implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idcampo")
+    private Collection<Pbl> pblCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -154,6 +161,16 @@ public class Campos implements Serializable {
     @Override
     public String toString() {
         return "com.planit.scr.modelos.Campos[ idcampo=" + idcampo + " ]";
+    }
+
+    @XmlTransient
+    @JsonIgnore
+    public Collection<Pbl> getPblCollection() {
+        return pblCollection;
+    }
+
+    public void setPblCollection(Collection<Pbl> pblCollection) {
+        this.pblCollection = pblCollection;
     }
     
 }

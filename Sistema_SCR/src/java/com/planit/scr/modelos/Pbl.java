@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Desarrollo_Planit
+ * @author VaioDevelopment
  */
 @Entity
 @Table(name = "pbl")
@@ -29,22 +29,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Pbl.findAll", query = "SELECT p FROM Pbl p"),
     @NamedQuery(name = "Pbl.findByIdpbl", query = "SELECT p FROM Pbl p WHERE p.idpbl = :idpbl"),
-    @NamedQuery(name = "Pbl.findByV1", query = "SELECT p FROM Pbl p WHERE p.v1 = :v1"),
-    @NamedQuery(name = "Pbl.findByV2", query = "SELECT p FROM Pbl p WHERE p.v2 = :v2"),
-    @NamedQuery(name = "Pbl.findByVt", query = "SELECT p FROM Pbl p WHERE p.vt = :vt"),
-    @NamedQuery(name = "Pbl.findByPf", query = "SELECT p FROM Pbl p WHERE p.pf = :pf"),
-    @NamedQuery(name = "Pbl.findByPx", query = "SELECT p FROM Pbl p WHERE p.px = :px"),
     @NamedQuery(name = "Pbl.findByCtc", query = "SELECT p FROM Pbl p WHERE p.ctc = :ctc"),
-    @NamedQuery(name = "Pbl.findByCmt", query = "SELECT p FROM Pbl p WHERE p.cmt = :cmt"),
-    @NamedQuery(name = "Pbl.findByCtmc", query = "SELECT p FROM Pbl p WHERE p.ctmc = :ctmc"),
-    @NamedQuery(name = "Pbl.findByCtmd", query = "SELECT p FROM Pbl p WHERE p.ctmd = :ctmd"),
-    @NamedQuery(name = "Pbl.findByCr", query = "SELECT p FROM Pbl p WHERE p.cr = :cr"),
     @NamedQuery(name = "Pbl.findByCt1", query = "SELECT p FROM Pbl p WHERE p.ct1 = :ct1"),
     @NamedQuery(name = "Pbl.findByCce", query = "SELECT p FROM Pbl p WHERE p.cce = :cce"),
-    @NamedQuery(name = "Pbl.findByCtme", query = "SELECT p FROM Pbl p WHERE p.ctme = :ctme"),
     @NamedQuery(name = "Pbl.findByCt2", query = "SELECT p FROM Pbl p WHERE p.ct2 = :ct2"),
     @NamedQuery(name = "Pbl.findByTrimestre", query = "SELECT p FROM Pbl p WHERE p.trimestre = :trimestre"),
-    @NamedQuery(name = "Pbl.findByPrc", query = "SELECT p FROM Pbl p WHERE p.prc = :prc")})
+    @NamedQuery(name = "Pbl.findByPrc", query = "SELECT p FROM Pbl p WHERE p.prc = :prc"),
+    @NamedQuery(name = "Pbl.findByAnio", query = "SELECT p FROM Pbl p WHERE p.anio = :anio"),
+    @NamedQuery(name = "Pbl.findByRefinacion", query = "SELECT p FROM Pbl p WHERE p.refinacion = :refinacion"),
+    @NamedQuery(name = "Pbl.findByExportacion", query = "SELECT p FROM Pbl p WHERE p.exportacion = :exportacion")})
 public class Pbl implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,44 +46,14 @@ public class Pbl implements Serializable {
     @Column(name = "idpbl")
     private Integer idpbl;
     @Basic(optional = false)
-    @Column(name = "v1")
-    private double v1;
-    @Basic(optional = false)
-    @Column(name = "v2")
-    private double v2;
-    @Basic(optional = false)
-    @Column(name = "vt")
-    private double vt;
-    @Basic(optional = false)
-    @Column(name = "pf")
-    private double pf;
-    @Basic(optional = false)
-    @Column(name = "px")
-    private double px;
-    @Basic(optional = false)
     @Column(name = "ctc")
     private double ctc;
-    @Basic(optional = false)
-    @Column(name = "cmt")
-    private double cmt;
-    @Basic(optional = false)
-    @Column(name = "ctmc")
-    private double ctmc;
-    @Basic(optional = false)
-    @Column(name = "ctmd")
-    private double ctmd;
-    @Basic(optional = false)
-    @Column(name = "cr")
-    private double cr;
     @Basic(optional = false)
     @Column(name = "ct1")
     private double ct1;
     @Basic(optional = false)
     @Column(name = "cce")
     private double cce;
-    @Basic(optional = false)
-    @Column(name = "ctme")
-    private double ctme;
     @Basic(optional = false)
     @Column(name = "ct2")
     private double ct2;
@@ -100,6 +63,12 @@ public class Pbl implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "prc")
     private Double prc;
+    @Column(name = "anio")
+    private String anio;
+    @Column(name = "refinacion")
+    private Double refinacion;
+    @Column(name = "exportacion")
+    private Double exportacion;
     @JoinColumn(name = "idcampo", referencedColumnName = "idcampo")
     @ManyToOne(optional = false)
     private Campos idcampo;
@@ -111,30 +80,40 @@ public class Pbl implements Serializable {
         this.idpbl = idpbl;
     }
 
-    public Pbl(Integer idpbl, double v1, double v2, double vt, double pf, double px, double ctc, double cmt, double ctmc, double ctmd, double cr, double ct1, double cce, double ctme, double ct2, int trimestre) {
+    public Pbl(Integer idpbl, double ctc, double ct1, double cce, double ct2, int trimestre) {
         this.idpbl = idpbl;
-        this.v1 = v1;
-        this.v2 = v2;
-        this.vt = vt;
-        this.pf = pf;
-        this.px = px;
         this.ctc = ctc;
-        this.cmt = cmt;
-        this.ctmc = ctmc;
-        this.ctmd = ctmd;
-        this.cr = cr;
         this.ct1 = ct1;
         this.cce = cce;
-        this.ctme = ctme;
         this.ct2 = ct2;
         this.trimestre = trimestre;
     }
 
-    public Pbl(double v1, double v2, double pf, double px) {
-        this.v1 = v1;
-        this.v2 = v2;
-        this.pf = pf;
-        this.px = px;
+    public Pbl(Integer idpbl, double ctc, double ct1, double cce, double ct2, int trimestre, Double prc, String anio, Double refinacion, Double exportacion, Campos idcampo) {
+        this.idpbl = idpbl;
+        this.ctc = ctc;
+        this.ct1 = ct1;
+        this.cce = cce;
+        this.ct2 = ct2;
+        this.trimestre = trimestre;
+        this.prc = prc;
+        this.anio = anio;
+        this.refinacion = refinacion;
+        this.exportacion = exportacion;
+        this.idcampo = idcampo;
+    }
+
+    public Pbl(double ctc, double ct1, double cce, double ct2, int trimestre, Double prc, String anio, Double refinacion, Double exportacion, Campos idcampo) {
+        this.ctc = ctc;
+        this.ct1 = ct1;
+        this.cce = cce;
+        this.ct2 = ct2;
+        this.trimestre = trimestre;
+        this.prc = prc;
+        this.anio = anio;
+        this.refinacion = refinacion;
+        this.exportacion = exportacion;
+        this.idcampo = idcampo;
     }
     
     
@@ -147,84 +126,12 @@ public class Pbl implements Serializable {
         this.idpbl = idpbl;
     }
 
-    public double getV1() {
-        return v1;
-    }
-
-    public void setV1(double v1) {
-        this.v1 = v1;
-    }
-
-    public double getV2() {
-        return v2;
-    }
-
-    public void setV2(double v2) {
-        this.v2 = v2;
-    }
-
-    public double getVt() {
-        return vt;
-    }
-
-    public void setVt(double vt) {
-        this.vt = vt;
-    }
-
-    public double getPf() {
-        return pf;
-    }
-
-    public void setPf(double pf) {
-        this.pf = pf;
-    }
-
-    public double getPx() {
-        return px;
-    }
-
-    public void setPx(double px) {
-        this.px = px;
-    }
-
     public double getCtc() {
         return ctc;
     }
 
     public void setCtc(double ctc) {
         this.ctc = ctc;
-    }
-
-    public double getCmt() {
-        return cmt;
-    }
-
-    public void setCmt(double cmt) {
-        this.cmt = cmt;
-    }
-
-    public double getCtmc() {
-        return ctmc;
-    }
-
-    public void setCtmc(double ctmc) {
-        this.ctmc = ctmc;
-    }
-
-    public double getCtmd() {
-        return ctmd;
-    }
-
-    public void setCtmd(double ctmd) {
-        this.ctmd = ctmd;
-    }
-
-    public double getCr() {
-        return cr;
-    }
-
-    public void setCr(double cr) {
-        this.cr = cr;
     }
 
     public double getCt1() {
@@ -241,14 +148,6 @@ public class Pbl implements Serializable {
 
     public void setCce(double cce) {
         this.cce = cce;
-    }
-
-    public double getCtme() {
-        return ctme;
-    }
-
-    public void setCtme(double ctme) {
-        this.ctme = ctme;
     }
 
     public double getCt2() {
@@ -273,6 +172,30 @@ public class Pbl implements Serializable {
 
     public void setPrc(Double prc) {
         this.prc = prc;
+    }
+
+    public String getAnio() {
+        return anio;
+    }
+
+    public void setAnio(String anio) {
+        this.anio = anio;
+    }
+
+    public Double getRefinacion() {
+        return refinacion;
+    }
+
+    public void setRefinacion(Double refinacion) {
+        this.refinacion = refinacion;
+    }
+
+    public Double getExportacion() {
+        return exportacion;
+    }
+
+    public void setExportacion(Double exportacion) {
+        this.exportacion = exportacion;
     }
 
     public Campos getIdcampo() {
