@@ -15,12 +15,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 
 /**
  *
  * @author Desarrollo_Planit
  */
-public class RegaliasCT {
+public class RegaliasCT1 {
 
     private Produccion produccion;
     private int vista;
@@ -38,7 +41,7 @@ public class RegaliasCT {
     protected int posicion = 0;
     private int mes = 0;
 
-    public RegaliasCT() {
+    public RegaliasCT1() {
         produccion = new Produccion();
         pbl = new Pbl();
         vista = 0;
@@ -121,10 +124,12 @@ public class RegaliasCT {
         MunicipioCT mct = new MunicipioCT();
         CampoCT cct = new CampoCT();
         String ruta = "";
-
+        if (vista == 0) {
+            vista = 1;
             municipio = mct.consultarMunicipio(municipio);
             campos = cct.consultarCampos(municipio);
             produccion.setIdcampo(campos.get(0));
+        } else if (vista == 1) {
             ProduccionCT pct = new ProduccionCT();
             produccion.setFecha(new Date());
             pct.registrar(produccion);
@@ -136,13 +141,14 @@ public class RegaliasCT {
                     produccion.setIdcampo(campos.get(posicion));
 
                 } else if (posicion == campos.size()) {
-                     posicion = 0;
+                    vista = 2;
+                    posicion = 0;
                     pbl.setIdcampo(campos.get(0));
                 }
             }
-
-            PblCT pclt = new PblCT();
-            pbl = pclt.calcularPBL(pbl);
+        } else if (vista == 2) {
+            PblCT pct = new PblCT();
+            pbl = pct.calcularPBL(pbl);
             if (mes <= 3) {
                 pbl.setTrimestre(1);
             } else if (mes > 3 && mes <= 6) {
@@ -152,7 +158,7 @@ public class RegaliasCT {
             } else if (mes > 9 && mes <= 12) {
                 pbl.setTrimestre(4);
             }
-            pclt.registrarPbl(pbl);
+            pct.registrarPbl(pbl);
             pbls.add(pbl);
 
             pbl = new Pbl();
@@ -174,7 +180,7 @@ public class RegaliasCT {
                     }
                 }
             }
-        
+        }
 
         return ruta;
     }

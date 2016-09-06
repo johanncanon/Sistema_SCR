@@ -17,6 +17,11 @@
             <redirect/>
         </navigation-case>
         <navigation-case>
+            <from-outcome>Pbl</from-outcome>
+            <to-view-id>/Vistas/Pbl.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>Contrato</from-outcome>
             <to-view-id>/Vistas/Contratos.xhtml</to-view-id>
             <redirect/>

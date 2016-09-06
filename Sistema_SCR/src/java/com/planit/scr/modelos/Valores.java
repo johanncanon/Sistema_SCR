@@ -116,6 +116,8 @@ public class Valores implements Serializable {
     }
     
     
+    
+    
 
     public Integer getIdvalores() {
         return idvalores;

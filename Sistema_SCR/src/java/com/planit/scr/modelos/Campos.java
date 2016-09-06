@@ -87,9 +87,17 @@ public class Campos implements Serializable {
         this.cov = cov;
         this.idcontrato = idcontrato;
     }
-    
-    
 
+    public Campos(Integer idcampo, String nombre, String cib, String car, String cov) {
+        this.idcampo = idcampo;
+        this.nombre = nombre;
+        this.cib = cib;
+        this.car = car;
+        this.cov = cov;
+    }
+    
+    
+   
     public Integer getIdcampo() {
         return idcampo;
     }
