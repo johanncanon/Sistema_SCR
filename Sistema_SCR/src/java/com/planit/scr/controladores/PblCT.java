@@ -8,7 +8,6 @@ package com.planit.scr.controladores;
 import com.planit.scr.conexion.ConexionSQL;
 import com.planit.scr.modelos.Campos;
 import com.planit.scr.modelos.Pbl;
-import com.planit.scr.modelos.Valores;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;

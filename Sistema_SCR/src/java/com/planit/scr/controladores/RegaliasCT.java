@@ -23,7 +23,6 @@ import java.util.List;
 public class RegaliasCT {
 
     private Produccion produccion;
-    private int vista;
     private Pbl pbl;
     private Municipios municipio;
     private Campos campo;
@@ -41,8 +40,7 @@ public class RegaliasCT {
     public RegaliasCT() {
         produccion = new Produccion();
         pbl = new Pbl();
-        vista = 0;
-
+ 
         municipio = new Municipios();
         campo = new Campos();
 
@@ -66,14 +64,6 @@ public class RegaliasCT {
 
     public void setPbl(Pbl pbl) {
         this.pbl = pbl;
-    }
-
-    public int getVista() {
-        return vista;
-    }
-
-    public void setVista(int vista) {
-        this.vista = vista;
     }
 
     public Municipios getMunicipio() {
@@ -116,66 +106,66 @@ public class RegaliasCT {
         this.pbls = pbls;
     }
 
-    //Metodos
-    public String calcularRegalias() throws Exception {
-        MunicipioCT mct = new MunicipioCT();
-        CampoCT cct = new CampoCT();
-        String ruta = "";
-
-            municipio = mct.consultarMunicipio(municipio);
-            campos = cct.consultarCampos(municipio);
-            produccion.setIdcampo(campos.get(0));
-            ProduccionCT pct = new ProduccionCT();
-            produccion.setFecha(new Date());
-            pct.registrar(produccion);
-            producciones.add(produccion);
-            posicion++;
-            if (posicion <= campos.size()) {
-                if (posicion < campos.size()) {
-                    produccion = new Produccion();
-                    produccion.setIdcampo(campos.get(posicion));
-
-                } else if (posicion == campos.size()) {
-                     posicion = 0;
-                    pbl.setIdcampo(campos.get(0));
-                }
-            }
-
-            PblCT pclt = new PblCT();
-            pbl = pclt.calcularPBL(pbl);
-            if (mes <= 3) {
-                pbl.setTrimestre(1);
-            } else if (mes > 3 && mes <= 6) {
-                pbl.setTrimestre(2);
-            } else if (mes > 6 && mes <= 9) {
-                pbl.setTrimestre(3);
-            } else if (mes > 9 && mes <= 12) {
-                pbl.setTrimestre(4);
-            }
-            pclt.registrarPbl(pbl);
-            pbls.add(pbl);
-
-            pbl = new Pbl();
-            posicion++;
-            if (posicion <= campos.size()) {
-                if (posicion < campos.size()) {
-                    pbl.setIdcampo(campos.get(posicion));
-                } else if (posicion == campos.size()) {
-                    ruta = "Resultado";
-                    posicion = 0;
-                    for (int i = 0; i < campos.size(); i++) {
-
-                        double prodMes = producciones.get(i).getProduccion() * 30;
-                        double porcentaje = (double) 20 / 100;
-                        double precioLiquidacion = pbls.get(i).getPrc();
-                        double regalia = prodMes * precioLiquidacion * porcentaje * 3200;
-
-                        regalias.add(new Regalias(campos.get(i), producciones.get(i), pbls.get(i), 20, regalia));
-                    }
-                }
-            }
-        
-
-        return ruta;
-    }
+//    //Metodos
+//    public String calcularRegalias() throws Exception {
+//        MunicipioCT mct = new MunicipioCT();
+//        CampoCT cct = new CampoCT();
+//        String ruta = "";
+//
+//            municipio = mct.consultarMunicipio(municipio);
+//            campos = cct.consultarCampos(municipio);
+//            produccion.setIdcampo(campos.get(0));
+//            ProduccionCT pct = new ProduccionCT();
+//            produccion.setFecha(new Date());
+//            pct.registrar(produccion);
+//            producciones.add(produccion);
+//            posicion++;
+//            if (posicion <= campos.size()) {
+//                if (posicion < campos.size()) {
+//                    produccion = new Produccion();
+//                    produccion.setIdcampo(campos.get(posicion));
+//
+//                } else if (posicion == campos.size()) {
+//                     posicion = 0;
+//                    pbl.setIdcampo(campos.get(0));
+//                }
+//            }
+//
+//            PblCT pclt = new PblCT();
+//            pbl = pclt.calcularPBL(pbl);
+//            if (mes <= 3) {
+//                pbl.setTrimestre(1);
+//            } else if (mes > 3 && mes <= 6) {
+//                pbl.setTrimestre(2);
+//            } else if (mes > 6 && mes <= 9) {
+//                pbl.setTrimestre(3);
+//            } else if (mes > 9 && mes <= 12) {
+//                pbl.setTrimestre(4);
+//            }
+//            pclt.registrarPbl(pbl);
+//            pbls.add(pbl);
+//
+//            pbl = new Pbl();
+//            posicion++;
+//            if (posicion <= campos.size()) {
+//                if (posicion < campos.size()) {
+//                    pbl.setIdcampo(campos.get(posicion));
+//                } else if (posicion == campos.size()) {
+//                    ruta = "Resultado";
+//                    posicion = 0;
+//                    for (int i = 0; i < campos.size(); i++) {
+//
+//                        double prodMes = producciones.get(i).getProduccion() * 30;
+//                        double porcentaje = (double) 20 / 100;
+//                        double precioLiquidacion = pbls.get(i).getPrc();
+//                        double regalia = prodMes * precioLiquidacion * porcentaje * 3200;
+//
+//                        regalias.add(new Regalias(campos.get(i), producciones.get(i), pbls.get(i), 20, regalia));
+//                    }
+//                }
+//            }
+//        
+//
+//        return ruta;
+//    }
 }
