@@ -59,7 +59,7 @@
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <b:commandButton action="#{campoCT.registrar()}" update=":formularioRegistro :formularioRegistro" class=" btn btn-info" style="float: right" value="Enviar">
+                                                            <b:commandButton action="#{campoCT.registrar()}" update=":formularioRegistro :formularioLista" class=" btn btn-info" style="float: right" value="Enviar">
                                                                 <b:iconAwesome name="send"/>
                                                             </b:commandButton>
                                                         </div>
@@ -90,39 +90,40 @@
                             <!-- /widget -->
 
                             <b:column col-lg="12" >
-
-                                <div class="widget ">
-                                    <div class="widget-header"> <i class="fa fa-list-alt"></i>
-                                        <h3> Listado de Campos </h3>
-                                    </div>
-                                    <!-- /widget-header -->
-                                    <div class="widget-content">
-                                        <div class="widget big-stats-container">
-                                            <div class="widget-content">
-                                                <h:form id="formularioLista">
-                                                    <b:dataTable value="#{campoCT.campos}" var="campo">
-                                                        <b:dataTableColumn label="Nombre">
-                                                            <h:outputLabel value="#{campo.nombre}"/>
-                                                        </b:dataTableColumn>
-                                                        <b:dataTableColumn label="CIB">
-                                                            <h:outputLabel value="#{campo.cib}"/>
-                                                        </b:dataTableColumn>
-                                                        <b:dataTableColumn label="CAR">
-                                                            <h:outputLabel value="#{campo.car}"/>
-                                                        </b:dataTableColumn>
-                                                        <b:dataTableColumn label="Coveñas">
-                                                            <h:outputLabel value="#{campo.cov}"/>
-                                                        </b:dataTableColumn>
-                                                        <b:dataTableColumn label="Contrato">
-                                                            <h:outputLabel value="#{campo.idcontrato.nombre}"/>
-                                                        </b:dataTableColumn>
-                                                    </b:dataTable>
-                                                </h:form>
+                                <h:form id="formularioLista">
+                                    <div class="widget ">
+                                        <div class="widget-header"> <i class="fa fa-list-alt"></i>
+                                            <h3> Listado de Campos </h3>
+                                        </div>
+                                        <!-- /widget-header -->
+                                        <div class="widget-content">
+                                            <div class="widget big-stats-container">
+                                                <div class="widget-content">
+                                                    <h:form id="formularioLista">
+                                                        <b:dataTable value="#{campoCT.campos}" var="campo">
+                                                            <b:dataTableColumn label="Nombre">
+                                                                <h:outputLabel value="#{campo.nombre}"/>
+                                                            </b:dataTableColumn>
+                                                            <b:dataTableColumn label="CIB">
+                                                                <h:outputLabel value="#{campo.cib}"/>
+                                                            </b:dataTableColumn>
+                                                            <b:dataTableColumn label="CAR">
+                                                                <h:outputLabel value="#{campo.car}"/>
+                                                            </b:dataTableColumn>
+                                                            <b:dataTableColumn label="Coveñas">
+                                                                <h:outputLabel value="#{campo.cov}"/>
+                                                            </b:dataTableColumn>
+                                                            <b:dataTableColumn label="Contrato">
+                                                                <h:outputLabel value="#{campo.idcontrato.nombre}"/>
+                                                            </b:dataTableColumn>
+                                                        </b:dataTable>
+                                                    </h:form>
+                                                </div>
+                                                <!-- /widget-content --> 
                                             </div>
-                                            <!-- /widget-content --> 
                                         </div>
                                     </div>
-                                </div>
+                                    </h:form>
                             </b:column>
 
                         </b:row>
