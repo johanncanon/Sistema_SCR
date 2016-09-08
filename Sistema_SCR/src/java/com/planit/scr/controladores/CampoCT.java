@@ -67,9 +67,8 @@ public class CampoCT {
         try {
             try {
                 String sql = "INSERT INTO public.campos("
-                        + "           nombre, idcontrato, cib, car, cov)"
-                        + " VALUES('" + campo.getNombre() + "', '" + campo.getIdcontrato().getIdcontrato() + "',"
-                        + " '"+campo.getCib()+"', '"+campo.getCar()+"', '"+campo.getCov()+"')";
+                        + "           nombre, idcontrato)"
+                        + " VALUES('" + campo.getNombre() + "', '" + campo.getIdcontrato().getIdcontrato() + "')";
                 st.execute(sql);
             } catch (SQLException e) {
                 throw e;
@@ -86,11 +85,11 @@ public class CampoCT {
         ContratoCT ct = new ContratoCT();
         try {
             try {
-                String sql = "SELECT idcampo, nombre, cib, car, cov, idcontrato FROM public.campos"
+                String sql = "SELECT idcampo, nombre, idcontrato FROM public.campos"
                         + " WHERE idcampo = " + c.getIdcampo() + " or nombre= '" + c.getNombre() + "'";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    nuevocampo = new Campos(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5), ct.consultarContrato(new Contratos(rs.getInt(6))));
+                    nuevocampo = new Campos(rs.getInt(1), rs.getString(2),ct.consultarContrato(new Contratos(rs.getInt(6))));
                 }
             } catch (SQLException e) {
                 throw e;
@@ -106,10 +105,10 @@ public class CampoCT {
         ContratoCT ct = new ContratoCT();
         try {
             try {
-                String sql = "SELECT idcampo, nombre,cib, car, cov, idcontrato FROM public.campos";
+                String sql = "SELECT idcampo, nombre,idcontrato FROM public.campos";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listacampos.add(new Campos(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5), ct.consultarContrato(new Contratos(rs.getInt(6)))));
+                    listacampos.add(new Campos(rs.getInt(1), rs.getString(2), ct.consultarContrato(new Contratos(rs.getInt(6)))));
                 }
             } catch (SQLException e) {
                 throw e;
