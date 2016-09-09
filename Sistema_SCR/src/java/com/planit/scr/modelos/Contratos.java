@@ -34,8 +34,13 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @NamedQueries({
     @NamedQuery(name = "Contratos.findAll", query = "SELECT c FROM Contratos c"),
     @NamedQuery(name = "Contratos.findByIdcontrato", query = "SELECT c FROM Contratos c WHERE c.idcontrato = :idcontrato"),
-    @NamedQuery(name = "Contratos.findByNombre", query = "SELECT c FROM Contratos c WHERE c.nombre = :nombre")})
+    @NamedQuery(name = "Contratos.findByNombre", query = "SELECT c FROM Contratos c WHERE c.nombre = :nombre"),
+    @NamedQuery(name = "Contratos.findByCib", query = "SELECT c FROM Contratos c WHERE c.cib = :cib"),
+    @NamedQuery(name = "Contratos.findByCar", query = "SELECT c FROM Contratos c WHERE c.car = :car"),
+    @NamedQuery(name = "Contratos.findByCov", query = "SELECT c FROM Contratos c WHERE c.cov = :cov")})
+
 public class Contratos implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,6 +58,12 @@ public class Contratos implements Serializable {
     @JoinColumn(name = "idmunicipio", referencedColumnName = "idmunicipio")
     @ManyToOne(optional = false)
     private Municipios idmunicipio;
+    @Column(name = "cib")
+    private Integer cib;
+    @Column(name = "car")
+    private Integer car;
+    @Column(name = "cov")
+    private Integer cov;
 
     public Contratos() {
         idmunicipio = new Municipios();
@@ -63,20 +74,24 @@ public class Contratos implements Serializable {
         this.idcontrato = idcontrato;
     }
 
-    public Contratos(Integer idcontrato, String nombre) {
+    public Contratos(Integer idcontrato, String nombre, Integer cib, Integer car, Integer cov) {
         this.idcontrato = idcontrato;
         this.nombre = nombre;
-    }
+        this.cib = cib;
+        this.car = car;
+        this.cov = cov;
+    }   
 
-    public Contratos(Integer idcontrato, String nombre, Tipos idtipo, Municipios idmunicipio) {
+    public Contratos(Integer idcontrato, String nombre, Tipos idtipo, Municipios idmunicipio, Integer cib, Integer car, Integer cov) {
         this.idcontrato = idcontrato;
         this.nombre = nombre;
         this.idtipo = idtipo;
         this.idmunicipio = idmunicipio;
-    }
+        this.cib = cib;
+        this.car = car;
+        this.cov = cov;
+    }     
     
-    
-
     public Integer getIdcontrato() {
         return idcontrato;
     }
@@ -119,6 +134,30 @@ public class Contratos implements Serializable {
         this.idmunicipio = idmunicipio;
     }
 
+    public Integer getCib() {
+        return cib;
+    }
+
+    public void setCib(Integer cib) {
+        this.cib = cib;
+    }
+
+    public Integer getCar() {
+        return car;
+    }
+
+    public void setCar(Integer car) {
+        this.car = car;
+    }
+
+    public Integer getCov() {
+        return cov;
+    }
+
+    public void setCov(Integer cov) {
+        this.cov = cov;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -143,5 +182,5 @@ public class Contratos implements Serializable {
     public String toString() {
         return "com.planit.scr.modelos.Contratos[ idcontrato=" + idcontrato + " ]";
     }
-    
+
 }

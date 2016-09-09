@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Valores.findByV2", query = "SELECT v FROM Valores v WHERE v.v2 = :v2"),
     @NamedQuery(name = "Valores.findByTrimestre", query = "SELECT v FROM Valores v WHERE v.trimestre = :trimestre"),
     @NamedQuery(name = "Valores.findByVt", query = "SELECT v FROM Valores v WHERE v.vt = :vt"),
+    @NamedQuery(name = "Valores.findByCtc", query = "SELECT v FROM Valores v WHERE v.ctc = :ctc"),
     @NamedQuery(name = "Valores.findByCtmd", query = "SELECT v FROM Valores v WHERE v.ctmd = :ctmd"),
     @NamedQuery(name = "Valores.findByCmt", query = "SELECT v FROM Valores v WHERE v.cmt = :cmt"),
     @NamedQuery(name = "Valores.findByCtmc", query = "SELECT v FROM Valores v WHERE v.ctmc = :ctmc"),
@@ -41,6 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Valores.findByCtme", query = "SELECT v FROM Valores v WHERE v.ctme = :ctme"),
     @NamedQuery(name = "Valores.findByAnio", query = "SELECT v FROM Valores v WHERE v.anio = :anio")})
 public class Valores implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,6 +62,8 @@ public class Valores implements Serializable {
     private String trimestre;
     @Column(name = "vt")
     private Double vt;
+    @Column(name = "ctc")
+    private Double ctc;
     @Column(name = "ctmd")
     private Double ctmd;
     @Column(name = "cmt")
@@ -82,7 +86,7 @@ public class Valores implements Serializable {
         this.idvalores = idvalores;
     }
 
-    public Valores(Integer idvalores, Double px, Double pf, Double v1, Double v2, String trimestre, Double vt, Double ctmd, Double cmt, Double ctmc, Double cr, Double cce, Double ctme, String anio) {
+    public Valores(Integer idvalores, Double px, Double pf, Double v1, Double v2, String trimestre, Double vt, Double ctc, Double ctmd, Double cmt, Double ctmc, Double cr, Double cce, Double ctme, String anio) {
         this.idvalores = idvalores;
         this.px = px;
         this.pf = pf;
@@ -90,6 +94,7 @@ public class Valores implements Serializable {
         this.v2 = v2;
         this.trimestre = trimestre;
         this.vt = vt;
+        this.ctc = ctc;
         this.ctmd = ctmd;
         this.cmt = cmt;
         this.ctmc = ctmc;
@@ -99,13 +104,16 @@ public class Valores implements Serializable {
         this.anio = anio;
     }
 
-    public Valores(Double px, Double pf, Double v1, Double v2, String trimestre, Double vt, Double ctmd, Double cmt, Double ctmc, Double cr, Double cce, Double ctme, String anio) {
+    
+
+    public Valores(Double px, Double pf, Double v1, Double v2, String trimestre, Double vt, Double ctc, Double ctmd, Double cmt, Double ctmc, Double cr, Double cce, Double ctme, String anio) {
         this.px = px;
         this.pf = pf;
         this.v1 = v1;
         this.v2 = v2;
         this.trimestre = trimestre;
         this.vt = vt;
+        this.ctc = ctc;
         this.ctmd = ctmd;
         this.cmt = cmt;
         this.ctmc = ctmc;
@@ -114,10 +122,6 @@ public class Valores implements Serializable {
         this.ctme = ctme;
         this.anio = anio;
     }
-    
-    
-    
-    
 
     public Integer getIdvalores() {
         return idvalores;
@@ -231,6 +235,14 @@ public class Valores implements Serializable {
         this.anio = anio;
     }
 
+    public Double getCtc() {
+        return ctc;
+    }
+
+    public void setCtc(Double ctc) {
+        this.ctc = ctc;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -255,5 +267,5 @@ public class Valores implements Serializable {
     public String toString() {
         return "com.planit.scr.modelos.Valores[ idvalores=" + idvalores + " ]";
     }
-    
+
 }

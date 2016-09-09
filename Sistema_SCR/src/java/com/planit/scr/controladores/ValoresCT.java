@@ -5,11 +5,10 @@
  */
 package com.planit.scr.controladores;
 
-import com.planit.scr.conexion.ConexionSQL;
+import com.planit.scr.dao.ValoresDao;
 import com.planit.scr.modelos.Valores;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -25,7 +24,6 @@ public class ValoresCT {
 
     private Valores valor;
     private List<Valores> valores;
-    private final Statement st = ConexionSQL.conexion();
 
     public ValoresCT() {
         valor = new Valores();
@@ -51,8 +49,9 @@ public class ValoresCT {
 
     @PostConstruct
     public void init() {
+        ValoresDao valorDao = new ValoresDao();
         try {
-            valores = consultarValores();
+            valores = valorDao.consultarValores();
         } catch (Exception ex) {
             Logger.getLogger(ContratoCT.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -64,57 +63,10 @@ public class ValoresCT {
     }
 
     public void registrarValores() throws Exception {
-        Calendar C = Calendar.getInstance();
-        double vt = ((valor.getV1() + valor.getV2()));
-
-        try {
-            try {
-                String sql = "INSERT INTO public.valores (px, pf, v1, v2, trimestre, vt, ctmd, cmt, ctmc, cr, cce, ctme, anio)"
-                        + " VALUES(" + valor.getPx() + ","
-                        + " " + valor.getPf() + ","
-                        + " " + valor.getV1() + ","
-                        + " " + valor.getV2() + ","
-                        + " 'Trimestre " + valor.getTrimestre() + "',"
-                        + " " + valor.getVt() + ","
-                        + " " + valor.getCtmd() + ","
-                        + " " + valor.getCmt() + ","
-                        + " " + valor.getCtmc() + ","
-                        + " " + valor.getCr() + ","
-                        + " " + valor.getCce() + ","
-                        + " " + valor.getCtme() + ","
-                        + " '" + valor.getAnio() + "')";
-
-                st.execute(sql);
-
-            } catch (SQLException e) {
-                throw e;
-            }
-
-            valor = new Valores();
-            valores = consultarValores();
-
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    public List<Valores> consultarValores() throws Exception {
-        List<Valores> listaValores = new ArrayList<>();
-        try {
-            try {
-                String sql = "SELECT idvalores, px, pf, v1, v2, trimestre, vt, ctmd, cmt, ctmc, cr, cce, ctme, anio "
-                        + "  FROM public.valores;";
-                ResultSet rs = st.executeQuery(sql);
-                while (rs.next()) {
-                    listaValores.add(new Valores(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getString(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getDouble(10), rs.getDouble(11), rs.getDouble(12), rs.getDouble(13), rs.getString(14)));
-                }
-            } catch (SQLException e) {
-                throw e;
-            }
-        } catch (Exception e) {
-            throw e;
-        }
-        return listaValores;
-    }
+        ValoresDao valorDao = new ValoresDao();
+        valorDao.registrarValores(valor);
+        valor = new Valores();
+        valores = valorDao.consultarValores();
+    }  
 
 }

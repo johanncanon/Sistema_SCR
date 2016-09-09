@@ -6,8 +6,11 @@
 package com.planit.scr.controladores;
 
 import com.planit.scr.conexion.ConexionSQL;
+import com.planit.scr.dao.DepartamentosDao;
+import com.planit.scr.dao.MunicipiosDao;
 import com.planit.scr.modelos.Departamentos;
 import com.planit.scr.modelos.Municipios;
+import com.planit.scr.modelos.Municipios_;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -25,17 +28,19 @@ public class MunicipioCT {
 
     private Municipios municipio;
     private List<Municipios> municipios;
-    private final Statement st = ConexionSQL.conexion();
-
+    private List<Municipios> municipiosFiltrados;
+   
     public MunicipioCT() {
         municipio = new Municipios();
         municipios = new ArrayList<>();
+        municipiosFiltrados = new ArrayList<>();
     }
 
     @PostConstruct
     public void init() {
+        MunicipiosDao municipioDao = new MunicipiosDao();
         try {
-            municipios = consultarMunicipios();
+            municipios = municipioDao.consultarMunicipios();
         } catch (Exception ex) {
             Logger.getLogger(MunicipioCT.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -57,61 +62,29 @@ public class MunicipioCT {
         this.municipios = municipios;
     }
 
+    public List<Municipios> getMunicipiosFiltrados() {
+        return municipiosFiltrados;
+    }
+
+    public void setMunicipiosFiltrados(List<Municipios> municipiosFiltrados) {
+        this.municipiosFiltrados = municipiosFiltrados;
+    }
+
     //Metodos 
     public void registrar() throws Exception {
-        DepartamentoCT dct = new DepartamentoCT();
-        municipio.setIddepartamento(dct.consultarDepartamento(municipio.getIddepartamento()));
-        try {
-            try {
-                String sql = "INSERT INTO public.municipios (nombre, iddepartamento)"
-                        + " VALUES ('" + municipio.getNombre() + "'," + municipio.getIddepartamento().getIddepartamento() + ")";
-                st.execute(sql);
-            } catch (SQLException e) {
-                throw e;
-            }
-        } catch (Exception e) {
-            throw e;
-        }
+        MunicipiosDao municipioDao = new MunicipiosDao();
+        municipioDao.registrarMunicipio(municipio);
         municipio = new Municipios();
-        municipios = consultarMunicipios();
+        municipios = municipioDao.consultarMunicipios();
     }
 
-    public Municipios consultarMunicipio(Municipios m) throws Exception {
-        Municipios nuevomunicipio = new Municipios();
-        DepartamentoCT dct = new DepartamentoCT();
-        try {
-            try {
-                String sql = "SELECT idmunicipio, nombre, iddepartamento FROM public.municipios "
-                        + "WHERE idmunicipio = " + m.getIdmunicipio() + " or nombre = '" + m.getNombre() + "'";
-                ResultSet rs = st.executeQuery(sql);
-                while (rs.next()) {
-                    nuevomunicipio = new Municipios(rs.getInt(1), rs.getString(2), dct.consultarDepartamento(new Departamentos(rs.getInt(3))));
-                }
-            } catch (SQLException e) {
-                throw e;
-            }
-        } catch (Exception e) {
-            throw e;
+    public void cambioDepartamentos() throws Exception {
+        MunicipiosDao municipioDao = new MunicipiosDao();
+        if (municipio.getIddepartamento() != null && !municipio.getIddepartamento().getNombre().equals("")) {
+            municipiosFiltrados = municipioDao.consultarMunicipiosSegunDepartamento(municipio.getIddepartamento());
+        } else {
+            municipiosFiltrados = new ArrayList<>();
         }
-        return nuevomunicipio;
     }
 
-    public List<Municipios> consultarMunicipios() throws Exception {
-        List<Municipios> listamunicipios = new ArrayList<>();
-        DepartamentoCT dct = new DepartamentoCT();
-        try {
-            try {
-                String sql = "SELECT idmunicipio, nombre, iddepartamento FROM public.municipios";
-                ResultSet rs = st.executeQuery(sql);
-                while (rs.next()) {
-                    listamunicipios.add(new Municipios(rs.getInt(1), rs.getString(2), dct.consultarDepartamento(new Departamentos(rs.getInt(3)))));
-                }
-            } catch (SQLException e) {
-                throw e;
-            }
-        } catch (Exception e) {
-            throw e;
-        }
-        return listamunicipios;
-    }
 }

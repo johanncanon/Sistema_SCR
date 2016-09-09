@@ -6,6 +6,7 @@
 package com.planit.scr.controladores;
 
 import com.planit.scr.conexion.ConexionSQL;
+import com.planit.scr.dao.ContratosDao;
 import com.planit.scr.modelos.Contratos;
 import com.planit.scr.modelos.Municipios;
 import com.planit.scr.modelos.Tipos;
@@ -26,7 +27,6 @@ public class ContratoCT {
 
     private Contratos contrato;
     private List<Contratos> contratos;
-    private final Statement st = ConexionSQL.conexion();
 
     public ContratoCT() {
         contrato = new Contratos();
@@ -35,8 +35,9 @@ public class ContratoCT {
 
     @PostConstruct
     public void init() {
+        ContratosDao contratosDao = new ContratosDao();
         try {
-            contratos = consultarContratos();
+            contratos = contratosDao.consultarContratos();
         } catch (Exception ex) {
             Logger.getLogger(ContratoCT.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -61,86 +62,9 @@ public class ContratoCT {
 
     //Metodos 
     public void registrar() throws Exception {
-        TipoCT tct = new TipoCT();
-        MunicipioCT mct = new MunicipioCT();
-
-        contrato.setIdtipo(tct.consultarTipo(contrato.getIdtipo()));
-        contrato.setIdmunicipio(mct.consultarMunicipio(contrato.getIdmunicipio()));
-        try {
-            try {
-                String sql = "INSERT INTO public.contratos(nombre, idmunicipio, idtipo)"
-                        + " VALUES('" + contrato.getNombre() + "', " + contrato.getIdmunicipio().getIdmunicipio() + ", " + contrato.getIdtipo().getIdtipo() + ")";
-                st.execute(sql);
-            } catch (SQLException e) {
-                throw e;
-            }
-        } catch (Exception e) {
-            throw e;
-        }
+        ContratosDao contratoDao = new ContratosDao();
+        contratoDao.registrarContrato(contrato);
         contrato = new Contratos();
-        contratos = consultarContratos();
+        contratos = contratoDao.consultarContratos();
     }
-
-    public Contratos consultarContrato(Contratos c) throws Exception {
-        Contratos nuevocontrato = new Contratos();
-        TipoCT tct = new TipoCT();
-        MunicipioCT mct = new MunicipioCT();
-        try {
-            try {
-                String sql = "SELECT idcontrato, nombre, idmunicipio, idtipo FROM public.contratos"
-                        + " WHERE idcontrato = " + c.getIdcontrato() + " or nombre = '" + c.getNombre() + "' ";
-                ResultSet rs = st.executeQuery(sql);
-                while (rs.next()) {
-                    nuevocontrato = new Contratos(rs.getInt(1), rs.getString(2), tct.consultarTipo(new Tipos(rs.getInt(4))), mct.consultarMunicipio(new Municipios(rs.getInt(3))));
-                }
-            } catch (SQLException e) {
-                throw e;
-            }
-        } catch (Exception e) {
-            throw e;
-        }
-        return nuevocontrato;
-    }
-
-    public List<Contratos> consultarContratos() throws Exception {
-        List<Contratos> listacontratos = new ArrayList<>();
-        TipoCT tct = new TipoCT();
-        MunicipioCT mct = new MunicipioCT();
-        try {
-            try {
-                String sql = "SELECT idcontrato, nombre, idmunicipio, idtipo FROM public.contratos";
-                ResultSet rs = st.executeQuery(sql);
-                while (rs.next()) {
-                    listacontratos.add(new Contratos(rs.getInt(1), rs.getString(2), tct.consultarTipo(new Tipos(rs.getInt(4))), mct.consultarMunicipio(new Municipios(rs.getInt(3)))));
-                }
-            } catch (SQLException e) {
-                throw e;
-            }
-        } catch (Exception e) {
-            throw e;
-        }
-        return listacontratos;
-    }
-
-    public List<Contratos> consultarContratosSegunMunicipio(Municipios municipio) throws Exception {
-        List<Contratos> listacontratos = new ArrayList<>();
-        TipoCT tct = new TipoCT();
-        MunicipioCT mct = new MunicipioCT();
-        try {
-            try {
-                String sql = "SELECT idcontrato, nombre, idmunicipio, idtipo FROM public.contratos "
-                        + "WHERE idmunicipio = " + municipio.getIdmunicipio() + "";
-                ResultSet rs = st.executeQuery(sql);
-                while (rs.next()) {
-                    listacontratos.add(new Contratos(rs.getInt(1), rs.getString(2), tct.consultarTipo(new Tipos(rs.getInt(4))), mct.consultarMunicipio(new Municipios(rs.getInt(3)))));
-                }
-            } catch (SQLException e) {
-                throw e;
-            }
-        } catch (Exception e) {
-            throw e;
-        }
-        return listacontratos;
-    }
-
 }

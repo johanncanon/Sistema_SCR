@@ -5,10 +5,8 @@
  */
 package com.planit.scr.controladores;
 
-import com.planit.scr.conexion.ConexionSQL;
+import com.planit.scr.dao.ProduccionDao;
 import com.planit.scr.modelos.Produccion;
-import java.sql.SQLException;
-import java.sql.Statement;
 import javax.annotation.PostConstruct;
 
 /**
@@ -18,7 +16,6 @@ import javax.annotation.PostConstruct;
 public class ProduccionCT {
 
     private Produccion produccion;
-    private final Statement st = ConexionSQL.conexion();
 
     public ProduccionCT() {
         produccion = new Produccion();
@@ -39,16 +36,7 @@ public class ProduccionCT {
 
     //Metodos
     public void registrar(Produccion p) throws Exception {
-        try {
-            try {
-                String sql = "INSERT INTO public.produccion (idcampo, fecha, produccion)"
-                        + " VALUES('" + p.getIdcampo().getIdcampo() + "', '" + p.getFecha() + "', '" + p.getProduccion() + "')";
-                st.execute(sql);
-            } catch (SQLException e) {
-                throw e;
-            }
-        } catch (Exception e) {
-            throw e;
-        }
+        ProduccionDao produccionDao = new ProduccionDao();
+        produccionDao.registrarProduccion(p);
     }
 }
