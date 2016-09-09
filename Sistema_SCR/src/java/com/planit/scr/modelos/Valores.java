@@ -59,7 +59,7 @@ public class Valores implements Serializable {
     @Column(name = "v2")
     private Double v2;
     @Column(name = "trimestre")
-    private String trimestre;
+    private Integer trimestre;
     @Column(name = "vt")
     private Double vt;
     @Column(name = "ctc")
@@ -86,7 +86,7 @@ public class Valores implements Serializable {
         this.idvalores = idvalores;
     }
 
-    public Valores(Integer idvalores, Double px, Double pf, Double v1, Double v2, String trimestre, Double vt, Double ctc, Double ctmd, Double cmt, Double ctmc, Double cr, Double cce, Double ctme, String anio) {
+    public Valores(Integer idvalores, Double px, Double pf, Double v1, Double v2, Integer trimestre, Double vt, Double ctc, Double ctmd, Double cmt, Double ctmc, Double cr, Double cce, Double ctme, String anio) {
         this.idvalores = idvalores;
         this.px = px;
         this.pf = pf;
@@ -106,7 +106,7 @@ public class Valores implements Serializable {
 
     
 
-    public Valores(Double px, Double pf, Double v1, Double v2, String trimestre, Double vt, Double ctc, Double ctmd, Double cmt, Double ctmc, Double cr, Double cce, Double ctme, String anio) {
+    public Valores(Double px, Double pf, Double v1, Double v2, Integer trimestre, Double vt, Double ctc, Double ctmd, Double cmt, Double ctmc, Double cr, Double cce, Double ctme, String anio) {
         this.px = px;
         this.pf = pf;
         this.v1 = v1;
@@ -163,13 +163,13 @@ public class Valores implements Serializable {
         this.v2 = v2;
     }
 
-    public String getTrimestre() {
+    public Integer getTrimestre() {
         return trimestre;
     }
 
-    public void setTrimestre(String trimestre) {
+    public void setTrimestre(Integer trimestre) {
         this.trimestre = trimestre;
-    }
+    }   
 
     public Double getVt() {
         return vt;

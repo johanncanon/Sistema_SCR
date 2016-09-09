@@ -37,7 +37,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
     @NamedQuery(name = "Contratos.findByNombre", query = "SELECT c FROM Contratos c WHERE c.nombre = :nombre"),
     @NamedQuery(name = "Contratos.findByCib", query = "SELECT c FROM Contratos c WHERE c.cib = :cib"),
     @NamedQuery(name = "Contratos.findByCar", query = "SELECT c FROM Contratos c WHERE c.car = :car"),
-    @NamedQuery(name = "Contratos.findByCov", query = "SELECT c FROM Contratos c WHERE c.cov = :cov")})
+    @NamedQuery(name = "Contratos.findByCov", query = "SELECT c FROM Contratos c WHERE c.cov = :cov"),
+    @NamedQuery(name = "Contratos.findByPorcentaje", query = "SELECT c FROM Contratos c WHERE c.porcentaje = :porcentaje")})
 
 public class Contratos implements Serializable {
 
@@ -64,6 +65,8 @@ public class Contratos implements Serializable {
     private Integer car;
     @Column(name = "cov")
     private Integer cov;
+    @Column(name = "porcentaje")
+    private Integer porcentaje;
 
     public Contratos() {
         idmunicipio = new Municipios();
@@ -74,15 +77,16 @@ public class Contratos implements Serializable {
         this.idcontrato = idcontrato;
     }
 
-    public Contratos(Integer idcontrato, String nombre, Integer cib, Integer car, Integer cov) {
+    public Contratos(Integer idcontrato, String nombre, Integer cib, Integer car, Integer cov, Integer porcentaje) {
         this.idcontrato = idcontrato;
         this.nombre = nombre;
         this.cib = cib;
         this.car = car;
         this.cov = cov;
-    }   
+        this.porcentaje = porcentaje;
+    }
 
-    public Contratos(Integer idcontrato, String nombre, Tipos idtipo, Municipios idmunicipio, Integer cib, Integer car, Integer cov) {
+    public Contratos(Integer idcontrato, String nombre, Tipos idtipo, Municipios idmunicipio, Integer cib, Integer car, Integer cov, Integer porcentaje) {
         this.idcontrato = idcontrato;
         this.nombre = nombre;
         this.idtipo = idtipo;
@@ -90,8 +94,9 @@ public class Contratos implements Serializable {
         this.cib = cib;
         this.car = car;
         this.cov = cov;
-    }     
-    
+        this.porcentaje = porcentaje;
+    }
+
     public Integer getIdcontrato() {
         return idcontrato;
     }
@@ -156,6 +161,14 @@ public class Contratos implements Serializable {
 
     public void setCov(Integer cov) {
         this.cov = cov;
+    }
+
+    public Integer getPorcentaje() {
+        return porcentaje;
+    }
+
+    public void setPorcentaje(Integer porcentaje) {
+        this.porcentaje = porcentaje;
     }
 
     @Override

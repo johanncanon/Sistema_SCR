@@ -31,7 +31,7 @@ public class ValoresDao {
                         + " " + valor.getPf() + ","
                         + " " + valor.getV1() + ","
                         + " " + valor.getV2() + ","
-                        + " 'Trimestre " + valor.getTrimestre() + "',"
+                        + " " + valor.getTrimestre() + ","
                         + " " + valor.getVt() + ","
                         + " " + valor.getCtc() + ","
                         + " " + valor.getCtmd() + ","
@@ -62,7 +62,7 @@ public class ValoresDao {
                 String sql = "SELECT idvalores, px, pf, v1, v2, trimestre, vt, ctc, ctmd, cmt, ctmc, cr, cce, ctme, anio FROM public.valores";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listaValores.add(new Valores(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getString(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getDouble(10), rs.getDouble(11), rs.getDouble(12), rs.getDouble(13), rs.getDouble(14), rs.getString(15)));
+                    listaValores.add(new Valores(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getInt(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getDouble(10), rs.getDouble(11), rs.getDouble(12), rs.getDouble(13), rs.getDouble(14), rs.getString(15)));
                 }
             } catch (SQLException e) {
                 throw e;

@@ -69,9 +69,9 @@ public class Pbl implements Serializable {
     private Double refinacion;
     @Column(name = "exportacion")
     private Double exportacion;
-    @JoinColumn(name = "idcampo", referencedColumnName = "idcampo")
+    @JoinColumn(name = "idcontrato", referencedColumnName = "idcontrato")
     @ManyToOne(optional = false)
-    private Campos idcampo;
+    private Contratos idcontrato;
 
     public Pbl() {
     }
@@ -89,7 +89,7 @@ public class Pbl implements Serializable {
         this.trimestre = trimestre;
     }
 
-    public Pbl(Integer idpbl, double ctc, double ct1, double cce, double ct2, int trimestre, Double prc, String anio, Double refinacion, Double exportacion, Campos idcampo) {
+    public Pbl(Integer idpbl, double ctc, double ct1, double cce, double ct2, int trimestre, Double prc, String anio, Double refinacion, Double exportacion, Contratos idcontrato) {
         this.idpbl = idpbl;
         this.ctc = ctc;
         this.ct1 = ct1;
@@ -100,10 +100,10 @@ public class Pbl implements Serializable {
         this.anio = anio;
         this.refinacion = refinacion;
         this.exportacion = exportacion;
-        this.idcampo = idcampo;
+        this.idcontrato = idcontrato;
     }
 
-    public Pbl(double ctc, double ct1, double cce, double ct2, int trimestre, Double prc, String anio, Double refinacion, Double exportacion, Campos idcampo) {
+    public Pbl(double ctc, double ct1, double cce, double ct2, int trimestre, Double prc, String anio, Double refinacion, Double exportacion, Contratos idcontrato) {
         this.ctc = ctc;
         this.ct1 = ct1;
         this.cce = cce;
@@ -113,7 +113,7 @@ public class Pbl implements Serializable {
         this.anio = anio;
         this.refinacion = refinacion;
         this.exportacion = exportacion;
-        this.idcampo = idcampo;
+        this.idcontrato = idcontrato;
     }
     
     
@@ -198,13 +198,15 @@ public class Pbl implements Serializable {
         this.exportacion = exportacion;
     }
 
-    public Campos getIdcampo() {
-        return idcampo;
+    public Contratos getIdcontrato() {
+        return idcontrato;
     }
 
-    public void setIdcampo(Campos idcampo) {
-        this.idcampo = idcampo;
+    public void setIdcontrato(Contratos idcontrato) {
+        this.idcontrato = idcontrato;
     }
+
+   
 
     @Override
     public int hashCode() {
