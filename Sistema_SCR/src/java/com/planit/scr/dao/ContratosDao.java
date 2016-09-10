@@ -33,8 +33,14 @@ public class ContratosDao {
         contrato.setIdmunicipio(municipioDao.consultarMunicipio(contrato.getIdmunicipio()));
         try {
             try {
-                String sql = "INSERT INTO public.contratos(nombre, idmunicipio, idtipo)"
-                        + " VALUES('" + contrato.getNombre() + "', " + contrato.getIdmunicipio().getIdmunicipio() + ", " + contrato.getIdtipo().getIdtipo() + ")";
+                String sql = "INSERT INTO public.contratos(nombre, idmunicipio, idtipo, cib, car, cov, porcentaje)"
+                        + " VALUES('" + contrato.getNombre() + "',"
+                        + " " + contrato.getIdmunicipio().getIdmunicipio() + ","
+                        + " " + contrato.getIdtipo().getIdtipo() + ","
+                        + " " + contrato.getCib() + ","
+                        + " " + contrato.getCar() + ","
+                        + " " + contrato.getCov() + ","
+                        + " " + contrato.getPorcentaje() + ")";
                 st.execute(sql);
             } catch (SQLException e) {
                 throw e;
@@ -57,7 +63,7 @@ public class ContratosDao {
                         + " WHERE idcontrato = " + c.getIdcontrato() + " or nombre = '" + c.getNombre() + "' ";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    nuevocontrato = new Contratos(rs.getInt(1), rs.getString(2), tipoDao.consultarTipo(new Tipos(rs.getInt(4))), municipioDao.consultarMunicipio(new Municipios(rs.getInt(3))), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7));
+                    nuevocontrato = new Contratos(rs.getInt(1), rs.getString(2), tipoDao.consultarTipo(new Tipos(rs.getInt(4))), municipioDao.consultarMunicipio(new Municipios(rs.getInt(3))), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8));
                 }
             } catch (SQLException e) {
                 throw e;
@@ -80,7 +86,7 @@ public class ContratosDao {
                 String sql = "SELECT idcontrato, nombre, idmunicipio, idtipo, cib, car, cov, porcentaje FROM public.contratos";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listacontratos.add(new Contratos(rs.getInt(1), rs.getString(2), tipoDao.consultarTipo(new Tipos(rs.getInt(4))), municipioDao.consultarMunicipio(new Municipios(rs.getInt(3))), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7)));
+                    listacontratos.add(new Contratos(rs.getInt(1), rs.getString(2), tipoDao.consultarTipo(new Tipos(rs.getInt(4))), municipioDao.consultarMunicipio(new Municipios(rs.getInt(3))), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
                 }
             } catch (SQLException e) {
                 throw e;
@@ -102,14 +108,14 @@ public class ContratosDao {
                         + "WHERE idmunicipio = " + municipio.getIdmunicipio() + "";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listacontratos.add(new Contratos(rs.getInt(1), rs.getString(2), tipoDao.consultarTipo(new Tipos(rs.getInt(4))), municipioDao.consultarMunicipio(new Municipios(rs.getInt(3))), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7)));
+                    listacontratos.add(new Contratos(rs.getInt(1), rs.getString(2), tipoDao.consultarTipo(new Tipos(rs.getInt(4))), municipioDao.consultarMunicipio(new Municipios(rs.getInt(3))), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
                 }
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        }finally {
+        } finally {
             ConexionSQL.CerrarConexion();
         }
         return listacontratos;
