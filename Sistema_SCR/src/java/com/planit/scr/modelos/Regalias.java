@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author CristianCamilo
+ * @author VaioDevelopment
  */
 @Entity
 @Table(name = "regalias")
@@ -39,7 +39,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Regalias.findByDepnoproductor", query = "SELECT r FROM Regalias r WHERE r.depnoproductor = :depnoproductor"),
     @NamedQuery(name = "Regalias.findByPuertos", query = "SELECT r FROM Regalias r WHERE r.puertos = :puertos"),
     @NamedQuery(name = "Regalias.findByAnio", query = "SELECT r FROM Regalias r WHERE r.anio = :anio"),
-    @NamedQuery(name = "Regalias.findByMes", query = "SELECT r FROM Regalias r WHERE r.mes = :mes")})
+    @NamedQuery(name = "Regalias.findByMes", query = "SELECT r FROM Regalias r WHERE r.mes = :mes"),
+    @NamedQuery(name = "Regalias.findByPrecio", query = "SELECT r FROM Regalias r WHERE r.precio = :precio"),
+    @NamedQuery(name = "Regalias.findByRegalias", query = "SELECT r FROM Regalias r WHERE r.regalias = :regalias")})
 public class Regalias implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -78,15 +80,20 @@ public class Regalias implements Serializable {
     private Integer anio;
     @Column(name = "mes")
     private Integer mes;
-    @JoinColumn(name = "idmunicipio", referencedColumnName = "idmunicipio")
-    @ManyToOne(optional = false)
-    private Municipios idmunicipio;
-    @JoinColumn(name = "iddepartamento", referencedColumnName = "iddepartamento")
-    @ManyToOne(optional = false)
-    private Departamentos iddepartamento;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "precio")
+    private Double precio;
+    @Column(name = "regalias")
+    private Double regalias;
     @JoinColumn(name = "idcampo", referencedColumnName = "idcampo")
     @ManyToOne(optional = false)
     private Campos idcampo;
+    @JoinColumn(name = "iddepartamento", referencedColumnName = "iddepartamento")
+    @ManyToOne(optional = false)
+    private Departamentos iddepartamento;
+    @JoinColumn(name = "idmunicipio", referencedColumnName = "idmunicipio")
+    @ManyToOne(optional = false)
+    private Municipios idmunicipio;
 
     public Regalias() {
     }
@@ -204,12 +211,28 @@ public class Regalias implements Serializable {
         this.mes = mes;
     }
 
-    public Municipios getIdmunicipio() {
-        return idmunicipio;
+    public Double getPrecio() {
+        return precio;
     }
 
-    public void setIdmunicipio(Municipios idmunicipio) {
-        this.idmunicipio = idmunicipio;
+    public void setPrecio(Double precio) {
+        this.precio = precio;
+    }
+
+    public Double getRegalias() {
+        return regalias;
+    }
+
+    public void setRegalias(Double regalias) {
+        this.regalias = regalias;
+    }
+
+    public Campos getIdcampo() {
+        return idcampo;
+    }
+
+    public void setIdcampo(Campos idcampo) {
+        this.idcampo = idcampo;
     }
 
     public Departamentos getIddepartamento() {
@@ -220,12 +243,12 @@ public class Regalias implements Serializable {
         this.iddepartamento = iddepartamento;
     }
 
-    public Campos getIdcampo() {
-        return idcampo;
+    public Municipios getIdmunicipio() {
+        return idmunicipio;
     }
 
-    public void setIdcampo(Campos idcampo) {
-        this.idcampo = idcampo;
+    public void setIdmunicipio(Municipios idmunicipio) {
+        this.idmunicipio = idmunicipio;
     }
 
     @Override
