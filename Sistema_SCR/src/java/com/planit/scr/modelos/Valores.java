@@ -77,7 +77,7 @@ public class Valores implements Serializable {
     @Column(name = "ctme")
     private Double ctme;
     @Column(name = "anio")
-    private String anio;
+    private Integer anio;
 
     public Valores() {
     }
@@ -86,7 +86,7 @@ public class Valores implements Serializable {
         this.idvalores = idvalores;
     }
 
-    public Valores(Integer idvalores, Double px, Double pf, Double v1, Double v2, Integer trimestre, Double vt, Double ctc, Double ctmd, Double cmt, Double ctmc, Double cr, Double cce, Double ctme, String anio) {
+    public Valores(Integer idvalores, Double px, Double pf, Double v1, Double v2, Integer trimestre, Double vt, Double ctc, Double ctmd, Double cmt, Double ctmc, Double cr, Double cce, Double ctme, Integer anio) {
         this.idvalores = idvalores;
         this.px = px;
         this.pf = pf;
@@ -106,7 +106,7 @@ public class Valores implements Serializable {
 
     
 
-    public Valores(Double px, Double pf, Double v1, Double v2, Integer trimestre, Double vt, Double ctc, Double ctmd, Double cmt, Double ctmc, Double cr, Double cce, Double ctme, String anio) {
+    public Valores(Double px, Double pf, Double v1, Double v2, Integer trimestre, Double vt, Double ctc, Double ctmd, Double cmt, Double ctmc, Double cr, Double cce, Double ctme, Integer anio) {
         this.px = px;
         this.pf = pf;
         this.v1 = v1;
@@ -227,13 +227,14 @@ public class Valores implements Serializable {
         this.ctme = ctme;
     }
 
-    public String getAnio() {
+    public Integer getAnio() {
         return anio;
     }
 
-    public void setAnio(String anio) {
+    public void setAnio(Integer anio) {
         this.anio = anio;
     }
+
 
     public Double getCtc() {
         return ctc;

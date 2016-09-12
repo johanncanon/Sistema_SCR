@@ -51,7 +51,7 @@ public class CamposDao {
                         + " WHERE idcampo = " + campo.getIdcampo() + " or nombre= '" + campo.getNombre() + "'";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    nuevocampo = new Campos(rs.getInt(1), rs.getString(2), contratosDao.consultarContrato(new Contratos(rs.getInt(6))));
+                    nuevocampo = new Campos(rs.getInt(1), rs.getString(2), contratosDao.consultarContrato(new Contratos(rs.getInt(3))));
                 }
             } catch (SQLException e) {
                 throw e;
@@ -73,7 +73,7 @@ public class CamposDao {
                 String sql = "SELECT idcampo, nombre,idcontrato FROM public.campos";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listacampos.add(new Campos(rs.getInt(1), rs.getString(2), contratosDao.consultarContrato(new Contratos(rs.getInt(6)))));
+                    listacampos.add(new Campos(rs.getInt(1), rs.getString(2), contratosDao.consultarContrato(new Contratos(rs.getInt(3)))));
                 }
             } catch (SQLException e) {
                 throw e;
@@ -90,6 +90,8 @@ public class CamposDao {
         Statement st = ConexionSQL.conexion();
         List<Campos> listacampos = new ArrayList<>();
         ContratosDao contratosDao = new ContratosDao();
+        MunicipiosDao municipioDao = new MunicipiosDao();
+        municipio = municipioDao.consultarMunicipio(municipio);
         try {
             try {
                 String sql = "SELECT campos.idcampo, campos.nombre, campos.idcontrato FROM public.campos as campos, public.contratos as contratos, public.municipios as municipios"

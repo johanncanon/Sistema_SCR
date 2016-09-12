@@ -38,9 +38,13 @@ import org.codehaus.jackson.annotate.JsonIgnore;
     @NamedQuery(name = "Contratos.findByCib", query = "SELECT c FROM Contratos c WHERE c.cib = :cib"),
     @NamedQuery(name = "Contratos.findByCar", query = "SELECT c FROM Contratos c WHERE c.car = :car"),
     @NamedQuery(name = "Contratos.findByCov", query = "SELECT c FROM Contratos c WHERE c.cov = :cov"),
+    @NamedQuery(name = "Contratos.findByMedio", query = "SELECT c FROM Contratos c WHERE c.medio = :medio"),
     @NamedQuery(name = "Contratos.findByPorcentaje", query = "SELECT c FROM Contratos c WHERE c.porcentaje = :porcentaje")})
 
 public class Contratos implements Serializable {
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "medio")
+    private Double medio;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -77,22 +81,24 @@ public class Contratos implements Serializable {
         this.idcontrato = idcontrato;
     }
 
-    public Contratos(Integer idcontrato, String nombre, Integer cib, Integer car, Integer cov, Integer porcentaje) {
+    public Contratos(Integer idcontrato, String nombre, Integer cib, Integer car, double medio, Integer cov, Integer porcentaje) {
         this.idcontrato = idcontrato;
         this.nombre = nombre;
         this.cib = cib;
         this.car = car;
+        this.medio = medio;
         this.cov = cov;
         this.porcentaje = porcentaje;
     }
 
-    public Contratos(Integer idcontrato, String nombre, Tipos idtipo, Municipios idmunicipio, Integer cib, Integer car, Integer cov, Integer porcentaje) {
+    public Contratos(Integer idcontrato, String nombre, Tipos idtipo, Municipios idmunicipio, Integer cib, Integer car, double medio, Integer cov, Integer porcentaje) {
         this.idcontrato = idcontrato;
         this.nombre = nombre;
         this.idtipo = idtipo;
         this.idmunicipio = idmunicipio;
         this.cib = cib;
         this.car = car;
+        this.medio = medio;
         this.cov = cov;
         this.porcentaje = porcentaje;
     }
@@ -171,6 +177,9 @@ public class Contratos implements Serializable {
         this.porcentaje = porcentaje;
     }
 
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -194,6 +203,14 @@ public class Contratos implements Serializable {
     @Override
     public String toString() {
         return "com.planit.scr.modelos.Contratos[ idcontrato=" + idcontrato + " ]";
+    }
+
+    public Double getMedio() {
+        return medio;
+    }
+
+    public void setMedio(Double medio) {
+        this.medio = medio;
     }
 
 }

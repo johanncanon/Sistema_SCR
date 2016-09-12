@@ -40,6 +40,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
     @NamedQuery(name = "Campos.findByCov", query = "SELECT c FROM Campos c WHERE c.cov = :cov")})
 public class Campos implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idcampo")
+    private Collection<Regalias> regaliasCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idcampo")
     private Collection<Pbl> pblCollection;
     private static final long serialVersionUID = 1L;
     @Id
@@ -179,6 +181,16 @@ public class Campos implements Serializable {
 
     public void setPblCollection(Collection<Pbl> pblCollection) {
         this.pblCollection = pblCollection;
+    }
+
+    @XmlTransient
+    @JsonIgnore
+    public Collection<Regalias> getRegaliasCollection() {
+        return regaliasCollection;
+    }
+
+    public void setRegaliasCollection(Collection<Regalias> regaliasCollection) {
+        this.regaliasCollection = regaliasCollection;
     }
     
 }

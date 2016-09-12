@@ -5,6 +5,7 @@
  */
 package com.planit.scr.controladores;
 
+import com.planit.scr.dao.PblDao;
 import com.planit.scr.dao.ValoresDao;
 import com.planit.scr.modelos.Valores;
 import java.sql.ResultSet;
@@ -64,7 +65,10 @@ public class ValoresCT {
 
     public void registrarValores() throws Exception {
         ValoresDao valorDao = new ValoresDao();
+        valor.setVt(valor.getV1() + valor.getV2());
         valorDao.registrarValores(valor);
+        PblDao pblDao = new PblDao();
+        pblDao.registrarPbl(valor);
         valor = new Valores();
         valores = valorDao.consultarValores();
     }  

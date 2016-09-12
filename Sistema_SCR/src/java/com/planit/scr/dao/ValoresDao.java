@@ -62,7 +62,7 @@ public class ValoresDao {
                 String sql = "SELECT idvalores, px, pf, v1, v2, trimestre, vt, ctc, ctmd, cmt, ctmc, cr, cce, ctme, anio FROM public.valores";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listaValores.add(new Valores(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getInt(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getDouble(10), rs.getDouble(11), rs.getDouble(12), rs.getDouble(13), rs.getDouble(14), rs.getString(15)));
+                    listaValores.add(new Valores(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getInt(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getDouble(10), rs.getDouble(11), rs.getDouble(12), rs.getDouble(13), rs.getDouble(14), rs.getInt(15)));
                 }
             } catch (SQLException e) {
                 throw e;
@@ -73,5 +73,27 @@ public class ValoresDao {
             ConexionSQL.CerrarConexion();
         }
         return listaValores;
+    }
+
+    public Valores consultarValores(int trimestre, int anio) throws Exception {
+        Statement st = ConexionSQL.conexion();
+        Valores valores = new Valores();
+        try {
+            try {
+                String sql = "SELECT idvalores, px, pf, v1, v2, trimestre, vt, ctc, ctmd, cmt, ctmc, cr, cce, ctme, anio FROM public.valores"
+                        + " WHERE anio = " + anio + " AND trimestre = " + trimestre + "";
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()) {
+                    valores = new Valores(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getInt(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getDouble(10), rs.getDouble(11), rs.getDouble(12), rs.getDouble(13), rs.getDouble(14), rs.getInt(15));
+                }
+            } catch (SQLException e) {
+                throw e;
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            ConexionSQL.CerrarConexion();
+        }
+        return valores;
     }
 }

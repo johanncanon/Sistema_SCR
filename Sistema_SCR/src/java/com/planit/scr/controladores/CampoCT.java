@@ -5,14 +5,8 @@
  */
 package com.planit.scr.controladores;
 
-import com.planit.scr.conexion.ConexionSQL;
 import com.planit.scr.dao.CamposDao;
 import com.planit.scr.modelos.Campos;
-import com.planit.scr.modelos.Contratos;
-import com.planit.scr.modelos.Municipios;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -67,5 +61,8 @@ public class CampoCT {
         campo = new Campos();
         campos = camposDao.consultarCampos();
     }
+    
+   
+   
 
 }

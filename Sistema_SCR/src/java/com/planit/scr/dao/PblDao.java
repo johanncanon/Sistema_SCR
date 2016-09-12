@@ -6,8 +6,10 @@
 package com.planit.scr.dao;
 
 import com.planit.scr.conexion.ConexionSQL;
-import com.planit.scr.modelos.Campos;
+import com.planit.scr.modelos.Contratos;
 import com.planit.scr.modelos.Pbl;
+import com.planit.scr.modelos.Valores;
+import com.planit.scr.modelos.Municipios;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,23 +22,40 @@ import java.util.List;
  */
 public class PblDao {
 
-    
-    public void registrarPbl(Pbl pbl) throws Exception {
+    public void registrarPbl(Valores valores) throws Exception {
         Statement st = ConexionSQL.conexion();
+        ContratosDao contratosDao = new ContratosDao();
+        List<Contratos> contratos = contratosDao.consultarContratos();
+        Pbl pbl = new Pbl();
         try {
             try {
-                String sql = "";
-//                String sql = "INSERT INTO public.pbl (v1, v2, vt, pf, px, ctc, cmt, ctmc, ctmd, cr, ct1, cce, ctme, ct2, idcampo, trimestre, prc)"
-//                        + " VALUES(" + pbl.getV1() + "," + pbl.getV2() + ","
-//                        + " " + pbl.getVt() + ", " + pbl.getPf() + ","
-//                        + " " + pbl.getPx() + ", " + pbl.getCtc() + ","
-//                        + " " + pbl.getCmt() + ", " + pbl.getCtmc() + ","
-//                        + " " + pbl.getCtmd() + ", " + pbl.getCr() + ","
-//                        + " " + pbl.getCt1() + ", " + pbl.getCce() + ","
-//                        + " " + pbl.getCtme() + ", " + pbl.getCt2() + ","
-//                        + " " + pbl.getIdcampo().getIdcampo() + ", " + pbl.getTrimestre() + ","
-//                        + " " + pbl.getPrc() + ")";
-                st.execute(sql);
+                for (int i = 0; i < contratos.size(); i++) {
+                    pbl = new Pbl();
+                    pbl.setCtc((valores.getCtc() * contratos.get(i).getMedio()));
+                    pbl.setCt1((pbl.getCtc() + valores.getCtmc() + valores.getCtmd() + valores.getCmt() + valores.getCr()));
+                    pbl.setCce((valores.getCce() * contratos.get(i).getCov()));
+                    pbl.setCt2((pbl.getCce() + valores.getCtme()));
+                    pbl.setRefinacion(((valores.getPf() - pbl.getCt1()) * (valores.getV1() / valores.getVt())));
+                    pbl.setExportacion(((valores.getPx() - pbl.getCt2()) * (valores.getV2() / valores.getVt())));
+                    pbl.setPrc(pbl.getRefinacion() + pbl.getExportacion());
+                    pbl.setIdcontrato(contratos.get(i));
+                    pbl.setAnio(valores.getAnio());
+                    pbl.setTrimestre(valores.getTrimestre());
+
+                    String sql = "INSERT INTO public.pbl (ctc, ct1, cce, ct2, trimestre, prc, anio, refinacion, exportacion, idcontrato)"
+                            + " VALUES(" + pbl.getCtc() + ","
+                            + "" + pbl.getCt1() + ","
+                            + " " + pbl.getCce() + ","
+                            + " " + pbl.getCt2() + ","
+                            + " " + pbl.getTrimestre() + ","
+                            + " " + pbl.getPrc() + ","
+                            + " " + pbl.getAnio() + ","
+                            + " " + pbl.getRefinacion() + ","
+                            + " " + pbl.getExportacion() + ","
+                            + " " + pbl.getIdcontrato().getIdcontrato() + ")";
+                    st.execute(sql);
+                }
+
             } catch (SQLException e) {
                 throw e;
             }
@@ -47,16 +66,31 @@ public class PblDao {
         }
     }
 
-    public List<Campos> consultarCampos() throws Exception {
+    public List<Pbl> consultarPblSegunMunicipio(Municipios municipio, Pbl pbl) throws Exception {
+        List<Pbl> pbls = new ArrayList<>();
         Statement st = ConexionSQL.conexion();
-        List<Campos> listaCampos = new ArrayList<>();
+        ContratosDao contratosDao = new ContratosDao();
+        MunicipiosDao municipiosDao = new MunicipiosDao();
+        municipio = municipiosDao.consultarMunicipio(municipio);
         try {
             try {
-                String sql = "SELECT idcampo, nombre, cib, car, cov"
-                        + "  FROM public.campos;";
+                String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre, p.prc, p.refinacion, p.exportacion, p.idcontrato, p.anio"
+                        + " FROM public.pbl as p, public.contratos as c, public.municipios as m"
+                        + " WHERE p.anio = " + pbl.getAnio() + " AND p.trimestre = " + pbl.getTrimestre() + " AND"
+                        + " p.idcontrato = c.idcontrato AND c.idmunicipio = m.idmunicipio AND m.idmunicipio = " + municipio.getIdmunicipio() + " ";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listaCampos.add(new Campos(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
+                    pbls.add(new Pbl(rs.getInt(1),
+                            rs.getDouble(2),
+                            rs.getDouble(3),
+                            rs.getDouble(4),
+                            rs.getDouble(5),
+                            rs.getInt(6),
+                            rs.getDouble(7),
+                            rs.getInt(11),
+                            rs.getDouble(8),
+                            rs.getDouble(9),
+                            contratosDao.consultarContrato(new Contratos(rs.getInt(10)))));
                 }
             } catch (SQLException e) {
                 throw e;
@@ -66,6 +100,22 @@ public class PblDao {
         } finally {
             ConexionSQL.CerrarConexion();
         }
-        return listaCampos;
+        return pbls;
+    }
+
+    public int obtenerTrimestre(int mes) {
+        int trimestre = 0;
+
+        if (mes >= 1 && mes <= 3) {
+            trimestre = 1;
+        } else if (mes >= 4 && mes <= 6) {
+            trimestre = 2;
+        } else if (mes >= 7 && mes <= 9) {
+            trimestre = 3;
+        } else if (mes >= 10 && mes <= 12) {
+            trimestre = 4;
+        }
+
+        return trimestre;
     }
 }

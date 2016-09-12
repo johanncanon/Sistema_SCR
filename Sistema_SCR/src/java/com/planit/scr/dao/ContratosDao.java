@@ -33,14 +33,15 @@ public class ContratosDao {
         contrato.setIdmunicipio(municipioDao.consultarMunicipio(contrato.getIdmunicipio()));
         try {
             try {
-                String sql = "INSERT INTO public.contratos(nombre, idmunicipio, idtipo, cib, car, cov, porcentaje)"
+                String sql = "INSERT INTO public.contratos(nombre, idmunicipio, idtipo, cib, car, cov, porcentaje, medio)"
                         + " VALUES('" + contrato.getNombre() + "',"
                         + " " + contrato.getIdmunicipio().getIdmunicipio() + ","
                         + " " + contrato.getIdtipo().getIdtipo() + ","
                         + " " + contrato.getCib() + ","
                         + " " + contrato.getCar() + ","
                         + " " + contrato.getCov() + ","
-                        + " " + contrato.getPorcentaje() + ")";
+                        + " " + contrato.getPorcentaje() + ","
+                        + " " + contrato.getMedio() +")";
                 st.execute(sql);
             } catch (SQLException e) {
                 throw e;
@@ -59,11 +60,11 @@ public class ContratosDao {
         MunicipiosDao municipioDao = new MunicipiosDao();
         try {
             try {
-                String sql = "SELECT idcontrato, nombre, idmunicipio, idtipo, cib, car, cov, porcentaje FROM public.contratos"
+                String sql = "SELECT idcontrato, nombre, idmunicipio, idtipo, cib, car, cov, porcentaje, medio FROM public.contratos"
                         + " WHERE idcontrato = " + c.getIdcontrato() + " or nombre = '" + c.getNombre() + "' ";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    nuevocontrato = new Contratos(rs.getInt(1), rs.getString(2), tipoDao.consultarTipo(new Tipos(rs.getInt(4))), municipioDao.consultarMunicipio(new Municipios(rs.getInt(3))), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8));
+                    nuevocontrato = new Contratos(rs.getInt(1), rs.getString(2), tipoDao.consultarTipo(new Tipos(rs.getInt(4))), municipioDao.consultarMunicipio(new Municipios(rs.getInt(3))), rs.getInt(5), rs.getInt(6), rs.getDouble(9) , rs.getInt(7), rs.getInt(8));
                 }
             } catch (SQLException e) {
                 throw e;
@@ -83,10 +84,10 @@ public class ContratosDao {
         MunicipiosDao municipioDao = new MunicipiosDao();
         try {
             try {
-                String sql = "SELECT idcontrato, nombre, idmunicipio, idtipo, cib, car, cov, porcentaje FROM public.contratos";
+                String sql = "SELECT idcontrato, nombre, idmunicipio, idtipo, cib, car, cov, porcentaje, medio FROM public.contratos";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listacontratos.add(new Contratos(rs.getInt(1), rs.getString(2), tipoDao.consultarTipo(new Tipos(rs.getInt(4))), municipioDao.consultarMunicipio(new Municipios(rs.getInt(3))), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
+                    listacontratos.add(new Contratos(rs.getInt(1), rs.getString(2), tipoDao.consultarTipo(new Tipos(rs.getInt(4))), municipioDao.consultarMunicipio(new Municipios(rs.getInt(3))), rs.getInt(5), rs.getInt(6), rs.getDouble(9), rs.getInt(7), rs.getInt(8)));
                 }
             } catch (SQLException e) {
                 throw e;
@@ -104,11 +105,11 @@ public class ContratosDao {
         MunicipiosDao municipioDao = new MunicipiosDao();
         try {
             try {
-                String sql = "SELECT idcontrato, nombre, idmunicipio, idtipo, cib, car, cov, porcentaje FROM public.contratos "
+                String sql = "SELECT idcontrato, nombre, idmunicipio, idtipo, cib, car, cov, porcentaje, medio FROM public.contratos "
                         + "WHERE idmunicipio = " + municipio.getIdmunicipio() + "";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listacontratos.add(new Contratos(rs.getInt(1), rs.getString(2), tipoDao.consultarTipo(new Tipos(rs.getInt(4))), municipioDao.consultarMunicipio(new Municipios(rs.getInt(3))), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
+                    listacontratos.add(new Contratos(rs.getInt(1), rs.getString(2), tipoDao.consultarTipo(new Tipos(rs.getInt(4))), municipioDao.consultarMunicipio(new Municipios(rs.getInt(3))), rs.getInt(5), rs.getInt(6), rs.getDouble(9), rs.getInt(7), rs.getInt(8)));
                 }
             } catch (SQLException e) {
                 throw e;

@@ -5,13 +5,11 @@
  */
 package com.planit.scr.controladores;
 
-import com.planit.scr.conexion.ConexionSQL;
 import com.planit.scr.dao.PblDao;
-import com.planit.scr.modelos.Campos;
+import com.planit.scr.dao.ValoresDao;
+import com.planit.scr.modelos.Valores;
+import com.planit.scr.modelos.Municipios;
 import com.planit.scr.modelos.Pbl;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,56 +22,67 @@ import javax.annotation.PostConstruct;
  */
 public class PblCT {
 
-    private Campos campo;
-    private List<Campos> campos;
-   
+    private Pbl pbl;
+    private List<Pbl> pbls;
+    private Municipios municipio;
+    private Valores valores;
+    private int mes;
 
     public PblCT() {
+        pbl = new Pbl();
+        pbls = new ArrayList<>();
+        municipio = new Municipios();
+        valores = new Valores();
     }
 
-    public PblCT(Campos campo, List<Campos> campos) {
-        this.campo = campo;
-        this.campos = campos;
+    public Pbl getPbl() {
+        return pbl;
     }
 
-    public Campos getCampo() {
-        return campo;
+    public void setPbl(Pbl pbl) {
+        this.pbl = pbl;
     }
 
-    public void setCampo(Campos campo) {
-        this.campo = campo;
+    public List<Pbl> getPbls() {
+        return pbls;
     }
 
-    public List<Campos> getCampos() {
-        return campos;
+    public void setPbls(List<Pbl> pbls) {
+        this.pbls = pbls;
     }
 
-    public void setCampos(List<Campos> campos) {
-        this.campos = campos;
+    public Municipios getMunicipio() {
+        return municipio;
     }
 
-    @PostConstruct
-    public void init() {
-        PblDao pblDao = new PblDao();
-        try {
-            campos = pblDao.consultarCampos();
-        } catch (Exception ex) {
-            Logger.getLogger(ContratoCT.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void setMunicipio(Municipios municipio) {
+        this.municipio = municipio;
     }
 
-    public void registrarPbl(Pbl pbl) throws Exception {
-        PblDao pblDao = new PblDao();
-        pblDao.registrarPbl(pbl);
+    public Valores getValores() {
+        return valores;
+    }
+
+    public void setValores(Valores valores) {
+        this.valores = valores;
+    }
+
+    public int getMes() {
+        return mes;
+    }
+
+    public void setMes(int mes) {
+        this.mes = mes;
     }
 
     
 
-    public Pbl calcularPBL(Pbl pbl) {
-//        pbl.setVt(pbl.getV1() + pbl.getV2());
-//        pbl.setCt1(pbl.getCtc() + pbl.getCtmc() + pbl.getCtmd() + pbl.getCmt() + pbl.getCr());
-//        pbl.setCt2(pbl.getCce() + pbl.getCtme());
-//        pbl.setPrc((pbl.getPf() - pbl.getCt1()) * (pbl.getV1() / pbl.getVt()) + (pbl.getPx() - pbl.getCt2()) * (pbl.getV2() / pbl.getVt()));
-        return pbl;
+    //Metodos   
+    public void consultarPbl() throws Exception {
+        PblDao pblDao = new PblDao();
+        ValoresDao valoresDao = new ValoresDao();
+        pbl.setTrimestre(pblDao.obtenerTrimestre(mes));
+        pbls = pblDao.consultarPblSegunMunicipio(municipio, pbl);
+        valores = valoresDao.consultarValores(pbl.getTrimestre(), pbl.getAnio());
     }
 }

@@ -64,7 +64,7 @@ public class Pbl implements Serializable {
     @Column(name = "prc")
     private Double prc;
     @Column(name = "anio")
-    private String anio;
+    private Integer anio;
     @Column(name = "refinacion")
     private Double refinacion;
     @Column(name = "exportacion")
@@ -89,7 +89,7 @@ public class Pbl implements Serializable {
         this.trimestre = trimestre;
     }
 
-    public Pbl(Integer idpbl, double ctc, double ct1, double cce, double ct2, int trimestre, Double prc, String anio, Double refinacion, Double exportacion, Contratos idcontrato) {
+    public Pbl(Integer idpbl, double ctc, double ct1, double cce, double ct2, int trimestre, Double prc, Integer anio, Double refinacion, Double exportacion, Contratos idcontrato) {
         this.idpbl = idpbl;
         this.ctc = ctc;
         this.ct1 = ct1;
@@ -103,7 +103,7 @@ public class Pbl implements Serializable {
         this.idcontrato = idcontrato;
     }
 
-    public Pbl(double ctc, double ct1, double cce, double ct2, int trimestre, Double prc, String anio, Double refinacion, Double exportacion, Contratos idcontrato) {
+    public Pbl(double ctc, double ct1, double cce, double ct2, int trimestre, Double prc, Integer anio, Double refinacion, Double exportacion, Contratos idcontrato) {
         this.ctc = ctc;
         this.ct1 = ct1;
         this.cce = cce;
@@ -174,13 +174,13 @@ public class Pbl implements Serializable {
         this.prc = prc;
     }
 
-    public String getAnio() {
+    public Integer getAnio() {
         return anio;
     }
 
-    public void setAnio(String anio) {
+    public void setAnio(Integer anio) {
         this.anio = anio;
-    }
+    }  
 
     public Double getRefinacion() {
         return refinacion;

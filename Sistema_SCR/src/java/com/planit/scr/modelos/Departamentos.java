@@ -34,6 +34,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
     @NamedQuery(name = "Departamentos.findByIddepartamento", query = "SELECT d FROM Departamentos d WHERE d.iddepartamento = :iddepartamento"),
     @NamedQuery(name = "Departamentos.findByNombre", query = "SELECT d FROM Departamentos d WHERE d.nombre = :nombre")})
 public class Departamentos implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "iddepartamento")
+    private Collection<Regalias> regaliasCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -108,6 +110,16 @@ public class Departamentos implements Serializable {
     @Override
     public String toString() {
         return "com.planit.scr.modelos.Departamentos[ iddepartamento=" + iddepartamento + " ]";
+    }
+
+    @XmlTransient
+    @JsonIgnore
+    public Collection<Regalias> getRegaliasCollection() {
+        return regaliasCollection;
+    }
+
+    public void setRegaliasCollection(Collection<Regalias> regaliasCollection) {
+        this.regaliasCollection = regaliasCollection;
     }
     
 }

@@ -15,6 +15,7 @@
     <class>com.planit.scr.modelos.Tipos_1</class>
     <class>com.planit.scr.modelos.Campos</class>
     <class>com.planit.scr.modelos.Valores</class>
+    <class>com.planit.scr.modelos.Regalias</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://192.168.100.251:5432/SCR"/>
