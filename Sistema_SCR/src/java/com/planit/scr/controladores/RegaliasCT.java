@@ -204,6 +204,13 @@ public class RegaliasCT {
         }
         return total;
     }
+    
+        //Metodos   
+    public void consultarRegalias() throws Exception {
+        RegaliasDao regaliasDao = new RegaliasDao();
+        regalias = regaliasDao.consultarRegalias(regalias);
+       
+    }
 
 //    //Metodos
 //    public String calcularRegalias() throws Exception {
