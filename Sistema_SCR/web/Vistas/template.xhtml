@@ -120,10 +120,22 @@
                             </h:link>
                         </li>
 
-                        <li>
-                            <h:link outcome="Regalias">
-                                <i class="fa fa-calculator"></i><span>Regalias</span> 
-                            </h:link>
+                        <li class="dropdown " id="abrir-menu">
+                            <a href=""  data-toggle="dropdown"> 
+                                <i class="fa fa-area-chart"></i><span>Regalias</span> <b class="caret"></b>                                
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <h:link outcome="Regalias">
+                                        <span>Cargar Regalias</span> 
+                                    </h:link>
+                                </li>
+                                <li>
+                                    <h:link outcome="ConsultarRegalias">
+                                        <span>Consultar Regalias</span> 
+                                    </h:link>
+                                </li>
+                            </ul>
                         </li>
                         <li class="dropdown " id="abrir-menu">
                             <a href=""  data-toggle="dropdown"> 
