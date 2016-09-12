@@ -83,45 +83,36 @@
 
                                                             <thead>
                                                                 <tr>
+                                                                    <th class="order-table-header" scope="col">Municipio</th>
+                                                                    <th class="order-table-header" scope="col">Campo</th>
                                                                     <th class="order-table-header" scope="col">Contrato</th>
-                                                                    <th class="order-table-header" scope="col">CIB</th>
-                                                                    <th class="order-table-header" scope="col">CAR</th>
-                                                                    <th class="order-table-header" scope="col">MED</th>
-                                                                    <th class="order-table-header" scope="col">COV</th>
-                                                                    <th class="order-table-header" scope="col">CTC</th>
-                                                                    <th class="order-table-header" scope="col">CMT</th>
-                                                                    <th class="order-table-header" scope="col">CTMC</th>
-                                                                    <th class="order-table-header" scope="col">CTMD</th>
-                                                                    <th class="order-table-header" scope="col">CR</th>
-                                                                    <th class="order-table-header" scope="col">CT1</th>
-                                                                    <th class="order-table-header" scope="col">CCE</th>
-                                                                    <th class="order-table-header" scope="col">CTME</th>
-                                                                    <th class="order-table-header" scope="col">CT2</th>
-                                                                    <th class="order-table-header" scope="col">REF</th>
-                                                                    <th class="order-table-header" scope="col">EXP</th>
-                                                                    <th class="order-table-header" scope="col">PRC</th>
+                                                                    <th class="order-table-header" scope="col">T. Hdr/Prd</th>
+                                                                    <th class="order-table-header" scope="col">Prod. Mes</th>
+                                                                    <th class="order-table-header" scope="col">Prod. Día</th>
+                                                                    <th class="order-table-header" scope="col">Pr. Mun</th>
+                                                                    <th class="order-table-header" scope="col">Pr. Regalias</th>
+                                                                    <th class="order-table-header" scope="col">Dep. Productor</th>
+                                                                    <th class="order-table-header" scope="col">Dep. no Productor</th>
+                                                                    <th class="order-table-header" scope="col">Puertos</th>
+                                                                    <th class="order-table-header" scope="col">Mum. Productor</th>
                                                                 </tr>
                                                             </thead>
 
                                                             <tbody>
-                                                                <c:forEach items="#{pblCT.pbls}" var="item">           
+                                                                <c:forEach items="#{regaliasCT.regalias}" var="item">           
                                                                     <tr class="order-table-odd-row">
-                                                                        <td>#{item.idcontrato.nombre}</td>
-                                                                        <td>#{item.idcontrato.cib}</td>
-                                                                        <td>#{item.idcontrato.medio}</td>                                                                          
-                                                                        <td>#{item.idcontrato.cov}</td>
-                                                                        <td>#{item.ctc}</td>
-                                                                        <td>#{pblCT.valores.cmt}</td>
-                                                                        <td>#{pblCT.valores.ctmc}</td>
-                                                                        <td>#{pblCT.valores.ctmd}</td>
-                                                                        <td>#{pblCT.valores.cr}</td>
-                                                                        <td>#{item.ct1}</td>
-                                                                        <td>#{pblCT.valores.cce}</td>
-                                                                        <td>#{pblCT.valores.ctme}</td>
-                                                                        <td>#{item.ct2}</td>
-                                                                        <td>#{item.refinacion}</td>
-                                                                        <td>#{item.exportacion}</td>
-                                                                        <td>#{item.prc}</td>
+                                                                        <td>#{item.idmunicipio.nombre}</td>
+                                                                        <td>#{item.idcampo.nombre}</td>
+                                                                        <td>#{item.idcampo.idcontrato.nombre}</td>                                                                          
+                                                                        <td>#{item.tipohidrocarburo}</td>
+                                                                        <td>#{item.prodmes}</td>
+                                                                        <td>#{item.proddia}</td>
+                                                                        <td>#{item.porcmunicipio}</td>
+                                                                        <td>#{item.porcregalias}</td>
+                                                                        <td>#{item.depproductor}</td>
+                                                                        <td>#{item.depnoproductor}</td>
+                                                                        <td>#{item.puertos}</td>
+                                                                        <td>#{item.munproductor}</td>
                                                                     </tr>
                                                                 </c:forEach>
                                                             </tbody>
