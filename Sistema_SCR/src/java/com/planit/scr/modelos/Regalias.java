@@ -96,12 +96,37 @@ public class Regalias implements Serializable {
     private Municipios idmunicipio;
 
     public Regalias() {
+        
+        
     }
+    
 
     public Regalias(Integer idregalias) {
         this.idregalias = idregalias;
     }
 
+    public Regalias(Integer idregalias, String tipohidrocarburo, double proddia, double prodmes, double porcmunicipio, double porcregalias, int depproductor, int munproductor, int depnoproductor, int puertos, Integer anio, Integer mes, Double precio, Double regalias, Campos idcampo, Departamentos iddepartamento, Municipios idmunicipio) {
+        this.idregalias = idregalias;
+        this.tipohidrocarburo = tipohidrocarburo;
+        this.proddia = proddia;
+        this.prodmes = prodmes;
+        this.porcmunicipio = porcmunicipio;
+        this.porcregalias = porcregalias;
+        this.depproductor = depproductor;
+        this.munproductor = munproductor;
+        this.depnoproductor = depnoproductor;
+        this.puertos = puertos;
+        this.anio = anio;
+        this.mes = mes;
+        this.precio = precio;
+        this.regalias = regalias;
+        this.idcampo = idcampo;
+        this.iddepartamento = iddepartamento;
+        this.idmunicipio = idmunicipio;
+    }
+
+    
+    
     public Regalias(Integer idregalias, String tipohidrocarburo, double proddia, double prodmes, double porcmunicipio, double porcregalias, int depproductor, int munproductor, int depnoproductor, int puertos) {
         this.idregalias = idregalias;
         this.tipohidrocarburo = tipohidrocarburo;

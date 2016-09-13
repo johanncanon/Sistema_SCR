@@ -27,6 +27,7 @@ public class RegaliasCT {
     private Pbl pbl;
     private Municipios municipio;
     private Campos campo;
+    private Regalias regalia;
 
     private List<Campos> campos;
     private List<Regalias> regalias;
@@ -43,6 +44,7 @@ public class RegaliasCT {
         campo = new Campos();
         campos = new ArrayList<>();
         regalias = new ArrayList<>();
+        regalia = new Regalias();
     }
 
     public Pbl getPbl() {
@@ -100,6 +102,16 @@ public class RegaliasCT {
     public void setAnio(int anio) {
         this.anio = anio;
     }
+
+    public Regalias getRegalia() {
+        return regalia;
+    }
+
+    public void setRegalia(Regalias regalia) {
+        this.regalia = regalia;
+    }
+    
+    
 
     //metodos 
     public void consultarCamposSegunMunicipio() throws Exception {
@@ -185,8 +197,8 @@ public class RegaliasCT {
             }
             regalias.get(i).setDepnoproductor(0); //declaramos valor a departamentos no productores
             regaliasDao.registrarRegalias(regalias.get(i));
-
         }
+        regalias = new ArrayList<>();
     }
 
     public double totalProdDiaMunicipio(List<Regalias> rg) {
@@ -207,9 +219,9 @@ public class RegaliasCT {
     
         //Metodos   
     public void consultarRegalias() throws Exception {
+        regalia.setIdmunicipio(municipio);
         RegaliasDao regaliasDao = new RegaliasDao();
-        regalias = regaliasDao.consultarRegalias(regalias);
-       
+        regalias = regaliasDao.consultarRegalias(regalia);       
     }
 
 //    //Metodos

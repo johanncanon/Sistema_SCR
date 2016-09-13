@@ -4,50 +4,100 @@
  * and open the template in the editor.
  */
 package com.planit.scr.dao;
+
 import com.planit.scr.conexion.ConexionSQL;
+import com.planit.scr.modelos.Campos;
+import com.planit.scr.modelos.Departamentos;
 import com.planit.scr.modelos.Regalias;
+import com.planit.scr.modelos.Municipios;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author VaioDevelopment
  */
 public class RegaliasDao {
-    
-    public void registrarRegalias(Regalias regalia) throws Exception{
+
+    public void registrarRegalias(Regalias regalia) throws Exception {
         Statement st = ConexionSQL.conexion();
         try {
             try {
                 String sql = "INSERT INTO public.regalias (iddepartamento, idmunicipio, idcampo, tipohidrocarburo,"
                         + " proddia, prodmes, porcmunicipio, porcregalias, depproductor, munproductor, depnoproductor, puertos, anio, mes, precio, regalias)"
-                        + " VALUES("+regalia.getIddepartamento().getIddepartamento()+","
-                + ""+regalia.getIdmunicipio().getIdmunicipio()+","
-                + ""+regalia.getIdcampo().getIdcampo()+","
-                + "'"+regalia.getTipohidrocarburo()+"',"
-                + ""+regalia.getProddia()+","
-                + ""+regalia.getProdmes()+","
-                + ""+regalia.getPorcmunicipio()+","
-                + ""+regalia.getPorcregalias()+","
-                + ""+regalia.getDepproductor()+","
-                + ""+regalia.getMunproductor()+","
-                + ""+regalia.getDepnoproductor()+","
-                + ""+regalia.getPuertos()+","
-                + ""+regalia.getAnio()+","
-                + ""+regalia.getMes()+","
-                + ""+regalia.getPrecio()+","
-                + ""+regalia.getRegalias()+")";
-           
+                        + " VALUES(" + regalia.getIddepartamento().getIddepartamento() + ","
+                        + "" + regalia.getIdmunicipio().getIdmunicipio() + ","
+                        + "" + regalia.getIdcampo().getIdcampo() + ","
+                        + "'" + regalia.getTipohidrocarburo() + "',"
+                        + "" + regalia.getProddia() + ","
+                        + "" + regalia.getProdmes() + ","
+                        + "" + regalia.getPorcmunicipio() + ","
+                        + "" + regalia.getPorcregalias() + ","
+                        + "" + regalia.getDepproductor() + ","
+                        + "" + regalia.getMunproductor() + ","
+                        + "" + regalia.getDepnoproductor() + ","
+                        + "" + regalia.getPuertos() + ","
+                        + "" + regalia.getAnio() + ","
+                        + "" + regalia.getMes() + ","
+                        + "" + regalia.getPrecio() + ","
+                        + "" + regalia.getRegalias() + ")";
+
                 st.execute(sql);
-                
+
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally{
+        } finally {
             ConexionSQL.CerrarConexion();
         }
     }
-    
+
+    public List<Regalias> consultarRegalias(Regalias regalia) throws Exception {
+        List<Regalias> regalias = new ArrayList<>();
+        Statement st = ConexionSQL.conexion();
+        DepartamentosDao departamentosDao = new DepartamentosDao();
+        MunicipiosDao municipiosDao = new MunicipiosDao();
+        CamposDao campoDao = new CamposDao();
+        
+        regalia.setIdmunicipio(municipiosDao.consultarMunicipio(regalia.getIdmunicipio()));
+        try {
+            try {
+                String sql = "SELECT idregalias, iddepartamento, idmunicipio, idcampo, tipohidrocarburo, proddia, prodmes, porcmunicipio, porcregalias, depproductor, munproductor, depnoproductor, puertos, anio, mes, precio, regalias"
+                        + " FROM public.regalias"
+                        + " WHERE idmunicipio = " + regalia.getIdmunicipio().getIdmunicipio() + " AND anio = " + regalia.getAnio() + " and mes = " + regalia.getMes() + "";
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()) {
+                    regalias.add(new Regalias(rs.getInt(1),
+                            rs.getString(5),
+                            rs.getDouble(6),
+                            rs.getDouble(7),
+                            rs.getDouble(8),
+                            rs.getDouble(9),                           
+                            rs.getInt(10),
+                            rs.getInt(11),
+                            rs.getInt(12),
+                            rs.getInt(13),
+                            rs.getInt(14),
+                            rs.getInt(15),
+                            rs.getDouble(16),
+                            rs.getDouble(17),
+                            campoDao.consultarCampo(new Campos(rs.getInt(4))),
+                            departamentosDao.consultarDepartamento(new Departamentos(rs.getInt(2))),
+                            municipiosDao.consultarMunicipio(new Municipios(rs.getInt(3)))));
+                }
+            } catch (SQLException e) {
+                throw e;
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            ConexionSQL.CerrarConexion();
+        }
+        return regalias;
+    }
 }
