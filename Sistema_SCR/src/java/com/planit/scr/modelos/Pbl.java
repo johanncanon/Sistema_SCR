@@ -33,11 +33,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Pbl.findByCt1", query = "SELECT p FROM Pbl p WHERE p.ct1 = :ct1"),
     @NamedQuery(name = "Pbl.findByCce", query = "SELECT p FROM Pbl p WHERE p.cce = :cce"),
     @NamedQuery(name = "Pbl.findByCt2", query = "SELECT p FROM Pbl p WHERE p.ct2 = :ct2"),
-    @NamedQuery(name = "Pbl.findByTrimestre", query = "SELECT p FROM Pbl p WHERE p.trimestre = :trimestre"),
+    @NamedQuery(name = "Pbl.findByTrimestreMes", query = "SELECT p FROM Pbl p WHERE p.trimestreMes = :trimestreMes"),
     @NamedQuery(name = "Pbl.findByPrc", query = "SELECT p FROM Pbl p WHERE p.prc = :prc"),
-    @NamedQuery(name = "Pbl.findByAnio", query = "SELECT p FROM Pbl p WHERE p.anio = :anio"),
     @NamedQuery(name = "Pbl.findByRefinacion", query = "SELECT p FROM Pbl p WHERE p.refinacion = :refinacion"),
-    @NamedQuery(name = "Pbl.findByExportacion", query = "SELECT p FROM Pbl p WHERE p.exportacion = :exportacion")})
+    @NamedQuery(name = "Pbl.findByExportacion", query = "SELECT p FROM Pbl p WHERE p.exportacion = :exportacion"),
+    @NamedQuery(name = "Pbl.findByAnio", query = "SELECT p FROM Pbl p WHERE p.anio = :anio")})
 public class Pbl implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -58,19 +58,19 @@ public class Pbl implements Serializable {
     @Column(name = "ct2")
     private double ct2;
     @Basic(optional = false)
-    @Column(name = "trimestre")
-    private int trimestre;
+    @Column(name = "trimestre_mes")
+    private int trimestreMes;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "prc")
     private Double prc;
-    @Column(name = "anio")
-    private Integer anio;
     @Column(name = "refinacion")
     private Double refinacion;
     @Column(name = "exportacion")
     private Double exportacion;
+    @Column(name = "anio")
+    private Integer anio;
     @JoinColumn(name = "idcontrato", referencedColumnName = "idcontrato")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Contratos idcontrato;
 
     public Pbl() {
@@ -80,44 +80,44 @@ public class Pbl implements Serializable {
         this.idpbl = idpbl;
     }
 
-    public Pbl(Integer idpbl, double ctc, double ct1, double cce, double ct2, int trimestre) {
+    public Pbl(Integer idpbl, double ctc, double ct1, double cce, double ct2, int trimestreMes) {
         this.idpbl = idpbl;
         this.ctc = ctc;
         this.ct1 = ct1;
         this.cce = cce;
         this.ct2 = ct2;
-        this.trimestre = trimestre;
+        this.trimestreMes = trimestreMes;
     }
 
-    public Pbl(Integer idpbl, double ctc, double ct1, double cce, double ct2, int trimestre, Double prc, Integer anio, Double refinacion, Double exportacion, Contratos idcontrato) {
+    public Pbl(Integer idpbl, double ctc, double ct1, double cce, double ct2, int trimestreMes, Double prc, Double refinacion, Double exportacion, Integer anio, Contratos idcontrato) {
         this.idpbl = idpbl;
         this.ctc = ctc;
         this.ct1 = ct1;
         this.cce = cce;
         this.ct2 = ct2;
-        this.trimestre = trimestre;
+        this.trimestreMes = trimestreMes;
         this.prc = prc;
-        this.anio = anio;
         this.refinacion = refinacion;
         this.exportacion = exportacion;
+        this.anio = anio;
         this.idcontrato = idcontrato;
     }
 
-    public Pbl(double ctc, double ct1, double cce, double ct2, int trimestre, Double prc, Integer anio, Double refinacion, Double exportacion, Contratos idcontrato) {
+    public Pbl(double ctc, double ct1, double cce, double ct2, int trimestreMes, Double prc, Double refinacion, Double exportacion, Integer anio, Contratos idcontrato) {
         this.ctc = ctc;
         this.ct1 = ct1;
         this.cce = cce;
         this.ct2 = ct2;
-        this.trimestre = trimestre;
+        this.trimestreMes = trimestreMes;
         this.prc = prc;
-        this.anio = anio;
         this.refinacion = refinacion;
         this.exportacion = exportacion;
+        this.anio = anio;
         this.idcontrato = idcontrato;
     }
-    
-    
 
+    
+    
     public Integer getIdpbl() {
         return idpbl;
     }
@@ -158,12 +158,12 @@ public class Pbl implements Serializable {
         this.ct2 = ct2;
     }
 
-    public int getTrimestre() {
-        return trimestre;
+    public int getTrimestreMes() {
+        return trimestreMes;
     }
 
-    public void setTrimestre(int trimestre) {
-        this.trimestre = trimestre;
+    public void setTrimestreMes(int trimestreMes) {
+        this.trimestreMes = trimestreMes;
     }
 
     public Double getPrc() {
@@ -173,14 +173,6 @@ public class Pbl implements Serializable {
     public void setPrc(Double prc) {
         this.prc = prc;
     }
-
-    public Integer getAnio() {
-        return anio;
-    }
-
-    public void setAnio(Integer anio) {
-        this.anio = anio;
-    }  
 
     public Double getRefinacion() {
         return refinacion;
@@ -198,6 +190,14 @@ public class Pbl implements Serializable {
         this.exportacion = exportacion;
     }
 
+    public Integer getAnio() {
+        return anio;
+    }
+
+    public void setAnio(Integer anio) {
+        this.anio = anio;
+    }
+
     public Contratos getIdcontrato() {
         return idcontrato;
     }
@@ -205,8 +205,6 @@ public class Pbl implements Serializable {
     public void setIdcontrato(Contratos idcontrato) {
         this.idcontrato = idcontrato;
     }
-
-   
 
     @Override
     public int hashCode() {

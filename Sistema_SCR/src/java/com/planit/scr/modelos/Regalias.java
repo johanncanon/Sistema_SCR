@@ -30,8 +30,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Regalias.findAll", query = "SELECT r FROM Regalias r"),
     @NamedQuery(name = "Regalias.findByIdregalias", query = "SELECT r FROM Regalias r WHERE r.idregalias = :idregalias"),
     @NamedQuery(name = "Regalias.findByTipohidrocarburo", query = "SELECT r FROM Regalias r WHERE r.tipohidrocarburo = :tipohidrocarburo"),
-    @NamedQuery(name = "Regalias.findByProddia", query = "SELECT r FROM Regalias r WHERE r.proddia = :proddia"),
-    @NamedQuery(name = "Regalias.findByProdmes", query = "SELECT r FROM Regalias r WHERE r.prodmes = :prodmes"),
     @NamedQuery(name = "Regalias.findByPorcmunicipio", query = "SELECT r FROM Regalias r WHERE r.porcmunicipio = :porcmunicipio"),
     @NamedQuery(name = "Regalias.findByPorcregalias", query = "SELECT r FROM Regalias r WHERE r.porcregalias = :porcregalias"),
     @NamedQuery(name = "Regalias.findByDepproductor", query = "SELECT r FROM Regalias r WHERE r.depproductor = :depproductor"),
@@ -52,12 +50,6 @@ public class Regalias implements Serializable {
     @Basic(optional = false)
     @Column(name = "tipohidrocarburo")
     private String tipohidrocarburo;
-    @Basic(optional = false)
-    @Column(name = "proddia")
-    private double proddia;
-    @Basic(optional = false)
-    @Column(name = "prodmes")
-    private double prodmes;
     @Basic(optional = false)
     @Column(name = "porcmunicipio")
     private double porcmunicipio;
@@ -94,22 +86,31 @@ public class Regalias implements Serializable {
     @JoinColumn(name = "idmunicipio", referencedColumnName = "idmunicipio")
     @ManyToOne(optional = false)
     private Municipios idmunicipio;
+    @JoinColumn(name = "idproduccion", referencedColumnName = "idproduccion")
+    @ManyToOne
+    private Produccion idproduccion;
 
     public Regalias() {
-        
-        
     }
-    
 
     public Regalias(Integer idregalias) {
         this.idregalias = idregalias;
     }
 
-    public Regalias(Integer idregalias, String tipohidrocarburo, double proddia, double prodmes, double porcmunicipio, double porcregalias, int depproductor, int munproductor, int depnoproductor, int puertos, Integer anio, Integer mes, Double precio, Double regalias, Campos idcampo, Departamentos iddepartamento, Municipios idmunicipio) {
+    public Regalias(Integer idregalias, String tipohidrocarburo, double porcmunicipio, double porcregalias, int depproductor, int munproductor, int depnoproductor, int puertos) {
         this.idregalias = idregalias;
         this.tipohidrocarburo = tipohidrocarburo;
-        this.proddia = proddia;
-        this.prodmes = prodmes;
+        this.porcmunicipio = porcmunicipio;
+        this.porcregalias = porcregalias;
+        this.depproductor = depproductor;
+        this.munproductor = munproductor;
+        this.depnoproductor = depnoproductor;
+        this.puertos = puertos;
+    }
+
+    public Regalias(Integer idregalias, String tipohidrocarburo, double porcmunicipio, double porcregalias, int depproductor, int munproductor, int depnoproductor, int puertos, Integer anio, Integer mes, Double precio, Double regalias, Campos idcampo, Departamentos iddepartamento, Municipios idmunicipio, Produccion idproduccion) {
+        this.idregalias = idregalias;
+        this.tipohidrocarburo = tipohidrocarburo;
         this.porcmunicipio = porcmunicipio;
         this.porcregalias = porcregalias;
         this.depproductor = depproductor;
@@ -123,22 +124,28 @@ public class Regalias implements Serializable {
         this.idcampo = idcampo;
         this.iddepartamento = iddepartamento;
         this.idmunicipio = idmunicipio;
+        this.idproduccion = idproduccion;
     }
 
-    
-    
-    public Regalias(Integer idregalias, String tipohidrocarburo, double proddia, double prodmes, double porcmunicipio, double porcregalias, int depproductor, int munproductor, int depnoproductor, int puertos) {
-        this.idregalias = idregalias;
+    public Regalias(String tipohidrocarburo, double porcmunicipio, double porcregalias, int depproductor, int munproductor, int depnoproductor, int puertos, Integer anio, Integer mes, Double precio, Double regalias, Campos idcampo, Departamentos iddepartamento, Municipios idmunicipio, Produccion idproduccion) {
         this.tipohidrocarburo = tipohidrocarburo;
-        this.proddia = proddia;
-        this.prodmes = prodmes;
         this.porcmunicipio = porcmunicipio;
         this.porcregalias = porcregalias;
         this.depproductor = depproductor;
         this.munproductor = munproductor;
         this.depnoproductor = depnoproductor;
         this.puertos = puertos;
+        this.anio = anio;
+        this.mes = mes;
+        this.precio = precio;
+        this.regalias = regalias;
+        this.idcampo = idcampo;
+        this.iddepartamento = iddepartamento;
+        this.idmunicipio = idmunicipio;
+        this.idproduccion = idproduccion;
     }
+    
+    
 
     public Integer getIdregalias() {
         return idregalias;
@@ -154,22 +161,6 @@ public class Regalias implements Serializable {
 
     public void setTipohidrocarburo(String tipohidrocarburo) {
         this.tipohidrocarburo = tipohidrocarburo;
-    }
-
-    public double getProddia() {
-        return proddia;
-    }
-
-    public void setProddia(double proddia) {
-        this.proddia = proddia;
-    }
-
-    public double getProdmes() {
-        return prodmes;
-    }
-
-    public void setProdmes(double prodmes) {
-        this.prodmes = prodmes;
     }
 
     public double getPorcmunicipio() {
@@ -274,6 +265,14 @@ public class Regalias implements Serializable {
 
     public void setIdmunicipio(Municipios idmunicipio) {
         this.idmunicipio = idmunicipio;
+    }
+
+    public Produccion getIdproduccion() {
+        return idproduccion;
+    }
+
+    public void setIdproduccion(Produccion idproduccion) {
+        this.idproduccion = idproduccion;
     }
 
     @Override

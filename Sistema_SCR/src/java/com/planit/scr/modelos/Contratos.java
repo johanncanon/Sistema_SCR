@@ -42,6 +42,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
     @NamedQuery(name = "Contratos.findByPorcentaje", query = "SELECT c FROM Contratos c WHERE c.porcentaje = :porcentaje")})
 
 public class Contratos implements Serializable {
+    @OneToMany(mappedBy = "idcontrato")
+    private Collection<Pbl> pblCollection;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "medio")
     private Double medio;
@@ -211,6 +213,16 @@ public class Contratos implements Serializable {
 
     public void setMedio(Double medio) {
         this.medio = medio;
+    }
+
+    @XmlTransient
+    @JsonIgnore
+    public Collection<Pbl> getPblCollection() {
+        return pblCollection;
+    }
+
+    public void setPblCollection(Collection<Pbl> pblCollection) {
+        this.pblCollection = pblCollection;
     }
 
 }

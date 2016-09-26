@@ -4,7 +4,9 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:b="http://bootsfaces.net/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:composition template="./template.xhtml">
 
@@ -18,174 +20,130 @@
                                     eliminar los registros de los valores que desees.</small> </h2>
                         </div>
                         <b:row>
+                            <h:form id="formularioRegistroValores">
+                                <b:column col-lg="12" >
 
-                            <b:column col-lg="6" >
+                                    <div class="widget ">
+                                        <div class="widget-header"> <i class="fa fa-list-ol"></i>
+                                            <h3> Registro de Valores </h3>
+                                        </div>
+                                        <!-- /widget-header -->
+                                        <div class="widget-content">
+                                            <div class="widget big-stats-container">
+                                                <div class="widget-content">
+                                                    <b:column col-lg="6">
+                                                        <div class="widget-content">
+                                                            <div class="form-horizontal">
+                                                                <div class="form-group">
+                                                                    <label for="inputAnio" class="control-label">Año:</label>
+                                                                    <p:inputText value="#{valoresCT.valor.anio}" id="inputAnio" class="form-control" placeholder="2016">
+                                                                        <p:ajax event="keyup" update="LTrimestreMes STrimestreMes"/>
+                                                                    </p:inputText>                                                             
 
-                                <div class="widget ">
-                                    <div class="widget-header"> <i class="fa fa-list-ol"></i>
-                                        <h3> Registro de Valores </h3>
-                                    </div>
-                                    <!-- /widget-header -->
-                                    <div class="widget-content">
-                                        <div class="widget big-stats-container">
-                                            <div class="widget-content">
-                                                <h:form id="formularioRegistroValores">
-                                                    <div class="form-horizontal">
-                                                        <div class="form-group">
-                                                            <label for="inputAnio" class="col-sm-4 control-label">Año</label>
-                                                            <b:inputText value="#{valoresCT.valor.anio}" id="inputAnio" placeholder="Año" span="8"/>                                                             
+                                                                    <p:message for="inputAnio"/>                                                            
+                                                                </div>
+                                                                <c:choose>
+                                                                    <c:when test="${valoresCT.valor.anio >= 2012}">
+                                                                        <div class="form-group">  
+                                                                            <p:outputLabel id="LTrimestreMes" for="inputAnio" class="control-label" value="Seleccione Mes:"/>
+                                                                            <h:selectOneMenu id="STrimestreMes" class="form-control" value="#{valoresCT.valor.trimestreMes}" label="Selecciona el Mes: ">
+                                                                                <f:selectItem itemLabel="Enero" itemValue="1"/>
+                                                                                <f:selectItem itemLabel="Febrero" itemValue="2"/>
+                                                                                <f:selectItem itemLabel="Marzo" itemValue="3"/>
+                                                                                <f:selectItem itemLabel="Abril" itemValue="4"/>
+                                                                                <f:selectItem itemLabel="Mayo" itemValue="5"/>
+                                                                                <f:selectItem itemLabel="Junio" itemValue="6"/>
+                                                                                <f:selectItem itemLabel="Julio" itemValue="7"/>
+                                                                                <f:selectItem itemLabel="Agosto" itemValue="8"/>
+                                                                                <f:selectItem itemLabel="Septiembre" itemValue="9"/>
+                                                                                <f:selectItem itemLabel="Octubre" itemValue="10"/>
+                                                                                <f:selectItem itemLabel="Noviembre" itemValue="11"/>
+                                                                                <f:selectItem itemLabel="Diciembre" itemValue="12"/>
+                                                                            </h:selectOneMenu>
+                                                                            <h:message for="inputTrimestre"/>
+                                                                        </div>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <div  class="form-group">  
+                                                                            <p:outputLabel id="LTrimestreMes" for="inputAnio" class="control-label" value="Seleccione Trimestre:"/>
+                                                                            <h:selectOneMenu id="STrimestreMes" class="form-control" value="#{valoresCT.valor.trimestreMes}" label="Selecciona el Trimestre: ">
+                                                                                <f:selectItem itemLabel="1er Trimestre" itemValue="1"/>
+                                                                                <f:selectItem itemLabel="2do Trimestre" itemValue="2"/>
+                                                                                <f:selectItem itemLabel="3er Trimestre" itemValue="3"/>
+                                                                                <f:selectItem itemLabel="4to Trimestre" itemValue="4"/>
+                                                                            </h:selectOneMenu>
+                                                                            <h:message for="inputTrimestre"/>
+                                                                        </div>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+
+                                                                <div class="form-group">
+                                                                    <label for="inputPF" class="control-label">PF: </label>
+                                                                    <p:inputText class="form-control" value="#{valoresCT.valor.pf}" id="inputPF" placeholder="Valor PF"/>                                                             
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputPX" class="control-label">PX: </label>
+                                                                    <p:inputText class="form-control" value="#{valoresCT.valor.px}" id="inputPX" placeholder="Valor PX" />                                                             
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputV1" class="control-label">Volúmen de Crudo Refinado (V1)</label>
+                                                                    <p:inputText class="form-control" value="#{valoresCT.valor.v1}" id="inputV1" placeholder="Valor V1" />                                                             
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputV2" class="control-label">Volúmen de Crudo exportado (V2)</label>
+                                                                    <p:inputText class="form-control" value="#{valoresCT.valor.v2}" id="inputV2" placeholder="Valor V2" />                                                             
+                                                                </div>                                                       
+                                                            </div>
                                                         </div>
-                                                        <div class="form-group">
-                                                            <label class="col-sm-4 control-label">Trimestre </label>
-                                                            <b:selectOneMenu col-xs="8" value="#{valoresCT.valor.trimestre}" label="Selecciona el Trimestre: ">
-                                                                <f:selectItem itemLabel="1er Trimestre" itemValue="1"/>
-                                                                <f:selectItem itemLabel="2do Trimestre" itemValue="2"/>
-                                                                <f:selectItem itemLabel="3er Trimestre" itemValue="3"/>
-                                                                <f:selectItem itemLabel="4to Trimestre" itemValue="4"/>
-                                                            </b:selectOneMenu>
-                                                            <h:message for="inputTrimestre"/>
+                                                    </b:column>
+                                                    <b:column col-lg="6">
+                                                        <div class="widget-content">
+                                                            <div class="form-horizontal">                                                        
+                                                                <div class="form-group">
+                                                                    <label for="inputCtc" class="control-label">CTC</label>
+                                                                    <p:inputText class="form-control" value="#{valoresCT.valor.ctc}" id="inputCtc" placeholder="Valor CTC" />                                                      
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputCmt" class="control-label">CMT</label>
+                                                                    <p:inputText class="form-control" value="#{valoresCT.valor.cmt}" id="inputCmt" placeholder="Valor CMT" />                                                             
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputCtmc" class="control-label">CTMC</label>
+                                                                    <p:inputText class="form-control" value="#{valoresCT.valor.ctmc}" id="inputCtmc" placeholder="Valor CTMC" />                                                             
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputCtmd" class="control-label">CTMD</label>
+                                                                    <p:inputText class="form-control" value="#{valoresCT.valor.ctmd}" id="inputCtmd" placeholder="Valor CTMD" />                                                             
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputCr" class="control-label">CR</label>
+                                                                    <p:inputText class="form-control" value="#{valoresCT.valor.cr}" id="inputCr" placeholder="Valor CR"/>                                                             
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputCce" class="control-label">CCE</label>
+                                                                    <p:inputText class="form-control" value="#{valoresCT.valor.cce}" id="inputCce" placeholder="Valor CCE" />                                                             
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputCtme" class="control-label">CTME</label>
+                                                                    <p:inputText class="form-control" value="#{valoresCT.valor.ctme}" id="inputCtme" placeholder="Valor CTME"/>                                                             
+                                                                </div>                                                           
+                                                            </div>
                                                         </div>
-                                                        <div class="form-group">
-                                                            <label for="inputPF" class="col-sm-4 control-label">PF: </label>
-                                                            <b:inputText value="#{valoresCT.valor.pf}" id="inputPF" placeholder="Valor PF" span="8"/>                                                             
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="inputPX" class="col-sm-4 control-label">PX: </label>
-                                                            <b:inputText value="#{valoresCT.valor.px}" id="inputPX" placeholder="Valor PX" span="8"/>                                                             
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="inputV1" class="col-sm-4 control-label">Volúmen de Crudo Refinado (V1)</label>
-                                                            <b:inputText value="#{valoresCT.valor.v1}" id="inputV1" placeholder="Valor V1" span="8"/>                                                             
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="inputV2" class="col-sm-4 control-label">Volúmen de Crudo exportado (V2)</label>
-                                                            <b:inputText value="#{valoresCT.valor.v2}" id="inputV2" placeholder="Valor V2" span="8"/>                                                             
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="inputCtc" class="col-sm-4 control-label">CTC</label>
-                                                            <b:inputText value="#{valoresCT.valor.ctc}" id="inputCtc" placeholder="Valor CTC" span="8"/>                                                      
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="inputCmt" class="col-sm-4 control-label">CMT</label>
-                                                            <b:inputText value="#{valoresCT.valor.cmt}" id="inputCmt" placeholder="Valor CMT" span="8"/>                                                             
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="inputCtmc" class="col-sm-4 control-label">CTMC</label>
-                                                            <b:inputText value="#{valoresCT.valor.ctmc}" id="inputCtmc" placeholder="Valor CTMC" span="8"/>                                                             
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="inputCtmd" class="col-sm-4 control-label">CTMD</label>
-                                                            <b:inputText value="#{valoresCT.valor.ctmd}" id="inputCtmd" placeholder="Valor CTMD" span="8"/>                                                             
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="inputCr" class="col-sm-4 control-label">CR</label>
-                                                            <b:inputText value="#{valoresCT.valor.cr}" id="inputCr" placeholder="Valor CR" span="8"/>                                                             
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="inputCce" class="col-sm-4 control-label">CCE</label>
-                                                            <b:inputText value="#{valoresCT.valor.cce}" id="inputCce" placeholder="Valor CCE" span="8"/>                                                             
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="inputCtme" class="col-sm-4 control-label">CTME</label>
-                                                            <b:inputText value="#{valoresCT.valor.ctme}" id="inputCtme" placeholder="Valor CTME" span="8"/>                                                             
-                                                        </div>                                                            
-                                                        <div class="form-group">
-                                                            <b:commandButton value="Enviar" update=":formularioRegistroValores" action="#{valoresCT.registrarValores()}" class="btn btn-info " style="float: right">
-                                                                <b:iconAwesome name="send"></b:iconAwesome>
-                                                            </b:commandButton>
-                                                        </div>
+                                                    </b:column>
+                                                    <!-- /widget-content -->
+                                                    <p:separator/>
+                                                    <div class="form-group">
+                                                        <b:commandButton value="Registrar" update=":formularioRegistroValores" action="#{valoresCT.registrarValores()}" class="btn btn-success " style="float: right; width: 35%">
+                                                            <b:iconAwesome name="check"></b:iconAwesome>
+                                                        </b:commandButton>
                                                     </div>
-                                                </h:form>
-                                                <!-- /widget-content --> 
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </b:column>
-                            <!-- /widget -->
-
-                            <b:column col-lg="4" style="float: right" >
-                                <div class="widget widget-nopad">
-                                    <div class="widget-header"> <i class="fa fa-area-chart"></i>
-                                        <h3> Grafica 1</h3>
-                                    </div>
-
-                                    <div class="widget-content">
-                                        <h:form>
-                                            <b:image value="./../resources/images/Imagen1.jpg" 
-                                                     style="margin-bottom: 31px" 
-                                                     tooltip="Grafica de Estado " 
-                                                     class="img-responsive" />
-                                        </h:form>
-                                    </div>
-
-                                </div>                                
-                            </b:column>
-                            <!-- /widget -->
-
-<!--                            <b:column col-lg="12" >
-
-                                <div class="widget ">
-                                    <div class="widget-header"> <i class="fa fa-list-alt"></i>
-                                        <h3> Listado de Valores </h3>
-                                    </div>
-                                     /widget-header 
-                                    <div class="widget-content">
-                                        <div class="widget big-stats-container">
-                                            <div class="widget-content">
-                                                <h:form id="formularioLista">
-                                                    <b:dataTable value="#{valoresCT.valores}" var="valores">
-                                                        <b:dataTableColumn label="Año">
-                                                            <h:outputLabel value="#{valores.anio}"/>
-                                                        </b:dataTableColumn>
-                                                        <b:dataTableColumn label="Trimestre">
-                                                            <h:outputLabel value="#{valores.trimestre}"/>
-                                                        </b:dataTableColumn>
-                                                        <b:dataTableColumn label="PF">
-                                                            <h:outputLabel value="#{valores.pf}"/>
-                                                        </b:dataTableColumn>
-                                                        <b:dataTableColumn label="PX">
-                                                            <h:outputLabel value="#{valores.px}"/>
-                                                        </b:dataTableColumn>
-                                                        <b:dataTableColumn label="V1">
-                                                            <h:outputLabel value="#{valores.v1}"/>
-                                                        </b:dataTableColumn>
-                                                        <b:dataTableColumn label="V2">
-                                                            <h:outputLabel value="#{valores.v2}"/>
-                                                        </b:dataTableColumn>
-                                                        <b:dataTableColumn label="VT">
-                                                            <h:outputLabel value="#{valores.vt}"/>
-                                                        </b:dataTableColumn>
-                                                        <b:dataTableColumn label="CTC">
-                                                            <h:outputLabel value="#{valores.ctc}"/>
-                                                        </b:dataTableColumn>
-                                                        <b:dataTableColumn label="CMT">
-                                                            <h:outputLabel value="#{valores.cmt}"/>
-                                                        </b:dataTableColumn>
-                                                        <b:dataTableColumn label="CTMC">
-                                                            <h:outputLabel value="#{valores.ctmc}"/>
-                                                        </b:dataTableColumn>
-                                                        <b:dataTableColumn label="CTMD">
-                                                            <h:outputLabel value="#{valores.ctmd}"/>
-                                                        </b:dataTableColumn>
-                                                        <b:dataTableColumn label="CR">
-                                                            <h:outputLabel value="#{valores.cr}"/>
-                                                        </b:dataTableColumn>
-                                                        <b:dataTableColumn label="CCE">
-                                                            <h:outputLabel value="#{valores.cce}"/>
-                                                        </b:dataTableColumn>
-                                                        <b:dataTableColumn label="CTME">
-                                                            <h:outputLabel value="#{valores.ctme}"/>
-                                                        </b:dataTableColumn>
-                                                    </b:dataTable>
-                                                </h:form>
-                                            </div>
-                                             /widget-content  
-                                        </div>
-                                    </div>
-                                </div>
-                            </b:column>-->
-
+                                </b:column>
+                                <!-- /widget -->                            
+                            </h:form>
                         </b:row>
 
                         <!-- /row --> 

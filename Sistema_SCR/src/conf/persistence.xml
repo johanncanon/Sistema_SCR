@@ -8,12 +8,12 @@
     <class>com.planit.scr.modelos.Trm</class>
     <class>com.planit.scr.modelos.Produccion</class>
     <class>com.planit.scr.modelos.Municipios</class>
-    <class>com.planit.scr.modelos.Pbl</class>
     <class>com.planit.scr.modelos.Contratos_1</class>
     <class>com.planit.scr.modelos.Municipios_1</class>
     <class>com.planit.scr.modelos.Departamentos_1</class>
     <class>com.planit.scr.modelos.Tipos_1</class>
     <class>com.planit.scr.modelos.Campos</class>
+    <class>com.planit.scr.modelos.Pbl</class>
     <class>com.planit.scr.modelos.Valores</class>
     <class>com.planit.scr.modelos.Regalias</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>

@@ -75,14 +75,20 @@ public class PblCT {
         this.mes = mes;
     }
 
-    
-
     //Metodos   
     public void consultarPbl() throws Exception {
         PblDao pblDao = new PblDao();
         ValoresDao valoresDao = new ValoresDao();
-        pbl.setTrimestre(pblDao.obtenerTrimestre(mes));
+        
+        //Verifica el año de consulta para determinar la forma en que se registra el pbl
+        if (pbl.getAnio() >= 2012) {
+            pbl.setTrimestreMes(mes);
+        } else if (pbl.getAnio() < 2012) {
+            pbl.setTrimestreMes(pblDao.obtenerTrimestre(mes));
+        }
+        
+        //Trae los datos del pbl calculado
         pbls = pblDao.consultarPblSegunMunicipio(municipio, pbl);
-        valores = valoresDao.consultarValores(pbl.getTrimestre(), pbl.getAnio());
+        valores = valoresDao.consultarValores(pbl.getTrimestreMes(), pbl.getAnio());
     }
 }

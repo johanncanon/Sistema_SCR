@@ -31,18 +31,17 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Valores.findByPf", query = "SELECT v FROM Valores v WHERE v.pf = :pf"),
     @NamedQuery(name = "Valores.findByV1", query = "SELECT v FROM Valores v WHERE v.v1 = :v1"),
     @NamedQuery(name = "Valores.findByV2", query = "SELECT v FROM Valores v WHERE v.v2 = :v2"),
-    @NamedQuery(name = "Valores.findByTrimestre", query = "SELECT v FROM Valores v WHERE v.trimestre = :trimestre"),
     @NamedQuery(name = "Valores.findByVt", query = "SELECT v FROM Valores v WHERE v.vt = :vt"),
-    @NamedQuery(name = "Valores.findByCtc", query = "SELECT v FROM Valores v WHERE v.ctc = :ctc"),
     @NamedQuery(name = "Valores.findByCtmd", query = "SELECT v FROM Valores v WHERE v.ctmd = :ctmd"),
     @NamedQuery(name = "Valores.findByCmt", query = "SELECT v FROM Valores v WHERE v.cmt = :cmt"),
     @NamedQuery(name = "Valores.findByCtmc", query = "SELECT v FROM Valores v WHERE v.ctmc = :ctmc"),
     @NamedQuery(name = "Valores.findByCr", query = "SELECT v FROM Valores v WHERE v.cr = :cr"),
     @NamedQuery(name = "Valores.findByCce", query = "SELECT v FROM Valores v WHERE v.cce = :cce"),
     @NamedQuery(name = "Valores.findByCtme", query = "SELECT v FROM Valores v WHERE v.ctme = :ctme"),
+    @NamedQuery(name = "Valores.findByCtc", query = "SELECT v FROM Valores v WHERE v.ctc = :ctc"),
+    @NamedQuery(name = "Valores.findByTrimestreMes", query = "SELECT v FROM Valores v WHERE v.trimestreMes = :trimestreMes"),
     @NamedQuery(name = "Valores.findByAnio", query = "SELECT v FROM Valores v WHERE v.anio = :anio")})
 public class Valores implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,12 +57,8 @@ public class Valores implements Serializable {
     private Double v1;
     @Column(name = "v2")
     private Double v2;
-    @Column(name = "trimestre")
-    private Integer trimestre;
     @Column(name = "vt")
     private Double vt;
-    @Column(name = "ctc")
-    private Double ctc;
     @Column(name = "ctmd")
     private Double ctmd;
     @Column(name = "cmt")
@@ -76,6 +71,10 @@ public class Valores implements Serializable {
     private Double cce;
     @Column(name = "ctme")
     private Double ctme;
+    @Column(name = "ctc")
+    private Double ctc;
+    @Column(name = "trimestre_mes")
+    private Integer trimestreMes;
     @Column(name = "anio")
     private Integer anio;
 
@@ -86,43 +85,42 @@ public class Valores implements Serializable {
         this.idvalores = idvalores;
     }
 
-    public Valores(Integer idvalores, Double px, Double pf, Double v1, Double v2, Integer trimestre, Double vt, Double ctc, Double ctmd, Double cmt, Double ctmc, Double cr, Double cce, Double ctme, Integer anio) {
+    public Valores(Integer idvalores, Double px, Double pf, Double v1, Double v2, Double vt, Double ctmd, Double cmt, Double ctmc, Double cr, Double cce, Double ctme, Double ctc, Integer trimestreMes, Integer anio) {
         this.idvalores = idvalores;
         this.px = px;
         this.pf = pf;
         this.v1 = v1;
         this.v2 = v2;
-        this.trimestre = trimestre;
         this.vt = vt;
-        this.ctc = ctc;
         this.ctmd = ctmd;
         this.cmt = cmt;
         this.ctmc = ctmc;
         this.cr = cr;
         this.cce = cce;
         this.ctme = ctme;
+        this.ctc = ctc;
+        this.trimestreMes = trimestreMes;
         this.anio = anio;
     }
 
-    
-
-    public Valores(Double px, Double pf, Double v1, Double v2, Integer trimestre, Double vt, Double ctc, Double ctmd, Double cmt, Double ctmc, Double cr, Double cce, Double ctme, Integer anio) {
+    public Valores(Double px, Double pf, Double v1, Double v2, Double vt, Double ctmd, Double cmt, Double ctmc, Double cr, Double cce, Double ctme, Double ctc, Integer trimestreMes, Integer anio) {
         this.px = px;
         this.pf = pf;
         this.v1 = v1;
         this.v2 = v2;
-        this.trimestre = trimestre;
         this.vt = vt;
-        this.ctc = ctc;
         this.ctmd = ctmd;
         this.cmt = cmt;
         this.ctmc = ctmc;
         this.cr = cr;
         this.cce = cce;
         this.ctme = ctme;
+        this.ctc = ctc;
+        this.trimestreMes = trimestreMes;
         this.anio = anio;
     }
-
+    
+    
     public Integer getIdvalores() {
         return idvalores;
     }
@@ -162,14 +160,6 @@ public class Valores implements Serializable {
     public void setV2(Double v2) {
         this.v2 = v2;
     }
-
-    public Integer getTrimestre() {
-        return trimestre;
-    }
-
-    public void setTrimestre(Integer trimestre) {
-        this.trimestre = trimestre;
-    }   
 
     public Double getVt() {
         return vt;
@@ -227,21 +217,28 @@ public class Valores implements Serializable {
         this.ctme = ctme;
     }
 
-    public Integer getAnio() {
-        return anio;
-    }
-
-    public void setAnio(Integer anio) {
-        this.anio = anio;
-    }
-
-
     public Double getCtc() {
         return ctc;
     }
 
     public void setCtc(Double ctc) {
         this.ctc = ctc;
+    }
+
+    public Integer getTrimestreMes() {
+        return trimestreMes;
+    }
+
+    public void setTrimestreMes(Integer trimestreMes) {
+        this.trimestreMes = trimestreMes;
+    }
+
+    public Integer getAnio() {
+        return anio;
+    }
+
+    public void setAnio(Integer anio) {
+        this.anio = anio;
     }
 
     @Override
@@ -268,5 +265,5 @@ public class Valores implements Serializable {
     public String toString() {
         return "com.planit.scr.modelos.Valores[ idvalores=" + idvalores + " ]";
     }
-
+    
 }

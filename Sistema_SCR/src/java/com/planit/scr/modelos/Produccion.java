@@ -6,6 +6,7 @@
 package com.planit.scr.modelos;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,10 +18,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -35,6 +39,23 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Produccion.findByFecha", query = "SELECT p FROM Produccion p WHERE p.fecha = :fecha"),
     @NamedQuery(name = "Produccion.findByProduccion", query = "SELECT p FROM Produccion p WHERE p.produccion = :produccion")})
 public class Produccion implements Serializable {
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "produccionhdia")
+    private Double produccionhdia;
+    @Column(name = "produccionhmes")
+    private Double produccionhmes;
+    @Column(name = "producciongdia")
+    private Double producciongdia;
+    @Column(name = "producciongmes")
+    private Double producciongmes;
+    @Column(name = "produccionTotal")
+    private Double produccionTotal;
+    @Column(name = "mes")
+    private Integer mes;
+    @Column(name = "anio")
+    private Integer anio;
+    @OneToMany(mappedBy = "idproduccion")
+    private Collection<Regalias> regaliasCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -124,6 +145,72 @@ public class Produccion implements Serializable {
     @Override
     public String toString() {
         return "com.planit.scr.modelos.Produccion[ idproduccion=" + idproduccion + " ]";
+    }
+
+    public Double getProduccionhdia() {
+        return produccionhdia;
+    }
+
+    public void setProduccionhdia(Double produccionhdia) {
+        this.produccionhdia = produccionhdia;
+    }
+
+    public Double getProduccionhmes() {
+        return produccionhmes;
+    }
+
+    public void setProduccionhmes(Double produccionhmes) {
+        this.produccionhmes = produccionhmes;
+    }
+
+    public Double getProducciongdia() {
+        return producciongdia;
+    }
+
+    public void setProducciongdia(Double producciongdia) {
+        this.producciongdia = producciongdia;
+    }
+
+    public Double getProducciongmes() {
+        return producciongmes;
+    }
+
+    public void setProducciongmes(Double producciongmes) {
+        this.producciongmes = producciongmes;
+    }
+
+    public Double getProduccionTotal() {
+        return produccionTotal;
+    }
+
+    public void setProduccionTotal(Double produccionTotal) {
+        this.produccionTotal = produccionTotal;
+    }
+
+    public Integer getMes() {
+        return mes;
+    }
+
+    public void setMes(Integer mes) {
+        this.mes = mes;
+    }
+
+    public Integer getAnio() {
+        return anio;
+    }
+
+    public void setAnio(Integer anio) {
+        this.anio = anio;
+    }
+
+    @XmlTransient
+    @JsonIgnore
+    public Collection<Regalias> getRegaliasCollection() {
+        return regaliasCollection;
+    }
+
+    public void setRegaliasCollection(Collection<Regalias> regaliasCollection) {
+        this.regaliasCollection = regaliasCollection;
     }
     
 }

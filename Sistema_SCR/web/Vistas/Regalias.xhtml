@@ -98,8 +98,8 @@
                                                                 <tr>
                                                                     <th class="order-table-header" scope="col">Contrato</th>
                                                                     <th class="order-table-header" scope="col">Campo</th>
-                                                                    <th class="order-table-header" scope="col">Hidrocarburo</th>
-                                                                    <th class="order-table-header" scope="col">Prod dia</th>
+                                                                    <th class="order-table-header" scope="col">Prod dia Hidro</th>
+                                                                    <th class="order-table-header" scope="col">Prod dia Gas</th>
                                                                 </tr>                                                                 
                                                             </thead>
 
@@ -110,15 +110,13 @@
                                                                         <td>#{item.idcampo.nombre} </td>
                                                                         <td>
                                                                             <div class="form-group">
-                                                                                <b:selectOneMenu value="#{item.tipohidrocarburo}" col-xs="12" class="ajuste-Campo">
-                                                                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione Tipo"/>
-                                                                                    <f:selectItem itemLabel="Petróleo" itemValue="P"/>
-                                                                                    <f:selectItem itemLabel="Gas" itemValue="G"/>    
-                                                                                </b:selectOneMenu>
+                                                                                <b:inputText value="#{item.idproduccion.produccionhdia}" placeholder="Volumen de Producción Hi" span="8" class="ajuste-Campo"/> 
                                                                             </div>
                                                                         </td>
                                                                         <td>  
-                                                                            <b:inputText value="#{item.proddia}" placeholder="Volumen de Producción" span="8" class="ajuste-Campo"/> 
+                                                                            <div class="form-group">
+                                                                                <b:inputText value="#{item.idproduccion.producciongdia}" placeholder="Volumen de Producción Gas" span="8" class="ajuste-Campo"/> 
+                                                                            </div>
                                                                         </td>
                                                                     </tr>
                                                                 </c:forEach>

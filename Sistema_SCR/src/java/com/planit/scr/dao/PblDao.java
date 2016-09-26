@@ -40,14 +40,14 @@ public class PblDao {
                     pbl.setPrc(pbl.getRefinacion() + pbl.getExportacion());
                     pbl.setIdcontrato(contratos.get(i));
                     pbl.setAnio(valores.getAnio());
-                    pbl.setTrimestre(valores.getTrimestre());
+                    pbl.setTrimestreMes(valores.getTrimestreMes());
 
-                    String sql = "INSERT INTO public.pbl (ctc, ct1, cce, ct2, trimestre, prc, anio, refinacion, exportacion, idcontrato)"
+                    String sql = "INSERT INTO public.pbl (ctc, ct1, cce, ct2, trimestre_mes, prc, anio, refinacion, exportacion, idcontrato)"
                             + " VALUES(" + pbl.getCtc() + ","
                             + "" + pbl.getCt1() + ","
                             + " " + pbl.getCce() + ","
                             + " " + pbl.getCt2() + ","
-                            + " " + pbl.getTrimestre() + ","
+                            + " " + pbl.getTrimestreMes() + ","
                             + " " + pbl.getPrc() + ","
                             + " " + pbl.getAnio() + ","
                             + " " + pbl.getRefinacion() + ","
@@ -74,9 +74,9 @@ public class PblDao {
         municipio = municipiosDao.consultarMunicipio(municipio);
         try {
             try {
-                String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre, p.prc, p.refinacion, p.exportacion, p.idcontrato, p.anio"
+                String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre_mes, p.prc, p.refinacion, p.exportacion, p.idcontrato, p.anio"
                         + " FROM public.pbl as p, public.contratos as c, public.municipios as m"
-                        + " WHERE p.anio = " + pbl.getAnio() + " AND p.trimestre = " + pbl.getTrimestre() + " AND"
+                        + " WHERE p.anio = " + pbl.getAnio() + " AND p.trimestre_mes = " + pbl.getTrimestreMes() + " AND"
                         + " p.idcontrato = c.idcontrato AND c.idmunicipio = m.idmunicipio AND m.idmunicipio = " + municipio.getIdmunicipio() + " ";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
@@ -87,9 +87,9 @@ public class PblDao {
                             rs.getDouble(5),
                             rs.getInt(6),
                             rs.getDouble(7),
-                            rs.getInt(11),
                             rs.getDouble(8),
                             rs.getDouble(9),
+                            rs.getInt(11),
                             contratosDao.consultarContrato(new Contratos(rs.getInt(10)))));
                 }
             } catch (SQLException e) {
@@ -107,12 +107,12 @@ public class PblDao {
         Pbl pbl = new Pbl();
         Statement st = ConexionSQL.conexion();
         ContratosDao contratosDao = new ContratosDao();
-        
+
         try {
             try {
-                String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre, p.prc, p.refinacion, p.exportacion, p.idcontrato, p.anio"
+                String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre_mes, p.prc, p.refinacion, p.exportacion, p.idcontrato, p.anio"
                         + " FROM public.pbl as p"
-                        + " WHERE p.anio = " + anio + " AND p.trimestre = " + trimestre + " AND"
+                        + " WHERE p.anio = " + anio + " AND p.trimestre_mes = " + trimestre + " AND"
                         + " p.idcontrato = " + contrato.getIdcontrato() + " ";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
@@ -123,9 +123,9 @@ public class PblDao {
                             rs.getDouble(5),
                             rs.getInt(6),
                             rs.getDouble(7),
-                            rs.getInt(11),
                             rs.getDouble(8),
                             rs.getDouble(9),
+                            rs.getInt(11),
                             contratosDao.consultarContrato(new Contratos(rs.getInt(10))));
                 }
             } catch (SQLException e) {

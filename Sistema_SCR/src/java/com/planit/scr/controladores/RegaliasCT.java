@@ -135,13 +135,13 @@ public class RegaliasCT {
         for (int i = 0; i < regalias.size(); i++) {
 
             //Validamos si el hidrocarburo el gas o petroleo
-            if (regalias.get(i).getTipohidrocarburo().equals("G")) { //Convertimos a barriles en caso de ser gas
-                barrilesequivalentes = (regalias.get(i).getProddia() / (double) 5700);
-                regalias.get(i).setProddia(barrilesequivalentes);
-                regalias.get(i).setProdmes(barrilesequivalentes * (double) 30);
-            } else {
-                regalias.get(i).setProdmes(regalias.get(i).getProddia() * (double) 30);
-            }
+//            if (regalias.get(i).getTipohidrocarburo().equals("G")) { //Convertimos a barriles en caso de ser gas
+//                barrilesequivalentes = (regalias.get(i).getProddia() / (double) 5700);
+//                regalias.get(i).setProddia(barrilesequivalentes);
+//                regalias.get(i).setProdmes(barrilesequivalentes * (double) 30);
+//            } else {
+//                regalias.get(i).setProdmes(regalias.get(i).getProddia() * (double) 30);
+//            }
 
             //Obtenemos el porcentaje correspondiente de regalias segun el tipo de contrato
             double porcentaje = contratosDao.consultarContrato(regalias.get(i).getIdcampo().getIdcontrato()).getPorcentaje();
