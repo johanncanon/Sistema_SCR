@@ -78,7 +78,7 @@ public class Produccion implements Serializable {
         this.idproduccion = idproduccion;
     }
 
-    public Produccion(Integer idproduccion, Double produccionhdia, Double produccionhmes, Double producciongdia, Double producciongmes, Double producciontotaldia, Integer mes, Integer anio, Double producciontotalmes, Collection<Regalias> regaliasCollection, Campos idcampo) {
+    public Produccion(Integer idproduccion, Double produccionhdia, Double produccionhmes, Double producciongdia, Double producciongmes, Double producciontotaldia, Integer mes, Integer anio, Double producciontotalmes, Campos idcampo) {
         this.idproduccion = idproduccion;
         this.produccionhdia = produccionhdia;
         this.produccionhmes = produccionhmes;
@@ -88,11 +88,10 @@ public class Produccion implements Serializable {
         this.mes = mes;
         this.anio = anio;
         this.producciontotalmes = producciontotalmes;
-        this.regaliasCollection = regaliasCollection;
         this.idcampo = idcampo;
     }
 
-    public Produccion(Double produccionhdia, Double produccionhmes, Double producciongdia, Double producciongmes, Double producciontotaldia, Integer mes, Integer anio, Double producciontotalmes, Collection<Regalias> regaliasCollection, Campos idcampo) {
+    public Produccion(Double produccionhdia, Double produccionhmes, Double producciongdia, Double producciongmes, Double producciontotaldia, Integer mes, Integer anio, Double producciontotalmes, Campos idcampo) {
         this.produccionhdia = produccionhdia;
         this.produccionhmes = produccionhmes;
         this.producciongdia = producciongdia;
@@ -101,9 +100,10 @@ public class Produccion implements Serializable {
         this.mes = mes;
         this.anio = anio;
         this.producciontotalmes = producciontotalmes;
-        this.regaliasCollection = regaliasCollection;
         this.idcampo = idcampo;
     }
+
+   
     
     
 

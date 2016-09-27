@@ -84,7 +84,7 @@ public class PblCT {
         if (pbl.getAnio() >= 2012) {
             pbl.setTrimestreMes(mes);
         } else if (pbl.getAnio() < 2012) {
-            pbl.setTrimestreMes(pblDao.obtenerTrimestre(mes));
+            pbl.setTrimestreMes(pblDao.obtenerTrimestre(mes, pbl.getAnio()));
         }
         
         //Trae los datos del pbl calculado

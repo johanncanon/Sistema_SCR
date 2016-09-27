@@ -29,7 +29,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Regalias.findAll", query = "SELECT r FROM Regalias r"),
     @NamedQuery(name = "Regalias.findByIdregalias", query = "SELECT r FROM Regalias r WHERE r.idregalias = :idregalias"),
-    @NamedQuery(name = "Regalias.findByTipohidrocarburo", query = "SELECT r FROM Regalias r WHERE r.tipohidrocarburo = :tipohidrocarburo"),
     @NamedQuery(name = "Regalias.findByPorcmunicipio", query = "SELECT r FROM Regalias r WHERE r.porcmunicipio = :porcmunicipio"),
     @NamedQuery(name = "Regalias.findByPorcregalias", query = "SELECT r FROM Regalias r WHERE r.porcregalias = :porcregalias"),
     @NamedQuery(name = "Regalias.findByDepproductor", query = "SELECT r FROM Regalias r WHERE r.depproductor = :depproductor"),
@@ -47,9 +46,6 @@ public class Regalias implements Serializable {
     @Basic(optional = false)
     @Column(name = "idregalias")
     private Integer idregalias;
-    @Basic(optional = false)
-    @Column(name = "tipohidrocarburo")
-    private String tipohidrocarburo;
     @Basic(optional = false)
     @Column(name = "porcmunicipio")
     private double porcmunicipio;
@@ -91,15 +87,18 @@ public class Regalias implements Serializable {
     private Produccion idproduccion;
 
     public Regalias() {
+        this.idcampo = new Campos();
+        this.iddepartamento = new Departamentos();
+        this.idmunicipio = new Municipios();
+        this.idproduccion = new Produccion();
     }
 
     public Regalias(Integer idregalias) {
         this.idregalias = idregalias;
     }
 
-    public Regalias(Integer idregalias, String tipohidrocarburo, double porcmunicipio, double porcregalias, int depproductor, int munproductor, int depnoproductor, int puertos) {
+    public Regalias(Integer idregalias, double porcmunicipio, double porcregalias, int depproductor, int munproductor, int depnoproductor, int puertos) {
         this.idregalias = idregalias;
-        this.tipohidrocarburo = tipohidrocarburo;
         this.porcmunicipio = porcmunicipio;
         this.porcregalias = porcregalias;
         this.depproductor = depproductor;
@@ -108,9 +107,8 @@ public class Regalias implements Serializable {
         this.puertos = puertos;
     }
 
-    public Regalias(Integer idregalias, String tipohidrocarburo, double porcmunicipio, double porcregalias, int depproductor, int munproductor, int depnoproductor, int puertos, Integer anio, Integer mes, Double precio, Double regalias, Campos idcampo, Departamentos iddepartamento, Municipios idmunicipio, Produccion idproduccion) {
+    public Regalias(Integer idregalias, double porcmunicipio, double porcregalias, int depproductor, int munproductor, int depnoproductor, int puertos, Integer anio, Integer mes, Double precio, Double regalias, Campos idcampo, Departamentos iddepartamento, Municipios idmunicipio, Produccion idproduccion) {
         this.idregalias = idregalias;
-        this.tipohidrocarburo = tipohidrocarburo;
         this.porcmunicipio = porcmunicipio;
         this.porcregalias = porcregalias;
         this.depproductor = depproductor;
@@ -127,8 +125,7 @@ public class Regalias implements Serializable {
         this.idproduccion = idproduccion;
     }
 
-    public Regalias(String tipohidrocarburo, double porcmunicipio, double porcregalias, int depproductor, int munproductor, int depnoproductor, int puertos, Integer anio, Integer mes, Double precio, Double regalias, Campos idcampo, Departamentos iddepartamento, Municipios idmunicipio, Produccion idproduccion) {
-        this.tipohidrocarburo = tipohidrocarburo;
+    public Regalias(double porcmunicipio, double porcregalias, int depproductor, int munproductor, int depnoproductor, int puertos, Integer anio, Integer mes, Double precio, Double regalias, Campos idcampo, Departamentos iddepartamento, Municipios idmunicipio, Produccion idproduccion) {
         this.porcmunicipio = porcmunicipio;
         this.porcregalias = porcregalias;
         this.depproductor = depproductor;
@@ -153,14 +150,6 @@ public class Regalias implements Serializable {
 
     public void setIdregalias(Integer idregalias) {
         this.idregalias = idregalias;
-    }
-
-    public String getTipohidrocarburo() {
-        return tipohidrocarburo;
-    }
-
-    public void setTipohidrocarburo(String tipohidrocarburo) {
-        this.tipohidrocarburo = tipohidrocarburo;
     }
 
     public double getPorcmunicipio() {

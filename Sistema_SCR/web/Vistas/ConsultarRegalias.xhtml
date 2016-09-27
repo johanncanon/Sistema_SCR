@@ -57,8 +57,9 @@
                                                                     <f:selectItems value="#{municipioCT.municipios}" var="municipio" itemLabel="#{municipio.nombre}" itemValue="#{municipio.nombre}" />
                                                                 </b:selectOneMenu>
                                                             </div>
+                                                            <p:separator/>
                                                             <div class="form-group">
-                                                                <b:commandButton value="Enviar" update=":formularioRegistro" action="#{regaliasCT.consultarRegalias()}" class="btn btn-info " style="float: right">
+                                                                <b:commandButton value="Consultar" update=":formularioRegistro" action="#{regaliasCT.consultarRegalias()}" class="btn btn-info " style="float: right; width: 30%">
                                                                     <b:iconAwesome name="send"></b:iconAwesome>
                                                                 </b:commandButton>
                                                             </div>

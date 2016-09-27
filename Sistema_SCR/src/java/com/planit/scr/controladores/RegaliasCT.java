@@ -9,6 +9,7 @@ import com.planit.scr.conexion.ConexionSQL;
 import com.planit.scr.dao.CamposDao;
 import com.planit.scr.dao.ContratosDao;
 import com.planit.scr.dao.PblDao;
+import com.planit.scr.dao.ProduccionDao;
 import com.planit.scr.dao.RegaliasDao;
 import com.planit.scr.modelos.Campos;
 import com.planit.scr.modelos.Municipios;
@@ -110,8 +111,6 @@ public class RegaliasCT {
     public void setRegalia(Regalias regalia) {
         this.regalia = regalia;
     }
-    
-    
 
     //metodos 
     public void consultarCamposSegunMunicipio() throws Exception {
@@ -124,6 +123,9 @@ public class RegaliasCT {
             regalia.setIddepartamento(campos.get(i).getIdcontrato().getIdmunicipio().getIddepartamento());
             regalia.setAnio(anio);
             regalia.setMes(mes);
+            regalia.getIdproduccion().setAnio(anio);
+            regalia.getIdproduccion().setMes(mes);
+            regalia.getIdproduccion().setIdcampo(campos.get(i));
             regalias.add(regalia);
         }
     }
@@ -131,18 +133,23 @@ public class RegaliasCT {
     public void calcularRegalias() throws Exception {
         ContratosDao contratosDao = new ContratosDao();
         RegaliasDao regaliasDao = new RegaliasDao();
-        double barrilesequivalentes;
+        ProduccionDao produccionDao = new ProduccionDao();       
+               
         for (int i = 0; i < regalias.size(); i++) {
 
-            //Validamos si el hidrocarburo el gas o petroleo
-//            if (regalias.get(i).getTipohidrocarburo().equals("G")) { //Convertimos a barriles en caso de ser gas
-//                barrilesequivalentes = (regalias.get(i).getProddia() / (double) 5700);
-//                regalias.get(i).setProddia(barrilesequivalentes);
-//                regalias.get(i).setProdmes(barrilesequivalentes * (double) 30);
-//            } else {
-//                regalias.get(i).setProdmes(regalias.get(i).getProddia() * (double) 30);
-//            }
-
+            //Calculamos todos los valores relacionados a la produccion
+            regalias.get(i).getIdproduccion().setProduccionhmes(regalias.get(i).getIdproduccion().getProduccionhdia() * 30.0);
+            regalias.get(i).getIdproduccion().setProducciongmes(regalias.get(i).getIdproduccion().getProducciongdia() * 30.0);
+            regalias.get(i).getIdproduccion().setProducciontotaldia(
+                    regalias.get(i).getIdproduccion().getProduccionhdia() + produccionDao.convertirABarrilesEquivalentes(regalias.get(i).getIdproduccion().getProducciongdia()));
+            regalias.get(i).getIdproduccion().setProducciontotalmes(regalias.get(i).getIdproduccion().getProducciontotaldia() * 30.0);
+            produccionDao.registrarProduccion(regalias.get(i).getIdproduccion());
+            regalias.get(i).setIdproduccion(produccionDao.consultarProduccionCampo(regalias.get(i).getIdproduccion()));
+        
+        }
+                
+        for (int i = 0; i < regalias.size(); i++) {            
+                        
             //Obtenemos el porcentaje correspondiente de regalias segun el tipo de contrato
             double porcentaje = contratosDao.consultarContrato(regalias.get(i).getIdcampo().getIdcontrato()).getPorcentaje();
             regalias.get(i).setPorcregalias((porcentaje / 100));
@@ -154,7 +161,10 @@ public class RegaliasCT {
             //Obtenemos pbl correspondiente al mes seleccionado
             PblDao pblDao = new PblDao();
             Pbl pbl = new Pbl();
-            pbl = pblDao.consultarPblSegunContrato(regalias.get(i).getIdcampo().getIdcontrato(), pblDao.obtenerTrimestre(regalias.get(i).getMes()), regalias.get(i).getAnio());
+            pbl = pblDao.consultarPblSegunContrato(
+                    regalias.get(i).getIdcampo().getIdcontrato(),
+                    pblDao.obtenerTrimestre(regalias.get(i).getMes(),
+                    regalias.get(i).getAnio()), regalias.get(i).getAnio());
             regalias.get(i).setPrecio(pbl.getPrc());
 
             //Calculamos 
@@ -216,74 +226,11 @@ public class RegaliasCT {
         }
         return total;
     }
-    
-        //Metodos   
+
+    //Metodos   
     public void consultarRegalias() throws Exception {
         regalia.setIdmunicipio(municipio);
         RegaliasDao regaliasDao = new RegaliasDao();
-        regalias = regaliasDao.consultarRegalias(regalia);       
+        regalias = regaliasDao.consultarRegalias(regalia);
     }
-
-//    //Metodos
-//    public String calcularRegalias() throws Exception {
-//        MunicipioCT mct = new MunicipioCT();
-//        CampoCT cct = new CampoCT();
-//        String ruta = "";
-//
-//            municipio = mct.consultarMunicipio(municipio);
-//            campos = cct.consultarCampos(municipio);
-//            produccion.setIdcampo(campos.get(0));
-//            ProduccionCT pct = new ProduccionCT();
-//            produccion.setFecha(new Date());
-//            pct.registrar(produccion);
-//            producciones.add(produccion);
-//            posicion++;
-//            if (posicion <= campos.size()) {
-//                if (posicion < campos.size()) {
-//                    produccion = new Produccion();
-//                    produccion.setIdcampo(campos.get(posicion));
-//
-//                } else if (posicion == campos.size()) {
-//                     posicion = 0;
-//                    pbl.setIdcampo(campos.get(0));
-//                }
-//            }
-//
-//            PblCT pclt = new PblCT();
-//            pbl = pclt.calcularPBL(pbl);
-//            if (mes <= 3) {
-//                pbl.setTrimestre(1);
-//            } else if (mes > 3 && mes <= 6) {
-//                pbl.setTrimestre(2);
-//            } else if (mes > 6 && mes <= 9) {
-//                pbl.setTrimestre(3);
-//            } else if (mes > 9 && mes <= 12) {
-//                pbl.setTrimestre(4);
-//            }
-//            pclt.registrarPbl(pbl);
-//            pbls.add(pbl);
-//
-//            pbl = new Pbl();
-//            posicion++;
-//            if (posicion <= campos.size()) {
-//                if (posicion < campos.size()) {
-//                    pbl.setIdcampo(campos.get(posicion));
-//                } else if (posicion == campos.size()) {
-//                    ruta = "Resultado";
-//                    posicion = 0;
-//                    for (int i = 0; i < campos.size(); i++) {
-//
-//                        double prodMes = producciones.get(i).getProduccion() * 30;
-//                        double porcentaje = (double) 20 / 100;
-//                        double precioLiquidacion = pbls.get(i).getPrc();
-//                        double regalia = prodMes * precioLiquidacion * porcentaje * 3200;
-//
-//                        regalias.add(new Regalias(campos.get(i), producciones.get(i), pbls.get(i), 20, regalia));
-//                    }
-//                }
-//            }
-//        
-//
-//        return ruta;
-//    }
 }

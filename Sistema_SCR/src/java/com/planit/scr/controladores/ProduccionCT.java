@@ -33,9 +33,12 @@ public class ProduccionCT {
     public void setProduccion(Produccion produccion) {
         this.produccion = produccion;
     }
+    
+    
 
     //Metodos
-    public void registrar(Produccion p) throws Exception {
+    public void registrar(Produccion p) throws Exception {     
+            
         ProduccionDao produccionDao = new ProduccionDao();
         produccionDao.registrarProduccion(p);
     }

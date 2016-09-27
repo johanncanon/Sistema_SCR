@@ -15,10 +15,10 @@
             <ui:define name="content">
                 <div class="main">
                     <div class="main-inner">
-                        <b:container fluid="false" >
+                        <b:container fluid="true" >
                             <b:row>
 
-                                <b:column col-lg="6" style="width: 100% !important;">
+                                <b:column col-lg="4">
                                     <div class="widget ">
                                         <div class="widget-header"> <i class="fa fa-list-ol"></i>
                                             <h3> Registro de Produccion </h3>
@@ -71,8 +71,8 @@
                                                                     <f:selectItems value="#{municipioCT.municipiosFiltrados}" var="municipio" itemLabel="#{municipio.nombre}" itemValue="#{municipio.nombre}"/>
                                                                 </h:selectOneMenu>
                                                             </div>
-
-                                                            <b:commandButton value="Enviar" action="#{regaliasCT.consultarCamposSegunMunicipio()}" update=":formularioLista" class="btn btn-info " style="float: right">
+                                                            <p:separator/>
+                                                            <b:commandButton value="Consultar" action="#{regaliasCT.consultarCamposSegunMunicipio()}" update=":formularioLista" class="btn btn-info " style="float: right; width: 30%">
                                                                 <b:iconAwesome name="send"></b:iconAwesome>
                                                             </b:commandButton>
                                                         </div>
@@ -84,7 +84,7 @@
                                     </div>
                                 </b:column>
 
-                                <b:column col-lg="6" style="width: 100% !important;">
+                                <b:column col-lg="8" >
                                     <div class="widget " >
                                         <div class="widget-header" > <i class="fa fa-list-ol"></i>
                                             <h3> Registro de Producción </h3>
@@ -93,13 +93,44 @@
                                             <h:form id="formularioLista">
                                                 <div class="widget big-stats-container">
                                                     <div class="widget-content">
-                                                        <table class="order-table">
+                                                        <h:dataTable value="#{regaliasCT.regalias}" var="item" class="order-table">
+                                                            <h:column>
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Contrato"></h:outputText>
+                                                                </f:facet>
+                                                                <h:outputText value="#{item.idcampo.idcontrato.nombre}"></h:outputText>
+                                                            </h:column>
+                                                            <h:column>
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Campo"></h:outputText>
+                                                                </f:facet>
+                                                                <h:outputText value="#{item.idcampo.nombre}"></h:outputText>
+                                                            </h:column>
+                                                            <h:column>
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Volumen Promedio diario(P)"></h:outputText>
+                                                                </f:facet>
+                                                                <div class="form-group">
+                                                                    <b:inputText value="#{item.idproduccion.produccionhdia}" placeholder="Volumen de Producción Hidrocarburos" span="12" class="ajuste-Campo"/> 
+                                                                </div>
+                                                            </h:column>
+                                                            <h:column>
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Volumen Promedio diario(G)"></h:outputText>
+                                                                </f:facet>
+                                                                <div class="form-group">
+                                                                    <b:inputText value="#{item.idproduccion.producciongdia}" placeholder="Volumen de Producción Gas" span="12" class="ajuste-Campo"/> 
+                                                                </div>
+                                                            </h:column>
+                                                        </h:dataTable>                                                     
+
+<!--                                                        <table class="order-table">
                                                             <thead>
                                                                 <tr>
                                                                     <th class="order-table-header" scope="col">Contrato</th>
                                                                     <th class="order-table-header" scope="col">Campo</th>
-                                                                    <th class="order-table-header" scope="col">Prod dia Hidro</th>
-                                                                    <th class="order-table-header" scope="col">Prod dia Gas</th>
+                                                                    <th class="order-table-header" scope="col">Volumen promedio diario Hidrocarburos</th>
+                                                                    <th class="order-table-header" scope="col">Volumen promedio diario Gas</th>
                                                                 </tr>                                                                 
                                                             </thead>
 
@@ -110,20 +141,21 @@
                                                                         <td>#{item.idcampo.nombre} </td>
                                                                         <td>
                                                                             <div class="form-group">
-                                                                                <b:inputText value="#{item.idproduccion.produccionhdia}" placeholder="Volumen de Producción Hi" span="8" class="ajuste-Campo"/> 
+                                                                                <b:inputText value="#{item.idproduccion.produccionhdia}" placeholder="Volumen de Producción Hidrocarburos" span="12" class="ajuste-Campo"/> 
                                                                             </div>
                                                                         </td>
                                                                         <td>  
                                                                             <div class="form-group">
-                                                                                <b:inputText value="#{item.idproduccion.producciongdia}" placeholder="Volumen de Producción Gas" span="8" class="ajuste-Campo"/> 
+                                                                                <b:inputText value="#{item.idproduccion.producciongdia}" placeholder="Volumen de Producción Gas" span="12" class="ajuste-Campo"/> 
                                                                             </div>
                                                                         </td>
                                                                     </tr>
                                                                 </c:forEach>
                                                             </tbody>
-                                                        </table> 
+                                                        </table> -->
+                                                        <p:separator/>
                                                         <div class="form-group">
-                                                            <b:commandButton action="#{regaliasCT.calcularRegalias()}" update=":formularioLista" class=" btn btn-info" style="float: right" value="Calcular">
+                                                            <b:commandButton action="#{regaliasCT.calcularRegalias()}" update=":formularioLista" class=" btn btn-info" style="float: right; width: 30%" value="Calcular">
                                                                 <b:iconAwesome name="send"/>
                                                             </b:commandButton>
                                                         </div>

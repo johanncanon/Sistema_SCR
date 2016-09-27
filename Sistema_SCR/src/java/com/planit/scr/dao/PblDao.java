@@ -103,7 +103,7 @@ public class PblDao {
         return pbls;
     }
 
-    public Pbl consultarPblSegunContrato(Contratos contrato, int trimestre, int anio) throws Exception {
+    public Pbl consultarPblSegunContrato(Contratos contrato, int trimestre_mes, int anio) throws Exception {
         Pbl pbl = new Pbl();
         Statement st = ConexionSQL.conexion();
         ContratosDao contratosDao = new ContratosDao();
@@ -112,7 +112,7 @@ public class PblDao {
             try {
                 String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre_mes, p.prc, p.refinacion, p.exportacion, p.idcontrato, p.anio"
                         + " FROM public.pbl as p"
-                        + " WHERE p.anio = " + anio + " AND p.trimestre_mes = " + trimestre + " AND"
+                        + " WHERE p.anio = " + anio + " AND p.trimestre_mes = " + trimestre_mes + " AND"
                         + " p.idcontrato = " + contrato.getIdcontrato() + " ";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
@@ -139,19 +139,22 @@ public class PblDao {
         return pbl;
     }
 
-    public int obtenerTrimestre(int mes) {
-        int trimestre = 0;
-
-        if (mes >= 1 && mes <= 3) {
-            trimestre = 1;
-        } else if (mes >= 4 && mes <= 6) {
-            trimestre = 2;
-        } else if (mes >= 7 && mes <= 9) {
-            trimestre = 3;
-        } else if (mes >= 10 && mes <= 12) {
-            trimestre = 4;
-        }
-
-        return trimestre;
-    }
+    //Calculos
+    public int obtenerTrimestre(int mes, int anio) {
+        int valor = 0;
+        if (anio <= 2012) {
+            if (mes >= 1 && mes <= 3) {
+                valor = 1;
+            } else if (mes >= 4 && mes <= 6) {
+                valor = 2;
+            } else if (mes >= 7 && mes <= 9) {
+                valor = 3;
+            } else if (mes >= 10 && mes <= 12) {
+                valor = 4;
+            }
+        }else{
+            valor = mes;
+        } 
+    return valor ;
+}
 }
