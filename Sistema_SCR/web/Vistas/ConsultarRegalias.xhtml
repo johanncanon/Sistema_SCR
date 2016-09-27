@@ -15,10 +15,10 @@
             <ui:define name="content">
                 <div class="main">
                     <div class="main-inner">
-                        <b:container fluid="false" >
+                        <b:container fluid="true" >
                             <b:row>
                                 <h:form id="formularioRegistro">
-                                    <b:column col-lg="6" style="width: 100% !important;">
+                                    <b:column col-lg="6" >
                                         <div class="widget ">
                                             <div class="widget-header"> <i class="fa fa-list-ol"></i>
                                                 <h3> Consulta de Regalias </h3>
@@ -71,7 +71,7 @@
                                         </div>
                                     </b:column>
 
-                                    <b:column col-lg="6" style="width: 100% !important;">
+                                    <b:column col-lg="12" >
                                         <div class="widget " >
                                             <div class="widget-header" > <i class="fa fa-list-ol"></i>
                                                 <h3> Regalias </h3>
@@ -87,7 +87,8 @@
                                                                     <th class="order-table-header" scope="col">Municipio</th>
                                                                     <th class="order-table-header" scope="col">Campo</th>
                                                                     <th class="order-table-header" scope="col">Contrato</th>
-                                                                    <th class="order-table-header" scope="col">T. Hdr/Prd</th>
+                                                                    <th class="order-table-header" scope="col">T. Hdr</th>
+                                                                    <th class="order-table-header" scope="col">T. Gas</th>
                                                                     <th class="order-table-header" scope="col">Prod. Mes</th>
                                                                     <th class="order-table-header" scope="col">Prod. Día</th>
                                                                     <th class="order-table-header" scope="col">Pr. Mun</th>
@@ -102,18 +103,19 @@
                                                             <tbody>
                                                                 <c:forEach items="#{regaliasCT.regalias}" var="item">           
                                                                     <tr class="order-table-odd-row">
-                                                                        <td>#{item.idmunicipio.nombre}</td>
-                                                                        <td>#{item.idcampo.nombre}</td>
-                                                                        <td>#{item.idcampo.idcontrato.nombre}</td>                                                                          
-                                                                        <td>#{item.tipohidrocarburo}</td>
-                                                                        <td>#{item.prodmes}</td>
-                                                                        <td>#{item.proddia}</td>
-                                                                        <td>#{item.porcmunicipio}</td>
-                                                                        <td>#{item.porcregalias}</td>
-                                                                        <td>#{item.depproductor}</td>
-                                                                        <td>#{item.depnoproductor}</td>
-                                                                        <td>#{item.puertos}</td>
-                                                                        <td>#{item.munproductor}</td>
+                                                                        <td align="center">#{item.idmunicipio.nombre}</td>
+                                                                        <td align="center">#{item.idcampo.nombre}</td>
+                                                                        <td align="center">#{item.idcampo.idcontrato.nombre}</td>                                                                          
+                                                                        <td align="center">#{item.idproduccion.produccionhdia}</td>
+                                                                        <td align="center">#{item.idproduccion.producciongdia}</td>
+                                                                        <td align="center">#{item.idproduccion.producciontotalmes}</td>
+                                                                        <td align="center">#{item.idproduccion.producciontotaldia}</td>
+                                                                        <td align="center">#{item.porcmunicipio}</td>
+                                                                        <td align="center">#{item.porcregalias}</td>
+                                                                        <td align="center">#{item.depproductor}</td>
+                                                                        <td align="center">#{item.depnoproductor}</td>
+                                                                        <td align="center">#{item.puertos}</td>
+                                                                        <td align="center">#{item.munproductor}</td>
                                                                     </tr>
                                                                 </c:forEach>
                                                             </tbody>
