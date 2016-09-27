@@ -10,6 +10,7 @@ import com.planit.scr.modelos.Campos;
 import com.planit.scr.modelos.Departamentos;
 import com.planit.scr.modelos.Regalias;
 import com.planit.scr.modelos.Municipios;
+import com.planit.scr.modelos.Produccion;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,13 +28,11 @@ public class RegaliasDao {
         try {
             try {
                 String sql = "INSERT INTO public.regalias (iddepartamento, idmunicipio, idcampo, tipohidrocarburo,"
-                        + " proddia, prodmes, porcmunicipio, porcregalias, depproductor, munproductor, depnoproductor, puertos, anio, mes, precio, regalias)"
+                        + " porcmunicipio, porcregalias, depproductor, munproductor, depnoproductor, puertos, anio, mes, precio, regalias, idproduccion)"
                         + " VALUES(" + regalia.getIddepartamento().getIddepartamento() + ","
                         + "" + regalia.getIdmunicipio().getIdmunicipio() + ","
                         + "" + regalia.getIdcampo().getIdcampo() + ","
                         + "'" + regalia.getTipohidrocarburo() + "',"
-                        + "" + regalia.getProddia() + ","
-                        + "" + regalia.getProdmes() + ","
                         + "" + regalia.getPorcmunicipio() + ","
                         + "" + regalia.getPorcregalias() + ","
                         + "" + regalia.getDepproductor() + ","
@@ -43,7 +42,8 @@ public class RegaliasDao {
                         + "" + regalia.getAnio() + ","
                         + "" + regalia.getMes() + ","
                         + "" + regalia.getPrecio() + ","
-                        + "" + regalia.getRegalias() + ")";
+                        + "" + regalia.getRegalias() + ","
+                        + "" + regalia.getIdproduccion().getIdproduccion() + ")";
 
                 st.execute(sql);
 
@@ -63,32 +63,31 @@ public class RegaliasDao {
         DepartamentosDao departamentosDao = new DepartamentosDao();
         MunicipiosDao municipiosDao = new MunicipiosDao();
         CamposDao campoDao = new CamposDao();
-        
+
         regalia.setIdmunicipio(municipiosDao.consultarMunicipio(regalia.getIdmunicipio()));
         try {
             try {
-                String sql = "SELECT idregalias, iddepartamento, idmunicipio, idcampo, tipohidrocarburo, proddia, prodmes, porcmunicipio, porcregalias, depproductor, munproductor, depnoproductor, puertos, anio, mes, precio, regalias"
+                String sql = "SELECT idregalias, iddepartamento, idmunicipio, idcampo, tipohidrocarburo, porcmunicipio, porcregalias, depproductor, munproductor, depnoproductor, puertos, anio, mes, precio, regalias, idproduccion"
                         + " FROM public.regalias"
                         + " WHERE idmunicipio = " + regalia.getIdmunicipio().getIdmunicipio() + " AND anio = " + regalia.getAnio() + " and mes = " + regalia.getMes() + "";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     regalias.add(new Regalias(rs.getInt(1),
-                            rs.getString(5),
+                            rs.getString(5),                            
                             rs.getDouble(6),
                             rs.getDouble(7),
-                            rs.getDouble(8),
-                            rs.getDouble(9),                           
+                            rs.getInt(8),
+                            rs.getInt(9),
                             rs.getInt(10),
                             rs.getInt(11),
                             rs.getInt(12),
                             rs.getInt(13),
-                            rs.getInt(14),
-                            rs.getInt(15),
-                            rs.getDouble(16),
-                            rs.getDouble(17),
+                            rs.getDouble(14),
+                            rs.getDouble(15),
                             campoDao.consultarCampo(new Campos(rs.getInt(4))),
                             departamentosDao.consultarDepartamento(new Departamentos(rs.getInt(2))),
-                            municipiosDao.consultarMunicipio(new Municipios(rs.getInt(3)))));
+                            municipiosDao.consultarMunicipio(new Municipios(rs.getInt(3))),
+                            new Produccion(rs.getInt(16))));
                 }
             } catch (SQLException e) {
                 throw e;

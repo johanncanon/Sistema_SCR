@@ -149,7 +149,7 @@ public class RegaliasCT {
 
             //Obtenemos el porcentaje al que equivale la produccion del campo con respecto al total del municipio
             double total = totalProdMesMunicipio(regalias);
-            regalias.get(i).setPorcmunicipio((regalias.get(i).getProdmes() * 100) / total);
+            regalias.get(i).setPorcmunicipio((regalias.get(i).getIdproduccion().getProducciontotalmes() * 100) / total);
 
             //Obtenemos pbl correspondiente al mes seleccionado
             PblDao pblDao = new PblDao();
@@ -158,7 +158,7 @@ public class RegaliasCT {
             regalias.get(i).setPrecio(pbl.getPrc());
 
             //Calculamos 
-            regalias.get(i).setRegalias(regalias.get(i).getProdmes() * regalias.get(i).getPrecio() * regalias.get(i).getPorcregalias() * 2899.29);
+            regalias.get(i).setRegalias(regalias.get(i).getIdproduccion().getProducciontotalmes() * regalias.get(i).getPrecio() * regalias.get(i).getPorcregalias() * 2899.29);
 
             //Hacemos division de regalias
             total = totalProdDiaMunicipio(regalias);
@@ -204,7 +204,7 @@ public class RegaliasCT {
     public double totalProdDiaMunicipio(List<Regalias> rg) {
         double total = 0;
         for (int i = 0; i < rg.size(); i++) {
-            total = total + (rg.get(i).getProddia());
+            total = total + (rg.get(i).getIdproduccion().getProducciontotaldia());
         }
         return total;
     }
@@ -212,7 +212,7 @@ public class RegaliasCT {
     public double totalProdMesMunicipio(List<Regalias> rg) {
         double total = 0;
         for (int i = 0; i < rg.size(); i++) {
-            total = total + (rg.get(i).getProddia() * (double) 30);
+            total = total + (rg.get(i).getIdproduccion().getProducciontotalmes());
         }
         return total;
     }
