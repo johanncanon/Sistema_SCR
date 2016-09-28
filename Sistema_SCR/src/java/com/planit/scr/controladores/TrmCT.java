@@ -21,21 +21,33 @@ public class TrmCT {
 
     private Trm trm;
     private List<Trm> listatrm;
+    private String trmd;
    
 
     public TrmCT() {
         trm = new Trm();
         listatrm = new ArrayList<>();
+        trmd = "";
     }
     
     @PostConstruct
     public void init(){
-        TrmDao trmDao = new TrmDao();
         try {
-            listatrm = trmDao.consultarTrm();
+            TrmDao trmDao = new TrmDao();
+            try {
+                listatrm = trmDao.consultarTrm();
+            } catch (Exception ex) {
+                Logger.getLogger(TrmCT.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            trmd = trmDao.consultarTrmWS();
+            
+            
         } catch (Exception ex) {
             Logger.getLogger(TrmCT.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
     }
 
     public Trm getTrm() {
@@ -53,6 +65,16 @@ public class TrmCT {
     public void setListatrm(List<Trm> listatrm) {
         this.listatrm = listatrm;
     }
+
+    public String getTrmd() {
+        return trmd;
+    }
+
+    public void setTrmd(String trmd) {
+        this.trmd = trmd;
+    }
+    
+    
 
     //Metodos
     public void registrar() throws Exception {

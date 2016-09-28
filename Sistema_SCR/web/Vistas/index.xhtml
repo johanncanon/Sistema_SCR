@@ -3,7 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:composition template="./template.xhtml">
 
@@ -13,6 +16,24 @@
                 <div class="main-inner">
                     <b:container fluid="false" >
                         <b:row>
+
+                            <b:column col-lg="12" >
+
+                                <div class="widget ">
+                                    <div class="widget-header"> <i class="fa fa-list-alt"></i>
+                                        <h3>TRM Diario</h3>
+                                    </div>
+                                    <!-- /widget-header -->
+                                    <div class="widget-content">
+                                        <div class="widget big-stats-container">
+                                            <div class="widget-content">
+                                                <p>#{trmCT.trmd}  </p>
+                                            </div>
+                                            <!-- /widget-content --> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </b:column>
 
                             <b:column col-lg="8" >
 
@@ -38,23 +59,27 @@
                                     </div>
                                 </div>
                             </b:column>
-                            <!-- /widget -->
-
+                            <!-- /widget --> 
                             <b:column col-lg="4" >
-                                <div class="widget widget-nopad">
+                                <div class="widget">
                                     <div class="widget-header"> <i class="fa fa-area-chart"></i>
-                                        <h3> Grafica 1</h3>
+                                        <h3>Grafica</h3>
                                     </div>
-                                    <!-- /widget-header -->
+
                                     <div class="widget-content">
-                                        <h:form>
-                                            <b:image value="./resources/images/Imagen1.jpg" style="margin-bottom: 31px" tooltip="Ain't he a beauty?" class="img-responsive" />
-                                        </h:form>
+                                        <ul class="messages_layout">
+                                            <h:form>
+                                                <h:panelGrid columns="1" columnClasses="left,right" style="width:100%">
+
+                                                    <p:chart type="bar" model="#{chartView.animatedModel2}" style="width:330px;" />
+                                                </h:panelGrid>
+                                            </h:form>
+
+                                        </ul>
                                     </div>
-                                    <!-- /widget-content --> 
-                                </div>                                
+
+                                </div>
                             </b:column>
-                            <!-- /widget -->
 
                             <b:column col-lg="4" >
                                 <div class="widget">
@@ -75,7 +100,7 @@
                                                         iusto aut excepturi quibusdam, omnis totam 
                                                         similique quod repudiandae eaque soluta ipsa accusamus.
                                                     </b:tab>
-                                                    
+
                                                     <b:tab title="Lorem">
                                                         <h4 class="">Lorem</h4>
                                                         Lorem ipsum dolor sit amet, consectetur 
@@ -84,7 +109,7 @@
                                                         iusto aut excepturi quibusdam, omnis totam 
                                                         similique quod repudiandae eaque soluta ipsa accusamus.
                                                     </b:tab>
-                                                    
+
                                                     <b:tab title="Impsu">
                                                         <h4 class="">Impsu  </h4>
                                                         Lorem ipsum dolor sit amet, consectetur 
@@ -123,22 +148,32 @@
 
                             <!-- /widget --> 
 
-                            <!-- /widget --> 
                             <b:column col-lg="4" >
                                 <div class="widget">
                                     <div class="widget-header"> <i class="fa fa-pie-chart"></i>
-                                        <h3> Otra Tabla Estadistica</h3>
+                                        <h3> Información relevante</h3>
                                     </div>
-                                    <!-- /widget-header -->
+
                                     <div class="widget-content">
                                         <ul class="messages_layout">
                                             <h:form>
-                                                <b:image value="./resources/images/Img-2.jpg" tooltip="Ain't he a beauty?" class="img-responsive" />
+                                                <p:growl id="growl" showDetail="true" />
+
+                                                <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
+                                                    <p:chart type="pie" model="#{chartView.pieModel1}" style="width:350px;height:300px">
+                                                        <p:ajax event="itemSelect" listener="#{chartView.itemSelect}" update="growl" />
+                                                    </p:chart>
+                                                    <br/>
+                                                    <b:commandButton value="Imprimir Reporte" action="#{empresaCT.eliminar()}" class="btn btn-info " >
+                                                        <b:iconAwesome name="send"></b:iconAwesome>
+                                                    </b:commandButton> 
+
+                                                </h:panelGrid>
                                             </h:form>
 
                                         </ul>
                                     </div>
-                                    <!-- /widget-content --> 
+
                                 </div>
                             </b:column>
 

@@ -5,6 +5,7 @@
  */
 package com.planit.scr.dao;
 
+import static co.com.sc.nexura.superfinanciera.action.generic.services.trm.test.TCRMTestClient.consultarTRM;
 import com.planit.scr.conexion.ConexionSQL;
 import com.planit.scr.modelos.Trm;
 import java.sql.ResultSet;
@@ -78,5 +79,16 @@ public class TrmDao {
             ConexionSQL.CerrarConexion();
         }
         return nuevotrm;
+    }
+
+    public String consultarTrmWS() throws Exception {
+    
+        String TRM = "";
+        
+        TRM = consultarTRM();
+        
+        System.out.println("Funciona: "+TRM);
+        
+        return TRM;
     }
 }
