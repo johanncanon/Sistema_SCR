@@ -7,12 +7,12 @@ package com.planit.scr.controladores;
 
 import com.planit.scr.conexion.ConexionSQL;
 import com.planit.scr.dao.CamposDao;
-import com.planit.scr.dao.ContratosDao;
+import com.planit.scr.dao.MunicipiosDao;
 import com.planit.scr.dao.PblDao;
 import com.planit.scr.dao.ProduccionDao;
 import com.planit.scr.dao.RegaliasDao;
-import com.planit.scr.modelos.Campos;
-import com.planit.scr.modelos.Municipios;
+import com.planit.scr.modelos.Campo;
+import com.planit.scr.modelos.Municipio;
 import com.planit.scr.modelos.Pbl;
 import com.planit.scr.modelos.Regalias;
 import java.sql.Statement;
@@ -26,11 +26,11 @@ import java.util.List;
 public class RegaliasCT {
 
     private Pbl pbl;
-    private Municipios municipio;
-    private Campos campo;
+    private Municipio municipio;
+    private Campo campo;
     private Regalias regalia;
 
-    private List<Campos> campos;
+    private List<Campo> campos;
     private List<Regalias> regalias;
     private final Statement st = ConexionSQL.conexion();
 
@@ -41,8 +41,8 @@ public class RegaliasCT {
     public RegaliasCT() {
 
         pbl = new Pbl();
-        municipio = new Municipios();
-        campo = new Campos();
+        municipio = new Municipio();
+        campo = new Campo();
         campos = new ArrayList<>();
         regalias = new ArrayList<>();
         regalia = new Regalias();
@@ -56,19 +56,19 @@ public class RegaliasCT {
         this.pbl = pbl;
     }
 
-    public Municipios getMunicipio() {
+    public Municipio getMunicipio() {
         return municipio;
     }
 
-    public void setMunicipio(Municipios municipio) {
+    public void setMunicipio(Municipio municipio) {
         this.municipio = municipio;
     }
 
-    public Campos getCampo() {
+    public Campo getCampo() {
         return campo;
     }
 
-    public void setCampo(Campos campo) {
+    public void setCampo(Campo campo) {
         this.campo = campo;
     }
 
@@ -88,11 +88,11 @@ public class RegaliasCT {
         this.regalias = regalias;
     }
 
-    public List<Campos> getCampos() {
+    public List<Campo> getCampos() {
         return campos;
     }
 
-    public void setCampos(List<Campos> campos) {
+    public void setCampos(List<Campo> campos) {
         this.campos = campos;
     }
 
@@ -114,61 +114,62 @@ public class RegaliasCT {
 
     //metodos 
     public void consultarCamposSegunMunicipio() throws Exception {
-        CamposDao camposDao = new CamposDao();
+        CamposDao camposDao = new CamposDao();        
+        MunicipiosDao municipiosDao = new MunicipiosDao();
+        municipio = municipiosDao.consultarMunicipio(municipio);
         campos = camposDao.consultarCamposSegunMunicipio(municipio);
         for (int i = 0; i < campos.size(); i++) {
-            Regalias regalia = new Regalias();
-            regalia.setIdcampo(campos.get(i));
-            regalia.setIdmunicipio(campos.get(i).getIdcontrato().getIdmunicipio());
-            regalia.setIddepartamento(campos.get(i).getIdcontrato().getIdmunicipio().getIddepartamento());
-            regalia.setAnio(anio);
-            regalia.setMes(mes);
-            regalia.getIdproduccion().setAnio(anio);
-            regalia.getIdproduccion().setMes(mes);
-            regalia.getIdproduccion().setIdcampo(campos.get(i));
-            regalias.add(regalia);
+            Regalias reg = new Regalias();
+            reg.setCampo(campos.get(i));
+            reg.setMunicipio(municipio);
+            reg.setDepartamento(municipio.getDepartamento());
+            reg.setAnio(anio);
+            reg.setMes(mes);
+            reg.getProduccion().setAnio(anio);
+            reg.getProduccion().setMes(mes);
+            reg.getProduccion().setIdcampo(campos.get(i));
+            regalias.add(reg);
         }
     }
 
-    public void calcularRegalias() throws Exception {
-        ContratosDao contratosDao = new ContratosDao();
+    public String calcularRegalias() throws Exception {        
         RegaliasDao regaliasDao = new RegaliasDao();
         ProduccionDao produccionDao = new ProduccionDao();       
                
         for (int i = 0; i < regalias.size(); i++) {
 
             //Calculamos todos los valores relacionados a la produccion
-            regalias.get(i).getIdproduccion().setProduccionhmes(regalias.get(i).getIdproduccion().getProduccionhdia() * 30.0);
-            regalias.get(i).getIdproduccion().setProducciongmes(regalias.get(i).getIdproduccion().getProducciongdia() * 30.0);
-            regalias.get(i).getIdproduccion().setProducciontotaldia(
-                    regalias.get(i).getIdproduccion().getProduccionhdia() + produccionDao.convertirABarrilesEquivalentes(regalias.get(i).getIdproduccion().getProducciongdia()));
-            regalias.get(i).getIdproduccion().setProducciontotalmes(regalias.get(i).getIdproduccion().getProducciontotaldia() * 30.0);
-            produccionDao.registrarProduccion(regalias.get(i).getIdproduccion());
-            regalias.get(i).setIdproduccion(produccionDao.consultarProduccionCampo(regalias.get(i).getIdproduccion()));
+            regalias.get(i).getProduccion().setProduccionhmes(regalias.get(i).getProduccion().getProduccionhdia() * 30.0);
+            regalias.get(i).getProduccion().setProducciongmes(regalias.get(i).getProduccion().getProducciongdia() * 30.0);
+            regalias.get(i).getProduccion().setProducciontotaldia(
+                    regalias.get(i).getProduccion().getProduccionhdia() + produccionDao.convertirABarrilesEquivalentes(regalias.get(i).getProduccion().getProducciongdia()));
+            regalias.get(i).getProduccion().setProducciontotalmes(regalias.get(i).getProduccion().getProducciontotaldia() * 30.0);
+            produccionDao.registrarProduccion(regalias.get(i).getProduccion());
+            regalias.get(i).setProduccion(produccionDao.consultarProduccionCampo(regalias.get(i).getProduccion()));
         
         }
                 
         for (int i = 0; i < regalias.size(); i++) {            
                         
             //Obtenemos el porcentaje correspondiente de regalias segun el tipo de contrato
-            double porcentaje = contratosDao.consultarContrato(regalias.get(i).getIdcampo().getIdcontrato()).getPorcentaje();
+            double porcentaje = regalias.get(i).getCampo().getContrato().getPorcentaje();
             regalias.get(i).setPorcregalias((porcentaje / 100));
 
             //Obtenemos el porcentaje al que equivale la produccion del campo con respecto al total del municipio
             double total = totalProdMesMunicipio(regalias);
-            regalias.get(i).setPorcmunicipio((regalias.get(i).getIdproduccion().getProducciontotalmes() * 100) / total);
+            regalias.get(i).setPorcmunicipio((regalias.get(i).getProduccion().getProducciontotalmes() * 100) / total);
 
             //Obtenemos pbl correspondiente al mes seleccionado
             PblDao pblDao = new PblDao();
             Pbl pbl = new Pbl();
             pbl = pblDao.consultarPblSegunContrato(
-                    regalias.get(i).getIdcampo().getIdcontrato(),
+                    regalias.get(i).getCampo().getContrato(),
                     pblDao.obtenerTrimestre(regalias.get(i).getMes(),
                     regalias.get(i).getAnio()), regalias.get(i).getAnio());
             regalias.get(i).setPrecio(pbl.getPrc());
 
             //Calculamos 
-            regalias.get(i).setRegalias(regalias.get(i).getIdproduccion().getProducciontotalmes() * regalias.get(i).getPrecio() * regalias.get(i).getPorcregalias() * 2899.29);
+            regalias.get(i).setRegalias(regalias.get(i).getProduccion().getProducciontotalmes() * regalias.get(i).getPrecio() * regalias.get(i).getPorcregalias() * 2899.29);
 
             //Hacemos division de regalias
             total = totalProdDiaMunicipio(regalias);
@@ -208,13 +209,17 @@ public class RegaliasCT {
             regalias.get(i).setDepnoproductor(0); //declaramos valor a departamentos no productores
             regaliasDao.registrarRegalias(regalias.get(i));
         }
-        regalias = new ArrayList<>();
+        
+        municipio = regalias.get(0).getMunicipio();
+        regalia = regalias.get(0);
+        consultarRegalias();
+        return "ConsultarRegalias";
     }
 
     public double totalProdDiaMunicipio(List<Regalias> rg) {
         double total = 0;
         for (int i = 0; i < rg.size(); i++) {
-            total = total + (rg.get(i).getIdproduccion().getProducciontotaldia());
+            total = total + (rg.get(i).getProduccion().getProducciontotaldia());
         }
         return total;
     }
@@ -222,14 +227,14 @@ public class RegaliasCT {
     public double totalProdMesMunicipio(List<Regalias> rg) {
         double total = 0;
         for (int i = 0; i < rg.size(); i++) {
-            total = total + (rg.get(i).getIdproduccion().getProducciontotalmes());
+            total = total + (rg.get(i).getProduccion().getProducciontotalmes());
         }
         return total;
     }
 
     //Metodos   
     public void consultarRegalias() throws Exception {
-        regalia.setIdmunicipio(municipio);
+        regalia.setMunicipio(municipio);
         RegaliasDao regaliasDao = new RegaliasDao();
         regalias = regaliasDao.consultarRegalias(regalia);
     }

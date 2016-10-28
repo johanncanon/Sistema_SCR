@@ -6,7 +6,7 @@
 package com.planit.scr.dao;
 
 import com.planit.scr.conexion.ConexionSQL;
-import com.planit.scr.modelos.Campos;
+import com.planit.scr.modelos.Campo;
 import com.planit.scr.modelos.Produccion;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -58,7 +58,7 @@ public class ProduccionDao {
         try {
             try {
                 String sql = "SELECT idproduccion, idcampo, produccionhdia, produccionhmes, producciongdia, producciongmes, producciontotaldia, producciontotalmes, mes, anio "
-                        + "FROM public.produccion where anio = '" + p.getAnio() + "' AND mes = '" + p.getMes() + "' AND idcampo = '"+p.getIdcampo().getIdcampo()+"'";
+                        + "FROM public.produccion where (anio = '" + p.getAnio() + "' AND mes = '" + p.getMes() + "' AND idcampo = '" + p.getIdcampo().getIdcampo() + "') OR idproduccion = '" + p.getIdproduccion() + "'";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     produccion = new Produccion(rs.getInt(1),
@@ -70,7 +70,7 @@ public class ProduccionDao {
                             rs.getInt(9),
                             rs.getInt(10),
                             rs.getDouble(8),
-                            camposDao.consultarCampo(new Campos(rs.getInt(2))));
+                            camposDao.consultarCampo(new Campo(rs.getInt(2))));
                 }
             } catch (SQLException e) {
                 throw e;
@@ -80,7 +80,7 @@ public class ProduccionDao {
         } finally {
             ConexionSQL.CerrarConexion();
         }
-        
+
         return produccion;
     }
 }

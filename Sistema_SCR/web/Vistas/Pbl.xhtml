@@ -4,7 +4,6 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
@@ -106,10 +105,9 @@
                                                             <tbody>
                                                                 <c:forEach items="#{pblCT.pbls}" var="item">           
                                                                     <tr class="order-table-odd-row">
-                                                                        <td>#{item.idcontrato.nombre}</td>
-                                                                        <td>#{item.idcontrato.cib}</td>
-                                                                        <td>#{item.idcontrato.medio}</td>                                                                          
-                                                                        <td>#{item.idcontrato.cov}</td>
+                                                                        <td>#{item.contrato.nombre}</td>
+                                                                        <td>#{item.contrato.cib}</td>                                                                                                                                                
+                                                                        <td>#{item.contrato.cov}</td>
                                                                         <td>#{item.ctc}</td>
                                                                         <td>#{pblCT.valores.cmt}</td>
                                                                         <td>#{pblCT.valores.ctmc}</td>

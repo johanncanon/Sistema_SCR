@@ -5,19 +5,16 @@
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
         <ui:composition template="./template.xhtml">
-
             <ui:define name="content">
                 <div class="main">
                     <div class="main-inner">
                         <b:container fluid="true" >
                             <b:row>
-
                                 <b:column col-lg="4">
                                     <div class="widget ">
                                         <div class="widget-header"> <i class="fa fa-list-ol"></i>
@@ -57,10 +54,10 @@
 
                                                             <div class="form-group">
                                                                 <label class="control-label">Departamento: </label>
-                                                                <h:selectOneMenu class="form-control"  id="SMDepartamento" value="#{municipioCT.municipio.iddepartamento.nombre}">
+                                                                <h:selectOneMenu class="form-control"  id="SMDepartamento" value="#{municipioCT.municipio.departamento.iddepartamento}">
                                                                     <f:selectItem itemLabel="Seleccione Departamento" noSelectionOption="true"/>
-                                                                    <f:selectItems value="#{departamentoCT.departamentos}" var="departamento" itemLabel="#{departamento.nombre}" itemValue="#{departamento.nombre}"/>
-                                                                    <p:ajax event="change" listener="#{municipioCT.cambioDepartamentos()}" update="SMMunicipio"/>
+                                                                    <f:selectItems value="#{departamentoCT.departamentos}" var="departamento" itemLabel="#{departamento.nombre}" itemValue="#{departamento.iddepartamento}"/>
+                                                                    <p:ajax event="change" listener="#{municipioCT.cambioDepartamentos(municipioCT.municipio.departamento)}" update="SMMunicipio"/>
                                                                 </h:selectOneMenu>
                                                             </div>
 
@@ -98,20 +95,20 @@
                                                                 <f:facet name="header">
                                                                     <h:outputText value="Contrato"></h:outputText>
                                                                 </f:facet>
-                                                                <h:outputText value="#{item.idcampo.idcontrato.nombre}"></h:outputText>
+                                                                <h:outputText value="#{item.campo.contrato.nombre}"></h:outputText>
                                                             </h:column>
                                                             <h:column>
                                                                 <f:facet name="header">
                                                                     <h:outputText value="Campo"></h:outputText>
                                                                 </f:facet>
-                                                                <h:outputText value="#{item.idcampo.nombre}"></h:outputText>
+                                                                <h:outputText value="#{item.campo.nombre}"></h:outputText>
                                                             </h:column>
                                                             <h:column>
                                                                 <f:facet name="header">
                                                                     <h:outputText value="Volumen Promedio diario(P)"></h:outputText>
                                                                 </f:facet>
                                                                 <div class="form-group">
-                                                                    <b:inputText value="#{item.idproduccion.produccionhdia}" placeholder="Volumen de Producción Hidrocarburos" span="12" class="ajuste-Campo"/> 
+                                                                    <b:inputText value="#{item.produccion.produccionhdia}" placeholder="Volumen de Producción Hidrocarburos" span="12" class="ajuste-Campo"/> 
                                                                 </div>
                                                             </h:column>
                                                             <h:column>
@@ -119,40 +116,11 @@
                                                                     <h:outputText value="Volumen Promedio diario(G)"></h:outputText>
                                                                 </f:facet>
                                                                 <div class="form-group">
-                                                                    <b:inputText value="#{item.idproduccion.producciongdia}" placeholder="Volumen de Producción Gas" span="12" class="ajuste-Campo"/> 
+                                                                    <b:inputText value="#{item.produccion.producciongdia}" placeholder="Volumen de Producción Gas" span="12" class="ajuste-Campo"/> 
                                                                 </div>
                                                             </h:column>
                                                         </h:dataTable>                                                     
-
-<!--                                                        <table class="order-table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th class="order-table-header" scope="col">Contrato</th>
-                                                                    <th class="order-table-header" scope="col">Campo</th>
-                                                                    <th class="order-table-header" scope="col">Volumen promedio diario Hidrocarburos</th>
-                                                                    <th class="order-table-header" scope="col">Volumen promedio diario Gas</th>
-                                                                </tr>                                                                 
-                                                            </thead>
-
-                                                            <tbody>
-                                                                <c:forEach items="#{regaliasCT.regalias}" var="item">           
-                                                                    <tr class="order-table-odd-row">
-                                                                        <td>#{item.idcampo.idcontrato.nombre} </td>
-                                                                        <td>#{item.idcampo.nombre} </td>
-                                                                        <td>
-                                                                            <div class="form-group">
-                                                                                <b:inputText value="#{item.idproduccion.produccionhdia}" placeholder="Volumen de Producción Hidrocarburos" span="12" class="ajuste-Campo"/> 
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>  
-                                                                            <div class="form-group">
-                                                                                <b:inputText value="#{item.idproduccion.producciongdia}" placeholder="Volumen de Producción Gas" span="12" class="ajuste-Campo"/> 
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </c:forEach>
-                                                            </tbody>
-                                                        </table> -->
+                                                      
                                                         <p:separator/>
                                                         <div class="form-group">
                                                             <b:commandButton action="#{regaliasCT.calcularRegalias()}" update=":formularioLista" class=" btn btn-info" style="float: right; width: 30%" value="Calcular">
@@ -170,12 +138,10 @@
                             <!-- /row --> 
                             <!-- /container --> 
                         </b:container>
-
                     </div>
                     <!-- /main-inner --> 
                 </div>
             </ui:define>
-
         </ui:composition>
 
     </body>

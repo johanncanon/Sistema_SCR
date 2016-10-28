@@ -6,10 +6,10 @@
 package com.planit.scr.dao;
 
 import com.planit.scr.conexion.ConexionSQL;
-import com.planit.scr.modelos.Campos;
-import com.planit.scr.modelos.Departamentos;
+import com.planit.scr.modelos.Campo;
+import com.planit.scr.modelos.Departamento;
 import com.planit.scr.modelos.Regalias;
-import com.planit.scr.modelos.Municipios;
+import com.planit.scr.modelos.Municipio;
 import com.planit.scr.modelos.Produccion;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,9 +29,9 @@ public class RegaliasDao {
             try {
                 String sql = "INSERT INTO public.regalias (iddepartamento, idmunicipio, idcampo,"
                         + " porcmunicipio, porcregalias, depproductor, munproductor, depnoproductor, puertos, anio, mes, precio, regalias, idproduccion)"
-                        + " VALUES(" + regalia.getIddepartamento().getIddepartamento() + ","
-                        + "" + regalia.getIdmunicipio().getIdmunicipio() + ","
-                        + "" + regalia.getIdcampo().getIdcampo() + ","     
+                        + " VALUES(" + regalia.getDepartamento().getIddepartamento() + ","
+                        + "" + regalia.getMunicipio().getIdmunicipio() + ","
+                        + "" + regalia.getCampo().getIdcampo() + ","     
                         + "" + regalia.getPorcmunicipio() + ","
                         + "" + regalia.getPorcregalias() + ","
                         + "" + regalia.getDepproductor() + ","
@@ -42,7 +42,7 @@ public class RegaliasDao {
                         + "" + regalia.getMes() + ","
                         + "" + regalia.getPrecio() + ","
                         + "" + regalia.getRegalias() + ","
-                        + "" + regalia.getIdproduccion().getIdproduccion() + ")";
+                        + "" + regalia.getProduccion().getIdproduccion() + ")";
 
                 st.execute(sql);
 
@@ -62,13 +62,14 @@ public class RegaliasDao {
         DepartamentosDao departamentosDao = new DepartamentosDao();
         MunicipiosDao municipiosDao = new MunicipiosDao();
         CamposDao campoDao = new CamposDao();
+        ProduccionDao produccionDao = new ProduccionDao();
 
-        regalia.setIdmunicipio(municipiosDao.consultarMunicipio(regalia.getIdmunicipio()));
+        regalia.setMunicipio(municipiosDao.consultarMunicipio(regalia.getMunicipio()));
         try {
             try {
                 String sql = "SELECT idregalias, iddepartamento, idmunicipio, idcampo, porcmunicipio, porcregalias, depproductor, munproductor, depnoproductor, puertos, anio, mes, precio, regalias, idproduccion"
                         + " FROM public.regalias"
-                        + " WHERE idmunicipio = " + regalia.getIdmunicipio().getIdmunicipio() + " AND anio = " + regalia.getAnio() + " and mes = " + regalia.getMes() + "";
+                        + " WHERE idmunicipio = " + regalia.getMunicipio().getIdmunicipio() + " AND anio = " + regalia.getAnio() + " and mes = " + regalia.getMes() + "";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     regalias.add(new Regalias(rs.getInt(1),                                               
@@ -82,10 +83,10 @@ public class RegaliasDao {
                             rs.getInt(12),
                             rs.getDouble(13),
                             rs.getDouble(14),
-                            campoDao.consultarCampo(new Campos(rs.getInt(4))),
-                            departamentosDao.consultarDepartamento(new Departamentos(rs.getInt(2))),
-                            municipiosDao.consultarMunicipio(new Municipios(rs.getInt(3))),
-                            new Produccion(rs.getInt(15))));
+                            campoDao.consultarCampo(new Campo(rs.getInt(4))),
+                            departamentosDao.consultarDepartamento(new Departamento(rs.getInt(2))),
+                            municipiosDao.consultarMunicipio(new Municipio(rs.getInt(3))),
+                            produccionDao.consultarProduccionCampo(new Produccion(rs.getInt(15)))));
                 }
             } catch (SQLException e) {
                 throw e;

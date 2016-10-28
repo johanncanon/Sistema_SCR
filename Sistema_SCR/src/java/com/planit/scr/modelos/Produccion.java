@@ -69,16 +69,17 @@ public class Produccion implements Serializable {
     private Collection<Regalias> regaliasCollection;
     @JoinColumn(name = "idcampo", referencedColumnName = "idcampo")
     @ManyToOne(optional = false)
-    private Campos idcampo;
+    private Campo idcampo;
 
     public Produccion() {
+        idproduccion = 0;
     }
 
     public Produccion(Integer idproduccion) {
         this.idproduccion = idproduccion;
     }
 
-    public Produccion(Integer idproduccion, Double produccionhdia, Double produccionhmes, Double producciongdia, Double producciongmes, Double producciontotaldia, Integer mes, Integer anio, Double producciontotalmes, Campos idcampo) {
+    public Produccion(Integer idproduccion, Double produccionhdia, Double produccionhmes, Double producciongdia, Double producciongmes, Double producciontotaldia, Integer mes, Integer anio, Double producciontotalmes, Campo idcampo) {
         this.idproduccion = idproduccion;
         this.produccionhdia = produccionhdia;
         this.produccionhmes = produccionhmes;
@@ -91,7 +92,7 @@ public class Produccion implements Serializable {
         this.idcampo = idcampo;
     }
 
-    public Produccion(Double produccionhdia, Double produccionhmes, Double producciongdia, Double producciongmes, Double producciontotaldia, Integer mes, Integer anio, Double producciontotalmes, Campos idcampo) {
+    public Produccion(Double produccionhdia, Double produccionhmes, Double producciongdia, Double producciongmes, Double producciontotaldia, Integer mes, Integer anio, Double producciontotalmes, Campo idcampo) {
         this.produccionhdia = produccionhdia;
         this.produccionhmes = produccionhmes;
         this.producciongdia = producciongdia;
@@ -189,11 +190,11 @@ public class Produccion implements Serializable {
         this.regaliasCollection = regaliasCollection;
     }
 
-    public Campos getIdcampo() {
+    public Campo getIdcampo() {
         return idcampo;
     }
 
-    public void setIdcampo(Campos idcampo) {
+    public void setIdcampo(Campo idcampo) {
         this.idcampo = idcampo;
     }
 

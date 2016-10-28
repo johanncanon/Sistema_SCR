@@ -96,7 +96,7 @@
                                                                     <th class="order-table-header" scope="col">Dep. Productor</th>
                                                                     <th class="order-table-header" scope="col">Dep. no Productor</th>
                                                                     <th class="order-table-header" scope="col">Puertos</th>
-                                                                    <th class="order-table-header" scope="col">Mum. Productor</th>
+                                                                    <th class="order-table-header" scope="col">Mun. Productor</th>
                                                                 </tr>
                                                             </thead>
 
@@ -104,8 +104,7 @@
                                                                 <c:forEach items="#{regaliasCT.regalias}" var="item">           
                                                                     <tr class="order-table-odd-row">
                                                                         <td align="center">#{item.idmunicipio.nombre}</td>
-                                                                        <td align="center">#{item.idcampo.nombre}</td>
-                                                                        <td align="center">#{item.idcampo.idcontrato.nombre}</td>                                                                          
+                                                                        <td align="center">#{item.idcampo.nombre}</td>                                                                                                                                           
                                                                         <td align="center">#{item.idproduccion.produccionhdia}</td>
                                                                         <td align="center">#{item.idproduccion.producciongdia}</td>
                                                                         <td align="center">#{item.idproduccion.producciontotalmes}</td>

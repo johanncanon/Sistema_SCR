@@ -4,7 +4,6 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:b="http://bootsfaces.net/ui"
-      xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="./template.xhtml">
@@ -40,7 +39,7 @@
 
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label">Departamento: </label>
-                                                            <b:selectOneMenu col-xs="8" value="#{municipioCT.municipio.iddepartamento.nombre}">
+                                                            <b:selectOneMenu col-xs="8" value="#{municipioCT.municipio.departamento.nombre}">
                                                                 <f:selectItem itemLabel="Seleccione Departamento"/>
                                                                 <f:selectItems value="#{departamentoCT.departamentos}" var="departamento" itemLabel="#{departamento.nombre}" itemValue="#{departamento.nombre}"/>
                                                             </b:selectOneMenu>
@@ -78,7 +77,6 @@
                             <!-- /widget -->
 
                             <b:column col-lg="12" >
-
                                 <div class="widget ">
                                     <div class="widget-header"> <i class="fa fa-list-alt"></i>
                                         <h3> Listado de Municipios </h3>

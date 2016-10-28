@@ -8,13 +8,10 @@ package com.planit.scr.controladores;
 import com.planit.scr.dao.PblDao;
 import com.planit.scr.dao.ValoresDao;
 import com.planit.scr.modelos.Valores;
-import com.planit.scr.modelos.Municipios;
+import com.planit.scr.modelos.Municipio;
 import com.planit.scr.modelos.Pbl;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 
 /**
  *
@@ -24,15 +21,21 @@ public class PblCT {
 
     private Pbl pbl;
     private List<Pbl> pbls;
-    private Municipios municipio;
+    private Municipio municipio;
     private Valores valores;
     private int mes;
+    
+    private String nombreOperacion;
+    private int operacion;
 
     public PblCT() {
         pbl = new Pbl();
         pbls = new ArrayList<>();
-        municipio = new Municipios();
+        municipio = new Municipio();
         valores = new Valores();
+        
+        nombreOperacion = "Registrar";
+        operacion = 0;
     }
 
     public Pbl getPbl() {
@@ -51,11 +54,11 @@ public class PblCT {
         this.pbls = pbls;
     }
 
-    public Municipios getMunicipio() {
+    public Municipio getMunicipio() {
         return municipio;
     }
 
-    public void setMunicipio(Municipios municipio) {
+    public void setMunicipio(Municipio municipio) {
         this.municipio = municipio;
     }
 
@@ -75,6 +78,23 @@ public class PblCT {
         this.mes = mes;
     }
 
+    public String getNombreOperacion() {
+        return nombreOperacion;
+    }
+
+    public void setNombreOperacion(String nombreOperacion) {
+        this.nombreOperacion = nombreOperacion;
+    }
+
+    public int getOperacion() {
+        return operacion;
+    }
+
+    public void setOperacion(int operacion) {
+        this.operacion = operacion;
+    }  
+     
+    
     //Metodos   
     public void consultarPbl() throws Exception {
         PblDao pblDao = new PblDao();

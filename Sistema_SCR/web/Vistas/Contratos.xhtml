@@ -13,16 +13,13 @@
 
             <div class="main">
                 <div class="main-inner">
-                    <b:container fluid="false" >
-
+                    <b:container fluid="true" >
                         <div style="margin-bottom: 30px">
                             <h2> Contratos <small>puedes registrar, consultar, modificar y 
                                     eliminar los registros de los contratos que desees.</small> </h2>
                         </div>
                         <b:row>
-
-                            <b:column col-lg="6" >
-
+                            <b:column col-lg="7" >
                                 <div class="widget ">
                                     <div class="widget-header"> <i class="fa fa-list-ol"></i>
                                         <h3> Registro de Contratos </h3>
@@ -32,83 +29,100 @@
                                         <div class="widget big-stats-container">
                                             <div class="widget-content">
                                                 <h:form id="formularioRegistro">
-                                                    <div class="form-horizontal">
-
-                                                        <div class="form-group">
-                                                            <label class="control-label">Departamento: </label>
-                                                            <h:selectOneMenu class="form-control"  id="SMDepartamento" value="#{municipioCT.municipio.iddepartamento.nombre}">
-                                                                <f:selectItem itemLabel="Seleccione Departamento" noSelectionOption="true"/>
-                                                                <f:selectItems value="#{departamentoCT.departamentos}" var="departamento" itemLabel="#{departamento.nombre}" itemValue="#{departamento.nombre}"/>
-                                                                <p:ajax event="change" listener="#{municipioCT.cambioDepartamentos()}" update="SMMunicipio"/>
-                                                            </h:selectOneMenu>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="control-label">Municipio: </label>
-                                                            <h:selectOneMenu class="form-control" id="SMMunicipio" value="#{contratoCT.contrato.idmunicipio.nombre}">
-                                                                <f:selectItem itemLabel="Seleccione Municipio" noSelectionOption="true"/>
-                                                                <f:selectItems value="#{municipioCT.municipiosFiltrados}" var="municipio" itemLabel="#{municipio.nombre}" itemValue="#{municipio.nombre}"/>
-                                                            </h:selectOneMenu>
-                                                        </div>
-
+                                                    <p:growl showDetail="true"  autoUpdate="true" life="3000"/>
+                                                    <div class="form-horizontal">                                                                                                          
                                                         <div class="form-group">
                                                             <label class="control-label">Tipo de contrato: </label>
-                                                            <h:selectOneMenu class="form-control" value="#{contratoCT.contrato.idtipo.nombre}">
+                                                            <h:selectOneMenu class="form-control" required="true" requiredMessage="Seleccione tipo de contrato" id="SMTipo" value="#{contratoCT.contrato.tipo.nombre}">
                                                                 <f:selectItem itemLabel="Seleccione Tipo de contrato" noSelectionOption="true"/>
                                                                 <f:selectItems value="#{tipoCT.tipos}" var="tipo" itemLabel="#{tipo.nombre}" itemValue="#{tipo.nombre}"/>
                                                             </h:selectOneMenu>
+                                                            <p:message for="SMTipo"/>
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="inputNombre" class="control-label">Nombre Contrato: </label>
-                                                            <h:inputText class="form-control" id="inputNombre" value="#{contratoCT.contrato.nombre}">
+                                                            <h:inputText required="true" requiredMessage="Indique nombre del contrato" class="form-control" id="inputNombre" value="#{contratoCT.contrato.nombre}">
                                                                 <f:passThroughAttribute name="placeholder" value="Nombre del contrato" />
                                                             </h:inputText>
+                                                            <p:message for="inputNombre"/>
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="inputPorcentaje" class="control-label">Porcentaje: </label>
-                                                            <h:inputText  class="form-control" value="#{contratoCT.contrato.porcentaje}">
+                                                            <h:inputText  id="inputPorcentaje" required="true" requiredMessage="Indique porcentaje de regalias" class="form-control" value="#{contratoCT.contrato.porcentaje}">
                                                                 <f:passThroughAttribute name="placeholder" value="Porcentaje" />
                                                             </h:inputText>
+                                                            <p:message for="inputPorcentaje"/>
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="inputCib" class="control-label">Distancia CIB (km): </label>
-                                                            <h:inputText class="form-control" value="#{contratoCT.contrato.cib}">
+                                                            <h:inputText required="true" requiredMessage="Indique distancia CIB" id="inputCib" class="form-control" value="#{contratoCT.contrato.cib}">
                                                                 <f:passThroughAttribute name="placeholder" value="Distancia CIB" />
                                                             </h:inputText>
+                                                            <p:message for="inputCib"/>
                                                         </div>
-
 
                                                         <div class="form-group">
                                                             <label for="inputCar" class="control-label">Distancia CAR (km): </label>
-                                                            <h:inputText class="form-control" value="#{contratoCT.contrato.car}">
+                                                            <h:inputText id="inputCar" required="true" requiredMessage="Indique distancia CAR" class="form-control" value="#{contratoCT.contrato.car}">
                                                                 <f:passThroughAttribute name="placeholder" value="Distancia CAR" />
                                                             </h:inputText>
-                                                        </div>
-                                                        
-                                                        <div class="form-group">
-                                                            <label for="inputMed" class="control-label">Distancia Medio (km): </label>
-                                                            <h:inputText class="form-control" value="#{contratoCT.contrato.medio}">
-                                                                <f:passThroughAttribute name="placeholder" value="Distancia Medio" />
-                                                            </h:inputText>
-                                                        </div>     
-
-                                                        <div class="form-group">
-                                                            <label for="inputCov" class="control-label">Distancia Coveñas (km): </label>
-                                                            <h:inputText class="form-control" value="#{contratoCT.contrato.cov}">
-                                                                <f:passThroughAttribute name="placeholder" value="Distancia Coveñas" />
-                                                            </h:inputText>
+                                                            <p:message for="inputCar"/>
                                                         </div>                                                        
 
                                                         <div class="form-group">
-                                                            <b:commandButton value="Enviar" action="#{contratoCT.registrar()}" update=":formularioRegistro :formularioLista" class=" btn btn-info " style="float: right">
-                                                                <b:iconAwesome name="send"/>
-                                                            </b:commandButton>                                                            
-                                                        </div>
+                                                            <label for="inputCov" class="control-label">Distancia Coveñas (km): </label>
+                                                            <h:inputText required="true" requiredMessage="Indique distancia a coveñas" id="inputCov" class="form-control" value="#{contratoCT.contrato.cov}">
+                                                                <f:passThroughAttribute name="placeholder" value="Distancia Coveñas" />
+                                                            </h:inputText>
+                                                            <p:message for="inputCov"/>
+                                                        </div>                                                      
+                                                        <p:separator/>
+                                                        <p>Seleccione los municipios a los que esta asociado el contrato</p>
+                                                        <p:dataTable selection="#{contratoCT.municipios}" value="#{municipioCT.municipios}" rowKey="#{municipio.idmunicipio}" var="municipio" paginator="true"
+                                                                     rows="5" rowsPerPageTemplate="5,10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" emptyMessage="Municipios no registrados">
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Municipios"/>
+                                                            </f:facet>
+                                                            <p:column selectionMode="multiple" style="width:30px;text-align:center"/>
+                                                            <p:column headerText="Nombre">
+                                                                <h:outputLabel value="#{municipio.nombre}"/>
+                                                            </p:column>                                                               
+                                                            <p:column headerText="Departamento">
+                                                                <h:outputLabel value="#{municipio.departamento.nombre}"/>
+                                                            </p:column>                                                        
+                                                        </p:dataTable>
+                                                        <p:separator/>
+                                                        <div class="form-group" align="right">
+                                                            <h:panelGrid columns="2">
+                                                                <p:commandButton id="Cancelar"  process="@this" 
+                                                                                 immediate="true" class="btn btn-info" 
+                                                                                 update=":formularioRegistro :formularioLista"
+                                                                                 action="#{contratoCT.cancelar()}"
+                                                                                 value="Cancelar" />
 
+
+                                                                <p:commandButton onclick="PrimeFaces.monitorDownload(start, stop);" 
+                                                                                 value="#{contratoCT.nombreOperacion}" 
+                                                                                 action="#{contratoCT.metodo()}" 
+                                                                                 update=":formularioRegistro :formularioLista"
+                                                                                 class="btn btn-success"/>                                                                                                                        
+                                                            </h:panelGrid>
+                                                        </div>     
                                                     </div>
+                                                    <script type="text/javascript">
+                                                        function start() {
+                                                            PF('statusDialog').show();
+                                                        }
+                                                        function stop() {
+                                                            PF('statusDialog').hide();
+                                                        }
+                                                    </script>
+                                                    <p:dialog  modal="true" widgetVar="statusDialog" header="Cargando" draggable="false" closable="false" resizable="false">
+                                                        <p:graphicImage width="100%" value="/resources/images/demo/ajaxloadingbar.gif" />
+                                                    </p:dialog>
                                                 </h:form>
                                                 <!-- /widget-content --> 
                                             </div>
@@ -118,23 +132,7 @@
                             </b:column>
                             <!-- /widget -->
 
-                            <b:column col-lg="4" style="float: right" >
-                                <div class="widget widget-nopad">
-                                    <div class="widget-header"> <i class="fa fa-area-chart"></i>
-                                        <h3> Grafica 1</h3>
-                                    </div>
-                                    <!-- /widget-header -->
-                                    <div class="widget-content">
-                                        <h:form>
-                                            <b:image value="./../resources/images/Imagen1.jpg" style="margin-bottom: 31px" tooltip="Ain't he a beauty?" class="img-responsive" />
-                                        </h:form>
-                                    </div>
-                                    <!-- /widget-content --> 
-                                </div>                                
-                            </b:column>
-                            <!-- /widget -->
-
-                            <b:column col-lg="12" >
+                            <b:column col-lg="5" >
                                 <div class="widget ">
                                     <div class="widget-header"> <i class="fa fa-list-alt"></i>
                                         <h3> Listado de Contratos </h3>
@@ -144,55 +142,62 @@
                                         <div class="widget big-stats-container">
                                             <div class="widget-content">
                                                 <h:form id="formularioLista">
-                                                    <b:dataTable value="#{contratoCT.contratos}" var="contrato">
-                                                        <b:dataTableColumn label="Nombre">
+                                                    <div align="right">
+                                                        <p:inputText class="form-control" placeholder="Buscar..." style="width: 50%"/><br/>
+                                                    </div>
+                                                    <p:dataTable value="#{contratoCT.contratos}" var="contrato"  
+                                                                 rows="10"
+                                                                 paginator="true"
+                                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                 rowsPerPageTemplate="5,10,15"
+                                                                 emptyMessage="Contratos no registrados">
+                                                        <p:column headerText="Nombre" sortBy="#{contrato.nombre}">
                                                             <h:outputLabel value="#{contrato.nombre}"/>
-                                                        </b:dataTableColumn>
-                                                        <b:dataTableColumn label="Municipio">
-                                                            <h:outputLabel value="#{contrato.idmunicipio.nombre}"/>
-                                                        </b:dataTableColumn>
-                                                        <b:dataTableColumn label="Tipo Contrato">
-                                                            <h:outputLabel value="#{contrato.idtipo.nombre}"/>
-                                                        </b:dataTableColumn>
-                                                          <b:dataTableColumn label="Porcentaje">
+                                                        </p:column>
+                                                        <p:column headerText="Tipo Contrato" sortBy="#{contrato.tipo.nombre}">
+                                                            <h:outputLabel value="#{contrato.tipo.nombre}"/>
+                                                        </p:column>
+                                                        <p:column headerText="Porcentaje" sortBy="#{contrato.porcentaje}">
                                                             <h:outputLabel value="#{contrato.porcentaje}"/>
-                                                        </b:dataTableColumn>
-                                                          <b:dataTableColumn label="CIB">
-                                                            <h:outputLabel value="#{contrato.cib}"/>
-                                                        </b:dataTableColumn>
-                                                          <b:dataTableColumn label="CAR">
-                                                            <h:outputLabel value="#{contrato.car}"/>
-                                                        </b:dataTableColumn>
-                                                         <b:dataTableColumn label="Medio">
-                                                            <h:outputLabel value="#{contrato.medio}"/>
-                                                        </b:dataTableColumn>
-                                                          <b:dataTableColumn label="Coveñas">
-                                                            <h:outputLabel value="#{contrato.cov}"/>
-                                                        </b:dataTableColumn>
-                                                    </b:dataTable>
+                                                        </p:column>
+                                                        <p:column style="width: 60px">
+                                                            <p:commandLink style="color: white; width: 100%" process="@this" update=":formularioRegistro" action="#{contratoCT.seleccionarCRUD(1)}" title="Modificar" class="btn btn-block btn-info">
+                                                                <f:setPropertyActionListener value="#{contrato}" target="#{contratoCT.contrato}"/>                                                               
+                                                                <i class="fa fa-pencil"></i> 
+                                                            </p:commandLink>
+                                                        </p:column>
+                                                        <p:column style="width: 60px">
+                                                            <p:commandLink style="color: white; width: 100%" action="#{contratoCT.eliminar()}" onclick="PrimeFaces.monitorDownload(start, stop);" process="@this" update="@form" title="Eliminar" class="btn btn-block btn-danger">
+                                                                <f:setPropertyActionListener value="#{contrato}" target="#{contratoCT.contrato}"/>
+                                                                <i class="fa fa-trash"></i>                                                     
+                                                            </p:commandLink>
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                    <script type="text/javascript">
+                                                        function start() {
+                                                            PF('statusDialog').show();
+                                                        }
+                                                        function stop() {
+                                                            PF('statusDialog').hide();
+                                                        }
+                                                    </script>
+                                                    <p:dialog  modal="true" widgetVar="statusDialog" header="Cargando" draggable="false" closable="false" resizable="false">
+                                                        <p:graphicImage width="100%" value="/resources/images/demo/ajaxloadingbar.gif" />
+                                                    </p:dialog>
                                                 </h:form>
                                             </div>
-                                            <!-- /widget-content --> 
                                         </div>
                                     </div>
                                 </div>
                             </b:column>
-
                         </b:row>
-
                         <!-- /row --> 
-
                         <!-- /container --> 
                     </b:container>
-
                 </div>
                 <!-- /main-inner --> 
             </div>
             <!-- /main -->            
-
         </ui:define>
-
     </ui:composition>
-
-
 </html>

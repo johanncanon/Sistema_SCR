@@ -6,7 +6,7 @@
 package com.planit.scr.dao;
 
 import com.planit.scr.conexion.ConexionSQL;
-import com.planit.scr.modelos.Tipos;
+import com.planit.scr.modelos.Tipo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,19 +20,19 @@ import java.util.List;
 public class TipoDao {
 
     //Metodos
-    public Tipos consultarTipo(Tipos t) throws Exception {
+    public Tipo consultarTipo(Tipo t) throws Exception {
         Statement st = ConexionSQL.conexion();
-        Tipos nuevotipo = new Tipos();
+        Tipo nuevotipo = new Tipo();
         try {
             try {
                 String sql = "SELECT idtipo, nombre FROM public.tipos "
                         + "WHERE idtipo = " + t.getIdtipo() + " or nombre = '" + t.getNombre() + "'";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    nuevotipo = new Tipos(rs.getInt(1), rs.getString(2));
+                    nuevotipo = new Tipo(rs.getInt(1), rs.getString(2));
                 }
             } catch (SQLException e) {
-                nuevotipo = new Tipos();
+                nuevotipo = new Tipo();
                 throw e;
             }
         } catch (Exception e) {
@@ -43,15 +43,15 @@ public class TipoDao {
         return nuevotipo;
     }
 
-    public List<Tipos> consultarTipos() throws Exception {
+    public List<Tipo> consultarTipos() throws Exception {
         Statement st = ConexionSQL.conexion();
-        List<Tipos> listatipos = new ArrayList<>();
+        List<Tipo> listatipos = new ArrayList<>();
         try {
             try {
                 String sql = "SELECT idtipo, nombre FROM public.tipos";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listatipos.add(new Tipos(rs.getInt(1), rs.getString(2)));
+                    listatipos.add(new Tipo(rs.getInt(1), rs.getString(2)));
                 }
             } catch (SQLException e) {
                 throw e;

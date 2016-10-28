@@ -5,15 +5,9 @@
  */
 package com.planit.scr.controladores;
 
-import com.planit.scr.conexion.ConexionSQL;
-import com.planit.scr.dao.DepartamentosDao;
 import com.planit.scr.dao.MunicipiosDao;
-import com.planit.scr.modelos.Departamentos;
-import com.planit.scr.modelos.Municipios;
-import com.planit.scr.modelos.Municipios_;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import com.planit.scr.modelos.Departamento;
+import com.planit.scr.modelos.Municipio;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,12 +20,12 @@ import javax.annotation.PostConstruct;
  */
 public class MunicipioCT {
 
-    private Municipios municipio;
-    private List<Municipios> municipios;
-    private List<Municipios> municipiosFiltrados;
+    private Municipio municipio;
+    private List<Municipio> municipios;
+    private List<Municipio> municipiosFiltrados;
    
     public MunicipioCT() {
-        municipio = new Municipios();
+        municipio = new Municipio();
         municipios = new ArrayList<>();
         municipiosFiltrados = new ArrayList<>();
     }
@@ -46,27 +40,27 @@ public class MunicipioCT {
         }
     }
 
-    public Municipios getMunicipio() {
+    public Municipio getMunicipio() {
         return municipio;
     }
 
-    public void setMunicipio(Municipios municipio) {
+    public void setMunicipio(Municipio municipio) {
         this.municipio = municipio;
     }
 
-    public List<Municipios> getMunicipios() {
+    public List<Municipio> getMunicipios() {
         return municipios;
     }
 
-    public void setMunicipios(List<Municipios> municipios) {
+    public void setMunicipios(List<Municipio> municipios) {
         this.municipios = municipios;
     }
 
-    public List<Municipios> getMunicipiosFiltrados() {
+    public List<Municipio> getMunicipiosFiltrados() {
         return municipiosFiltrados;
     }
 
-    public void setMunicipiosFiltrados(List<Municipios> municipiosFiltrados) {
+    public void setMunicipiosFiltrados(List<Municipio> municipiosFiltrados) {
         this.municipiosFiltrados = municipiosFiltrados;
     }
 
@@ -74,14 +68,14 @@ public class MunicipioCT {
     public void registrar() throws Exception {
         MunicipiosDao municipioDao = new MunicipiosDao();
         municipioDao.registrarMunicipio(municipio);
-        municipio = new Municipios();
+        municipio = new Municipio();
         municipios = municipioDao.consultarMunicipios();
     }
 
-    public void cambioDepartamentos() throws Exception {
+    public void cambioDepartamentos(Departamento departamento) throws Exception {
         MunicipiosDao municipioDao = new MunicipiosDao();
-        if (municipio.getIddepartamento() != null && !municipio.getIddepartamento().getNombre().equals("")) {
-            municipiosFiltrados = municipioDao.consultarMunicipiosSegunDepartamento(municipio.getIddepartamento());
+        if (departamento.getIddepartamento() != 0) {
+            municipiosFiltrados = municipioDao.consultarMunicipiosSegunDepartamento(departamento);
         } else {
             municipiosFiltrados = new ArrayList<>();
         }

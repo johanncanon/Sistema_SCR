@@ -33,7 +33,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
     @NamedQuery(name = "Tipos.findAll", query = "SELECT t FROM Tipos t"),
     @NamedQuery(name = "Tipos.findByIdtipo", query = "SELECT t FROM Tipos t WHERE t.idtipo = :idtipo"),
     @NamedQuery(name = "Tipos.findByNombre", query = "SELECT t FROM Tipos t WHERE t.nombre = :nombre")})
-public class Tipos implements Serializable {
+public class Tipo implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,17 +44,17 @@ public class Tipos implements Serializable {
     @Column(name = "nombre")
     private String nombre;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idtipo")
-    private Collection<Contratos> contratosCollection;
+    private Collection<Contrato> contratosCollection;
 
-    public Tipos() {
+    public Tipo() {
         idtipo = 0;
     }
 
-    public Tipos(Integer idtipo) {
+    public Tipo(Integer idtipo) {
         this.idtipo = idtipo;
     }
 
-    public Tipos(Integer idtipo, String nombre) {
+    public Tipo(Integer idtipo, String nombre) {
         this.idtipo = idtipo;
         this.nombre = nombre;
     }
@@ -77,11 +77,11 @@ public class Tipos implements Serializable {
 
     @XmlTransient
     @JsonIgnore
-    public Collection<Contratos> getContratosCollection() {
+    public Collection<Contrato> getContratosCollection() {
         return contratosCollection;
     }
 
-    public void setContratosCollection(Collection<Contratos> contratosCollection) {
+    public void setContratosCollection(Collection<Contrato> contratosCollection) {
         this.contratosCollection = contratosCollection;
     }
 
@@ -95,10 +95,10 @@ public class Tipos implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Tipos)) {
+        if (!(object instanceof Tipo)) {
             return false;
         }
-        Tipos other = (Tipos) object;
+        Tipo other = (Tipo) object;
         if ((this.idtipo == null && other.idtipo != null) || (this.idtipo != null && !this.idtipo.equals(other.idtipo))) {
             return false;
         }

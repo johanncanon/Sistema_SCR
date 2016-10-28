@@ -7,7 +7,7 @@ package com.planit.scr.controladores;
 
 import com.planit.scr.conexion.ConexionSQL;
 import com.planit.scr.dao.TipoDao;
-import com.planit.scr.modelos.Tipos;
+import com.planit.scr.modelos.Tipo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -23,12 +23,12 @@ import javax.annotation.PostConstruct;
  */
 public class TipoCT {
 
-    private Tipos tipo;
-    private List<Tipos> tipos;
+    private Tipo tipo;
+    private List<Tipo> tipos;
     
 
     public TipoCT() {
-        tipo = new Tipos();
+        tipo = new Tipo();
         tipos = new ArrayList<>();
     }
 
@@ -42,19 +42,19 @@ public class TipoCT {
         }
     }
 
-    public Tipos getTipo() {
+    public Tipo getTipo() {
         return tipo;
     }
 
-    public void setTipo(Tipos tipo) {
+    public void setTipo(Tipo tipo) {
         this.tipo = tipo;
     }
 
-    public List<Tipos> getTipos() {
+    public List<Tipo> getTipos() {
         return tipos;
     }
 
-    public void setTipos(List<Tipos> tipos) {
+    public void setTipos(List<Tipo> tipos) {
         this.tipos = tipos;
     }    
 }

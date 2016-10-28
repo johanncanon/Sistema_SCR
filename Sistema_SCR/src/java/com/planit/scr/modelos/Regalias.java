@@ -6,91 +6,51 @@
 package com.planit.scr.modelos;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author VaioDevelopment
  */
-@Entity
-@Table(name = "regalias")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Regalias.findAll", query = "SELECT r FROM Regalias r"),
-    @NamedQuery(name = "Regalias.findByIdregalias", query = "SELECT r FROM Regalias r WHERE r.idregalias = :idregalias"),
-    @NamedQuery(name = "Regalias.findByPorcmunicipio", query = "SELECT r FROM Regalias r WHERE r.porcmunicipio = :porcmunicipio"),
-    @NamedQuery(name = "Regalias.findByPorcregalias", query = "SELECT r FROM Regalias r WHERE r.porcregalias = :porcregalias"),
-    @NamedQuery(name = "Regalias.findByDepproductor", query = "SELECT r FROM Regalias r WHERE r.depproductor = :depproductor"),
-    @NamedQuery(name = "Regalias.findByMunproductor", query = "SELECT r FROM Regalias r WHERE r.munproductor = :munproductor"),
-    @NamedQuery(name = "Regalias.findByDepnoproductor", query = "SELECT r FROM Regalias r WHERE r.depnoproductor = :depnoproductor"),
-    @NamedQuery(name = "Regalias.findByPuertos", query = "SELECT r FROM Regalias r WHERE r.puertos = :puertos"),
-    @NamedQuery(name = "Regalias.findByAnio", query = "SELECT r FROM Regalias r WHERE r.anio = :anio"),
-    @NamedQuery(name = "Regalias.findByMes", query = "SELECT r FROM Regalias r WHERE r.mes = :mes"),
-    @NamedQuery(name = "Regalias.findByPrecio", query = "SELECT r FROM Regalias r WHERE r.precio = :precio"),
-    @NamedQuery(name = "Regalias.findByRegalias", query = "SELECT r FROM Regalias r WHERE r.regalias = :regalias")})
 public class Regalias implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "idregalias")
     private Integer idregalias;
-    @Basic(optional = false)
-    @Column(name = "porcmunicipio")
+
     private double porcmunicipio;
-    @Basic(optional = false)
-    @Column(name = "porcregalias")
+
     private double porcregalias;
-    @Basic(optional = false)
-    @Column(name = "depproductor")
+
     private int depproductor;
-    @Basic(optional = false)
-    @Column(name = "munproductor")
+
     private int munproductor;
-    @Basic(optional = false)
-    @Column(name = "depnoproductor")
+
     private int depnoproductor;
-    @Basic(optional = false)
-    @Column(name = "puertos")
+
     private int puertos;
-    @Column(name = "anio")
+    
     private Integer anio;
-    @Column(name = "mes")
+    
     private Integer mes;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "precio")
+    
     private Double precio;
-    @Column(name = "regalias")
+    
     private Double regalias;
-    @JoinColumn(name = "idcampo", referencedColumnName = "idcampo")
-    @ManyToOne(optional = false)
-    private Campos idcampo;
-    @JoinColumn(name = "iddepartamento", referencedColumnName = "iddepartamento")
-    @ManyToOne(optional = false)
-    private Departamentos iddepartamento;
-    @JoinColumn(name = "idmunicipio", referencedColumnName = "idmunicipio")
-    @ManyToOne(optional = false)
-    private Municipios idmunicipio;
-    @JoinColumn(name = "idproduccion", referencedColumnName = "idproduccion")
-    @ManyToOne
-    private Produccion idproduccion;
+    
+    private Campo campo;
+    
+    private Departamento departamento;
+    
+    private Municipio municipio;
+    
+    private Produccion produccion;
 
     public Regalias() {
-        this.idcampo = new Campos();
-        this.iddepartamento = new Departamentos();
-        this.idmunicipio = new Municipios();
-        this.idproduccion = new Produccion();
+        this.campo = new Campo();
+        this.departamento = new Departamento();
+        this.municipio = new Municipio();
+        this.produccion = new Produccion();
     }
 
     public Regalias(Integer idregalias) {
@@ -107,7 +67,7 @@ public class Regalias implements Serializable {
         this.puertos = puertos;
     }
 
-    public Regalias(Integer idregalias, double porcmunicipio, double porcregalias, int depproductor, int munproductor, int depnoproductor, int puertos, Integer anio, Integer mes, Double precio, Double regalias, Campos idcampo, Departamentos iddepartamento, Municipios idmunicipio, Produccion idproduccion) {
+    public Regalias(Integer idregalias, double porcmunicipio, double porcregalias, int depproductor, int munproductor, int depnoproductor, int puertos, Integer anio, Integer mes, Double precio, Double regalias, Campo idcampo, Departamento iddepartamento, Municipio idmunicipio, Produccion idproduccion) {
         this.idregalias = idregalias;
         this.porcmunicipio = porcmunicipio;
         this.porcregalias = porcregalias;
@@ -119,13 +79,13 @@ public class Regalias implements Serializable {
         this.mes = mes;
         this.precio = precio;
         this.regalias = regalias;
-        this.idcampo = idcampo;
-        this.iddepartamento = iddepartamento;
-        this.idmunicipio = idmunicipio;
-        this.idproduccion = idproduccion;
+        this.campo = idcampo;
+        this.departamento = iddepartamento;
+        this.municipio = idmunicipio;
+        this.produccion = idproduccion;
     }
 
-    public Regalias(double porcmunicipio, double porcregalias, int depproductor, int munproductor, int depnoproductor, int puertos, Integer anio, Integer mes, Double precio, Double regalias, Campos idcampo, Departamentos iddepartamento, Municipios idmunicipio, Produccion idproduccion) {
+    public Regalias(double porcmunicipio, double porcregalias, int depproductor, int munproductor, int depnoproductor, int puertos, Integer anio, Integer mes, Double precio, Double regalias, Campo idcampo, Departamento iddepartamento, Municipio idmunicipio, Produccion idproduccion) {
         this.porcmunicipio = porcmunicipio;
         this.porcregalias = porcregalias;
         this.depproductor = depproductor;
@@ -136,13 +96,11 @@ public class Regalias implements Serializable {
         this.mes = mes;
         this.precio = precio;
         this.regalias = regalias;
-        this.idcampo = idcampo;
-        this.iddepartamento = iddepartamento;
-        this.idmunicipio = idmunicipio;
-        this.idproduccion = idproduccion;
+        this.campo = idcampo;
+        this.departamento = iddepartamento;
+        this.municipio = idmunicipio;
+        this.produccion = idproduccion;
     }
-    
-    
 
     public Integer getIdregalias() {
         return idregalias;
@@ -232,61 +190,42 @@ public class Regalias implements Serializable {
         this.regalias = regalias;
     }
 
-    public Campos getIdcampo() {
-        return idcampo;
+    public Campo getCampo() {
+        return campo;
     }
 
-    public void setIdcampo(Campos idcampo) {
-        this.idcampo = idcampo;
+    public void setCampo(Campo campo) {
+        this.campo = campo;
     }
 
-    public Departamentos getIddepartamento() {
-        return iddepartamento;
+    public Departamento getDepartamento() {
+        return departamento;
     }
 
-    public void setIddepartamento(Departamentos iddepartamento) {
-        this.iddepartamento = iddepartamento;
+    public void setDepartamento(Departamento departamento) {
+        this.departamento = departamento;
     }
 
-    public Municipios getIdmunicipio() {
-        return idmunicipio;
+    public Municipio getMunicipio() {
+        return municipio;
     }
 
-    public void setIdmunicipio(Municipios idmunicipio) {
-        this.idmunicipio = idmunicipio;
+    public void setMunicipio(Municipio municipio) {
+        this.municipio = municipio;
     }
 
-    public Produccion getIdproduccion() {
-        return idproduccion;
+    public Produccion getProduccion() {
+        return produccion;
     }
 
-    public void setIdproduccion(Produccion idproduccion) {
-        this.idproduccion = idproduccion;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idregalias != null ? idregalias.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Regalias)) {
-            return false;
-        }
-        Regalias other = (Regalias) object;
-        if ((this.idregalias == null && other.idregalias != null) || (this.idregalias != null && !this.idregalias.equals(other.idregalias))) {
-            return false;
-        }
-        return true;
-    }
+    public void setProduccion(Produccion produccion) {
+        this.produccion = produccion;
+    }    
+   
 
     @Override
     public String toString() {
         return "com.planit.scr.modelos.Regalias[ idregalias=" + idregalias + " ]";
     }
-    
+
 }

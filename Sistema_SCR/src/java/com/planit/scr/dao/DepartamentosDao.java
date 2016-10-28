@@ -6,7 +6,7 @@
 package com.planit.scr.dao;
 
 import com.planit.scr.conexion.ConexionSQL;
-import com.planit.scr.modelos.Departamentos;
+import com.planit.scr.modelos.Departamento;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class DepartamentosDao {
    
-    public void registrarDepartamento(Departamentos departamento) throws Exception {
+    public void registrarDepartamento(Departamento departamento) throws Exception {
         Statement st = ConexionSQL.conexion();
         try {
             try {
@@ -36,15 +36,15 @@ public class DepartamentosDao {
         }        
     }
 
-    public List<Departamentos> consultarDepartamentos() throws Exception {
+    public List<Departamento> consultarDepartamentos() throws Exception {
         Statement st = ConexionSQL.conexion();
-        List<Departamentos> listadepartamentos = new ArrayList<>();
+        List<Departamento> listadepartamentos = new ArrayList<>();
         try {
             try {
                 String sql = "SELECT iddepartamento, nombre FROM public.departamentos";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listadepartamentos.add(new Departamentos(rs.getInt(1), rs.getString(2)));
+                    listadepartamentos.add(new Departamento(rs.getInt(1), rs.getString(2)));
                 }
             } catch (SQLException e) {
                 throw e;
@@ -57,16 +57,16 @@ public class DepartamentosDao {
         return listadepartamentos;
     }
 
-    public Departamentos consultarDepartamento(Departamentos dp) throws Exception {
+    public Departamento consultarDepartamento(Departamento dp) throws Exception {
         Statement st = ConexionSQL.conexion();
-        Departamentos nuevodepartamento = new Departamentos();
+        Departamento nuevodepartamento = new Departamento();
         try {
             try {
                 String sql = "SELECT iddepartamento, nombre FROM public.departamentos "
                         + "WHERE iddepartamento = '" + dp.getIddepartamento() + "' or nombre = '" + dp.getNombre() + "'";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    nuevodepartamento = new Departamentos(rs.getInt(1), rs.getString(2));
+                    nuevodepartamento = new Departamento(rs.getInt(1), rs.getString(2));
                 }
             } catch (SQLException e) {
                 throw e;

@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -19,11 +18,10 @@ import java.util.List;
  * @author VaioDevelopment
  */
 public class ValoresDao {
-    
-    public void registrarValores(Valores valor) throws Exception {
-        Statement st = ConexionSQL.conexion();
-        Calendar C = Calendar.getInstance();
-        double vt = ((valor.getV1() + valor.getV2()));
+
+    public int registrarValores(Valores valor) throws Exception {
+        int resultado  = 0;
+        Statement st = ConexionSQL.conexion();       
         try {
             try {
                 String sql = "INSERT INTO public.valores (px, pf, v1, v2, trimestre_mes, vt, ctc, ctmd, cmt, ctmc, cr, cce, ctme, anio)"
@@ -43,7 +41,7 @@ public class ValoresDao {
                         + " '" + valor.getAnio() + "')";
                 
                 st.execute(sql);
-                
+                resultado = 1;
             } catch (SQLException e) {
                 throw e;
             }
@@ -52,8 +50,64 @@ public class ValoresDao {
         } finally {
             ConexionSQL.CerrarConexion();
         }
+        return resultado;
+    }
+
+    public int modificarValores(Valores valor) throws Exception {
+        int resultado = 0;
+        Statement st = ConexionSQL.conexion();        
+        try {
+            try {
+                String sql = "UPDATE public.valores SET px = " + valor.getPx() + ","
+                        + " pf = " + valor.getPf() + ","
+                        + " v1 = " + valor.getV1() + ","
+                        + " v2 = " + valor.getV2() + ","
+                        + " trimestre_mes = " + valor.getTrimestreMes() + ", "
+                        + " vt = " + valor.getVt() + ","
+                        + " ctc = " + valor.getCtc() + ","
+                        + " ctmd = " + valor.getCtmd() + ","
+                        + " cmt = " + valor.getCmt() + ","
+                        + " ctmc = " + valor.getCtmc() + ","
+                        + " cr = " + valor.getCr() + ","
+                        + " cce = " + valor.getCce() + ","
+                        + " ctme = " + valor.getCtme() + ","
+                        + " anio = '" + valor.getAnio() + "'"
+                        + " WHERE idvalores = '" + valor.getIdvalores() + "'";
+
+                st.execute(sql);
+                resultado = 1;
+            } catch (SQLException e) {
+                throw e;
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            ConexionSQL.CerrarConexion();
+        }
+        return resultado;
     }
     
+    public int eliminarValores(Valores valor) throws Exception{
+        int resultado = 0;
+        Statement st = ConexionSQL.conexion();        
+        try {
+            try {
+                String sql = "DELETE FROM public.valores"
+                        + " WHERE idvalores = '" + valor.getIdvalores() + "'";
+
+                st.execute(sql);
+                resultado = 1;
+            } catch (SQLException e) {
+                throw e;
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            ConexionSQL.CerrarConexion();
+        }
+        return resultado;
+    }
+
     public List<Valores> consultarValores() throws Exception {
         Statement st = ConexionSQL.conexion();
         List<Valores> listaValores = new ArrayList<>();
@@ -74,7 +128,7 @@ public class ValoresDao {
         }
         return listaValores;
     }
-    
+
     public Valores consultarValores(int trimestreMes, int anio) throws Exception {
         Statement st = ConexionSQL.conexion();
         Valores valores = new Valores();

@@ -6,76 +6,29 @@
 package com.planit.scr.modelos;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author VaioDevelopment
  */
-@Entity
-@Table(name = "valores")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Valores.findAll", query = "SELECT v FROM Valores v"),
-    @NamedQuery(name = "Valores.findByIdvalores", query = "SELECT v FROM Valores v WHERE v.idvalores = :idvalores"),
-    @NamedQuery(name = "Valores.findByPx", query = "SELECT v FROM Valores v WHERE v.px = :px"),
-    @NamedQuery(name = "Valores.findByPf", query = "SELECT v FROM Valores v WHERE v.pf = :pf"),
-    @NamedQuery(name = "Valores.findByV1", query = "SELECT v FROM Valores v WHERE v.v1 = :v1"),
-    @NamedQuery(name = "Valores.findByV2", query = "SELECT v FROM Valores v WHERE v.v2 = :v2"),
-    @NamedQuery(name = "Valores.findByVt", query = "SELECT v FROM Valores v WHERE v.vt = :vt"),
-    @NamedQuery(name = "Valores.findByCtmd", query = "SELECT v FROM Valores v WHERE v.ctmd = :ctmd"),
-    @NamedQuery(name = "Valores.findByCmt", query = "SELECT v FROM Valores v WHERE v.cmt = :cmt"),
-    @NamedQuery(name = "Valores.findByCtmc", query = "SELECT v FROM Valores v WHERE v.ctmc = :ctmc"),
-    @NamedQuery(name = "Valores.findByCr", query = "SELECT v FROM Valores v WHERE v.cr = :cr"),
-    @NamedQuery(name = "Valores.findByCce", query = "SELECT v FROM Valores v WHERE v.cce = :cce"),
-    @NamedQuery(name = "Valores.findByCtme", query = "SELECT v FROM Valores v WHERE v.ctme = :ctme"),
-    @NamedQuery(name = "Valores.findByCtc", query = "SELECT v FROM Valores v WHERE v.ctc = :ctc"),
-    @NamedQuery(name = "Valores.findByTrimestreMes", query = "SELECT v FROM Valores v WHERE v.trimestreMes = :trimestreMes"),
-    @NamedQuery(name = "Valores.findByAnio", query = "SELECT v FROM Valores v WHERE v.anio = :anio")})
 public class Valores implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "idvalores")
     private Integer idvalores;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "px")
     private Double px;
-    @Column(name = "pf")
     private Double pf;
-    @Column(name = "v1")
     private Double v1;
-    @Column(name = "v2")
     private Double v2;
-    @Column(name = "vt")
     private Double vt;
-    @Column(name = "ctmd")
     private Double ctmd;
-    @Column(name = "cmt")
     private Double cmt;
-    @Column(name = "ctmc")
     private Double ctmc;
-    @Column(name = "cr")
     private Double cr;
-    @Column(name = "cce")
     private Double cce;
-    @Column(name = "ctme")
     private Double ctme;
-    @Column(name = "ctc")
     private Double ctc;
-    @Column(name = "trimestre_mes")
     private Integer trimestreMes;
-    @Column(name = "anio")
     private Integer anio;
 
     public Valores() {
@@ -119,8 +72,7 @@ public class Valores implements Serializable {
         this.trimestreMes = trimestreMes;
         this.anio = anio;
     }
-    
-    
+        
     public Integer getIdvalores() {
         return idvalores;
     }
@@ -239,26 +191,6 @@ public class Valores implements Serializable {
 
     public void setAnio(Integer anio) {
         this.anio = anio;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idvalores != null ? idvalores.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Valores)) {
-            return false;
-        }
-        Valores other = (Valores) object;
-        if ((this.idvalores == null && other.idvalores != null) || (this.idvalores != null && !this.idvalores.equals(other.idvalores))) {
-            return false;
-        }
-        return true;
     }
 
     @Override

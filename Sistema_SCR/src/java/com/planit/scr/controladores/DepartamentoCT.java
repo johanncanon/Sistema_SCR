@@ -7,7 +7,7 @@ package com.planit.scr.controladores;
 
 import com.planit.scr.conexion.ConexionSQL;
 import com.planit.scr.dao.DepartamentosDao;
-import com.planit.scr.modelos.Departamentos;
+import com.planit.scr.modelos.Departamento;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -23,11 +23,11 @@ import javax.annotation.PostConstruct;
  */
 public class DepartamentoCT {
 
-    private Departamentos departamento;
-    private List<Departamentos> departamentos;
+    private Departamento departamento;
+    private List<Departamento> departamentos;
     
     public DepartamentoCT() {
-        departamento = new Departamentos();
+        departamento = new Departamento();
         departamentos = new ArrayList<>();
     }
 
@@ -41,19 +41,19 @@ public class DepartamentoCT {
         }
     }
 
-    public Departamentos getDepartamento() {
+    public Departamento getDepartamento() {
         return departamento;
     }
 
-    public void setDepartamento(Departamentos departamento) {
+    public void setDepartamento(Departamento departamento) {
         this.departamento = departamento;
     }
 
-    public List<Departamentos> getDepartamentos() {
+    public List<Departamento> getDepartamentos() {
         return departamentos;
     }
 
-    public void setDepartamentos(List<Departamentos> departamentos) {
+    public void setDepartamentos(List<Departamento> departamentos) {
         this.departamentos = departamentos;
     }
 
@@ -61,7 +61,7 @@ public class DepartamentoCT {
     public void registrar() throws Exception {
         DepartamentosDao departamentoDao = new DepartamentosDao();
         departamentoDao.registrarDepartamento(departamento);
-        departamento = new Departamentos();
+        departamento = new Departamento();
         departamentos = departamentoDao.consultarDepartamentos();
     }  
 }

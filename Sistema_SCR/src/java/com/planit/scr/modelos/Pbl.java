@@ -23,55 +23,30 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author VaioDevelopment
  */
-@Entity
-@Table(name = "pbl")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Pbl.findAll", query = "SELECT p FROM Pbl p"),
-    @NamedQuery(name = "Pbl.findByIdpbl", query = "SELECT p FROM Pbl p WHERE p.idpbl = :idpbl"),
-    @NamedQuery(name = "Pbl.findByCtc", query = "SELECT p FROM Pbl p WHERE p.ctc = :ctc"),
-    @NamedQuery(name = "Pbl.findByCt1", query = "SELECT p FROM Pbl p WHERE p.ct1 = :ct1"),
-    @NamedQuery(name = "Pbl.findByCce", query = "SELECT p FROM Pbl p WHERE p.cce = :cce"),
-    @NamedQuery(name = "Pbl.findByCt2", query = "SELECT p FROM Pbl p WHERE p.ct2 = :ct2"),
-    @NamedQuery(name = "Pbl.findByTrimestreMes", query = "SELECT p FROM Pbl p WHERE p.trimestreMes = :trimestreMes"),
-    @NamedQuery(name = "Pbl.findByPrc", query = "SELECT p FROM Pbl p WHERE p.prc = :prc"),
-    @NamedQuery(name = "Pbl.findByRefinacion", query = "SELECT p FROM Pbl p WHERE p.refinacion = :refinacion"),
-    @NamedQuery(name = "Pbl.findByExportacion", query = "SELECT p FROM Pbl p WHERE p.exportacion = :exportacion"),
-    @NamedQuery(name = "Pbl.findByAnio", query = "SELECT p FROM Pbl p WHERE p.anio = :anio")})
 public class Pbl implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "idpbl")
+
     private Integer idpbl;
-    @Basic(optional = false)
-    @Column(name = "ctc")
+
     private double ctc;
-    @Basic(optional = false)
-    @Column(name = "ct1")
+
     private double ct1;
-    @Basic(optional = false)
-    @Column(name = "cce")
+
     private double cce;
-    @Basic(optional = false)
-    @Column(name = "ct2")
+
     private double ct2;
-    @Basic(optional = false)
-    @Column(name = "trimestre_mes")
+
     private int trimestreMes;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "prc")
+    
     private Double prc;
-    @Column(name = "refinacion")
+    
     private Double refinacion;
-    @Column(name = "exportacion")
+    
     private Double exportacion;
-    @Column(name = "anio")
+
     private Integer anio;
-    @JoinColumn(name = "idcontrato", referencedColumnName = "idcontrato")
-    @ManyToOne
-    private Contratos idcontrato;
+   
+    private Contrato contrato;
 
     public Pbl() {
     }
@@ -89,7 +64,7 @@ public class Pbl implements Serializable {
         this.trimestreMes = trimestreMes;
     }
 
-    public Pbl(Integer idpbl, double ctc, double ct1, double cce, double ct2, int trimestreMes, Double prc, Double refinacion, Double exportacion, Integer anio, Contratos idcontrato) {
+    public Pbl(Integer idpbl, double ctc, double ct1, double cce, double ct2, int trimestreMes, Double prc, Double refinacion, Double exportacion, Integer anio, Contrato contrato) {
         this.idpbl = idpbl;
         this.ctc = ctc;
         this.ct1 = ct1;
@@ -100,10 +75,10 @@ public class Pbl implements Serializable {
         this.refinacion = refinacion;
         this.exportacion = exportacion;
         this.anio = anio;
-        this.idcontrato = idcontrato;
+        this.contrato = contrato;
     }
 
-    public Pbl(double ctc, double ct1, double cce, double ct2, int trimestreMes, Double prc, Double refinacion, Double exportacion, Integer anio, Contratos idcontrato) {
+    public Pbl(double ctc, double ct1, double cce, double ct2, int trimestreMes, Double prc, Double refinacion, Double exportacion, Integer anio, Contrato contrato) {
         this.ctc = ctc;
         this.ct1 = ct1;
         this.cce = cce;
@@ -113,11 +88,9 @@ public class Pbl implements Serializable {
         this.refinacion = refinacion;
         this.exportacion = exportacion;
         this.anio = anio;
-        this.idcontrato = idcontrato;
+        this.contrato = contrato;
     }
 
-    
-    
     public Integer getIdpbl() {
         return idpbl;
     }
@@ -198,37 +171,13 @@ public class Pbl implements Serializable {
         this.anio = anio;
     }
 
-    public Contratos getIdcontrato() {
-        return idcontrato;
+    public Contrato getContrato() {
+        return contrato;
     }
 
-    public void setIdcontrato(Contratos idcontrato) {
-        this.idcontrato = idcontrato;
+    public void setContrato(Contrato contrato) {
+        this.contrato = contrato;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idpbl != null ? idpbl.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Pbl)) {
-            return false;
-        }
-        Pbl other = (Pbl) object;
-        if ((this.idpbl == null && other.idpbl != null) || (this.idpbl != null && !this.idpbl.equals(other.idpbl))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.planit.scr.modelos.Pbl[ idpbl=" + idpbl + " ]";
-    }
     
 }

@@ -20,9 +20,9 @@
                                     eliminar los registros de los valores que desees.</small> </h2>
                         </div>
                         <b:row>
-                            <h:form id="formularioRegistroValores">
+                            <h:form id="formularioRegistro">
+                                <p:growl autoUpdate="true" life="4000" showDetail="true"/>
                                 <b:column col-lg="12" >
-
                                     <div class="widget ">
                                         <div class="widget-header"> <i class="fa fa-list-ol"></i>
                                             <h3> Registro de Valores </h3>
@@ -38,8 +38,7 @@
                                                                     <label for="inputAnio" class="control-label">Año:</label>
                                                                     <p:inputText value="#{valoresCT.valor.anio}" id="inputAnio" class="form-control" placeholder="2016">
                                                                         <p:ajax event="keyup" update="LTrimestreMes STrimestreMes"/>
-                                                                    </p:inputText>                                                             
-
+                                                                    </p:inputText>                                                            
                                                                     <p:message for="inputAnio"/>                                                            
                                                                 </div>
                                                                 <c:choose>
@@ -132,31 +131,139 @@
                                                     </b:column>
                                                     <!-- /widget-content -->
                                                     <p:separator/>
-                                                    <div class="form-group">
-                                                        <b:commandButton value="Registrar" update=":formularioRegistroValores" action="#{valoresCT.registrarValores()}" class="btn btn-success " style="float: right; width: 35%">
-                                                            <b:iconAwesome name="check"></b:iconAwesome>
-                                                        </b:commandButton>
+                                                    <div class="form-group" align="right">                                                       
+                                                        <h:panelGrid columns="2">
+                                                            <p:commandButton id="Cancelar"  process="@this" 
+                                                                             immediate="true" class="btn btn-info" 
+                                                                             update=":formularioRegistro :formularioLista"
+                                                                             action="#{valoresCT.cancelar()}"
+                                                                             value="Cancelar" />
+
+                                                            <p:commandButton onclick="PrimeFaces.monitorDownload(start, stop);" 
+                                                                             value="#{valoresCT.nombreOperacion}" 
+                                                                             action="#{valoresCT.metodo()}" 
+                                                                             update=":formularioRegistro :formularioLista"
+                                                                             class="btn btn-success"/>                                                                                                                        
+                                                        </h:panelGrid>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </b:column>
-                                <!-- /widget -->                            
+                                </b:column>                                                   
                             </h:form>
-                        </b:row>
 
-                        <!-- /row --> 
+                            <b:column col-lg="12">
+                                <div class="widget ">
+                                    <div class="widget-header"> <i class="fa fa-list-alt"></i>
+                                        <h3> Listado de valores para calculo del pbl </h3>
+                                    </div>
+                                    <!-- /widget-header -->
+                                    <div class="widget-content">
+                                        <div class="widget big-stats-container">
+                                            <div class="widget-content">
+                                                <h:form id="formularioLista">
+                                                    <div align="right">
+                                                        <p:inputText class="form-control" placeholder="Buscar..." style="width: 50%"/><br/>
+                                                    </div>
+                                                    <p:dataTable value="#{valoresCT.valores}" var="valor"  
+                                                                 rows="10"
+                                                                 paginator="true"
+                                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                 rowsPerPageTemplate="5,10,15"
+                                                                 emptyMessage="Valores no registrados">
 
-                        <!-- /container --> 
+                                                        <p:column headerText="Año" sortBy="#{valor.anio}">
+                                                            <h:outputLabel value="#{valor.anio}"/>
+                                                        </p:column>
+
+                                                        <p:column headerText="Trimestre-mes" sortBy="#{valor.trimestreMes}">
+                                                            <h:outputLabel value="#{valor.trimestreMes}"/>
+                                                        </p:column>
+
+                                                        <p:column headerText="PX" sortBy="#{valor.px}">
+                                                            <h:outputLabel value="#{valor.px}"/>
+                                                        </p:column>
+
+                                                        <p:column headerText="PF" sortBy="#{valor.pf}">
+                                                            <h:outputLabel value="#{valor.pf}"/>
+                                                        </p:column>
+
+                                                        <p:column headerText="V1" sortBy="#{valor.v1}">
+                                                            <h:outputLabel value="#{valor.v1}"/>
+                                                        </p:column>
+
+                                                        <p:column headerText="V2" sortBy="#{valor.v2}">
+                                                            <h:outputLabel value="#{valor.v2}"/>
+                                                        </p:column>
+
+                                                        <p:column headerText="VT" sortBy="#{valor.vt}">
+                                                            <h:outputLabel value="#{valor.vt}"/>
+                                                        </p:column>
+
+                                                        <p:column headerText="CTMD" sortBy="#{valor.ctmd}">
+                                                            <h:outputLabel value="#{valor.ctmd}"/>
+                                                        </p:column>
+
+                                                        <p:column headerText="CMT" sortBy="#{valor.cmt}">
+                                                            <h:outputLabel value="#{valor.cmt}"/>
+                                                        </p:column>
+
+                                                        <p:column headerText="CTMC" sortBy="#{valor.ctmc}">
+                                                            <h:outputLabel value="#{valor.ctmc}"/>
+                                                        </p:column>
+
+                                                        <p:column headerText="CR" sortBy="#{valor.cr}">
+                                                            <h:outputLabel value="#{valor.cr}"/>
+                                                        </p:column>
+
+                                                        <p:column headerText="CCE" sortBy="#{valor.cce}">
+                                                            <h:outputLabel value="#{valor.cce}"/>
+                                                        </p:column>
+
+                                                        <p:column headerText="CTME" sortBy="#{valor.ctme}">
+                                                            <h:outputLabel value="#{valor.ctme}"/>
+                                                        </p:column>
+
+                                                        <p:column headerText="CTC" sortBy="#{valor.ctc}">
+                                                            <h:outputLabel value="#{valor.ctc}"/>
+                                                        </p:column>
+
+                                                        <p:column style="width: 60px">
+                                                            <p:commandLink style="color: white; width: 100%" process="@this" update=":formularioRegistro" action="#{valoresCT.seleccionarCRUD(1)}" title="Modificar" class="btn btn-block btn-info">
+                                                                <f:setPropertyActionListener value="#{valor}" target="#{valoresCT.valor}"/>                                                               
+                                                                <i class="fa fa-pencil"></i> 
+                                                            </p:commandLink>
+                                                        </p:column>
+
+                                                        <p:column style="width: 60px">
+                                                            <p:commandLink style="color: white; width: 100%" action="#{valoresCT.eliminar()}" onclick="PrimeFaces.monitorDownload(start, stop);" process="@this" update="@form" title="Eliminar" class="btn btn-block btn-danger">
+                                                                <f:setPropertyActionListener value="#{valor}" target="#{valoresCT.valor}"/>
+                                                                <i class="fa fa-trash"></i>                                                     
+                                                            </p:commandLink>
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                    <script type="text/javascript">
+                                                        function start() {
+                                                            PF('statusDialog').show();
+                                                        }
+                                                        function stop() {
+                                                            PF('statusDialog').hide();
+                                                        }
+                                                    </script>
+                                                    <p:dialog  modal="true" widgetVar="statusDialog" header="Cargando" draggable="false" closable="false" resizable="false">
+                                                        <p:graphicImage width="100%" value="/resources/images/demo/ajaxloadingbar.gif" />
+                                                    </p:dialog>
+                                                </h:form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </b:column>
+                        </b:row>                         
                     </b:container>
-
                 </div>
-                <!-- /main-inner --> 
-            </div>
-            <!-- /main -->    
+            </div>             
         </ui:define>
-
     </ui:composition>
-
 </html>
