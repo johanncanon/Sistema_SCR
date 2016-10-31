@@ -59,15 +59,25 @@
                                                             </div>
                                                             <p:separator/>
                                                             <div class="form-group">
-                                                                <b:commandButton value="Consultar" update=":formularioRegistro" action="#{regaliasCT.consultarRegalias()}" class="btn btn-info " style="float: right; width: 30%">
-                                                                    <b:iconAwesome name="send"></b:iconAwesome>
-                                                                </b:commandButton>
+                                                                <p:commandButton icon="fa fa-send" value="Consultar" onclick="PrimeFaces.monitorDownload(start, stop);" update=":formularioRegistro" action="#{regaliasCT.consultarRegalias()}" class="btn btn-info " style="float: right; width: 30%">
+                                                                </p:commandButton>
                                                             </div>
                                                         </div>
                                                         <!-- /widget-content --> 
                                                     </div>
                                                 </div>
                                             </div>
+                                            <script type="text/javascript">
+                                                function start() {
+                                                    PF('statusDialog').show();
+                                                }
+                                                function stop() {
+                                                    PF('statusDialog').hide();
+                                                }
+                                            </script>
+                                            <p:dialog  modal="true" widgetVar="statusDialog" header="Cargando" draggable="false" closable="false" resizable="false">
+                                                <p:graphicImage width="100%" value="/resources/images/demo/ajaxloadingbar.gif" />
+                                            </p:dialog>
                                         </div>
                                     </b:column>
 
@@ -85,36 +95,39 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th class="order-table-header" scope="col">Municipio</th>
-                                                                    <th class="order-table-header" scope="col">Campo</th>
-                                                                    <th class="order-table-header" scope="col">Contrato</th>
-                                                                    <th class="order-table-header" scope="col">T. Hdr</th>
-                                                                    <th class="order-table-header" scope="col">T. Gas</th>
+                                                                    <th class="order-table-header" scope="col">Contrato</th> 
+                                                                    <th class="order-table-header" scope="col">Campo</th>                                                                 
+                                                                    <th class="order-table-header" scope="col">Prd Hdr</th>
+                                                                    <th class="order-table-header" scope="col">Prd Gas</th>
                                                                     <th class="order-table-header" scope="col">Prod. Mes</th>
                                                                     <th class="order-table-header" scope="col">Prod. Día</th>
-                                                                    <th class="order-table-header" scope="col">Pr. Mun</th>
-                                                                    <th class="order-table-header" scope="col">Pr. Regalias</th>
+                                                                    <th class="order-table-header" scope="col">% Mun</th>
+                                                                    <th class="order-table-header" scope="col">%. Reg</th>
                                                                     <th class="order-table-header" scope="col">Dep. Productor</th>
                                                                     <th class="order-table-header" scope="col">Dep. no Productor</th>
                                                                     <th class="order-table-header" scope="col">Puertos</th>
                                                                     <th class="order-table-header" scope="col">Mun. Productor</th>
+                                                                    <th class="order-table-header" scope="col">Fondo Nacional</th>
                                                                 </tr>
                                                             </thead>
 
                                                             <tbody>
                                                                 <c:forEach items="#{regaliasCT.regalias}" var="item">           
                                                                     <tr class="order-table-odd-row">
-                                                                        <td align="center">#{item.idmunicipio.nombre}</td>
-                                                                        <td align="center">#{item.idcampo.nombre}</td>                                                                                                                                           
-                                                                        <td align="center">#{item.idproduccion.produccionhdia}</td>
-                                                                        <td align="center">#{item.idproduccion.producciongdia}</td>
-                                                                        <td align="center">#{item.idproduccion.producciontotalmes}</td>
-                                                                        <td align="center">#{item.idproduccion.producciontotaldia}</td>
+                                                                        <td align="center">#{item.municipio.nombre}</td>
+                                                                        <td align="center">#{item.campo.contrato.nombre}</td>
+                                                                        <td align="center">#{item.campo.nombre}</td>                                                                                                                                           
+                                                                        <td align="center">#{item.produccion.produccionhdia}</td>
+                                                                        <td align="center">#{item.produccion.producciongdia}</td>
+                                                                        <td align="center">#{item.produccion.producciontotalmes}</td>
+                                                                        <td align="center">#{item.produccion.producciontotaldia}</td>
                                                                         <td align="center">#{item.porcmunicipio}</td>
                                                                         <td align="center">#{item.porcregalias}</td>
-                                                                        <td align="center">#{item.depproductor}</td>
-                                                                        <td align="center">#{item.depnoproductor}</td>
-                                                                        <td align="center">#{item.puertos}</td>
-                                                                        <td align="center">#{item.munproductor}</td>
+                                                                        <td align="center">#{regaliasCT.redondear(item.depproductor, 3)}</td>
+                                                                        <td align="center">#{regaliasCT.redondear(item.depnoproductor, 3)}</td>
+                                                                        <td align="center">#{regaliasCT.redondear(item.puertos, 3)}</td>
+                                                                        <td align="center">#{regaliasCT.redondear(item.munproductor, 3)}</td>
+                                                                        <td align="center">#{regaliasCT.redondear(item.fondonacional, 3)}</td>
                                                                     </tr>
                                                                 </c:forEach>
                                                             </tbody>

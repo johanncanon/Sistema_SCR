@@ -6,77 +6,49 @@
 package com.planit.scr.modelos;
 
 import java.io.Serializable;
-import java.util.Collection;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
  * @author VaioDevelopment
  */
-@Entity
-@Table(name = "produccion")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Produccion.findAll", query = "SELECT p FROM Produccion p"),
-    @NamedQuery(name = "Produccion.findByIdproduccion", query = "SELECT p FROM Produccion p WHERE p.idproduccion = :idproduccion"),
-    @NamedQuery(name = "Produccion.findByProduccionhdia", query = "SELECT p FROM Produccion p WHERE p.produccionhdia = :produccionhdia"),
-    @NamedQuery(name = "Produccion.findByProduccionhmes", query = "SELECT p FROM Produccion p WHERE p.produccionhmes = :produccionhmes"),
-    @NamedQuery(name = "Produccion.findByProducciongdia", query = "SELECT p FROM Produccion p WHERE p.producciongdia = :producciongdia"),
-    @NamedQuery(name = "Produccion.findByProducciongmes", query = "SELECT p FROM Produccion p WHERE p.producciongmes = :producciongmes"),
-    @NamedQuery(name = "Produccion.findByProducciontotaldia", query = "SELECT p FROM Produccion p WHERE p.producciontotaldia = :producciontotaldia"),
-    @NamedQuery(name = "Produccion.findByMes", query = "SELECT p FROM Produccion p WHERE p.mes = :mes"),
-    @NamedQuery(name = "Produccion.findByAnio", query = "SELECT p FROM Produccion p WHERE p.anio = :anio"),
-    @NamedQuery(name = "Produccion.findByProducciontotalmes", query = "SELECT p FROM Produccion p WHERE p.producciontotalmes = :producciontotalmes")})
 public class Produccion implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "idproduccion")
+
     private Integer idproduccion;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "produccionhdia")
+
     private Double produccionhdia;
-    @Column(name = "produccionhmes")
+
     private Double produccionhmes;
-    @Column(name = "producciongdia")
+
     private Double producciongdia;
-    @Column(name = "producciongmes")
+
     private Double producciongmes;
-    @Column(name = "producciontotaldia")
+
     private Double producciontotaldia;
-    @Column(name = "mes")
+
     private Integer mes;
-    @Column(name = "anio")
+
     private Integer anio;
-    @Column(name = "producciontotalmes")
+
     private Double producciontotalmes;
-    @OneToMany(mappedBy = "idproduccion")
-    private Collection<Regalias> regaliasCollection;
-    @JoinColumn(name = "idcampo", referencedColumnName = "idcampo")
-    @ManyToOne(optional = false)
+
     private Campo idcampo;
 
     public Produccion() {
         idproduccion = 0;
+        mes = 0;
+        anio = 0;
+        idcampo = new Campo();
     }
 
     public Produccion(Integer idproduccion) {
         this.idproduccion = idproduccion;
+        mes = 0;
+        anio = 0;
+        idcampo = new Campo();
     }
 
     public Produccion(Integer idproduccion, Double produccionhdia, Double produccionhmes, Double producciongdia, Double producciongmes, Double producciontotaldia, Integer mes, Integer anio, Double producciontotalmes, Campo idcampo) {
@@ -103,10 +75,6 @@ public class Produccion implements Serializable {
         this.producciontotalmes = producciontotalmes;
         this.idcampo = idcampo;
     }
-
-   
-    
-    
 
     public Integer getIdproduccion() {
         return idproduccion;
@@ -180,16 +148,6 @@ public class Produccion implements Serializable {
         this.producciontotalmes = producciontotalmes;
     }
 
-    @XmlTransient
-    @JsonIgnore
-    public Collection<Regalias> getRegaliasCollection() {
-        return regaliasCollection;
-    }
-
-    public void setRegaliasCollection(Collection<Regalias> regaliasCollection) {
-        this.regaliasCollection = regaliasCollection;
-    }
-
     public Campo getIdcampo() {
         return idcampo;
     }
@@ -199,28 +157,8 @@ public class Produccion implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idproduccion != null ? idproduccion.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Produccion)) {
-            return false;
-        }
-        Produccion other = (Produccion) object;
-        if ((this.idproduccion == null && other.idproduccion != null) || (this.idproduccion != null && !this.idproduccion.equals(other.idproduccion))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     public String toString() {
         return "com.planit.scr.modelos.Produccion[ idproduccion=" + idproduccion + " ]";
     }
-    
+
 }

@@ -6,6 +6,7 @@
 package com.planit.scr.dao;
 
 import com.planit.scr.conexion.ConexionSQL;
+import com.planit.scr.metodos.Redondear;
 import com.planit.scr.modelos.Contrato;
 import com.planit.scr.modelos.Pbl;
 import com.planit.scr.modelos.Valores;
@@ -44,15 +45,15 @@ public class PblDao {
                     pbl.setTrimestreMes(valores.getTrimestreMes());
 
                     String sql = "INSERT INTO public.pbl (ctc, ct1, cce, ct2, trimestre_mes, prc, anio, refinacion, exportacion, idcontrato)"
-                            + " VALUES(" + pbl.getCtc() + ","
-                            + "" + pbl.getCt1() + ","
-                            + " " + pbl.getCce() + ","
-                            + " " + pbl.getCt2() + ","
+                            + " VALUES('" + Redondear.redondear(pbl.getCtc(), 2) + "',"
+                            + " '" + Redondear.redondear(pbl.getCt1(), 2) + "',"
+                            + " '" + Redondear.redondear(pbl.getCce(), 2) + "',"
+                            + " '" + Redondear.redondear(pbl.getCt2(), 2) + "',"
                             + " " + pbl.getTrimestreMes() + ","
-                            + " " + pbl.getPrc() + ","
+                            + " '" + Redondear.redondear(pbl.getPrc(), 2) + "',"
                             + " " + pbl.getAnio() + ","
-                            + " " + pbl.getRefinacion() + ","
-                            + " " + pbl.getExportacion() + ","
+                            + " '" + Redondear.redondear(pbl.getRefinacion(), 2) + "',"
+                            + " '" + Redondear.redondear(pbl.getExportacion(), 2) + "',"
                             + " " + pbl.getContrato().getIdcontrato() + ")";
                     st.execute(sql);
                     resultado = 1;
@@ -90,15 +91,15 @@ public class PblDao {
                     pbl.setAnio(valores.getAnio());
                     pbl.setTrimestreMes(valores.getTrimestreMes());
 
-                    String sql = "UPDATE public.pbl SET ctc = " + pbl.getCtc() + ", "
-                            + "ct1 = " + pbl.getCt1() + ", "
-                            + "cce = " + pbl.getCce() + ", "
-                            + "ct2 = " + pbl.getCt2() + ", "
+                    String sql = "UPDATE public.pbl SET ctc = '" + Redondear.redondear(pbl.getCtc(), 2) + "', "
+                            + "ct1 = '" + Redondear.redondear(pbl.getCt1(), 2) + "', "
+                            + "cce = '" + Redondear.redondear(pbl.getCce(), 2) + "', "
+                            + "ct2 = '" + Redondear.redondear(pbl.getCt2(), 2) + "', "
                             + "trimestre_mes = " + pbl.getTrimestreMes() + ", "
-                            + "prc = " + pbl.getPrc() + ", "
+                            + "prc = '" + Redondear.redondear(pbl.getPrc(), 2) + "', "
                             + "anio = " + pbl.getAnio() + ", "
-                            + "refinacion = " + pbl.getRefinacion() + ", "
-                            + "exportacion = " + pbl.getExportacion() + " "
+                            + "refinacion = '" + Redondear.redondear(pbl.getRefinacion(), 2) + "', "
+                            + "exportacion = '" + Redondear.redondear(pbl.getExportacion(), 2) + "' "
                             + "WHERE idcontrato = " + contratos.get(i).getIdcontrato() + " and  anio = " + anio + " and trimestre_mes = " + trimestreMes + "";
                     st.execute(sql);
                     resultado = 1;
@@ -111,8 +112,7 @@ public class PblDao {
         } finally {
             ConexionSQL.CerrarConexion();
         }
-        return resultado;
-    
+        return resultado;    
     }
     
     public int eliminarPbl(int anio, int trimestreMes) throws Exception {

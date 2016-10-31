@@ -17,26 +17,26 @@ public class Regalias implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Integer idregalias;
-
+    
     private double porcmunicipio;
 
     private double porcregalias;
 
-    private int depproductor;
+    private double depproductor;
 
-    private int munproductor;
+    private double munproductor;
 
-    private int depnoproductor;
+    private double depnoproductor;
 
-    private int puertos;
+    private double puertos;
     
     private Integer anio;
     
     private Integer mes;
     
-    private Double precio;
+    private double precio;
     
-    private Double regalias;
+    private double regalias;
     
     private Campo campo;
     
@@ -46,6 +46,8 @@ public class Regalias implements Serializable {
     
     private Produccion produccion;
 
+    private double fondonacional;
+    
     public Regalias() {
         this.campo = new Campo();
         this.departamento = new Departamento();
@@ -57,7 +59,7 @@ public class Regalias implements Serializable {
         this.idregalias = idregalias;
     }
 
-    public Regalias(Integer idregalias, double porcmunicipio, double porcregalias, int depproductor, int munproductor, int depnoproductor, int puertos) {
+    public Regalias(Integer idregalias, double porcmunicipio, double porcregalias, double depproductor, double munproductor, double depnoproductor, double puertos, double fondonacional) {
         this.idregalias = idregalias;
         this.porcmunicipio = porcmunicipio;
         this.porcregalias = porcregalias;
@@ -65,9 +67,10 @@ public class Regalias implements Serializable {
         this.munproductor = munproductor;
         this.depnoproductor = depnoproductor;
         this.puertos = puertos;
+        this.fondonacional = fondonacional;               
     }
 
-    public Regalias(Integer idregalias, double porcmunicipio, double porcregalias, int depproductor, int munproductor, int depnoproductor, int puertos, Integer anio, Integer mes, Double precio, Double regalias, Campo idcampo, Departamento iddepartamento, Municipio idmunicipio, Produccion idproduccion) {
+    public Regalias(Integer idregalias, double porcmunicipio, double porcregalias, double depproductor, double munproductor, double depnoproductor, double puertos, Integer anio, Integer mes, Double precio, Double regalias, Campo idcampo, Departamento iddepartamento, Municipio idmunicipio, Produccion idproduccion, double fondonacional) {
         this.idregalias = idregalias;
         this.porcmunicipio = porcmunicipio;
         this.porcregalias = porcregalias;
@@ -83,9 +86,10 @@ public class Regalias implements Serializable {
         this.departamento = iddepartamento;
         this.municipio = idmunicipio;
         this.produccion = idproduccion;
+        this.fondonacional = fondonacional;
     }
 
-    public Regalias(double porcmunicipio, double porcregalias, int depproductor, int munproductor, int depnoproductor, int puertos, Integer anio, Integer mes, Double precio, Double regalias, Campo idcampo, Departamento iddepartamento, Municipio idmunicipio, Produccion idproduccion) {
+    public Regalias(double porcmunicipio, double porcregalias, double depproductor, double munproductor, double depnoproductor, double puertos, Integer anio, Integer mes, Double precio, Double regalias, Campo idcampo, Departamento iddepartamento, Municipio idmunicipio, Produccion idproduccion, double fondonacional) {
         this.porcmunicipio = porcmunicipio;
         this.porcregalias = porcregalias;
         this.depproductor = depproductor;
@@ -100,6 +104,7 @@ public class Regalias implements Serializable {
         this.departamento = iddepartamento;
         this.municipio = idmunicipio;
         this.produccion = idproduccion;
+        this.fondonacional = fondonacional;
     }
 
     public Integer getIdregalias() {
@@ -124,36 +129,8 @@ public class Regalias implements Serializable {
 
     public void setPorcregalias(double porcregalias) {
         this.porcregalias = porcregalias;
-    }
-
-    public int getDepproductor() {
-        return depproductor;
-    }
-
-    public void setDepproductor(int depproductor) {
-        this.depproductor = depproductor;
-    }
-
-    public int getMunproductor() {
-        return munproductor;
-    }
-
-    public void setMunproductor(int munproductor) {
-        this.munproductor = munproductor;
-    }
-
-    public int getDepnoproductor() {
-        return depnoproductor;
-    }
-
-    public void setDepnoproductor(int depnoproductor) {
-        this.depnoproductor = depnoproductor;
-    }
-
-    public int getPuertos() {
-        return puertos;
-    }
-
+    }   
+    
     public void setPuertos(int puertos) {
         this.puertos = puertos;
     }
@@ -221,8 +198,47 @@ public class Regalias implements Serializable {
     public void setProduccion(Produccion produccion) {
         this.produccion = produccion;
     }    
-   
 
+    public double getDepproductor() {
+        return depproductor;
+    }
+
+    public void setDepproductor(double depproductor) {
+        this.depproductor = depproductor;
+    }
+
+    public double getMunproductor() {
+        return munproductor;
+    }
+
+    public void setMunproductor(double munproductor) {
+        this.munproductor = munproductor;
+    }
+
+    public double getDepnoproductor() {
+        return depnoproductor;
+    }
+
+    public void setDepnoproductor(double depnoproductor) {
+        this.depnoproductor = depnoproductor;
+    }
+
+    public double getPuertos() {
+        return puertos;
+    }
+
+    public void setPuertos(double puertos) {
+        this.puertos = puertos;
+    }
+
+    public Double getFondonacional() {
+        return fondonacional;
+    }
+
+    public void setFondonacional(Double fondonacional) {
+        this.fondonacional = fondonacional;
+    }   
+    
     @Override
     public String toString() {
         return "com.planit.scr.modelos.Regalias[ idregalias=" + idregalias + " ]";

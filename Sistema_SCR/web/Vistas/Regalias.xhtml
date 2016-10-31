@@ -8,7 +8,6 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
-
         <ui:composition template="./template.xhtml">
             <ui:define name="content">
                 <div class="main">
@@ -69,13 +68,24 @@
                                                                 </h:selectOneMenu>
                                                             </div>
                                                             <p:separator/>
-                                                            <b:commandButton value="Consultar" action="#{regaliasCT.consultarCamposSegunMunicipio()}" update=":formularioLista" class="btn btn-info " style="float: right; width: 30%">
-                                                                <b:iconAwesome name="send"></b:iconAwesome>
-                                                            </b:commandButton>
+                                                            <h:commandButton onclick="PrimeFaces.monitorDownload(start, stop);" action="#{regaliasCT.consultarCamposSegunMunicipio()}" value="Consultar" class="btn btn-info " style="float: right; width: 30%">
+                                                                <p:ajax event="click" update="formularioLista" />
+                                                            </h:commandButton>
                                                         </div>
                                                         <!-- /widget-content --> 
                                                     </div>
                                                 </div>
+                                                <script type="text/javascript">
+                                                    function start() {
+                                                        PF('statusDialog').show();
+                                                    }
+                                                    function stop() {
+                                                        PF('statusDialog').hide();
+                                                    }
+                                                </script>
+                                                <p:dialog  modal="true" widgetVar="statusDialog" header="Cargando" draggable="false" closable="false" resizable="false">
+                                                    <p:graphicImage width="100%" value="/resources/images/demo/ajaxloadingbar.gif" />
+                                                </p:dialog>
                                             </h:form>
                                         </div>
                                     </div>
@@ -120,7 +130,7 @@
                                                                 </div>
                                                             </h:column>
                                                         </h:dataTable>                                                     
-                                                      
+
                                                         <p:separator/>
                                                         <div class="form-group">
                                                             <b:commandButton action="#{regaliasCT.calcularRegalias()}" update=":formularioLista" class=" btn btn-info" style="float: right; width: 30%" value="Calcular">

@@ -84,8 +84,7 @@
                                                                 <tr>
                                                                     <th class="order-table-header" scope="col">Contrato</th>
                                                                     <th class="order-table-header" scope="col">CIB</th>
-                                                                    <th class="order-table-header" scope="col">CAR</th>
-                                                                    <th class="order-table-header" scope="col">MED</th>
+                                                                    <th class="order-table-header" scope="col">CAR</th>                                                                   
                                                                     <th class="order-table-header" scope="col">COV</th>
                                                                     <th class="order-table-header" scope="col">CTC</th>
                                                                     <th class="order-table-header" scope="col">CMT</th>
@@ -106,7 +105,8 @@
                                                                 <c:forEach items="#{pblCT.pbls}" var="item">           
                                                                     <tr class="order-table-odd-row">
                                                                         <td>#{item.contrato.nombre}</td>
-                                                                        <td>#{item.contrato.cib}</td>                                                                                                                                                
+                                                                        <td>#{item.contrato.cib}</td> 
+                                                                        <td>#{item.contrato.car}</td> 
                                                                         <td>#{item.contrato.cov}</td>
                                                                         <td>#{item.ctc}</td>
                                                                         <td>#{pblCT.valores.cmt}</td>

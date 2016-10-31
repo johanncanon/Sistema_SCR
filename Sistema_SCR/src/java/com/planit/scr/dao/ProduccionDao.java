@@ -80,7 +80,6 @@ public class ProduccionDao {
         } finally {
             ConexionSQL.CerrarConexion();
         }
-
         return produccion;
     }
 }
