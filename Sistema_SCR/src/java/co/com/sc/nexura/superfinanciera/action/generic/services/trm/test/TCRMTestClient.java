@@ -10,6 +10,7 @@ import java.util.Date;
 
 import co.com.sc.nexura.superfinanciera.action.generic.services.trm.action.TCRMServicesInterfaceProxy;
 import co.com.sc.nexura.superfinanciera.action.generic.services.trm.action.TcrmResponse;
+import com.planit.scr.clienttrm.action.Util;
 
 /**
  * TCRM Java Web Service demo client
@@ -38,7 +39,7 @@ public class TCRMTestClient {
     /**
      * TCRM date to query
      */
-    private final static String _DATE_TO_QUERY = "2016-09-28";
+    private final static String _DATE_TO_QUERY = Util.GetFechaActual();
 
     /**
      * Web Service end point
@@ -55,7 +56,7 @@ public class TCRMTestClient {
     public static void main(String[] args) throws RemoteException, ParseException {
 
         consultarTRM();
-                
+
     }
 
     public static String consultarTRM() throws RemoteException, ParseException {
@@ -96,6 +97,41 @@ public class TCRMTestClient {
 //        System.out.println("Observaciones: " + tcrmResponse.getMessage());
         TRM = decimalFormat.format(tcrmResponse.getValue());
         return TRM;
+    }
+
+    public static double consultarTRM(String fecha) throws RemoteException, ParseException {
+
+        double TRM = 0;
+        //
+
+        //
+        // Decimal value format declaration
+        DecimalFormat decimalFormat = new DecimalFormat(_VALUE_QUERY_FORMAT);
+
+        TCRMServicesInterfaceProxy proxy = new TCRMServicesInterfaceProxy(_WEB_SERVICE_URL);
+
+        //
+        // Gets the TCRM value for the current date
+        TcrmResponse tcrmResponse = proxy.queryTCRM(null);
+
+        //
+        // Gets the TCRM value for the given date
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = (Date) formatter.parse(fecha);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        tcrmResponse = proxy.queryTCRM(calendar);
+
+//        System.out.println("Identificador: " + tcrmResponse.getId());
+//        System.out.println("TCRM Valida desde: " + simpleDateFormat.format(tcrmResponse.getValidityFrom().getTime()));
+//        System.out.println("TCRM Valida hasta: " + simpleDateFormat.format(tcrmResponse.getValidityTo().getTime()));
+//        System.out.println("Valor: " + decimalFormat.format(tcrmResponse.getValue()));
+//        System.out.println("Observaciones: " + tcrmResponse.getMessage());
+        TRM = tcrmResponse.getValue();
+        
+        return TRM;
+
     }
 
 }

@@ -8,6 +8,7 @@ package com.planit.scr.dao;
 import static co.com.sc.nexura.superfinanciera.action.generic.services.trm.test.TCRMTestClient.consultarTRM;
 import com.planit.scr.conexion.ConexionSQL;
 import com.planit.scr.metodos.Redondear;
+import static com.planit.scr.metodos.Redondear.redondear;
 import com.planit.scr.modelos.Trm;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,12 +25,13 @@ import java.util.List;
 public class TrmDao {
 
     //Metodos
-    public void registrarTrm(Trm trm) throws Exception {
+    public void registrarTrm(Trm trm, String fecha) throws Exception {
         Statement st = ConexionSQL.conexion();
+        String valor = redondear(trm.getValor(),2);
         try {
             try {
                 String sql = "INSERT INTO public.trm(fecha, valor) "
-                        + "VALUES('" + trm.getFecha().toString() + "','" + trm.getValor() + "')";
+                        + "VALUES('" + fecha + "','" + valor + "')";
                 st.execute(sql);
             } catch (SQLException e) {
                 throw e;
@@ -84,7 +86,30 @@ public class TrmDao {
         return nuevotrm;
     }
 
-    public double consultarPromedioMensualTrm(int mes, int anio) throws Exception{
+    public Trm consultarMaxTrm() throws Exception {
+        Statement st = ConexionSQL.conexion();
+        Trm nuevotrm = new Trm();
+        try {
+            try {
+                String sql = "SELECT MAX(fecha) as fechaFROM from trm ;";
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()) {
+                    nuevotrm = new Trm(rs.getDate(1));
+                }
+            } catch (SQLException e) {
+                throw e;
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            ConexionSQL.CerrarConexion();
+        }
+        
+        System.out.println("fecha trm max--------"+nuevotrm);
+        return nuevotrm;
+    }
+
+    public double consultarPromedioMensualTrm(int mes, int anio) throws Exception {
         Statement st = ConexionSQL.conexion();
         List<Trm> nuevotrm = new ArrayList<>();
 
@@ -115,21 +140,21 @@ public class TrmDao {
         for (int i = 0; i < nuevotrm.size(); i++) {
             sumatoria = sumatoria + nuevotrm.get(i).getValor();
         }
-        resultado = (sumatoria/diasMes);
+        resultado = (sumatoria / diasMes);
         return resultado;
     }
-    
-    public double consultarPromedioTrimestralTrm(int trimestre, int anio) throws Exception{
+
+    public double consultarPromedioTrimestralTrm(int trimestre, int anio) throws Exception {
         Statement st = ConexionSQL.conexion();
         List<Trm> Lista1 = new ArrayList<>();
         List<Trm> Lista2 = new ArrayList<>();
         List<Trm> Lista3 = new ArrayList<>();
-        
+
         int mes1 = 0;
         int mes2 = 0;
         int mes3 = 0;
-        
-        switch(trimestre){
+
+        switch (trimestre) {
             case 1:
                 mes1 = 1;
                 mes2 = 2;
@@ -157,10 +182,10 @@ public class TrmDao {
 
         cal = new GregorianCalendar(anio, mes2 - 1, 1);
         int diasMes2 = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        
+
         cal = new GregorianCalendar(anio, mes3 - 1, 1);
         int diasMes3 = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        
+
         String fecha1m1 = "" + anio + "-" + mes1 + "-01";
         String fecha2m1 = "" + anio + "-" + mes1 + "-" + diasMes1 + "";
 
@@ -178,25 +203,22 @@ public class TrmDao {
                         + "WHERE fecha between '" + fecha1m2 + "' AND '" + fecha2m2 + "'";
                 String sql3 = "SELECT idtrm, fecha, valor FROM public.trm "
                         + "WHERE fecha between '" + fecha1m3 + "' AND '" + fecha2m3 + "'";
-                
-                
-                
+
                 ResultSet rs = st.executeQuery(sql1);
                 while (rs.next()) {
                     Lista1.add(new Trm(rs.getInt(1), rs.getDate(2), rs.getDouble(3)));
                 }
-                
+
                 rs = st.executeQuery(sql2);
                 while (rs.next()) {
                     Lista2.add(new Trm(rs.getInt(1), rs.getDate(2), rs.getDouble(3)));
                 }
-                
+
                 rs = st.executeQuery(sql3);
                 while (rs.next()) {
                     Lista3.add(new Trm(rs.getInt(1), rs.getDate(2), rs.getDouble(3)));
                 }
-                
-                
+
             } catch (SQLException e) {
                 throw e;
             }
@@ -211,16 +233,16 @@ public class TrmDao {
         for (int i = 0; i < Lista1.size(); i++) {
             sumatoria1 = sumatoria1 + Lista1.get(i).getValor();
         }
-        
+
         for (int i = 0; i < Lista2.size(); i++) {
             sumatoria2 = sumatoria2 + Lista2.get(i).getValor();
         }
-        
+
         for (int i = 0; i < Lista3.size(); i++) {
             sumatoria3 = sumatoria3 + Lista3.get(i).getValor();
         }
-        
-        double resultado = ((sumatoria1/diasMes1) + (sumatoria2/diasMes2) + (sumatoria3/diasMes3))/3;
+
+        double resultado = ((sumatoria1 / diasMes1) + (sumatoria2 / diasMes2) + (sumatoria3 / diasMes3)) / 3;
         return resultado;
     }
 
@@ -234,4 +256,5 @@ public class TrmDao {
 
         return TRM;
     }
+
 }

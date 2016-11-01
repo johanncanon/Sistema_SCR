@@ -50,6 +50,11 @@ public class Trm implements Serializable {
         this.fecha = fecha;
         this.valor = valor;
     }
+
+    public Trm(Date fecha) {
+        this.fecha = fecha;
+    }
+
        
     public Integer getIdtrm() {
         return idtrm;
