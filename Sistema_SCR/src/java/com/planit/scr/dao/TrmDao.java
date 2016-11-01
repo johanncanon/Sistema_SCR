@@ -7,11 +7,14 @@ package com.planit.scr.dao;
 
 import static co.com.sc.nexura.superfinanciera.action.generic.services.trm.test.TCRMTestClient.consultarTRM;
 import com.planit.scr.conexion.ConexionSQL;
+import com.planit.scr.metodos.Redondear;
 import com.planit.scr.modelos.Trm;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -68,7 +71,7 @@ public class TrmDao {
                         + "WHERE idtrm = " + tr.getIdtrm() + " or fecha = '" + tr.getFecha() + "'";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    nuevotrm = new Trm(rs.getInt(1), rs.getDate(2), rs.getInt(3));
+                    nuevotrm = new Trm(rs.getInt(1), rs.getDate(2), rs.getDouble(3));
                 }
             } catch (SQLException e) {
                 throw e;
@@ -81,14 +84,154 @@ public class TrmDao {
         return nuevotrm;
     }
 
-    public String consultarTrmWS() throws Exception {
+    public double consultarPromedioMensualTrm(int mes, int anio) throws Exception{
+        Statement st = ConexionSQL.conexion();
+        List<Trm> nuevotrm = new ArrayList<>();
+
+        Calendar cal = new GregorianCalendar(anio, mes - 1, 1);
+        int diasMes = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        String fecha1 = "" + anio + "-" + mes + "-01";
+        String fecha2 = "" + anio + "-" + mes + "-" + diasMes + "";
+
+        try {
+            try {
+                String sql = "SELECT idtrm, fecha, valor FROM public.trm "
+                        + "WHERE fecha between '" + fecha1 + "' AND '" + fecha2 + "'";
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()) {
+                    nuevotrm.add(new Trm(rs.getInt(1), rs.getDate(2), rs.getDouble(3)));
+                }
+            } catch (SQLException e) {
+                throw e;
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            ConexionSQL.CerrarConexion();
+        }
+        double sumatoria = 0;
+        double resultado = 0;
+        for (int i = 0; i < nuevotrm.size(); i++) {
+            sumatoria = sumatoria + nuevotrm.get(i).getValor();
+        }
+        resultado = (sumatoria/diasMes);
+        return resultado;
+    }
     
+    public double consultarPromedioTrimestralTrm(int trimestre, int anio) throws Exception{
+        Statement st = ConexionSQL.conexion();
+        List<Trm> Lista1 = new ArrayList<>();
+        List<Trm> Lista2 = new ArrayList<>();
+        List<Trm> Lista3 = new ArrayList<>();
+        
+        int mes1 = 0;
+        int mes2 = 0;
+        int mes3 = 0;
+        
+        switch(trimestre){
+            case 1:
+                mes1 = 1;
+                mes2 = 2;
+                mes3 = 3;
+                break;
+            case 2:
+                mes1 = 4;
+                mes2 = 5;
+                mes3 = 6;
+                break;
+            case 3:
+                mes1 = 7;
+                mes2 = 8;
+                mes3 = 9;
+                break;
+            case 4:
+                mes1 = 10;
+                mes2 = 11;
+                mes3 = 12;
+                break;
+        }
+
+        Calendar cal = new GregorianCalendar(anio, mes1 - 1, 1);
+        int diasMes1 = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        cal = new GregorianCalendar(anio, mes2 - 1, 1);
+        int diasMes2 = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        
+        cal = new GregorianCalendar(anio, mes3 - 1, 1);
+        int diasMes3 = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        
+        String fecha1m1 = "" + anio + "-" + mes1 + "-01";
+        String fecha2m1 = "" + anio + "-" + mes1 + "-" + diasMes1 + "";
+
+        String fecha1m2 = "" + anio + "-" + mes2 + "-01";
+        String fecha2m2 = "" + anio + "-" + mes2 + "-" + diasMes2 + "";
+
+        String fecha1m3 = "" + anio + "-" + mes3 + "-01";
+        String fecha2m3 = "" + anio + "-" + mes3 + "-" + diasMes3 + "";
+
+        try {
+            try {
+                String sql1 = "SELECT idtrm, fecha, valor FROM public.trm "
+                        + "WHERE fecha between '" + fecha1m1 + "' AND '" + fecha2m1 + "'";
+                String sql2 = "SELECT idtrm, fecha, valor FROM public.trm "
+                        + "WHERE fecha between '" + fecha1m2 + "' AND '" + fecha2m2 + "'";
+                String sql3 = "SELECT idtrm, fecha, valor FROM public.trm "
+                        + "WHERE fecha between '" + fecha1m3 + "' AND '" + fecha2m3 + "'";
+                
+                
+                
+                ResultSet rs = st.executeQuery(sql1);
+                while (rs.next()) {
+                    Lista1.add(new Trm(rs.getInt(1), rs.getDate(2), rs.getDouble(3)));
+                }
+                
+                rs = st.executeQuery(sql2);
+                while (rs.next()) {
+                    Lista2.add(new Trm(rs.getInt(1), rs.getDate(2), rs.getDouble(3)));
+                }
+                
+                rs = st.executeQuery(sql3);
+                while (rs.next()) {
+                    Lista3.add(new Trm(rs.getInt(1), rs.getDate(2), rs.getDouble(3)));
+                }
+                
+                
+            } catch (SQLException e) {
+                throw e;
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            ConexionSQL.CerrarConexion();
+        }
+        double sumatoria1 = 0;
+        double sumatoria2 = 0;
+        double sumatoria3 = 0;
+        for (int i = 0; i < Lista1.size(); i++) {
+            sumatoria1 = sumatoria1 + Lista1.get(i).getValor();
+        }
+        
+        for (int i = 0; i < Lista2.size(); i++) {
+            sumatoria2 = sumatoria2 + Lista2.get(i).getValor();
+        }
+        
+        for (int i = 0; i < Lista3.size(); i++) {
+            sumatoria3 = sumatoria3 + Lista3.get(i).getValor();
+        }
+        
+        double resultado = ((sumatoria1/diasMes1) + (sumatoria2/diasMes2) + (sumatoria3/diasMes3))/3;
+        return resultado;
+    }
+
+    public String consultarTrmWS() throws Exception {
+
         String TRM = "";
-        
+
         TRM = consultarTRM();
-        
-        System.out.println("Funciona: "+TRM);
-        
+
+        System.out.println("Funciona: " + TRM);
+
         return TRM;
     }
 }

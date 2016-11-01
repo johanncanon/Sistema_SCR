@@ -5,7 +5,8 @@
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <body>
 
@@ -57,9 +58,7 @@
                                                                 </b:selectOneMenu>
                                                             </div>
                                                             <div class="form-group">
-                                                                <b:commandButton value="Enviar" update=":formularioRegistro" action="#{pblCT.consultarPbl()}" class="btn btn-info " style="float: right">
-                                                                    <b:iconAwesome name="send"></b:iconAwesome>
-                                                                </b:commandButton>
+                                                                <p:commandButton onclick="PrimeFaces.monitorDownload(start, stop);" icon="fa fa-send" value="Enviar" update=":formularioRegistro" action="#{pblCT.consultarPbl()}" class="btn btn-info "  style="float: right"/>
                                                             </div>
                                                         </div>
                                                         <!-- /widget-content --> 
@@ -67,6 +66,17 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <script type="text/javascript">
+                                            function start() {
+                                                PF('statusDialog').show();
+                                            }
+                                            function stop() {
+                                                PF('statusDialog').hide();
+                                            }
+                                        </script>
+                                        <p:dialog  modal="true" widgetVar="statusDialog" header="Cargando" draggable="false" closable="false" resizable="false">
+                                            <p:graphicImage width="100%" value="/resources/images/demo/ajaxloadingbar.gif" />
+                                        </p:dialog>
                                     </b:column>
 
                                     <b:column col-lg="12">

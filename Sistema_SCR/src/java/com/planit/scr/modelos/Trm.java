@@ -24,27 +24,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Desarrollo_Planit
  */
-@Entity
-@Table(name = "trm")
+
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Trm.findAll", query = "SELECT t FROM Trm t"),
-    @NamedQuery(name = "Trm.findByIdtrm", query = "SELECT t FROM Trm t WHERE t.idtrm = :idtrm"),
-    @NamedQuery(name = "Trm.findByFecha", query = "SELECT t FROM Trm t WHERE t.fecha = :fecha"),
-    @NamedQuery(name = "Trm.findByValor", query = "SELECT t FROM Trm t WHERE t.valor = :valor")})
 public class Trm implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "idtrm")
     private Integer idtrm;
-    @Basic(optional = false)
-    @Column(name = "fecha")
-    @Temporal(TemporalType.DATE)
     private Date fecha;
-    @Column(name = "valor")
-    private Integer valor;
+    private double valor;
 
     public Trm() {
         fecha = new Date();
@@ -59,7 +45,7 @@ public class Trm implements Serializable {
         this.fecha = fecha;
     }
 
-    public Trm(Integer idtrm, Date fecha, Integer valor) {
+    public Trm(Integer idtrm, Date fecha, double valor) {
         this.idtrm = idtrm;
         this.fecha = fecha;
         this.valor = valor;
@@ -81,35 +67,14 @@ public class Trm implements Serializable {
         this.fecha = fecha;
     }
 
-    public Integer getValor() {
+    public double getValor() {
         return valor;
     }
 
-    public void setValor(Integer valor) {
+    public void setValor(double valor) {
         this.valor = valor;
     }
-
-    
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idtrm != null ? idtrm.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Trm)) {
-            return false;
-        }
-        Trm other = (Trm) object;
-        if ((this.idtrm == null && other.idtrm != null) || (this.idtrm != null && !this.idtrm.equals(other.idtrm))) {
-            return false;
-        }
-        return true;
-    }
-
+     
     @Override
     public String toString() {
         return "com.planit.scr.modelos.Trm[ idtrm=" + idtrm + " ]";

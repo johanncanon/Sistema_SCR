@@ -11,6 +11,7 @@ import com.planit.scr.dao.MunicipiosDao;
 import com.planit.scr.dao.PblDao;
 import com.planit.scr.dao.ProduccionDao;
 import com.planit.scr.dao.RegaliasDao;
+import com.planit.scr.dao.TrmDao;
 import com.planit.scr.modelos.Campo;
 import com.planit.scr.modelos.Municipio;
 import com.planit.scr.modelos.Pbl;
@@ -18,8 +19,6 @@ import com.planit.scr.modelos.Regalias;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Statement;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -179,8 +178,9 @@ public class RegaliasCT {
             regalias.get(i).setPrecio(pbl.getPrc());
 
             //Calculamos 
-            double bpdm = promedioDiarioMensual(regalias);            
-            regalias.get(i).setRegalias(regalias.get(i).getProduccion().getProducciontotalmes() * regalias.get(i).getPrecio() * regalias.get(i).getPorcregalias() * 2899.29);
+            double bpdm = promedioDiarioMensual(regalias);
+            TrmDao trmDao = new TrmDao();
+            regalias.get(i).setRegalias(regalias.get(i).getProduccion().getProducciontotalmes() * regalias.get(i).getPrecio() * regalias.get(i).getPorcregalias() * trmDao.consultarPromedioMensualTrm(mes, anio));
 
             //Hacemos division de regalias
             if (bpdm <= 10000) {

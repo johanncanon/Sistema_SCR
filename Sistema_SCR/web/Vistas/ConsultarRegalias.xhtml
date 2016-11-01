@@ -89,49 +89,49 @@
                                             <div class="widget-content" >
                                                 <div class="widget big-stats-container">
                                                     <div class="widget-content">
-
-                                                        <table class="order-table">
-
-                                                            <thead>
-                                                                <tr>
-                                                                    <th class="order-table-header" scope="col">Municipio</th>
-                                                                    <th class="order-table-header" scope="col">Contrato</th> 
-                                                                    <th class="order-table-header" scope="col">Campo</th>                                                                 
-                                                                    <th class="order-table-header" scope="col">Prd Hdr</th>
-                                                                    <th class="order-table-header" scope="col">Prd Gas</th>
-                                                                    <th class="order-table-header" scope="col">Prod. Mes</th>
-                                                                    <th class="order-table-header" scope="col">Prod. Día</th>
-                                                                    <th class="order-table-header" scope="col">% Mun</th>
-                                                                    <th class="order-table-header" scope="col">%. Reg</th>
-                                                                    <th class="order-table-header" scope="col">Dep. Productor</th>
-                                                                    <th class="order-table-header" scope="col">Dep. no Productor</th>
-                                                                    <th class="order-table-header" scope="col">Puertos</th>
-                                                                    <th class="order-table-header" scope="col">Mun. Productor</th>
-                                                                    <th class="order-table-header" scope="col">Fondo Nacional</th>
-                                                                </tr>
-                                                            </thead>
-
-                                                            <tbody>
-                                                                <c:forEach items="#{regaliasCT.regalias}" var="item">           
-                                                                    <tr class="order-table-odd-row">
-                                                                        <td align="center">#{item.municipio.nombre}</td>
-                                                                        <td align="center">#{item.campo.contrato.nombre}</td>
-                                                                        <td align="center">#{item.campo.nombre}</td>                                                                                                                                           
-                                                                        <td align="center">#{item.produccion.produccionhdia}</td>
-                                                                        <td align="center">#{item.produccion.producciongdia}</td>
-                                                                        <td align="center">#{item.produccion.producciontotalmes}</td>
-                                                                        <td align="center">#{item.produccion.producciontotaldia}</td>
-                                                                        <td align="center">#{item.porcmunicipio}</td>
-                                                                        <td align="center">#{item.porcregalias}</td>
-                                                                        <td align="center">#{regaliasCT.redondear(item.depproductor, 3)}</td>
-                                                                        <td align="center">#{regaliasCT.redondear(item.depnoproductor, 3)}</td>
-                                                                        <td align="center">#{regaliasCT.redondear(item.puertos, 3)}</td>
-                                                                        <td align="center">#{regaliasCT.redondear(item.munproductor, 3)}</td>
-                                                                        <td align="center">#{regaliasCT.redondear(item.fondonacional, 3)}</td>
+                                                        <p:scrollPanel mode="native" style="width:100%;height:auto"> 
+                                                            <table class="order-table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="order-table-header" scope="col">Municipio</th>
+                                                                        <th class="order-table-header" scope="col">Contrato</th> 
+                                                                        <th class="order-table-header" scope="col">Campo</th>                                                                 
+                                                                        <th class="order-table-header" scope="col">Prd Hdr</th>
+                                                                        <th class="order-table-header" scope="col">Prd Gas</th>
+                                                                        <th class="order-table-header" scope="col">Prod. Mes</th>
+                                                                        <th class="order-table-header" scope="col">Prod. Día</th>
+                                                                        <th class="order-table-header" scope="col">% Mun</th>
+                                                                        <th class="order-table-header" scope="col">%. Reg</th>
+                                                                        <th class="order-table-header" scope="col">Dep. Productor</th>
+                                                                        <th class="order-table-header" scope="col">Dep. no Productor</th>
+                                                                        <th class="order-table-header" scope="col">Puertos</th>
+                                                                        <th class="order-table-header" scope="col">Mun. Productor</th>
+                                                                        <th class="order-table-header" scope="col">Fondo Nacional</th>
                                                                     </tr>
-                                                                </c:forEach>
-                                                            </tbody>
-                                                        </table> 
+                                                                </thead>
+
+                                                                <tbody>
+                                                                    <c:forEach items="#{regaliasCT.regalias}" var="item">           
+                                                                        <tr class="order-table-odd-row">
+                                                                            <td align="center">#{item.municipio.nombre}</td>
+                                                                            <td align="center">#{item.campo.contrato.nombre}</td>
+                                                                            <td align="center">#{item.campo.nombre}</td>                                                                                                                                           
+                                                                            <td align="center">#{item.produccion.produccionhdia}</td>
+                                                                            <td align="center">#{item.produccion.producciongdia}</td>
+                                                                            <td align="center">#{item.produccion.producciontotalmes}</td>
+                                                                            <td align="center">#{item.produccion.producciontotaldia}</td>
+                                                                            <td align="center">#{item.porcmunicipio}</td>
+                                                                            <td align="center">#{item.porcregalias}</td>
+                                                                            <td align="center">#{regaliasCT.redondear(item.depproductor, 3)}</td>
+                                                                            <td align="center">#{regaliasCT.redondear(item.depnoproductor, 3)}</td>
+                                                                            <td align="center">#{regaliasCT.redondear(item.puertos, 3)}</td>
+                                                                            <td align="center">#{regaliasCT.redondear(item.munproductor, 3)}</td>
+                                                                            <td align="center">#{regaliasCT.redondear(item.fondonacional, 3)}</td>
+                                                                        </tr>
+                                                                    </c:forEach>
+                                                                </tbody>
+                                                            </table> 
+                                                        </p:scrollPanel>
                                                     </div>
                                                 </div>
                                             </div>

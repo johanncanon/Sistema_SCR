@@ -68,9 +68,7 @@
                                                                 </h:selectOneMenu>
                                                             </div>
                                                             <p:separator/>
-                                                            <h:commandButton onclick="PrimeFaces.monitorDownload(start, stop);" action="#{regaliasCT.consultarCamposSegunMunicipio()}" value="Consultar" class="btn btn-info " style="float: right; width: 30%">
-                                                                <p:ajax event="click" update="formularioLista" />
-                                                            </h:commandButton>
+                                                            <p:commandButton icon="fa fa-send" onclick="PrimeFaces.monitorDownload(start, stop);" action="#{regaliasCT.consultarCamposSegunMunicipio()}" value="Consultar" class="btn btn-info " style="float: right; width: 35%"/>
                                                         </div>
                                                         <!-- /widget-content --> 
                                                     </div>
@@ -100,43 +98,44 @@
                                             <h:form id="formularioLista">
                                                 <div class="widget big-stats-container">
                                                     <div class="widget-content">
-                                                        <h:dataTable value="#{regaliasCT.regalias}" var="item" class="order-table">
-                                                            <h:column>
-                                                                <f:facet name="header">
-                                                                    <h:outputText value="Contrato"></h:outputText>
-                                                                </f:facet>
-                                                                <h:outputText value="#{item.campo.contrato.nombre}"></h:outputText>
-                                                            </h:column>
-                                                            <h:column>
-                                                                <f:facet name="header">
-                                                                    <h:outputText value="Campo"></h:outputText>
-                                                                </f:facet>
-                                                                <h:outputText value="#{item.campo.nombre}"></h:outputText>
-                                                            </h:column>
-                                                            <h:column>
-                                                                <f:facet name="header">
-                                                                    <h:outputText value="Volumen Promedio diario(P)"></h:outputText>
-                                                                </f:facet>
-                                                                <div class="form-group">
-                                                                    <b:inputText value="#{item.produccion.produccionhdia}" placeholder="Volumen de Producción Hidrocarburos" span="12" class="ajuste-Campo"/> 
-                                                                </div>
-                                                            </h:column>
-                                                            <h:column>
-                                                                <f:facet name="header">
-                                                                    <h:outputText value="Volumen Promedio diario(G)"></h:outputText>
-                                                                </f:facet>
-                                                                <div class="form-group">
-                                                                    <b:inputText value="#{item.produccion.producciongdia}" placeholder="Volumen de Producción Gas" span="12" class="ajuste-Campo"/> 
-                                                                </div>
-                                                            </h:column>
-                                                        </h:dataTable>                                                     
+                                                       
+                                                            <h:dataTable value="#{regaliasCT.regalias}" var="item" class="order-table">
+                                                                <h:column>
+                                                                    <f:facet name="header">
+                                                                        <h:outputText value="Contrato"></h:outputText>
+                                                                    </f:facet>
+                                                                    <h:outputText value="#{item.campo.contrato.nombre}"></h:outputText>
+                                                                </h:column>
+                                                                <h:column>
+                                                                    <f:facet name="header">
+                                                                        <h:outputText value="Campo"></h:outputText>
+                                                                    </f:facet>
+                                                                    <h:outputText value="#{item.campo.nombre}"></h:outputText>
+                                                                </h:column>
+                                                                <h:column>
+                                                                    <f:facet name="header">
+                                                                        <h:outputText value="Volumen Promedio diario(P)"></h:outputText>
+                                                                    </f:facet>
+                                                                    <div class="form-group">
+                                                                        <b:inputText value="#{item.produccion.produccionhdia}" placeholder="Volumen de Producción Hidrocarburos" span="12" class="ajuste-Campo"/> 
+                                                                    </div>
+                                                                </h:column>
+                                                                <h:column>
+                                                                    <f:facet name="header">
+                                                                        <h:outputText value="Volumen Promedio diario(G)"></h:outputText>
+                                                                    </f:facet>
+                                                                    <div class="form-group">
+                                                                        <b:inputText value="#{item.produccion.producciongdia}" placeholder="Volumen de Producción Gas" span="12" class="ajuste-Campo"/> 
+                                                                    </div>
+                                                                </h:column>
+                                                            </h:dataTable>                                                     
 
-                                                        <p:separator/>
-                                                        <div class="form-group">
-                                                            <b:commandButton action="#{regaliasCT.calcularRegalias()}" update=":formularioLista" class=" btn btn-info" style="float: right; width: 30%" value="Calcular">
-                                                                <b:iconAwesome name="send"/>
-                                                            </b:commandButton>
-                                                        </div>
+                                                            <p:separator/>
+                                                            <div class="form-group">
+                                                                <b:commandButton action="#{regaliasCT.calcularRegalias()}" update=":formularioLista" class=" btn btn-info" style="float: right; width: 30%" value="Calcular">
+                                                                    <b:iconAwesome name="send"/>
+                                                                </b:commandButton>
+                                                            </div>
                                                     </div>
                                                 </div>
                                             </h:form>
