@@ -15,8 +15,6 @@ import com.planit.scr.modelos.Produccion;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +24,8 @@ import java.util.List;
  */
 public class RegaliasDao {
 
-    public void registrarRegalias(Regalias regalia) throws Exception {
+    public int registrarRegalias(Regalias regalia) throws Exception {
+        int resultado = 0;
         Statement st = ConexionSQL.conexion();
         try {
             try {
@@ -48,6 +47,7 @@ public class RegaliasDao {
                         + "" + regalia.getProduccion().getIdproduccion() + ", "
                         + "'" + Redondear.redondear(regalia.getFondonacional(), 3) + "')";
                 st.execute(sql);
+                resultado = 1;
             } catch (SQLException e) {
                 throw e;
             }
@@ -56,6 +56,7 @@ public class RegaliasDao {
         } finally {
             ConexionSQL.CerrarConexion();
         }
+        return resultado;
     }
 
     public List<Regalias> consultarRegalias(Regalias regalia) throws Exception {

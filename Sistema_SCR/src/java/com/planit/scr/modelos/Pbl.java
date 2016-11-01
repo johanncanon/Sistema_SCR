@@ -49,6 +49,7 @@ public class Pbl implements Serializable {
     private Contrato contrato;
 
     public Pbl() {
+        this.idpbl = 0;
     }
 
     public Pbl(Integer idpbl) {
