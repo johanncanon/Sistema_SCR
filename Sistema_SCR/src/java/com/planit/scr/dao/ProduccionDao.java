@@ -6,6 +6,7 @@
 package com.planit.scr.dao;
 
 import com.planit.scr.conexion.ConexionSQL;
+import com.planit.scr.metodos.Redondear;
 import com.planit.scr.modelos.Campo;
 import com.planit.scr.modelos.Municipio;
 import com.planit.scr.modelos.Produccion;
@@ -38,8 +39,8 @@ public class ProduccionDao {
                         + "'" + p.getProduccionhmes() + "', "
                         + "'" + p.getProducciongdia() + "', "
                         + "'" + p.getProducciongmes() + "', "
-                        + "'" + p.getProducciontotaldia() + "', "
-                        + "'" + p.getProducciontotalmes() + "', "
+                        + "'" + Redondear.redondear(p.getProducciontotaldia(),3) + "', "
+                        + "'" + Redondear.redondear(p.getProducciontotalmes(),3) + "', "
                         + "'" + p.getMes() + "', "
                         + "'" + p.getAnio() + "',"
                         + "'" + p.getMunicipio().getIdmunicipio() + "')";

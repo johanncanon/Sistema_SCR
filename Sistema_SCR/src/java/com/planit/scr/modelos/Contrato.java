@@ -25,9 +25,7 @@ public class Contrato implements Serializable {
 
     private Integer car;
 
-    private Integer cov;
-
-    private Integer porcentaje;
+    private Integer cov;    
 
     private Tipo tipo;
 
@@ -46,13 +44,12 @@ public class Contrato implements Serializable {
         this.nombre = nombre;
     }
 
-    public Contrato(Integer idcontrato, String nombre, Integer cib, Integer car, Integer cov, Integer porcentaje, Tipo tipo) {
+    public Contrato(Integer idcontrato, String nombre, Integer cib, Integer car, Integer cov, Tipo tipo) {
         this.idcontrato = idcontrato;
         this.nombre = nombre;
         this.cib = cib;
         this.car = car;
-        this.cov = cov;
-        this.porcentaje = porcentaje;
+        this.cov = cov;        
         this.tipo = tipo;
     }
 
@@ -95,14 +92,6 @@ public class Contrato implements Serializable {
 
     public void setCov(Integer cov) {
         this.cov = cov;
-    }
-
-    public Integer getPorcentaje() {
-        return porcentaje;
-    }
-
-    public void setPorcentaje(Integer porcentaje) {
-        this.porcentaje = porcentaje;
     }
 
     public Tipo getTipo() {

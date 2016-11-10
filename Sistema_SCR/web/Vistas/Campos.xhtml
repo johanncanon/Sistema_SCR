@@ -32,14 +32,48 @@
                                                 <div class="form-horizontal">
                                                     <div class="form-group">
                                                         <label for="inputCampo" class="control-label">Nombre Campo: </label>
-                                                        <p:inputText class="form-control" id="inputCampo" placeholder="Nombre del campo" value="#{campoCT.campo.nombre}"/>                                                            
+                                                        <p:inputText required="true" requiredMessage="Ingrese nombre del campo" class="form-control" id="inputCampo" placeholder="Nombre del campo" value="#{campoCT.campo.nombre}"/>                                                            
+                                                        <p:message for="inputCampo"/>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="inputContrato" class="control-label">Contrato: </label>
-                                                        <h:selectOneMenu class="form-control" value="#{campoCT.campo.contrato.idcontrato}">
-                                                            <f:selectItem noSelectionOption="true" itemLabel="Seleccione contrato"/>
-                                                            <f:selectItems value="#{contratoCT.contratos}" var="contrato" itemLabel="#{contrato.nombre}" itemValue="#{contrato.idcontrato}"/>
-                                                        </h:selectOneMenu>                                                                                                                   
+                                                        <label for="inputCampo" class="control-label">Porcentaje: </label>
+                                                        <p:inputText required="true" requiredMessage="Ingrese porcentaje de regalias" class="form-control" id="inputPorcentaje" placeholder="Porcentaje" value="#{campoCT.campo.porcentaje}"/>                                                            
+                                                        <p:message for="inputPorcentaje"/>
+                                                    </div>
+                                                    <p:separator/>
+                                                    <div align="right">
+                                                        <p:inputText value="#{contratoCT.buscar}" class="form-control" placeholder="Buscar..." style="width: 50%">
+                                                            <p:ajax event="keyup" listener="#{contratoCT.buscarContratos()}" update="DTContratos"/>
+                                                        </p:inputText><br/>
+                                                    </div>
+                                                    <div class="form-group">                                                       
+                                                        <p:dataTable id="DTContratos" selection="#{campoCT.contratos}" rowKey="#{contrato.idcontrato}" value="#{contratoCT.contratos}" var="contrato"  
+                                                                     rows="10"
+                                                                     paginator="true"
+                                                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                     rowsPerPageTemplate="5,10,15"
+                                                                     emptyMessage="Contratos no registrados">
+                                                            <f:facet name="header">Contratos</f:facet>
+                                                            <p:column selectionMode="multiple" style="width:40px;text-align:center"/>
+                                                            <p:column headerText="Nombre" sortBy="#{contrato.nombre}">
+                                                                <h:outputLabel value="#{contrato.nombre}"/>
+                                                            </p:column>
+                                                            <p:column headerText="Tipo Contrato" sortBy="#{contrato.tipo.nombre}">
+                                                                <h:outputLabel value="#{contrato.tipo.nombre}"/>
+                                                            </p:column>                                                       
+                                                            <p:column style="width: 60px">
+                                                                <p:commandLink style="color: white; width: 100%" process="@this" update=":formularioRegistro" action="#{contratoCT.seleccionarCRUD(1)}" title="Modificar" class="btn btn-block btn-info">
+                                                                    <f:setPropertyActionListener value="#{contrato}" target="#{contratoCT.contrato}"/>                                                               
+                                                                    <i class="fa fa-pencil"></i> 
+                                                                </p:commandLink>
+                                                            </p:column>
+                                                            <p:column style="width: 60px">
+                                                                <p:commandLink style="color: white; width: 100%" action="#{contratoCT.eliminar()}" onclick="PrimeFaces.monitorDownload(start, stop);" process="@this" update="@form" title="Eliminar" class="btn btn-block btn-danger">
+                                                                    <f:setPropertyActionListener value="#{contrato}" target="#{contratoCT.contrato}"/>
+                                                                    <i class="fa fa-trash"></i>                                                     
+                                                                </p:commandLink>
+                                                            </p:column>
+                                                        </p:dataTable>
                                                     </div> 
                                                     <p:separator/>
                                                     <div class="form-group" align="right">
@@ -63,7 +97,18 @@
                                             </div>
                                         </div>
                                     </div>
-                                </b:column>                                                              
+                                </b:column>
+                                <script type="text/javascript">
+                                    function start() {
+                                        PF('statusDialog').show();
+                                    }
+                                    function stop() {
+                                        PF('statusDialog').hide();
+                                    }
+                                </script>
+                                <p:dialog  modal="true" widgetVar="statusDialog" header="Cargando" draggable="false" closable="false" resizable="false">
+                                    <p:graphicImage width="100%" value="/resources/images/demo/ajaxloadingbar.gif" />
+                                </p:dialog>
                             </h:form>
 
                             <b:column col-lg="6" >
@@ -77,22 +122,24 @@
                                             <div class="widget-content">
                                                 <h:form id="formularioLista">
                                                     <div align="right">
-                                                        <p:inputText class="form-control" placeholder="Buscar..." style="width: 50%"/><br/>
+                                                        <p:inputText class="form-control" placeholder="Buscar..." value="#{campoCT.buscar}" style="width: 50%">
+                                                            <p:ajax listener="#{campoCT.buscarCampo()}" update="DTCampos" event="keyup"/>
+                                                        </p:inputText><br/>
                                                     </div>
-                                                    <p:dataTable value="#{campoCT.campos}" var="campo"  
+                                                    <p:dataTable id="DTCampos" value="#{campoCT.campos}" var="campo"  
                                                                  rows="10"
                                                                  paginator="true"
                                                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                                  rowsPerPageTemplate="5,10,15"
-                                                                 emptyMessage="Contratos no registrados">
+                                                                 emptyMessage="Campos no registrados">
                                                         <p:column headerText="Nombre" sortBy="#{campo.nombre}">
                                                             <h:outputLabel value="#{campo.nombre}"/>
                                                         </p:column>
-                                                        
-                                                        <p:column headerText="Contrato" sortBy="#{campo.contrato.nombre}">
-                                                            <h:outputLabel value="#{campo.contrato.nombre}"/>
+
+                                                        <p:column headerText="Porcentaje" sortBy="#{campo.porcentaje}">
+                                                            <h:outputLabel value="#{campo.porcentaje}"/>
                                                         </p:column>
-                                                                                                                
+
                                                         <p:column style="width: 60px">
                                                             <p:commandLink style="color: white; width: 100%" process="@this" update=":formularioRegistro" action="#{campoCT.seleccionarCRUD(1)}" title="Modificar" class="btn btn-block btn-info">
                                                                 <f:setPropertyActionListener value="#{campo}" target="#{campoCT.campo}"/>                                                               
@@ -118,7 +165,6 @@
                                                         <p:graphicImage width="100%" value="/resources/images/demo/ajaxloadingbar.gif" />
                                                     </p:dialog>
                                                 </h:form>
-                                                
                                             </div>
                                         </div>
                                     </div>

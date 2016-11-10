@@ -33,6 +33,8 @@ public class ContratoCT {
     private int operacion;
     private String nombreOperacion;
 
+    private String buscar;
+
     public ContratoCT() {
         contrato = new Contrato();
         contratos = new ArrayList<>();
@@ -41,6 +43,8 @@ public class ContratoCT {
 
         operacion = 0;
         nombreOperacion = "Registrar";
+
+        buscar = "";
     }
 
     @PostConstruct
@@ -100,6 +104,23 @@ public class ContratoCT {
 
     public void setMunicipiosRespaldo(List<Municipio> municipiosRespaldo) {
         this.municipiosRespaldo = municipiosRespaldo;
+    }
+
+    public String getBuscar() {
+        return buscar;
+    }
+
+    public void setBuscar(String buscar) {
+        this.buscar = buscar;
+    }
+
+    public void buscarContratos() throws Exception {
+        ContratosDao contratosDao = new ContratosDao();
+        if (buscar.isEmpty()) {
+            contratos = contratosDao.consultarContratos();
+        } else {
+            contratos = contratosDao.buscarContratos(buscar);
+        }
     }
 
     public void metodo() throws Exception {

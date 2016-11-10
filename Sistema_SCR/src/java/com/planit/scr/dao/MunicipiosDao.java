@@ -69,7 +69,7 @@ public class MunicipiosDao {
         DepartamentosDao departamentoDao = new DepartamentosDao();
         try {
             try {
-                String sql = "SELECT idmunicipio, nombre, iddepartamento FROM public.municipios";
+                String sql = "SELECT idmunicipio, nombre, iddepartamento FROM public.municipios order by nombre asc";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     listamunicipios.add(new Municipio(rs.getInt(1), rs.getString(2), departamentoDao.consultarDepartamento(new Departamento(rs.getInt(3)))));

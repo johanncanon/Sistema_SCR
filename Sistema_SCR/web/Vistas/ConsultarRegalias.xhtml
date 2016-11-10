@@ -90,47 +90,53 @@
                                                 <div class="widget big-stats-container">
                                                     <div class="widget-content">
                                                         <p:scrollPanel mode="native" style="width:100%;height:auto"> 
-                                                            <table class="order-table">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th class="order-table-header" scope="col">Municipio</th>
-                                                                        <th class="order-table-header" scope="col">Contrato</th> 
-                                                                        <th class="order-table-header" scope="col">Campo</th>                                                                 
-                                                                        <th class="order-table-header" scope="col">Prd Hdr</th>
-                                                                        <th class="order-table-header" scope="col">Prd Gas</th>
-                                                                        <th class="order-table-header" scope="col">Prod. Mes</th>
-                                                                        <th class="order-table-header" scope="col">Prod. Día</th>
-                                                                        <th class="order-table-header" scope="col">% Mun</th>
-                                                                        <th class="order-table-header" scope="col">%. Reg</th>
-                                                                        <th class="order-table-header" scope="col">Dep. Productor</th>
-                                                                        <th class="order-table-header" scope="col">Dep. no Productor</th>
-                                                                        <th class="order-table-header" scope="col">Puertos</th>
-                                                                        <th class="order-table-header" scope="col">Mun. Productor</th>
-                                                                        <th class="order-table-header" scope="col">Fondo Nacional</th>
-                                                                    </tr>
-                                                                </thead>
-
-                                                                <tbody>
-                                                                    <c:forEach items="#{regaliasCT.regalias}" var="item">           
-                                                                        <tr class="order-table-odd-row">
-                                                                            <td align="center">#{item.municipio.nombre}</td>
-                                                                            <td align="center">#{item.campo.contrato.nombre}</td>
-                                                                            <td align="center">#{item.campo.nombre}</td>                                                                                                                                           
-                                                                            <td align="center">#{item.produccion.produccionhdia}</td>
-                                                                            <td align="center">#{item.produccion.producciongdia}</td>
-                                                                            <td align="center">#{item.produccion.producciontotalmes}</td>
-                                                                            <td align="center">#{item.produccion.producciontotaldia}</td>
-                                                                            <td align="center">#{item.porcmunicipio}</td>
-                                                                            <td align="center">#{item.porcregalias}</td>
-                                                                            <td align="center">#{regaliasCT.redondear(item.depproductor, 3)}</td>
-                                                                            <td align="center">#{regaliasCT.redondear(item.depnoproductor, 3)}</td>
-                                                                            <td align="center">#{regaliasCT.redondear(item.puertos, 3)}</td>
-                                                                            <td align="center">#{regaliasCT.redondear(item.munproductor, 3)}</td>
-                                                                            <td align="center">#{regaliasCT.redondear(item.fondonacional, 3)}</td>
-                                                                        </tr>
-                                                                    </c:forEach>
-                                                                </tbody>
-                                                            </table> 
+                                                            <p:dataTable value="#{regaliasCT.regalias}" var="item">
+                                                                <p:column headerText="Municipio">
+                                                                    <p:outputLabel value="#{item.municipio}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Contrato">
+                                                                    <p:outputLabel value="#{item.campo.contrato.nombre}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Campo">
+                                                                    <p:outputLabel value="#{item.campo.nombre}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Prd Hdr">
+                                                                    <p:outputLabel value="#{item.produccion.produccionhdia}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Prd Gas">
+                                                                    <p:outputLabel value="#{item.produccion.producciongdia}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Prod. total Mes">
+                                                                    <p:outputLabel value="#{item.produccion.producciontotalmes}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Prod. total Dia">
+                                                                    <p:outputLabel value="#{item.produccion.producciontotaldia}"/>
+                                                                </p:column>
+                                                                <p:column headerText="% Mun">
+                                                                    <p:outputLabel value="#{item.porcmunicipio}"/>
+                                                                </p:column>
+                                                                <p:column headerText="% Reg">
+                                                                    <p:outputLabel value="#{item.porcregalias}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Dep. Productor">
+                                                                    <p:outputLabel value="#{item.depproductor}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Puertos">
+                                                                    <p:outputLabel value="#{item.puertos}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Mun. Productor">
+                                                                    <p:outputLabel value="#{item.munproductor}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Mun. No productor">
+                                                                    <p:outputLabel value="#{item.munnoproductor}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Fondo Nacional">
+                                                                    <p:outputLabel value="#{item.fondonacional}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Total">
+                                                                    <p:outputLabel value="#{item.regalias}"/>
+                                                                </p:column>
+                                                            </p:dataTable>                                                             
                                                         </p:scrollPanel>
                                                     </div>
                                                 </div>

@@ -7,12 +7,14 @@ package com.planit.scr.controladores;
 
 import com.planit.scr.conexion.ConexionSQL;
 import com.planit.scr.dao.CamposDao;
+import com.planit.scr.dao.ContratosDao;
 import com.planit.scr.dao.MunicipiosDao;
 import com.planit.scr.dao.PblDao;
 import com.planit.scr.dao.ProduccionDao;
 import com.planit.scr.dao.RegaliasDao;
 import com.planit.scr.dao.TrmDao;
 import com.planit.scr.modelos.Campo;
+import com.planit.scr.modelos.Contrato;
 import com.planit.scr.modelos.Municipio;
 import com.planit.scr.modelos.Pbl;
 import com.planit.scr.modelos.Regalias;
@@ -173,86 +175,114 @@ public class RegaliasCT {
         }
 
         for (int i = 0; i < regalias.size(); i++) {
-            regalias.get(i).setProduccion(produccionDao.consultarProduccionCampo(regalias.get(i).getProduccion()));
+            ContratosDao contratosDao = new ContratosDao();
+            List<Contrato> contratosCampo = contratosDao.consultarContratosSegunCampo(regalias.get(i).getCampo());
+            for (int j = 0; j < contratosCampo.size(); j++) {
+                regalias.get(i).setContrato(contratosCampo.get(j));
+                regalias.get(i).setProduccion(produccionDao.consultarProduccionCampo(regalias.get(i).getProduccion()));
 
-            //Obtenemos el porcentaje correspondiente de regalias segun el tipo de contrato
-            double porcentaje = regalias.get(i).getCampo().getContrato().getPorcentaje();
-            regalias.get(i).setPorcregalias((porcentaje / 100));
+                //Obtenemos el porcentaje correspondiente de regalias segun el tipo de contrato
+                double porcentaje = regalias.get(i).getCampo().getPorcentaje();
+                regalias.get(i).setPorcregalias((porcentaje / 100));
 
-            //Obtenemos el porcentaje al que equivale la produccion del campo con respecto al total del municipio
-            double total = totalProdMesMunicipio(regalias);
-            regalias.get(i).setPorcmunicipio((regalias.get(i).getProduccion().getProducciontotalmes() * 100) / total);
+                //Obtenemos el porcentaje al que equivale la produccion del campo con respecto al total del municipio
+                double total = totalProdMesMunicipio(regalias);
+                regalias.get(i).setPorcmunicipio((regalias.get(i).getProduccion().getProducciontotalmes() * 100) / total);
 
-            //Obtenemos pbl correspondiente al mes seleccionado
-            PblDao pblDao = new PblDao();
-            Pbl pbl = new Pbl();
-            pbl = pblDao.consultarPblSegunContrato(regalias.get(i).getCampo().getContrato(),
-                    pblDao.obtenerTrimestre(regalias.get(i).getMes(), regalias.get(i).getAnio()), regalias.get(i).getAnio());
+                //Obtenemos pbl correspondiente al mes seleccionado
+                PblDao pblDao = new PblDao();
+                Pbl pbl = new Pbl();
+                pbl = pblDao.consultarPblSegunContrato(contratosCampo.get(j),
+                        pblDao.obtenerTrimestre(regalias.get(i).getMes(), regalias.get(i).getAnio()), regalias.get(i).getAnio());
 
-            if (pbl.getIdpbl() != 0) {
-                regalias.get(i).setPrecio(pbl.getPrc());
-                //Calculamos 
-                double bpdm = promedioDiarioMensual(regalias);
-                TrmDao trmDao = new TrmDao();
-                double trm = trmDao.consultarPromedioMensualTrm(mes, anio);
-                if (trm != 0) {
-                    regalias.get(i).setRegalias(regalias.get(i).getProduccion().getProducciontotalmes() * regalias.get(i).getPrecio() * regalias.get(i).getPorcregalias() * trm);
+                if (pbl.getIdpbl() != 0) {
+                    regalias.get(i).setPrecio(pbl.getPrc());
+                    //Calculamos 
+                    double bpdm = promedioDiarioMensual(regalias);
+                    TrmDao trmDao = new TrmDao();
+                    double trm = trmDao.consultarPromedioMensualTrm(mes, anio);
+                    if (trm != 0) {
+                        regalias.get(i).setRegalias(regalias.get(i).getProduccion().getProducciontotalmes() * regalias.get(i).getPrecio() * regalias.get(i).getPorcregalias() * trm);
 
-                    //Hacemos division de regalias
-                    if (bpdm <= 10000) {
-                        Double valor = (regalias.get(i).getRegalias() * 52) / 100;
-                        regalias.get(i).setDepproductor(valor);
-                        valor = (regalias.get(i).getRegalias() * 32) / 100;
-                        regalias.get(i).setMunproductor(valor);
-                        valor = (regalias.get(i).getRegalias() * 8) / 100;
-                        regalias.get(i).setPuertos(valor);
-                        regalias.get(i).setFondonacional(valor);
+                        //Hacemos division de regalias
+                        if (bpdm <= 10000) {
+                            Double valor = (regalias.get(i).getRegalias() * 52) / 100;
+                            regalias.get(i).setDepproductor(valor);
+                            valor = (regalias.get(i).getRegalias() * 32) / 100;
+                            regalias.get(i).setMunproductor(valor);
+                            valor = (regalias.get(i).getRegalias() * 8) / 100;
+                            regalias.get(i).setPuertos(valor);
+                            regalias.get(i).setFondonacional(valor);
 
-                    } else if (bpdm > 10000 && bpdm <= 20000) {
+                        } else if (bpdm > 10000 && bpdm <= 20000) {
 
-                        double valorA = (((10000) * 52) / 100);
-                        double valorB = (((regalias.get(i).getRegalias() - 10000) * 47.5) / 100);
-                        regalias.get(i).setDepproductor(valorA + valorB);
-                        valorA = ((10000 * 32) / 100);
-                        valorB = (((regalias.get(i).getRegalias() - 10000) * 25) / 100);
-                        regalias.get(i).setMunproductor(valorA + valorB);
-                        valorA = ((10000 * 8) / 100);
-                        valorB = (((regalias.get(i).getRegalias() - 10000) * 8) / 100);
-                        regalias.get(i).setPuertos(valorA + valorB);
-                        valorB = (((regalias.get(i).getRegalias() - 10000) * 19.5) / 100);
-                        regalias.get(i).setFondonacional(valorA + valorB);
+                            double porcentaje1 = (10000 * 100) / bpdm;
 
-                    } else if (bpdm > 20000 && bpdm <= 50000) {
+                            double valorA = (((regalias.get(i).getRegalias() * porcentaje1) * 52) / 100);
+                            double valorB = (((regalias.get(i).getRegalias() - (regalias.get(i).getRegalias() * porcentaje1)) * 47.5) / 100);
+                            regalias.get(i).setDepproductor(valorA + valorB);
 
-                        double valorA = (((10000) * 52) / 100);
-                        double valorB = (((20000) * 47.5) / 100);
-                        double valorC = (((regalias.get(i).getRegalias() - 20000) * 47.5) / 100);
-                        regalias.get(i).setDepproductor(valorA + valorB + valorC);
-                        valorA = ((10000 * 32) / 100);
-                        valorB = (((20000) * 25) / 100);
-                        valorC = (((regalias.get(i).getRegalias() - 20000) * 12.5) / 100);
-                        regalias.get(i).setMunproductor(valorA + valorB);
-                        valorA = ((10000 * 8) / 100);
-                        valorB = (((20000) * 8) / 100);
-                        valorC = (((regalias.get(i).getRegalias() - 20000) * 8) / 100);
-                        regalias.get(i).setPuertos(valorA + valorB);
-                        valorB = (((20000) * 19.5) / 100);
-                        valorC = (((regalias.get(i).getRegalias() - 20000) * 32) / 100);
-                        regalias.get(i).setFondonacional(valorA + valorB + valorC);
-                    }
-                    regalias.get(i).setDepnoproductor(0); //declaramos valor a departamentos no productores
-                    int r = regaliasDao.registrarRegalias(regalias.get(i));
-                    if (r == 0) {
-                        message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Ocurrio un error al registrar la distribucion de regalias");
-                        ruta = "";
-                    } else if (r == 1) {
-                        ruta = "ConsultarRegalias";
+                            valorA = (((regalias.get(i).getRegalias() * porcentaje1) * 32) / 100);
+                            valorB = (((regalias.get(i).getRegalias() - (regalias.get(i).getRegalias() * porcentaje1)) * 25) / 100);
+
+                            //Calculo de participacion del municipio
+                            double excedente = (valorA + valorB) - (valorA + (valorB * (10 / 100)));
+                            regalias.get(i).setMunproductor(valorA + (valorB * (10 / 100)));
+                            double fnr = (excedente) * (60 / 100);
+                            regalias.get(i).setMunnoproductor(excedente - fnr);
+                        //fin panticipacion                  
+
+                            valorA = (((regalias.get(i).getRegalias() * porcentaje1) * 8) / 100);
+                            valorB = (((regalias.get(i).getRegalias() - (regalias.get(i).getRegalias() * porcentaje1)) * 8) / 100);
+                            regalias.get(i).setPuertos(valorA + valorB);
+
+                            valorB = (((regalias.get(i).getRegalias() - (regalias.get(i).getRegalias() * porcentaje1)) * 19.5) / 100);
+                            regalias.get(i).setFondonacional(valorA + valorB + fnr);
+
+                        } else if (bpdm > 20000 && bpdm <= 50000) {
+
+                            double porcentaje1 = (10000 * 100) / bpdm;
+                            double porcentaje2 = (20000 * 100) / bpdm;
+                            double excedente = 0;
+
+                            double valorA = (((regalias.get(i).getRegalias() * porcentaje1) * 52) / 100);
+                            double valorB = ((((regalias.get(i).getRegalias() * porcentaje2) - (regalias.get(i).getRegalias() * porcentaje1)) * 47.5) / 100);
+                            double valorC = (((regalias.get(i).getRegalias() - (regalias.get(i).getRegalias() * porcentaje2)) * 47.5) / 100);
+                            regalias.get(i).setDepproductor(valorA + valorB + valorC);
+
+                            valorA = (((regalias.get(i).getRegalias() * porcentaje1) * 32) / 100);
+                            valorB = ((((regalias.get(i).getRegalias() * porcentaje2) - (regalias.get(i).getRegalias() * porcentaje1)) * 25) / 100);
+                            valorC = (((regalias.get(i).getRegalias() - (regalias.get(i).getRegalias() * porcentaje2)) * 12.5) / 100);
+
+                            //Calculo de participacion del municipio
+                            excedente = (valorA + valorB + valorC) - (valorA + ((valorB + valorC) * (10 / 100)));
+                            regalias.get(i).setMunproductor(valorA + ((valorB + valorC) * (10 / 100)));
+                            double fnr = excedente * (60 / 100);
+                            regalias.get(i).setMunnoproductor(excedente - fnr);
+                            //fin panticipacion                        
+
+                            valorA = (((regalias.get(i).getRegalias() * porcentaje1) * 8) / 100);
+                            valorB = ((((regalias.get(i).getRegalias() * porcentaje2) - (regalias.get(i).getRegalias() * porcentaje1)) * 8) / 100);
+                            valorC = (((regalias.get(i).getRegalias() - (regalias.get(i).getRegalias() * porcentaje2)) * 8) / 100);
+                            regalias.get(i).setPuertos(valorA + valorB);
+
+                            valorB = ((((regalias.get(i).getRegalias() * porcentaje2) - (regalias.get(i).getRegalias() * porcentaje1)) * 19.5) / 100);
+                            valorC = (((regalias.get(i).getRegalias() - (regalias.get(i).getRegalias() * porcentaje2)) * 32) / 100);
+                            regalias.get(i).setFondonacional(valorA + valorB + valorC + fnr);
+                        }
+                        int r = regaliasDao.registrarRegalias(regalias.get(i));
+                        if (r == 0) {
+                            message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Ocurrio un error al registrar la distribucion de regalias");
+                            ruta = "";
+                        } else if (r == 1) {
+                            ruta = "ConsultarRegalias";
+                        }
+                    } else {
+                        message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Ocurrio un error al consultar el trm del mes respectivo");
                     }
                 } else {
-                    message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Ocurrio un error al consultar el trm del mes respectivo");
+                    message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "No existen valores registrados de pbl para el mes y año seleccionado");
                 }
-            } else {
-                message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "No existen valores registrados de pbl para el mes y año seleccionado");
             }
         }
         consultarRegalias();
@@ -301,4 +331,5 @@ public class RegaliasCT {
         big = big.setScale(digitos, RoundingMode.HALF_UP);
         return big.toString();
     }
+
 }

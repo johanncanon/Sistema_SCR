@@ -8,6 +8,7 @@ package com.planit.scr.dao;
 import com.planit.scr.conexion.ConexionSQL;
 import com.planit.scr.metodos.Redondear;
 import com.planit.scr.modelos.Campo;
+import com.planit.scr.modelos.Contrato;
 import com.planit.scr.modelos.Departamento;
 import com.planit.scr.modelos.Regalias;
 import com.planit.scr.modelos.Municipio;
@@ -29,16 +30,17 @@ public class RegaliasDao {
         Statement st = ConexionSQL.conexion();
         try {
             try {
-                String sql = "INSERT INTO public.regalias (iddepartamento, idmunicipio, idcampo,"
-                        + " porcmunicipio, porcregalias, depproductor, munproductor, depnoproductor, puertos, anio, mes, precio, regalias, idproduccion, fondonacional)"
+                String sql = "INSERT INTO public.regalias (iddepartamento, idmunicipio, idcampo, idcontrato"
+                        + " porcmunicipio, porcregalias, depproductor, munproductor, munnoproductor, puertos, anio, mes, precio, regalias, idproduccion, fondonacional)"
                         + " VALUES(" + regalia.getDepartamento().getIddepartamento() + ", "
                         + "" + regalia.getMunicipio().getIdmunicipio() + ", "
                         + "" + regalia.getCampo().getIdcampo() + ", "
+                        + "" + regalia.getContrato().getIdcontrato() + ", "
                         + "'" + Redondear.redondear(regalia.getPorcmunicipio(), 3) + "', "
                         + "" + regalia.getPorcregalias() + ", "
                         + "'" + Redondear.redondear(regalia.getDepproductor(), 3) + "', "
                         + "'" + Redondear.redondear(regalia.getMunproductor(), 3) + "', "
-                        + "'" + Redondear.redondear(regalia.getDepnoproductor(), 3) + "', "
+                        + "'" + Redondear.redondear(regalia.getMunnoproductor(), 3) + "', "
                         + "'" + Redondear.redondear(regalia.getPuertos(), 3) + "', "
                         + "" + regalia.getAnio() + ", "
                         + "" + regalia.getMes() + ", "
@@ -66,11 +68,12 @@ public class RegaliasDao {
         MunicipiosDao municipiosDao = new MunicipiosDao();
         CamposDao campoDao = new CamposDao();
         ProduccionDao produccionDao = new ProduccionDao();
+        ContratosDao contratosDao = new ContratosDao();
 
         regalia.setMunicipio(municipiosDao.consultarMunicipio(regalia.getMunicipio()));
         try {
             try {
-                String sql = "SELECT idregalias, iddepartamento, idmunicipio, idcampo, porcmunicipio, porcregalias, depproductor, munproductor, depnoproductor, puertos, anio, mes, precio, regalias, idproduccion, fondonacional"
+                String sql = "SELECT idregalias, iddepartamento, idmunicipio, idcampo, porcmunicipio, porcregalias, depproductor, munproductor, munnoproductor, puertos, anio, mes, precio, regalias, idproduccion, fondonacional, idcontrato"
                         + " FROM public.regalias"
                         + " WHERE idmunicipio = " + regalia.getMunicipio().getIdmunicipio() + " AND anio = " + regalia.getAnio() + " and mes = " + regalia.getMes() + "";
                 ResultSet rs = st.executeQuery(sql);
@@ -89,6 +92,7 @@ public class RegaliasDao {
                             campoDao.consultarCampo(new Campo(rs.getInt(4))),
                             departamentosDao.consultarDepartamento(new Departamento(rs.getInt(2))),
                             municipiosDao.consultarMunicipio(new Municipio(rs.getInt(3))),
+                            contratosDao.consultarContrato(new Contrato(rs.getInt(17))),
                             produccionDao.consultarProduccionCampo(new Produccion(rs.getInt(15))),
                             rs.getDouble(16)));
                 }

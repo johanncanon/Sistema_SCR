@@ -201,8 +201,8 @@
                                                             <h:outputLabel value="#{valor.vt}"/>
                                                         </p:column>
 
-                                                        <p:column headerText="CTMD" sortBy="#{valor.ctmd}">
-                                                            <h:outputLabel value="#{valor.ctmd}"/>
+                                                        <p:column headerText="CTC" sortBy="#{valor.ctc}">
+                                                            <h:outputLabel value="#{valor.ctc}"/>
                                                         </p:column>
 
                                                         <p:column headerText="CMT" sortBy="#{valor.cmt}">
@@ -211,6 +211,10 @@
 
                                                         <p:column headerText="CTMC" sortBy="#{valor.ctmc}">
                                                             <h:outputLabel value="#{valor.ctmc}"/>
+                                                        </p:column>
+
+                                                        <p:column headerText="CTMD" sortBy="#{valor.ctmd}">
+                                                            <h:outputLabel value="#{valor.ctmd}"/>
                                                         </p:column>
 
                                                         <p:column headerText="CR" sortBy="#{valor.cr}">
@@ -223,10 +227,6 @@
 
                                                         <p:column headerText="CTME" sortBy="#{valor.ctme}">
                                                             <h:outputLabel value="#{valor.ctme}"/>
-                                                        </p:column>
-
-                                                        <p:column headerText="CTC" sortBy="#{valor.ctc}">
-                                                            <h:outputLabel value="#{valor.ctc}"/>
                                                         </p:column>
 
                                                         <p:column style="width: 60px">
@@ -250,7 +250,7 @@
                                                         function stop() {
                                                             PF('statusDialog').hide();
                                                         }
-                                                    </script>
+                                                    </script>   
                                                     <p:dialog  modal="true" widgetVar="statusDialog" header="Cargando" draggable="false" closable="false" resizable="false">
                                                         <p:graphicImage width="100%" value="/resources/images/demo/ajaxloadingbar.gif" />
                                                     </p:dialog>

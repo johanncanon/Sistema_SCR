@@ -11,7 +11,6 @@ import com.planit.scr.dao.TrmDao;
 import com.planit.scr.modelos.Trm;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,11 +25,15 @@ public class TrmCT {
     private Trm trm;
     private List<Trm> listatrm;
     private String trmd;
-
+    private String anio;
+    private String mes;
+    
     public TrmCT() {
         trm = new Trm();
         listatrm = new ArrayList<>();
         trmd = "";
+        anio = "";
+        mes = "";
     }
 
     @PostConstruct
@@ -52,6 +55,48 @@ public class TrmCT {
 
     }
 
+    public String getAnio() {
+        return anio;
+    }
+
+    public void setAnio(String anio) {
+        this.anio = anio;
+    }
+
+    public String getMes() {
+        return mes;
+    }
+
+    public void setMes(String mes) {
+        this.mes = mes;
+    } 
+    
+      
+    public Trm getTrm() {
+        return trm;
+    }
+
+    public void setTrm(Trm trm) {
+        this.trm = trm;
+    }
+
+    public List<Trm> getListatrm() {
+        return listatrm;
+    }
+
+    public void setListatrm(List<Trm> listatrm) {
+        this.listatrm = listatrm;
+    }
+
+    public String getTrmd() {
+        return trmd;
+    }
+
+    public void setTrmd(String trmd) {
+        this.trmd = trmd;
+    }
+
+    //Metodos
     public void registrarTrm() throws Exception {
         int mes = 0, count = 0;
         Trm nuevotrm = new Trm();
@@ -94,35 +139,21 @@ public class TrmCT {
 
     }
 
-    public Trm getTrm() {
-        return trm;
-    }
-
-    public void setTrm(Trm trm) {
-        this.trm = trm;
-    }
-
-    public List<Trm> getListatrm() {
-        return listatrm;
-    }
-
-    public void setListatrm(List<Trm> listatrm) {
-        this.listatrm = listatrm;
-    }
-
-    public String getTrmd() {
-        return trmd;
-    }
-
-    public void setTrmd(String trmd) {
-        this.trmd = trmd;
-    }
-
-//    //Metodos
 //    public void registrar() throws Exception {
 //        TrmDao trmDao = new TrmDao();
 //        trmDao.registrarTrm(trm);
 //        trm = new Trm();
 //        listatrm = trmDao.consultarTrm();
 //    }
+    
+    //Metodos de busqueda
+    public void buscartrm() throws Exception{
+        TrmDao trmDao = new TrmDao();
+        if(anio.isEmpty()){
+            listatrm = trmDao.consultarTrm();
+        }else{
+            listatrm = trmDao.buscarTrm(anio, mes);
+        }
+    }
+    
 }

@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 
 
@@ -20,45 +21,16 @@
                             <h2> Trm <small>Registre el valor del trm diario.</small> </h2>
                         </div>
                         <b:row>
-                            <h:form id="formularioRegistro">  
-                                <b:column col-lg="6" >
-
-                                    <div class="widget ">
-                                        <div class="widget-header"> <i class="fa fa-list-ol"></i>
-                                            <h3> Registro de Trm </h3>
-                                        </div>
-                                        <!-- /widget-header -->
-                                        <div class="widget-content">
-                                            <div class="widget big-stats-container">
-                                                <div class="widget-content">
-                                                    <div class="form-horizontal">
-                                                        <div class="form-group">
-                                                            <label for="inputValor" class="col-sm-4 control-label">Valor: </label>
-                                                            <b:inputText value="#{trmCT.trm.valor}" id="inputValor" placeholder="Valor" span="8"/>                                                            
-                                                        </div> 
-                                                        <p:separator/>
-                                                        <div class="form-group">
-                                                            <p:commandButton onclick="PrimeFaces.monitorDownload(start, stop);" icon="fa fa-send" value="Enviar" action="#{trmCT.registrar()}" update=":formularioRegistro :formularioLista" class=" btn btn-info " style="float: right"/>
-                                                        </div>
-                                                    </div>
-                                                    <!-- /widget-content --> 
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </b:column>
-                                <!-- /widget -->
-
-                                <b:column col-lg="6" style="float: right" >
+                            <h:form id="formularioRegistro">                                
+                                <b:column col-lg="4">
                                     <div class="widget widget-nopad">
                                         <div class="widget-header"> <i class="fa fa-area-chart"></i>
                                             <h3> Fecha</h3>
                                         </div>
                                         <!-- /widget-header -->
                                         <div class="widget-content">
-                                            <div class="form-group">
-                                                <label for="inputDate" class="col-sm-4 control-label">Fecha: </label>
-                                                <b:dateTimePicker value="#{trmCT.trm.fecha}" mode="inline" show-time="false"></b:dateTimePicker>
+                                            <div class="form-group">                                                
+                                                <b:dateTimePicker style="width: 100%" value="#{trmCT.trm.fecha}" mode="inline" show-time="false"></b:dateTimePicker>
                                             </div>                                                
                                         </div>
                                         <!-- /widget-content --> 
@@ -78,7 +50,7 @@
                                 </p:dialog>
                             </h:form>
 
-                            <b:column col-lg="12" >
+                            <b:column col-lg="8" >
                                 <div class="widget ">
                                     <div class="widget-header"> <i class="fa fa-list-alt"></i>
                                         <h3> TRM </h3>
@@ -89,9 +61,42 @@
                                             <div class="widget-content">
                                                 <h:form id="formularioLista">
                                                     <div align="right">
-                                                        <p:inputMask class="form-control" placeholder="YYYY-mm-dd" mask="9999-99-99" style="width: 50%"/><br/>
+                                                        <table width="40%">
+                                                            <tr>
+                                                                <td align="center">
+                                                                    <p:outputLabel value="Año"/>
+                                                                </td>
+                                                                <td align="center" style="width: 80px">
+                                                                    <p:inputMask value="#{trmCT.anio}" class="form-control" mask="9999" placeholder="2016">
+                                                                        <p:ajax event="keyup" listener="#{trmCT.buscartrm()}" update="DTTrm"/>
+                                                                    </p:inputMask>
+                                                                </td>
+                                                                <td align="center">
+                                                                    <p:outputLabel value="Mes"/>
+                                                                </td>
+                                                                <td align="center" style="width: 120px">
+                                                                    <h:selectOneMenu value="#{trmCT.mes}" class="form-control">
+                                                                        <p:ajax event="change" listener="#{trmCT.buscartrm()}" update="DTTrm"/>
+                                                                        <f:selectItem itemLabel="Seleccione" noSelectionOption="true"/>
+                                                                        <f:selectItem itemLabel="Enero" itemValue="01"/>
+                                                                        <f:selectItem itemLabel="Febrero" itemValue="02"/>
+                                                                        <f:selectItem itemLabel="Marzo" itemValue="03"/>
+                                                                        <f:selectItem itemLabel="Abril" itemValue="04"/>
+                                                                        <f:selectItem itemLabel="Mayo" itemValue="05"/>
+                                                                        <f:selectItem itemLabel="Junio" itemValue="06"/>
+                                                                        <f:selectItem itemLabel="Julio" itemValue="07"/>
+                                                                        <f:selectItem itemLabel="Agosto" itemValue="08"/>
+                                                                        <f:selectItem itemLabel="Septiembre" itemValue="09"/>
+                                                                        <f:selectItem itemLabel="Octubre" itemValue="10"/>
+                                                                        <f:selectItem itemLabel="Noviembre" itemValue="11"/>
+                                                                        <f:selectItem itemLabel="Diciembre" itemValue="12"/>                                                                
+                                                                    </h:selectOneMenu>
+                                                                </td>
+                                                            </tr>
+                                                        </table>                                                       
+                                                        <br/>
                                                     </div>
-                                                    <p:dataTable value="#{trmCT.listatrm}" var="trm" rows="10"
+                                                    <p:dataTable id="DTTrm" value="#{trmCT.listatrm}" var="trm" rows="10"
                                                                  paginator="true"
                                                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                                  rowsPerPageTemplate="5,10,15">

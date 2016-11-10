@@ -18,12 +18,11 @@ public class Campo implements Serializable {
     private Integer idcampo;
 
     private String nombre;
-
-    private Contrato contrato;
+    
+    private double porcentaje;
 
     //Constructores
-    public Campo() {
-        this.contrato = new Contrato();
+    public Campo() {       
         idcampo = 0;
     }
 
@@ -36,10 +35,10 @@ public class Campo implements Serializable {
         this.nombre = nombre;
     }
 
-    public Campo(Integer idcampo, String nombre, Contrato contrato) {
+    public Campo(Integer idcampo, String nombre, double porcentaje) {
         this.idcampo = idcampo;
         this.nombre = nombre;
-        this.contrato = contrato;
+        this.porcentaje = porcentaje;
     }
 
     //Getters & Setters
@@ -58,12 +57,14 @@ public class Campo implements Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
-    public Contrato getContrato() {
-        return contrato;
+   
+    public double getPorcentaje() {
+        return porcentaje;
     }
 
-    public void setContrato(Contrato contrato) {
-        this.contrato = contrato;
+    public void setPorcentaje(double porcentaje) {
+        this.porcentaje = porcentaje;
     }
+    
+    
 }

@@ -46,15 +46,7 @@
                                                                 <f:passThroughAttribute name="placeholder" value="Nombre del contrato" />
                                                             </h:inputText>
                                                             <p:message for="inputNombre"/>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label for="inputPorcentaje" class="control-label">Porcentaje: </label>
-                                                            <h:inputText  id="inputPorcentaje" required="true" requiredMessage="Indique porcentaje de regalias" class="form-control" value="#{contratoCT.contrato.porcentaje}">
-                                                                <f:passThroughAttribute name="placeholder" value="Porcentaje" />
-                                                            </h:inputText>
-                                                            <p:message for="inputPorcentaje"/>
-                                                        </div>
+                                                        </div>                                                        
 
                                                         <div class="form-group">
                                                             <label for="inputCib" class="control-label">Distancia CIB (km): </label>
@@ -87,10 +79,10 @@
                                                                 <h:outputText value="Municipios"/>
                                                             </f:facet>
                                                             <p:column selectionMode="multiple" style="width:30px;text-align:center"/>
-                                                            <p:column headerText="Nombre">
+                                                            <p:column headerText="Nombre" sortBy="#{municipio.nombre}">
                                                                 <h:outputLabel value="#{municipio.nombre}"/>
                                                             </p:column>                                                               
-                                                            <p:column headerText="Departamento">
+                                                            <p:column headerText="Departamento" sortBy="#{municipio.departamento.nombre}">
                                                                 <h:outputLabel value="#{municipio.departamento.nombre}"/>
                                                             </p:column>                                                        
                                                         </p:dataTable>
@@ -143,9 +135,11 @@
                                             <div class="widget-content">
                                                 <h:form id="formularioLista">
                                                     <div align="right">
-                                                        <p:inputText class="form-control" placeholder="Buscar..." style="width: 50%"/><br/>
+                                                        <p:inputText value="#{contratoCT.buscar}" class="form-control" placeholder="Buscar..." style="width: 50%">
+                                                            <p:ajax event="keyup" listener="#{contratoCT.buscarContratos()}" update="DTContratos"/>
+                                                        </p:inputText><br/>
                                                     </div>
-                                                    <p:dataTable value="#{contratoCT.contratos}" var="contrato"  
+                                                    <p:dataTable id="DTContratos" value="#{contratoCT.contratos}" var="contrato"  
                                                                  rows="10"
                                                                  paginator="true"
                                                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -156,10 +150,7 @@
                                                         </p:column>
                                                         <p:column headerText="Tipo Contrato" sortBy="#{contrato.tipo.nombre}">
                                                             <h:outputLabel value="#{contrato.tipo.nombre}"/>
-                                                        </p:column>
-                                                        <p:column headerText="Porcentaje" sortBy="#{contrato.porcentaje}">
-                                                            <h:outputLabel value="#{contrato.porcentaje}"/>
-                                                        </p:column>
+                                                        </p:column>                                                       
                                                         <p:column style="width: 60px">
                                                             <p:commandLink style="color: white; width: 100%" process="@this" update=":formularioRegistro" action="#{contratoCT.seleccionarCRUD(1)}" title="Modificar" class="btn btn-block btn-info">
                                                                 <f:setPropertyActionListener value="#{contrato}" target="#{contratoCT.contrato}"/>                                                               

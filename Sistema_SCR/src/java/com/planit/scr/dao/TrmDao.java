@@ -27,7 +27,7 @@ public class TrmDao {
     //Metodos
     public void registrarTrm(Trm trm, String fecha) throws Exception {
         Statement st = ConexionSQL.conexion();
-        String valor = redondear(trm.getValor(),2);
+        String valor = redondear(trm.getValor(), 2);
         try {
             try {
                 String sql = "INSERT INTO public.trm(fecha, valor) "
@@ -86,6 +86,38 @@ public class TrmDao {
         return nuevotrm;
     }
 
+    public List<Trm> buscarTrm(String anio, String mes) throws Exception {
+        Statement st = ConexionSQL.conexion();
+        List<Trm> nuevotrm = new ArrayList<>();
+        try {
+            try {
+                String sql = "";
+                if (!mes.isEmpty()) {
+                    int m = Integer.parseInt(mes) - 1;
+                    Calendar cal = new GregorianCalendar(Integer.parseInt(anio), m, 1);
+
+                    sql = "SELECT idtrm, fecha, valor FROM public.trm "
+                            + "WHERE fecha between '" + anio + "-" + mes + "-01' AND '" + anio + "-" + mes + "-"+cal.getActualMaximum(Calendar.DAY_OF_MONTH)+"'";
+                } else {
+                    
+                    sql = "SELECT idtrm, fecha, valor FROM public.trm "
+                            + "WHERE fecha between '" + anio + "-01-01' AND '" + anio + "-12-31' ";
+                }
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()) {
+                    nuevotrm.add(new Trm(rs.getInt(1), rs.getDate(2), rs.getDouble(3)));
+                }
+            } catch (SQLException e) {
+                throw e;
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            ConexionSQL.CerrarConexion();
+        }
+        return nuevotrm;
+    }
+
     public Trm consultarMaxTrm() throws Exception {
         Statement st = ConexionSQL.conexion();
         Trm nuevotrm = new Trm();
@@ -104,8 +136,8 @@ public class TrmDao {
         } finally {
             ConexionSQL.CerrarConexion();
         }
-        
-        System.out.println("fecha trm max--------"+nuevotrm);
+
+        System.out.println("fecha trm max--------" + nuevotrm);
         return nuevotrm;
     }
 

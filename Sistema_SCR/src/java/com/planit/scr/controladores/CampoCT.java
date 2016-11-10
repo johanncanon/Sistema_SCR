@@ -5,6 +5,7 @@
  */
 package com.planit.scr.controladores;
 
+import com.planit.scr.dao.CamposContratosDao;
 import com.planit.scr.dao.CamposDao;
 import com.planit.scr.dao.ContratosDao;
 import com.planit.scr.dao.MunicipiosDao;
@@ -27,18 +28,23 @@ public class CampoCT {
     private Campo campo;
     private List<Campo> campos;
     private List<Contrato> contratos;
+    private List<Contrato> contratosRespaldo;
 
     private int operacion;
     private String nombreOperacion;
+
+    private String buscar;
 
     public CampoCT() {
         campo = new Campo();
         campos = new ArrayList<>();
         contratos = new ArrayList<>();
+        contratosRespaldo = new ArrayList<>();
 
         nombreOperacion = "Registrar";
         operacion = 0;
 
+        buscar = "";
         System.out.println("" + Thread.currentThread().getContextClassLoader().getResource("/").getPath());
     }
 
@@ -92,36 +98,93 @@ public class CampoCT {
         this.nombreOperacion = nombreOperacion;
     }
 
+    public String getBuscar() {
+        return buscar;
+    }
+
+    public void setBuscar(String buscar) {
+        this.buscar = buscar;
+    }
+
+    public List<Contrato> getContratosRespaldo() {
+        return contratosRespaldo;
+    }
+
+    public void setContratosRespaldo(List<Contrato> contratosRespaldo) {
+        this.contratosRespaldo = contratosRespaldo;
+    }
+
     //Metodos     
     public void registrar() throws Exception {
         CamposDao camposDao = new CamposDao();
-        ContratosDao contratosDao = new ContratosDao();
-
-        campo.setContrato(contratosDao.consultarContrato(campo.getContrato()));
+        CamposContratosDao ccDao = new CamposContratosDao();        
+       
         int registrar = camposDao.registrarCampo(campo);
         if (registrar == 1) {
-
+            campo = camposDao.consultarCampo(campo);
+            if (!contratos.isEmpty()) {
+                for (int i = 0; i < contratos.size(); i++) {
+                    ccDao.registrarMunicipioContrato(campo, contratos.get(i));
+                }
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Campo registrado exitosamente", "");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+            } else {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo registrado exitosamente", "No asocio contratos, modifique este contrato posteriormente");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+            }
         } else if (registrar == 0) {
-
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio un error al momento de registrar el campo", "");
+            FacesContext.getCurrentInstance().addMessage(null, message);
         }
         campos = camposDao.consultarCampos();
         campo = new Campo();
+        contratos.clear();
+        contratosRespaldo.clear();
     }
 
     public void modificar() throws Exception {
-        ContratosDao contratosDao = new ContratosDao();
+        CamposContratosDao ccDao = new CamposContratosDao();        
         CamposDao camposDao = new CamposDao();
-        campo.setContrato(contratosDao.consultarContrato(campo.getContrato()));
+        //campo.setContrato(contratosDao.consultarContrato(campo.getContrato()));
         int modificar = camposDao.modificarCampo(campo);
         if (modificar == 1) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Campo modificado correctamente");
+            boolean existe = false;
+            //Registramos las nuevas asociaciones
+            for (int i = 0; i < contratos.size(); i++) {
+                for (int j = 0; j < contratosRespaldo.size(); j++) {
+                    if (contratos.get(i).getIdcontrato().equals(contratosRespaldo.get(j).getIdcontrato())) {
+                        existe = true;
+                    }
+                }
+                if (!existe) {                    
+                    ccDao.registrarMunicipioContrato(campo, contratos.get(i));
+                }
+                existe = false;
+            }
+
+            //Eliminamos la asociaciones desactivadas
+            existe = false;
+            for (int i = 0; i < contratosRespaldo.size(); i++) {
+                for (int j = 0; j < contratos.size(); j++) {
+                    if (contratosRespaldo.get(i).getIdcontrato().equals(contratos.get(j).getIdcontrato())) {
+                        existe = true;
+                    }
+                }
+                if (!existe) {
+                    ccDao.eliminarCamposContrato(campo, contratosRespaldo.get(i));
+                }
+                existe = false;
+            }
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Campo modificado exitosamente", "");
             FacesContext.getCurrentInstance().addMessage(null, message);
         } else if (modificar == 0) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Ocurrio un erro al momento de modificar el campo");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Ocurrio un error al momento de modificar el campo");
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
         campo = new Campo();
         campos = camposDao.consultarCampos();
+        contratos.clear();
+        contratosRespaldo.clear();
     }
 
     public void eliminar() throws Exception {
@@ -153,6 +216,9 @@ public class CampoCT {
         operacion = i;
         if (operacion == 1) {
             nombreOperacion = "Modificar";
+            ContratosDao contratosDao = new ContratosDao();
+            contratos = contratosDao.consultarContratosSegunCampo(campo);
+            contratosRespaldo = contratos;
         }
     }
 
@@ -162,5 +228,14 @@ public class CampoCT {
         operacion = 0;
         campos = camposDao.consultarCampos();
         campo = new Campo();
+    }
+
+    public void buscarCampo() throws Exception {
+        CamposDao camposDao = new CamposDao();
+        if (buscar.isEmpty()) {
+            campos = camposDao.consultarCampos();
+        } else {
+            campos = camposDao.buscarCampos(buscar);
+        }
     }
 }

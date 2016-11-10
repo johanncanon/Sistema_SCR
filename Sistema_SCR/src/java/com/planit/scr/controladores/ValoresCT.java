@@ -142,7 +142,6 @@ public class ValoresCT {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Ocurrio un error al registrar los valores");
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
-
         valor = new Valores();
         valores = valorDao.consultarValores();
     }
@@ -174,12 +173,12 @@ public class ValoresCT {
         int resultado = valorDao.eliminarValores(valor);
         if (resultado == 1) {
             PblDao pblDao = new PblDao();
-            int r = pblDao.eliminarPbl(anio, trimestreMes);
+            int r = pblDao.eliminarPbl(valor.getAnio(), valor.getTrimestreMes());
             if (r == 1) {
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "la eliminacion fue exitosa");
                 FacesContext.getCurrentInstance().addMessage(null, message);
             } else if (r == 0) {
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Los valores resgistrados fueron eliminado pero ocurrio un error al eliminar el valor del pbl");
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Los valores registrados fueron eliminado pero ocurrio un error al eliminar el valor del pbl");
                 FacesContext.getCurrentInstance().addMessage(null, message);
             }
         } else if (resultado == 0) {

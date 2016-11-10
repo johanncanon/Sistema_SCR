@@ -27,8 +27,8 @@ public class CamposDao {
         try {
             try {
                 String sql = "INSERT INTO public.campos("
-                        + "           nombre, idcontrato)"
-                        + " VALUES('" + campo.getNombre() + "', '" + campo.getContrato().getIdcontrato() + "')";
+                        + "           nombre, porcentaje)"
+                        + " VALUES('" + campo.getNombre() + "', '" + campo.getPorcentaje() + "')";
                 st.execute(sql);
                 resultado = 1;
             } catch (SQLException e) {
@@ -48,7 +48,7 @@ public class CamposDao {
         try {
             try {
                 String sql = "UPDATE public.campos "
-                        + " SET nombre = '" + campo.getNombre() + "', idcontrato = '" + campo.getContrato().getIdcontrato() + "'"
+                        + " SET nombre = '" + campo.getNombre() + "', porcentaje = '" + campo.getPorcentaje() + "'"
                         + " WHERE idcampo = '" + campo.getIdcampo() + "'";
                 st.execute(sql);
                 resultado = 1;
@@ -82,18 +82,17 @@ public class CamposDao {
         }
         return resultado;
     }
-    
+
     public Campo consultarCampo(Campo campo) throws Exception {
         Statement st = ConexionSQL.conexion();
-        ContratosDao contratosDao = new ContratosDao();
         Campo nuevocampo = new Campo();
         try {
             try {
-                String sql = "SELECT idcampo, nombre, idcontrato FROM public.campos"
+                String sql = "SELECT idcampo, nombre, porcentaje FROM public.campos"
                         + " WHERE idcampo = " + campo.getIdcampo() + " or nombre = '" + campo.getNombre() + "'";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    nuevocampo = new Campo(rs.getInt(1), rs.getString(2), contratosDao.consultarContrato(new Contrato(rs.getInt(3))));
+                    nuevocampo = new Campo(rs.getInt(1), rs.getString(2), rs.getDouble(3));
                 }
             } catch (SQLException e) {
                 throw e;
@@ -108,14 +107,36 @@ public class CamposDao {
 
     public List<Campo> consultarCampos() throws Exception {
         Statement st = ConexionSQL.conexion();
-         ContratosDao contratosDao = new ContratosDao();
         List<Campo> listacampos = new ArrayList<>();
         try {
             try {
-                String sql = "SELECT idcampo, nombre, idcontrato FROM public.campos";
+                String sql = "SELECT idcampo, nombre, porcentaje FROM public.campos";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listacampos.add(new Campo(rs.getInt(1), rs.getString(2), contratosDao.consultarContrato(new Contrato(rs.getInt(3)))));
+                    listacampos.add(new Campo(rs.getInt(1), rs.getString(2), rs.getDouble(3)));
+                }
+            } catch (SQLException e) {
+                throw e;
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            ConexionSQL.CerrarConexion();
+        }
+        return listacampos;
+    }
+
+    public List<Campo> buscarCampos(String valor) throws Exception {
+        Statement st = ConexionSQL.conexion();
+        ContratosDao contratosDao = new ContratosDao();
+        List<Campo> listacampos = new ArrayList<>();
+        try {
+            try {
+                String sql = "SELECT c.idcampo, c.nombre, c.porcentaje FROM public.campos as c, public.contratos as cr, public.campos_contratos as cc "
+                        + "WHERE cc.idcontrato = cr.idcontrato AND c.idcampo = cc.idcampo (cr.nombre LIKE '%" + valor + "%' OR c.nombre LIKE '%" + valor + "%')";
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()) {
+                    listacampos.add(new Campo(rs.getInt(1), rs.getString(2), rs.getDouble(3)));
                 }
             } catch (SQLException e) {
                 throw e;
@@ -133,14 +154,13 @@ public class CamposDao {
         List<Campo> listacampos = new ArrayList<>();
         MunicipiosDao municipioDao = new MunicipiosDao();
         municipio = municipioDao.consultarMunicipio(municipio);
-        ContratosDao contratosDao = new ContratosDao();
         try {
             try {
-                String sql = "SELECT c.idcampo, c.nombre, c.idcontrato FROM public.campos as c, public.municipios_contratos as mc"
-                        + " WHERE mc.idmunicipio = " + municipio.getIdmunicipio() + " and c.idcontrato = mc.idcontrato";
+                String sql = "SELECT c.idcampo, c.nombre, c.porcentaje FROM public.campos as c, public.municipios_contratos as mc, public,campos_contratos as cc"
+                        + " WHERE mc.idmunicipio = " + municipio.getIdmunicipio() + " and cc.idcontrato = mc.idcontrato and cc.idcampo = c.idcampo";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listacampos.add(new Campo(rs.getInt(1), rs.getString(2), contratosDao.consultarContrato(new Contrato(rs.getInt(3)))));
+                    listacampos.add(new Campo(rs.getInt(1), rs.getString(2), rs.getDouble(3)));
                 }
             } catch (SQLException e) {
                 throw e;

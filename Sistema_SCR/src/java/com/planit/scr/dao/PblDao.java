@@ -145,7 +145,7 @@ public class PblDao {
         try {
             try {
                 String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre_mes, p.prc, p.refinacion, p.exportacion, p.idcontrato, p.anio"
-                        + " FROM public.pbl as p, public.contratos as c, public.municipios_contratos as mc"
+                        + " FROM public.pbl as p, public.municipios_contratos as mc"
                         + " WHERE p.anio = " + pbl.getAnio() + " AND p.trimestre_mes = " + pbl.getTrimestreMes() + " AND"
                         + " p.idcontrato = mc.idcontrato AND mc.idmunicipio = " + municipio.getIdmunicipio() + "";
                 ResultSet rs = st.executeQuery(sql);

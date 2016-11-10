@@ -26,7 +26,7 @@ public class Regalias implements Serializable {
 
     private double munproductor;
 
-    private double depnoproductor;
+    private double munnoproductor;
 
     private double puertos;
     
@@ -44,6 +44,8 @@ public class Regalias implements Serializable {
     
     private Municipio municipio;
     
+    private Contrato contrato;
+    
     private Produccion produccion;
 
     private double fondonacional;
@@ -53,30 +55,31 @@ public class Regalias implements Serializable {
         this.departamento = new Departamento();
         this.municipio = new Municipio();
         this.produccion = new Produccion();
+        this.contrato = new Contrato();
     }
 
     public Regalias(Integer idregalias) {
         this.idregalias = idregalias;
     }
 
-    public Regalias(Integer idregalias, double porcmunicipio, double porcregalias, double depproductor, double munproductor, double depnoproductor, double puertos, double fondonacional) {
+    public Regalias(Integer idregalias, double porcmunicipio, double porcregalias, double depproductor, double munproductor, double munnoproductor, double puertos, double fondonacional) {
         this.idregalias = idregalias;
         this.porcmunicipio = porcmunicipio;
         this.porcregalias = porcregalias;
         this.depproductor = depproductor;
         this.munproductor = munproductor;
-        this.depnoproductor = depnoproductor;
+        this.munnoproductor = munnoproductor;
         this.puertos = puertos;
         this.fondonacional = fondonacional;               
     }
 
-    public Regalias(Integer idregalias, double porcmunicipio, double porcregalias, double depproductor, double munproductor, double depnoproductor, double puertos, Integer anio, Integer mes, Double precio, Double regalias, Campo idcampo, Departamento iddepartamento, Municipio idmunicipio, Produccion idproduccion, double fondonacional) {
+    public Regalias(Integer idregalias, double porcmunicipio, double porcregalias, double depproductor, double munproductor, double munnoproductor, double puertos, Integer anio, Integer mes, Double precio, Double regalias, Campo idcampo, Departamento iddepartamento, Municipio idmunicipio, Contrato idcontrato, Produccion idproduccion, double fondonacional) {
         this.idregalias = idregalias;
         this.porcmunicipio = porcmunicipio;
         this.porcregalias = porcregalias;
         this.depproductor = depproductor;
         this.munproductor = munproductor;
-        this.depnoproductor = depnoproductor;
+        this.munnoproductor = munnoproductor;
         this.puertos = puertos;
         this.anio = anio;
         this.mes = mes;
@@ -85,16 +88,17 @@ public class Regalias implements Serializable {
         this.campo = idcampo;
         this.departamento = iddepartamento;
         this.municipio = idmunicipio;
+        this.contrato = idcontrato;
         this.produccion = idproduccion;
         this.fondonacional = fondonacional;
     }
 
-    public Regalias(double porcmunicipio, double porcregalias, double depproductor, double munproductor, double depnoproductor, double puertos, Integer anio, Integer mes, Double precio, Double regalias, Campo idcampo, Departamento iddepartamento, Municipio idmunicipio, Produccion idproduccion, double fondonacional) {
+    public Regalias(double porcmunicipio, double porcregalias, double depproductor, double munproductor, double munnoproductor, double puertos, Integer anio, Integer mes, Double precio, Double regalias, Campo idcampo, Departamento iddepartamento, Municipio idmunicipio, Contrato idcontrato, Produccion idproduccion, double fondonacional) {
         this.porcmunicipio = porcmunicipio;
         this.porcregalias = porcregalias;
         this.depproductor = depproductor;
         this.munproductor = munproductor;
-        this.depnoproductor = depnoproductor;
+        this.munnoproductor = munnoproductor;
         this.puertos = puertos;
         this.anio = anio;
         this.mes = mes;
@@ -103,6 +107,7 @@ public class Regalias implements Serializable {
         this.campo = idcampo;
         this.departamento = iddepartamento;
         this.municipio = idmunicipio;
+        this.contrato = idcontrato;
         this.produccion = idproduccion;
         this.fondonacional = fondonacional;
     }
@@ -129,9 +134,37 @@ public class Regalias implements Serializable {
 
     public void setPorcregalias(double porcregalias) {
         this.porcregalias = porcregalias;
-    }   
-    
-    public void setPuertos(int puertos) {
+    }
+
+    public double getDepproductor() {
+        return depproductor;
+    }
+
+    public void setDepproductor(double depproductor) {
+        this.depproductor = depproductor;
+    }
+
+    public double getMunproductor() {
+        return munproductor;
+    }
+
+    public void setMunproductor(double munproductor) {
+        this.munproductor = munproductor;
+    }
+
+    public double getMunnoproductor() {
+        return munnoproductor;
+    }
+
+    public void setMunnoproductor(double munnoproductor) {
+        this.munnoproductor = munnoproductor;
+    }
+
+    public double getPuertos() {
+        return puertos;
+    }
+
+    public void setPuertos(double puertos) {
         this.puertos = puertos;
     }
 
@@ -151,19 +184,19 @@ public class Regalias implements Serializable {
         this.mes = mes;
     }
 
-    public Double getPrecio() {
+    public double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Double precio) {
+    public void setPrecio(double precio) {
         this.precio = precio;
     }
 
-    public Double getRegalias() {
+    public double getRegalias() {
         return regalias;
     }
 
-    public void setRegalias(Double regalias) {
+    public void setRegalias(double regalias) {
         this.regalias = regalias;
     }
 
@@ -197,48 +230,24 @@ public class Regalias implements Serializable {
 
     public void setProduccion(Produccion produccion) {
         this.produccion = produccion;
-    }    
-
-    public double getDepproductor() {
-        return depproductor;
     }
 
-    public void setDepproductor(double depproductor) {
-        this.depproductor = depproductor;
-    }
-
-    public double getMunproductor() {
-        return munproductor;
-    }
-
-    public void setMunproductor(double munproductor) {
-        this.munproductor = munproductor;
-    }
-
-    public double getDepnoproductor() {
-        return depnoproductor;
-    }
-
-    public void setDepnoproductor(double depnoproductor) {
-        this.depnoproductor = depnoproductor;
-    }
-
-    public double getPuertos() {
-        return puertos;
-    }
-
-    public void setPuertos(double puertos) {
-        this.puertos = puertos;
-    }
-
-    public Double getFondonacional() {
+    public double getFondonacional() {
         return fondonacional;
     }
 
-    public void setFondonacional(Double fondonacional) {
+    public void setFondonacional(double fondonacional) {
         this.fondonacional = fondonacional;
-    }   
-    
+    }
+
+    public Contrato getContrato() {
+        return contrato;
+    }
+
+    public void setContrato(Contrato contrato) {
+        this.contrato = contrato;
+    } 
+      
     @Override
     public String toString() {
         return "com.planit.scr.modelos.Regalias[ idregalias=" + idregalias + " ]";
