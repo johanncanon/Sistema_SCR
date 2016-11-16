@@ -138,6 +138,7 @@ public class ValoresCT {
                 FacesContext.getCurrentInstance().addMessage(null, message);
 
             }
+
         } else if (resultado == 0) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Ocurrio un error al registrar los valores");
             FacesContext.getCurrentInstance().addMessage(null, message);
@@ -152,13 +153,24 @@ public class ValoresCT {
         int resultado = valorDao.modificarValores(valor);
         if (resultado == 1) {
             PblDao pblDao = new PblDao();
-            int r = pblDao.modificarPbl(valor, anio, trimestreMes);
-            if (r == 1) {
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "la modificacion de valores pbl fue exitosa");
-                FacesContext.getCurrentInstance().addMessage(null, message);
-            } else if (r == 0) {
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Ocurrio un error al modificar los valores del pbl");
-                FacesContext.getCurrentInstance().addMessage(null, message);
+            if (!pblDao.consultarPbl(valor.getTrimestreMes(), valor.getAnio()).isEmpty()) {
+                int r = pblDao.modificarPbl(valor, anio, trimestreMes);
+                if (r == 1) {
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "la modificacion de valores pbl fue exitosa");
+                    FacesContext.getCurrentInstance().addMessage(null, message);
+                } else if (r == 0) {
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Ocurrio un error al modificar los valores del pbl");
+                    FacesContext.getCurrentInstance().addMessage(null, message);
+                }
+            } else {
+                int r = pblDao.registrarPbl(valor);
+                if (r == 1) {
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "la modificacion de valores pbl fue exitosa");
+                    FacesContext.getCurrentInstance().addMessage(null, message);
+                } else if (r == 0) {
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Ocurrio un error al modificar los valores del pbl");
+                    FacesContext.getCurrentInstance().addMessage(null, message);
+                }
             }
         } else if (resultado == 0) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Ocurrio un error al modificar los valores y los calculos del pbl");

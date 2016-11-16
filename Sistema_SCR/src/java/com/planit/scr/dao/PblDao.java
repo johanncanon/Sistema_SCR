@@ -208,6 +208,42 @@ public class PblDao {
         }
         return pbl;
     }
+    
+    
+    public List<Pbl> consultarPbl(int trimestre_mes, int anio) throws Exception {
+        List<Pbl> pbl = new ArrayList<>();
+        Statement st = ConexionSQL.conexion();
+        ContratosDao contratosDao = new ContratosDao();
+
+        try {
+            try {
+                String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre_mes, p.prc, p.refinacion, p.exportacion, p.idcontrato, p.anio"
+                        + " FROM public.pbl as p"
+                        + " WHERE p.anio = " + anio + " AND p.trimestre_mes = " + trimestre_mes + "";
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()) {
+                    pbl.add( new Pbl(rs.getInt(1),
+                            rs.getDouble(2),
+                            rs.getDouble(3),
+                            rs.getDouble(4),
+                            rs.getDouble(5),
+                            rs.getInt(6),
+                            rs.getDouble(7),
+                            rs.getDouble(8),
+                            rs.getDouble(9),
+                            rs.getInt(11),
+                            contratosDao.consultarContrato(new Contrato(rs.getInt(10)))));
+                }
+            } catch (SQLException e) {
+                throw e;
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            ConexionSQL.CerrarConexion();
+        }
+        return pbl;
+    }
 
     //Calculos
     public int obtenerTrimestre(int mes, int anio) {

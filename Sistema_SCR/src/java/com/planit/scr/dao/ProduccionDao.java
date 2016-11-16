@@ -8,6 +8,7 @@ package com.planit.scr.dao;
 import com.planit.scr.conexion.ConexionSQL;
 import com.planit.scr.metodos.Redondear;
 import com.planit.scr.modelos.Campo;
+import com.planit.scr.modelos.Contrato;
 import com.planit.scr.modelos.Municipio;
 import com.planit.scr.modelos.Produccion;
 import java.sql.ResultSet;
@@ -33,17 +34,18 @@ public class ProduccionDao {
         Statement st = ConexionSQL.conexion();
         try {
             try {
-                String sql = "INSERT INTO public.produccion (idcampo, produccionhdia, produccionhmes, producciongdia, producciongmes, producciontotaldia, producciontotalmes, mes, anio, idmunicipio)"
+                String sql = "INSERT INTO public.produccion (idcampo, produccionhdia, produccionhmes, producciongdia, producciongmes, producciontotaldia, producciontotalmes, mes, anio, idmunicipio, idcontrato)"
                         + " VALUES('" + p.getCampo().getIdcampo() + "', "
                         + "'" + p.getProduccionhdia() + "', "
                         + "'" + p.getProduccionhmes() + "', "
                         + "'" + p.getProducciongdia() + "', "
                         + "'" + p.getProducciongmes() + "', "
-                        + "'" + Redondear.redondear(p.getProducciontotaldia(),3) + "', "
-                        + "'" + Redondear.redondear(p.getProducciontotalmes(),3) + "', "
+                        + "'" + Redondear.redondear(p.getProducciontotaldia(), 3) + "', "
+                        + "'" + Redondear.redondear(p.getProducciontotalmes(), 3) + "', "
                         + "'" + p.getMes() + "', "
                         + "'" + p.getAnio() + "',"
-                        + "'" + p.getMunicipio().getIdmunicipio() + "')";
+                        + "'" + p.getMunicipio().getIdmunicipio() + "',"
+                        + "'" + p.getContrato().getIdcontrato() + "')";
                 st.execute(sql);
                 resultado = 1;
             } catch (SQLException e) {
@@ -62,9 +64,10 @@ public class ProduccionDao {
         Produccion produccion = new Produccion();
         CamposDao camposDao = new CamposDao();
         MunicipiosDao municipiosDao = new MunicipiosDao();
+        ContratosDao contratosDao = new ContratosDao();
         try {
             try {
-                String sql = "SELECT idproduccion, idcampo, produccionhdia, produccionhmes, producciongdia, producciongmes, producciontotaldia, producciontotalmes, mes, anio, idmunicipio "
+                String sql = "SELECT idproduccion, idcampo, produccionhdia, produccionhmes, producciongdia, producciongmes, producciontotaldia, producciontotalmes, mes, anio, idmunicipio, idcontrato "
                         + "FROM public.produccion where (anio = '" + p.getAnio() + "' AND mes = '" + p.getMes() + "' AND idcampo = '" + p.getCampo().getIdcampo() + "') OR idproduccion = '" + p.getIdproduccion() + "'";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
@@ -78,6 +81,43 @@ public class ProduccionDao {
                             rs.getInt(10),
                             rs.getDouble(8),
                             camposDao.consultarCampo(new Campo(rs.getInt(2))),
+                            contratosDao.consultarContrato(new Contrato(rs.getInt(12))),
+                            municipiosDao.consultarMunicipio(new Municipio(rs.getInt(11))));
+                }
+            } catch (SQLException e) {
+                throw e;
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            ConexionSQL.CerrarConexion();
+        }
+        return produccion;
+    }
+
+    public Produccion consultarProduccionCampoContrato(Produccion p) throws Exception {
+        Statement st = ConexionSQL.conexion();
+        Produccion produccion = new Produccion();
+        CamposDao camposDao = new CamposDao();
+        MunicipiosDao municipiosDao = new MunicipiosDao();
+        ContratosDao contratosDao = new ContratosDao();
+        try {
+            try {
+                String sql = "SELECT idproduccion, idcampo, produccionhdia, produccionhmes, producciongdia, producciongmes, producciontotaldia, producciontotalmes, mes, anio, idmunicipio, idcontrato "
+                        + "FROM public.produccion where (anio = '" + p.getAnio() + "' AND mes = '" + p.getMes() + "' AND idcampo = '" + p.getCampo().getIdcampo() + "' AND idcontrato = '" + p.getContrato().getIdcontrato() + "') OR idproduccion = '" + p.getIdproduccion() + "'";
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()) {
+                    produccion = new Produccion(rs.getInt(1),
+                            rs.getDouble(3),
+                            rs.getDouble(4),
+                            rs.getDouble(5),
+                            rs.getDouble(6),
+                            rs.getDouble(7),
+                            rs.getInt(9),
+                            rs.getInt(10),
+                            rs.getDouble(8),
+                            camposDao.consultarCampo(new Campo(rs.getInt(2))),
+                            contratosDao.consultarContrato(new Contrato(rs.getInt(12))),
                             municipiosDao.consultarMunicipio(new Municipio(rs.getInt(11))));
                 }
             } catch (SQLException e) {

@@ -97,9 +97,9 @@ public class TrmDao {
                     Calendar cal = new GregorianCalendar(Integer.parseInt(anio), m, 1);
 
                     sql = "SELECT idtrm, fecha, valor FROM public.trm "
-                            + "WHERE fecha between '" + anio + "-" + mes + "-01' AND '" + anio + "-" + mes + "-"+cal.getActualMaximum(Calendar.DAY_OF_MONTH)+"'";
+                            + "WHERE fecha between '" + anio + "-" + mes + "-01' AND '" + anio + "-" + mes + "-" + cal.getActualMaximum(Calendar.DAY_OF_MONTH) + "'";
                 } else {
-                    
+
                     sql = "SELECT idtrm, fecha, valor FROM public.trm "
                             + "WHERE fecha between '" + anio + "-01-01' AND '" + anio + "-12-31' ";
                 }
@@ -178,6 +178,7 @@ public class TrmDao {
 
     public double consultarPromedioTrimestralTrm(int trimestre, int anio) throws Exception {
         Statement st = ConexionSQL.conexion();
+        double resultado = 0;
         List<Trm> Lista1 = new ArrayList<>();
         List<Trm> Lista2 = new ArrayList<>();
         List<Trm> Lista3 = new ArrayList<>();
@@ -251,6 +252,23 @@ public class TrmDao {
                     Lista3.add(new Trm(rs.getInt(1), rs.getDate(2), rs.getDouble(3)));
                 }
 
+                double sumatoria1 = 0;
+                double sumatoria2 = 0;
+                double sumatoria3 = 0;
+                for (int i = 0; i < Lista1.size(); i++) {
+                    sumatoria1 = sumatoria1 + Lista1.get(i).getValor();
+                }
+
+                for (int i = 0; i < Lista2.size(); i++) {
+                    sumatoria2 = sumatoria2 + Lista2.get(i).getValor();
+                }
+
+                for (int i = 0; i < Lista3.size(); i++) {
+                    sumatoria3 = sumatoria3 + Lista3.get(i).getValor();
+                }
+
+                resultado = ((sumatoria1 / diasMes1) + (sumatoria2 / diasMes2) + (sumatoria3 / diasMes3)) / 3;
+
             } catch (SQLException e) {
                 throw e;
             }
@@ -259,22 +277,6 @@ public class TrmDao {
         } finally {
             ConexionSQL.CerrarConexion();
         }
-        double sumatoria1 = 0;
-        double sumatoria2 = 0;
-        double sumatoria3 = 0;
-        for (int i = 0; i < Lista1.size(); i++) {
-            sumatoria1 = sumatoria1 + Lista1.get(i).getValor();
-        }
-
-        for (int i = 0; i < Lista2.size(); i++) {
-            sumatoria2 = sumatoria2 + Lista2.get(i).getValor();
-        }
-
-        for (int i = 0; i < Lista3.size(); i++) {
-            sumatoria3 = sumatoria3 + Lista3.get(i).getValor();
-        }
-
-        double resultado = ((sumatoria1 / diasMes1) + (sumatoria2 / diasMes2) + (sumatoria3 / diasMes3)) / 3;
         return resultado;
     }
 

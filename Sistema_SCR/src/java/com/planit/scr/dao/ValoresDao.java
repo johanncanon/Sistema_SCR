@@ -24,10 +24,8 @@ public class ValoresDao {
         Statement st = ConexionSQL.conexion();       
         try {
             try {
-                String sql = "INSERT INTO public.valores (px, pf, v1, v2, trimestre_mes, vt, ctc, ctmd, cmt, ctmc, cr, cce, ctme, anio)"
-                        + " VALUES(" + valor.getPx() + ","
-                        + " " + valor.getPf() + ","
-                        + " " + valor.getV1() + ","
+                String sql = "INSERT INTO public.valores (v1, v2, trimestre_mes, vt, ctc, ctmd, cmt, ctmc, cr, cce, ctme, anio)"
+                        + " VALUES(" + valor.getV1() + ","
                         + " " + valor.getV2() + ","
                         + " " + valor.getTrimestreMes() + ","
                         + " " + valor.getVt() + ","
@@ -58,8 +56,7 @@ public class ValoresDao {
         Statement st = ConexionSQL.conexion();        
         try {
             try {
-                String sql = "UPDATE public.valores SET px = " + valor.getPx() + ","
-                        + " pf = " + valor.getPf() + ","
+                String sql = "UPDATE public.valores SET "
                         + " v1 = " + valor.getV1() + ","
                         + " v2 = " + valor.getV2() + ","
                         + " trimestre_mes = " + valor.getTrimestreMes() + ", "
@@ -113,10 +110,10 @@ public class ValoresDao {
         List<Valores> listaValores = new ArrayList<>();
         try {
             try {
-                String sql = "SELECT idvalores, px, pf, v1, v2, vt, ctmd, cmt, ctmc,cr, cce, ctme, ctc, trimestre_mes, anio FROM public.valores";
+                String sql = "SELECT idvalores, v1, v2, vt, ctmd, cmt, ctmc,cr, cce, ctme, ctc, trimestre_mes, anio FROM public.valores";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listaValores.add(new Valores(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getDouble(10), rs.getDouble(11), rs.getDouble(12), rs.getDouble(13), rs.getInt(14), rs.getInt(15)));
+                    listaValores.add(new Valores(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getDouble(10), rs.getDouble(11), rs.getInt(12), rs.getInt(13)));
                 }
             } catch (SQLException e) {
                 throw e;
@@ -134,11 +131,11 @@ public class ValoresDao {
         Valores valores = new Valores();
         try {
             try {
-                String sql = "SELECT idvalores, px, pf, v1, v2, trimestre_mes, vt, ctc, ctmd, cmt, ctmc, cr, cce, ctme, anio FROM public.valores"
+                String sql = "SELECT idvalores, v1, v2, vt, ctmd, cmt, ctmc, cr, cce, ctme, ctc, trimestre_mes, anio FROM public.valores"
                         + " WHERE anio = " + anio + " AND trimestre_mes = " + trimestreMes + "";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    valores = new Valores(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getDouble(10), rs.getDouble(11), rs.getDouble(12), rs.getDouble(13), rs.getDouble(14), rs.getInt(6), rs.getInt(15));
+                    valores = new Valores(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getDouble(10), rs.getDouble(11), rs.getInt(12), rs.getInt(13));
                 }
             } catch (SQLException e) {
                 throw e;

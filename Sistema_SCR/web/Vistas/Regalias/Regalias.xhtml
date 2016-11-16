@@ -8,7 +8,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
-        <ui:composition template="./template.xhtml">
+        <ui:composition template="./../template.xhtml">
             <ui:define name="content">
                 <div class="main">
                     <div class="main-inner">
@@ -63,9 +63,9 @@
 
                                                             <div class="form-group">
                                                                 <label class="control-label">Municipio: </label>
-                                                                <h:selectOneMenu class="form-control" id="SMMunicipio" value="#{regaliasCT.municipio.nombre}">
+                                                                <h:selectOneMenu class="form-control" id="SMMunicipio" value="#{regaliasCT.municipio.idmunicipio}">
                                                                     <f:selectItem itemLabel="Seleccione Municipio" noSelectionOption="true"/>
-                                                                    <f:selectItems value="#{municipioCT.municipiosFiltrados}" var="municipio" itemLabel="#{municipio.nombre}" itemValue="#{municipio.nombre}"/>
+                                                                    <f:selectItems value="#{municipioCT.municipiosFiltrados}" var="municipio" itemLabel="#{municipio.nombre}" itemValue="#{municipio.idmunicipio}"/>
                                                                 </h:selectOneMenu>
                                                             </div>
                                                             <p:separator/>
@@ -102,7 +102,7 @@
 
                                                         <p:dataTable value="#{regaliasCT.regalias}" var="item" class="order-table" emptyMessage="Sin contratos seleccionados">
                                                             <p:column headerText="Contrato" style="width: 100px">
-                                                                <h:outputText value="#{item.campo.contrato.nombre}"></h:outputText>
+                                                                <h:outputText value="#{item.contrato.nombre}"></h:outputText>
                                                             </p:column>
                                                             <p:column headerText="Campo" style="width: 100px">
                                                                 <h:outputText value="#{item.campo.nombre}"></h:outputText>

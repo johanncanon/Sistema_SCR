@@ -10,7 +10,7 @@
 
     <body>
 
-        <ui:composition template="./template.xhtml">
+        <ui:composition template="./../template.xhtml">
 
             <ui:define name="content">
                 <div class="main">
@@ -97,14 +97,9 @@
                                                                     <th class="order-table-header" scope="col">CIB</th>
                                                                     <th class="order-table-header" scope="col">CAR</th>                                                                   
                                                                     <th class="order-table-header" scope="col">COV</th>
-                                                                    <th class="order-table-header" scope="col">CTC</th>
-                                                                    <th class="order-table-header" scope="col">CMT</th>
-                                                                    <th class="order-table-header" scope="col">CTMC</th>
-                                                                    <th class="order-table-header" scope="col">CTMD</th>
-                                                                    <th class="order-table-header" scope="col">CR</th>
+                                                                    <th class="order-table-header" scope="col">CTC</th>                                                                    
                                                                     <th class="order-table-header" scope="col">CT1</th>
-                                                                    <th class="order-table-header" scope="col">CCE</th>
-                                                                    <th class="order-table-header" scope="col">CTME</th>
+                                                                    <th class="order-table-header" scope="col">CCE</th>                                                                 
                                                                     <th class="order-table-header" scope="col">CT2</th>
                                                                     <th class="order-table-header" scope="col">REF</th>
                                                                     <th class="order-table-header" scope="col">EXP</th>
@@ -119,14 +114,9 @@
                                                                         <td align="center">#{item.contrato.cib}</td> 
                                                                         <td align="center">#{item.contrato.car}</td> 
                                                                         <td align="center">#{item.contrato.cov}</td>
-                                                                        <td align="center">#{item.ctc}</td>
-                                                                        <td align="center">#{pblCT.valores.cmt}</td>
-                                                                        <td align="center">#{pblCT.valores.ctmc}</td>
-                                                                        <td align="center">#{pblCT.valores.ctmd}</td>
-                                                                        <td align="center">#{pblCT.valores.cr}</td>
+                                                                        <td align="center">#{item.ctc}</td>                                                                       
                                                                         <td align="center">#{item.ct1}</td>
-                                                                        <td align="center">#{pblCT.valores.cce}</td>
-                                                                        <td align="center">#{pblCT.valores.ctme}</td>
+                                                                        <td align="center">#{pblCT.valores.cce}</td>                                                                        
                                                                         <td align="center">#{item.ct2}</td>
                                                                         <td align="center">#{item.refinacion}</td>
                                                                         <td align="center">#{item.exportacion}</td>

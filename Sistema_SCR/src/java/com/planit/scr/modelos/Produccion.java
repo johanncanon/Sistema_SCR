@@ -37,13 +37,18 @@ public class Produccion implements Serializable {
 
     private Campo campo;
     
+    private Contrato contrato;
+    
     private Municipio municipio;
+    
+    
 
     public Produccion() {
         idproduccion = 0;
         mes = 0;
         anio = 0;
         campo = new Campo();
+        contrato = new Contrato();
     }
 
     public Produccion(Integer idproduccion) {
@@ -54,7 +59,7 @@ public class Produccion implements Serializable {
         municipio = new Municipio();
     }
 
-    public Produccion(Integer idproduccion, Double produccionhdia, Double produccionhmes, Double producciongdia, Double producciongmes, Double producciontotaldia, Integer mes, Integer anio, Double producciontotalmes, Campo campo, Municipio municipio) {
+    public Produccion(Integer idproduccion, Double produccionhdia, Double produccionhmes, Double producciongdia, Double producciongmes, Double producciontotaldia, Integer mes, Integer anio, Double producciontotalmes, Campo campo, Contrato contrato, Municipio municipio) {
         this.idproduccion = idproduccion;
         this.produccionhdia = produccionhdia;
         this.produccionhmes = produccionhmes;
@@ -65,10 +70,11 @@ public class Produccion implements Serializable {
         this.anio = anio;
         this.producciontotalmes = producciontotalmes;
         this.campo = campo;
+        this.contrato = contrato;
         this.municipio = municipio;
     }
 
-    public Produccion(Double produccionhdia, Double produccionhmes, Double producciongdia, Double producciongmes, Double producciontotaldia, Integer mes, Integer anio, Double producciontotalmes, Campo campo, Municipio municipio) {
+    public Produccion(Double produccionhdia, Double produccionhmes, Double producciongdia, Double producciongmes, Double producciontotaldia, Integer mes, Integer anio, Double producciontotalmes, Campo campo, Contrato contrato, Municipio municipio) {
         this.produccionhdia = produccionhdia;
         this.produccionhmes = produccionhmes;
         this.producciongdia = producciongdia;
@@ -78,7 +84,9 @@ public class Produccion implements Serializable {
         this.anio = anio;
         this.producciontotalmes = producciontotalmes;
         this.campo = campo;
+        this.contrato = contrato;
         this.municipio = municipio;
+        
     }
 
     public Integer getIdproduccion() {
@@ -168,6 +176,16 @@ public class Produccion implements Serializable {
     public void setMunicipio(Municipio municipio) {
         this.municipio = municipio;
     }
+
+    public Contrato getContrato() {
+        return contrato;
+    }
+
+    public void setContrato(Contrato contrato) {
+        this.contrato = contrato;
+    }
+    
+    
     
     @Override
     public String toString() {

@@ -16,8 +16,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Valores implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer idvalores;
-    private Double px;
-    private Double pf;
     private Double v1;
     private Double v2;
     private Double vt;
@@ -38,10 +36,8 @@ public class Valores implements Serializable {
         this.idvalores = idvalores;
     }
 
-    public Valores(Integer idvalores, Double px, Double pf, Double v1, Double v2, Double vt, Double ctmd, Double cmt, Double ctmc, Double cr, Double cce, Double ctme, Double ctc, Integer trimestreMes, Integer anio) {
-        this.idvalores = idvalores;
-        this.px = px;
-        this.pf = pf;
+    public Valores(Integer idvalores, Double v1, Double v2, Double vt, Double ctmd, Double cmt, Double ctmc, Double cr, Double cce, Double ctme, Double ctc, Integer trimestreMes, Integer anio) {
+        this.idvalores = idvalores;       
         this.v1 = v1;
         this.v2 = v2;
         this.vt = vt;
@@ -56,9 +52,7 @@ public class Valores implements Serializable {
         this.anio = anio;
     }
 
-    public Valores(Double px, Double pf, Double v1, Double v2, Double vt, Double ctmd, Double cmt, Double ctmc, Double cr, Double cce, Double ctme, Double ctc, Integer trimestreMes, Integer anio) {
-        this.px = px;
-        this.pf = pf;
+    public Valores(Double v1, Double v2, Double vt, Double ctmd, Double cmt, Double ctmc, Double cr, Double cce, Double ctme, Double ctc, Integer trimestreMes, Integer anio) {
         this.v1 = v1;
         this.v2 = v2;
         this.vt = vt;
@@ -79,23 +73,7 @@ public class Valores implements Serializable {
 
     public void setIdvalores(Integer idvalores) {
         this.idvalores = idvalores;
-    }
-
-    public Double getPx() {
-        return px;
-    }
-
-    public void setPx(Double px) {
-        this.px = px;
-    }
-
-    public Double getPf() {
-        return pf;
-    }
-
-    public void setPf(Double pf) {
-        this.pf = pf;
-    }
+    } 
 
     public Double getV1() {
         return v1;

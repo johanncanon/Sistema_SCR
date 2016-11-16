@@ -7,6 +7,7 @@ package com.planit.scr.dao;
 
 import com.planit.scr.conexion.ConexionSQL;
 import com.planit.scr.modelos.Campo;
+import com.planit.scr.modelos.CampoCompleto;
 import com.planit.scr.modelos.Contrato;
 import com.planit.scr.modelos.Municipio;
 import java.sql.ResultSet;
@@ -149,18 +150,19 @@ public class CamposDao {
         return listacampos;
     }
 
-    public List<Campo> consultarCamposSegunMunicipio(Municipio municipio) throws Exception {
+    public List<CampoCompleto> consultarCamposSegunMunicipio(Municipio municipio) throws Exception {
         Statement st = ConexionSQL.conexion();
-        List<Campo> listacampos = new ArrayList<>();
+        List<CampoCompleto> listacampos = new ArrayList<>();
         MunicipiosDao municipioDao = new MunicipiosDao();
+        ContratosDao contratosDao = new ContratosDao();
         municipio = municipioDao.consultarMunicipio(municipio);
         try {
             try {
-                String sql = "SELECT c.idcampo, c.nombre, c.porcentaje FROM public.campos as c, public.municipios_contratos as mc, public,campos_contratos as cc"
+                String sql = "SELECT c.idcampo, c.nombre, cc.idcontrato, c.porcentaje FROM public.campos as c, public.municipios_contratos as mc, public.campos_contratos as cc"
                         + " WHERE mc.idmunicipio = " + municipio.getIdmunicipio() + " and cc.idcontrato = mc.idcontrato and cc.idcampo = c.idcampo";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listacampos.add(new Campo(rs.getInt(1), rs.getString(2), rs.getDouble(3)));
+                    listacampos.add(new CampoCompleto(rs.getInt(1), rs.getString(2), contratosDao.consultarContrato(new Contrato(rs.getInt(3))), rs.getDouble(3)));
                 }
             } catch (SQLException e) {
                 throw e;
