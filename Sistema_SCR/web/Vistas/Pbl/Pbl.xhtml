@@ -34,7 +34,7 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="inputMes" class="col-sm-4 control-label">Mes a consultar: </label>
-                                                                <b:selectOneMenu value="#{pblCT.mes}" col-xs="8">
+                                                                <b:selectOneMenu value="#{pblCT.pbl.trimestreMes}" col-xs="8">
                                                                     <f:selectItem noSelectionOption="true" itemLabel="Seleccione Mes"/>
                                                                     <f:selectItem itemLabel="Enero" itemValue="1"/>
                                                                     <f:selectItem itemLabel="Febrero" itemValue="2"/>   
@@ -116,7 +116,7 @@
                                                                         <td align="center">#{item.contrato.cov}</td>
                                                                         <td align="center">#{item.ctc}</td>                                                                       
                                                                         <td align="center">#{item.ct1}</td>
-                                                                        <td align="center">#{pblCT.valores.cce}</td>                                                                        
+                                                                        <td align="center">#{item.cce}</td>                                                                        
                                                                         <td align="center">#{item.ct2}</td>
                                                                         <td align="center">#{item.refinacion}</td>
                                                                         <td align="center">#{item.exportacion}</td>

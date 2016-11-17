@@ -26,7 +26,16 @@ public class CalidadCrudo {
     private int anio;
 
     public CalidadCrudo() {
+        idCalidadcrudo = 0;
     }
+
+    public CalidadCrudo(int trimestre_mes, int anio) {
+        this.trimestre_mes = trimestre_mes;
+        this.anio = anio;
+        this.idCalidadcrudo = 0;
+    }
+    
+    
 
     public CalidadCrudo(int idCalidadcrudo, double calRefApiExportacion, double calRefApiRefinado, double calRefAzufreExportacion, double calRefAzufreRefinado, double corrRefApiExportacion, double corrRefApiRefinado, double corrRefAzufreExportacion, double corrRefAzufreRefinado, double precioReferenciaExportacion, double precioReferenciaRefinado, int trimestre_mes, int anio) {
         this.idCalidadcrudo = idCalidadcrudo;

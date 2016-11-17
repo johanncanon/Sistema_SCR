@@ -30,6 +30,7 @@ public class Valores implements Serializable {
     private Integer anio;
 
     public Valores() {
+        this.idvalores = 0;
     }
 
     public Valores(Integer idvalores) {

@@ -30,27 +30,28 @@ public class RegaliasDao {
         Statement st = ConexionSQL.conexion();
         try {
             try {
-                String sql = "INSERT INTO public.regalias (iddepartamento, idmunicipio, idcampo, idcontrato"
+                String sql = "INSERT INTO public.regalias (iddepartamento, idmunicipio, idcampo, idcontrato,"
                         + " porcmunicipio, porcregalias, depproductor, munproductor, munnoproductor, puertos, anio, mes, precio, regalias, idproduccion, fondonacional)"
                         + " VALUES(" + regalia.getDepartamento().getIddepartamento() + ", "
-                        + "" + regalia.getMunicipio().getIdmunicipio() + ", "
-                        + "" + regalia.getCampo().getIdcampo() + ", "
-                        + "" + regalia.getContrato().getIdcontrato() + ", "
+                        + "'" + regalia.getMunicipio().getIdmunicipio() + "', "
+                        + "'" + regalia.getCampo().getIdcampo() + "', "
+                        + "'" + regalia.getContrato().getIdcontrato() + "', "
                         + "'" + Redondear.redondear(regalia.getPorcmunicipio(), 3) + "', "
-                        + "" + regalia.getPorcregalias() + ", "
+                        + "'" + regalia.getPorcregalias() + "', "
                         + "'" + Redondear.redondear(regalia.getDepproductor(), 3) + "', "
                         + "'" + Redondear.redondear(regalia.getMunproductor(), 3) + "', "
                         + "'" + Redondear.redondear(regalia.getMunnoproductor(), 3) + "', "
                         + "'" + Redondear.redondear(regalia.getPuertos(), 3) + "', "
-                        + "" + regalia.getAnio() + ", "
-                        + "" + regalia.getMes() + ", "
+                        + "'" + regalia.getAnio() + "', "
+                        + "'" + regalia.getMes() + "', "
                         + "'" + Redondear.redondear(regalia.getPrecio(), 3) + "', "
                         + "'" + Redondear.redondear(regalia.getRegalias(), 3) + "', "
-                        + "" + regalia.getProduccion().getIdproduccion() + ", "
+                        + "'" + regalia.getProduccion().getIdproduccion() + "', "
                         + "'" + Redondear.redondear(regalia.getFondonacional(), 3) + "')";
                 st.execute(sql);
                 resultado = 1;
             } catch (SQLException e) {
+                System.out.println("Error sql" + e);
                 throw e;
             }
         } catch (Exception e) {
@@ -68,9 +69,7 @@ public class RegaliasDao {
         MunicipiosDao municipiosDao = new MunicipiosDao();
         CamposDao campoDao = new CamposDao();
         ProduccionDao produccionDao = new ProduccionDao();
-        ContratosDao contratosDao = new ContratosDao();
-
-        regalia.setMunicipio(municipiosDao.consultarMunicipio(regalia.getMunicipio()));
+        ContratosDao contratosDao = new ContratosDao();     
         try {
             try {
                 String sql = "SELECT idregalias, iddepartamento, idmunicipio, idcampo, porcmunicipio, porcregalias, depproductor, munproductor, munnoproductor, puertos, anio, mes, precio, regalias, idproduccion, fondonacional, idcontrato"
@@ -93,7 +92,7 @@ public class RegaliasDao {
                             departamentosDao.consultarDepartamento(new Departamento(rs.getInt(2))),
                             municipiosDao.consultarMunicipio(new Municipio(rs.getInt(3))),
                             contratosDao.consultarContrato(new Contrato(rs.getInt(17))),
-                            produccionDao.consultarProduccionCampo(new Produccion(rs.getInt(15))),
+                            produccionDao.consultarProduccionCampoContrato(new Produccion(rs.getInt(15))),
                             rs.getDouble(16)));
                 }
             } catch (SQLException e) {

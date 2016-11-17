@@ -57,54 +57,18 @@ public class ProduccionDao {
             ConexionSQL.CerrarConexion();
         }
         return resultado;
-    }
-
-    public Produccion consultarProduccionCampo(Produccion p) throws Exception {
-        Statement st = ConexionSQL.conexion();
-        Produccion produccion = new Produccion();
-        CamposDao camposDao = new CamposDao();
-        MunicipiosDao municipiosDao = new MunicipiosDao();
-        ContratosDao contratosDao = new ContratosDao();
-        try {
-            try {
-                String sql = "SELECT idproduccion, idcampo, produccionhdia, produccionhmes, producciongdia, producciongmes, producciontotaldia, producciontotalmes, mes, anio, idmunicipio, idcontrato "
-                        + "FROM public.produccion where (anio = '" + p.getAnio() + "' AND mes = '" + p.getMes() + "' AND idcampo = '" + p.getCampo().getIdcampo() + "') OR idproduccion = '" + p.getIdproduccion() + "'";
-                ResultSet rs = st.executeQuery(sql);
-                while (rs.next()) {
-                    produccion = new Produccion(rs.getInt(1),
-                            rs.getDouble(3),
-                            rs.getDouble(4),
-                            rs.getDouble(5),
-                            rs.getDouble(6),
-                            rs.getDouble(7),
-                            rs.getInt(9),
-                            rs.getInt(10),
-                            rs.getDouble(8),
-                            camposDao.consultarCampo(new Campo(rs.getInt(2))),
-                            contratosDao.consultarContrato(new Contrato(rs.getInt(12))),
-                            municipiosDao.consultarMunicipio(new Municipio(rs.getInt(11))));
-                }
-            } catch (SQLException e) {
-                throw e;
-            }
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
-        }
-        return produccion;
-    }
+    }   
 
     public Produccion consultarProduccionCampoContrato(Produccion p) throws Exception {
         Statement st = ConexionSQL.conexion();
-        Produccion produccion = new Produccion();
+        Produccion produccion = new Produccion();       
         CamposDao camposDao = new CamposDao();
         MunicipiosDao municipiosDao = new MunicipiosDao();
         ContratosDao contratosDao = new ContratosDao();
         try {
             try {
                 String sql = "SELECT idproduccion, idcampo, produccionhdia, produccionhmes, producciongdia, producciongmes, producciontotaldia, producciontotalmes, mes, anio, idmunicipio, idcontrato "
-                        + "FROM public.produccion where (anio = '" + p.getAnio() + "' AND mes = '" + p.getMes() + "' AND idcampo = '" + p.getCampo().getIdcampo() + "' AND idcontrato = '" + p.getContrato().getIdcontrato() + "') OR idproduccion = '" + p.getIdproduccion() + "'";
+                        + "FROM public.produccion where (anio = '" + p.getAnio() + "' AND mes = '" + p.getMes() + "' AND idcampo = '" + p.getCampo().getIdcampo() + "' AND idcontrato = '" + p.getContrato().getIdcontrato() + "' AND idmunicipio = '"+p.getMunicipio().getIdmunicipio()+"') OR idproduccion = '" + p.getIdproduccion() + "'";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     produccion = new Produccion(rs.getInt(1),

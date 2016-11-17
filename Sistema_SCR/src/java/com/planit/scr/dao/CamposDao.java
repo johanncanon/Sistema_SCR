@@ -128,8 +128,7 @@ public class CamposDao {
     }
 
     public List<Campo> buscarCampos(String valor) throws Exception {
-        Statement st = ConexionSQL.conexion();
-        ContratosDao contratosDao = new ContratosDao();
+        Statement st = ConexionSQL.conexion();       
         List<Campo> listacampos = new ArrayList<>();
         try {
             try {

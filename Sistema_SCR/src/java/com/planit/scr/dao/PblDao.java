@@ -27,8 +27,21 @@ public class PblDao {
         int resultado = 0;
         Statement st = ConexionSQL.conexion();
         ContratosDao contratosDao = new ContratosDao();
+        CalidadCrudoDao calidadCrudoDao = new CalidadCrudoDao();
+        PonderadosRefinacionDao ponderadosRefinacionDao = new PonderadosRefinacionDao();
+        TrmDao trmDao = new TrmDao();
+        
         List<Contrato> contratos = contratosDao.consultarContratos();
         Pbl pbl = new Pbl();
+        
+        double pf = ponderadosRefinacionDao.ConsultarPFPonderado(valores.getAnio(), valores.getTrimestreMes());
+        double px = calidadCrudoDao.consultarPrecioReferenciaExportacion(valores.getAnio(), valores.getTrimestreMes());
+        if (valores.getAnio() <= 2012) {
+            pf = (pf * 42) / trmDao.consultarPromedioTrimestralTrm(valores.getTrimestreMes(), valores.getAnio());
+        }else{
+            pf= (pf * 42)/trmDao.consultarPromedioMensualTrm(valores.getTrimestreMes(), valores.getAnio());
+        }
+        
         try {
             try {
                 for (int i = 0; i < contratos.size(); i++) {
@@ -37,8 +50,8 @@ public class PblDao {
                     pbl.setCt1((pbl.getCtc() + valores.getCtmc() + valores.getCtmd() + valores.getCmt() + valores.getCr()));
                     pbl.setCce((valores.getCce() * contratos.get(i).getCov()));
                     pbl.setCt2((pbl.getCce() + valores.getCtme()));
-                    pbl.setRefinacion(((valores.getPf() - pbl.getCt1()) * (valores.getV1() / valores.getVt())));
-                    pbl.setExportacion(((valores.getPx() - pbl.getCt2()) * (valores.getV2() / valores.getVt())));
+                    pbl.setRefinacion(((pf - pbl.getCt1()) * (valores.getV1() / valores.getVt())));
+                    pbl.setExportacion(((px - pbl.getCt2()) * (valores.getV2() / valores.getVt())));
                     pbl.setPrc(pbl.getRefinacion() + pbl.getExportacion());
                     pbl.setContrato(contratos.get(i));
                     pbl.setAnio(valores.getAnio());
@@ -74,8 +87,21 @@ public class PblDao {
         int resultado = 0;
         Statement st = ConexionSQL.conexion();
         ContratosDao contratosDao = new ContratosDao();
+        CalidadCrudoDao calidadCrudoDao = new CalidadCrudoDao();
+        PonderadosRefinacionDao ponderadosRefinacionDao = new PonderadosRefinacionDao();
+        TrmDao trmDao = new TrmDao();
+        
         List<Contrato> contratos = contratosDao.consultarContratos();
         Pbl pbl = new Pbl();
+        
+        double pf = ponderadosRefinacionDao.ConsultarPFPonderado(valores.getAnio(), valores.getTrimestreMes());
+        double px = calidadCrudoDao.consultarPrecioReferenciaExportacion(valores.getAnio(), valores.getTrimestreMes());
+        if (valores.getAnio() <= 2012) {
+            pf = (pf * 42) / trmDao.consultarPromedioTrimestralTrm(valores.getTrimestreMes(), valores.getAnio());
+        }else{
+            pf= (pf*42)/trmDao.consultarPromedioMensualTrm(valores.getTrimestreMes(), valores.getAnio());
+        }
+        
         try {
             try {
                 for (int i = 0; i < contratos.size(); i++) {
@@ -84,8 +110,8 @@ public class PblDao {
                     pbl.setCt1((pbl.getCtc() + valores.getCtmc() + valores.getCtmd() + valores.getCmt() + valores.getCr()));
                     pbl.setCce((valores.getCce() * contratos.get(i).getCov()));
                     pbl.setCt2((pbl.getCce() + valores.getCtme()));
-                    pbl.setRefinacion(((valores.getPf() - pbl.getCt1()) * (valores.getV1() / valores.getVt())));
-                    pbl.setExportacion(((valores.getPx() - pbl.getCt2()) * (valores.getV2() / valores.getVt())));
+                    pbl.setRefinacion(((pf - pbl.getCt1()) * (valores.getV1() / valores.getVt())));
+                    pbl.setExportacion(((px - pbl.getCt2()) * (valores.getV2() / valores.getVt())));
                     pbl.setPrc(pbl.getRefinacion() + pbl.getExportacion());
                     pbl.setContrato(contratos.get(i));
                     pbl.setAnio(valores.getAnio());
@@ -112,19 +138,19 @@ public class PblDao {
         } finally {
             ConexionSQL.CerrarConexion();
         }
-        return resultado;    
+        return resultado;
     }
-    
+
     public int eliminarPbl(int anio, int trimestreMes) throws Exception {
         int resultado = 0;
-        Statement st = ConexionSQL.conexion();           
+        Statement st = ConexionSQL.conexion();
         try {
-            try {               
-                    String sql = "DELETE FROM public.pbl "
-                            + "WHERE anio = " + anio + " and trimestre_mes = " + trimestreMes + "";
-                    st.execute(sql);
-                    resultado = 1;
-             
+            try {
+                String sql = "DELETE FROM public.pbl "
+                        + "WHERE anio = " + anio + " and trimestre_mes = " + trimestreMes + "";
+                st.execute(sql);
+                resultado = 1;
+
             } catch (SQLException e) {
                 throw e;
             }
@@ -133,8 +159,8 @@ public class PblDao {
         } finally {
             ConexionSQL.CerrarConexion();
         }
-        return resultado;    
-    }   
+        return resultado;
+    }
 
     public List<Pbl> consultarPblSegunMunicipio(Municipio municipio, Pbl pbl) throws Exception {
         List<Pbl> pbls = new ArrayList<>();
@@ -208,8 +234,7 @@ public class PblDao {
         }
         return pbl;
     }
-    
-    
+
     public List<Pbl> consultarPbl(int trimestre_mes, int anio) throws Exception {
         List<Pbl> pbl = new ArrayList<>();
         Statement st = ConexionSQL.conexion();
@@ -222,7 +247,7 @@ public class PblDao {
                         + " WHERE p.anio = " + anio + " AND p.trimestre_mes = " + trimestre_mes + "";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    pbl.add( new Pbl(rs.getInt(1),
+                    pbl.add(new Pbl(rs.getInt(1),
                             rs.getDouble(2),
                             rs.getDouble(3),
                             rs.getDouble(4),

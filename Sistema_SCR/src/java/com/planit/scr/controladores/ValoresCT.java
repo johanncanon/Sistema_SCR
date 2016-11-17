@@ -5,8 +5,11 @@
  */
 package com.planit.scr.controladores;
 
+import com.planit.scr.dao.CalidadCrudoDao;
 import com.planit.scr.dao.PblDao;
+import com.planit.scr.dao.PonderadosRefinacionDao;
 import com.planit.scr.dao.ValoresDao;
+import com.planit.scr.modelos.CalidadCrudo;
 import com.planit.scr.modelos.Valores;
 import java.util.ArrayList;
 import java.util.List;
@@ -128,17 +131,8 @@ public class ValoresCT {
         valor.setVt(valor.getV1() + valor.getV2());
         int resultado = valorDao.registrarValores(valor);
         if (resultado == 1) {
-            PblDao pblDao = new PblDao();
-            int r = pblDao.registrarPbl(valor);
-            if (r == 1) {
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "El registro de valores, y calulo del pbl fue correcto");
-                FacesContext.getCurrentInstance().addMessage(null, message);
-            } else if (r == 0) {
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "El registro de valores, pero ocurrio un error al realizar el calculo del pbl");
-                FacesContext.getCurrentInstance().addMessage(null, message);
-
-            }
-
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "El registro de valores fue correcto");
+            FacesContext.getCurrentInstance().addMessage(null, message);
         } else if (resultado == 0) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Ocurrio un error al registrar los valores");
             FacesContext.getCurrentInstance().addMessage(null, message);
@@ -149,6 +143,9 @@ public class ValoresCT {
 
     public void modificar() throws Exception {
         ValoresDao valorDao = new ValoresDao();
+        PonderadosRefinacionDao ponderadosRefinacionDao = new PonderadosRefinacionDao();
+        CalidadCrudoDao calidadCrudoDao = new CalidadCrudoDao();
+
         valor.setVt(valor.getV1() + valor.getV2());
         int resultado = valorDao.modificarValores(valor);
         if (resultado == 1) {
@@ -163,12 +160,17 @@ public class ValoresCT {
                     FacesContext.getCurrentInstance().addMessage(null, message);
                 }
             } else {
-                int r = pblDao.registrarPbl(valor);
-                if (r == 1) {
-                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "la modificacion de valores pbl fue exitosa");
-                    FacesContext.getCurrentInstance().addMessage(null, message);
-                } else if (r == 0) {
-                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Ocurrio un error al modificar los valores del pbl");
+                if (!ponderadosRefinacionDao.ConsultarPonderado(valor.getAnio(), valor.getTrimestreMes()).isEmpty() && calidadCrudoDao.consultarCalidadCrudo(new CalidadCrudo(valor.getTrimestreMes(), valor.getAnio())).getIdCalidadcrudo() != 0) {
+                    int r = pblDao.registrarPbl(valor);
+                    if (r == 1) {
+                        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "la modificacion de valores pbl fue exitosa");
+                        FacesContext.getCurrentInstance().addMessage(null, message);
+                    } else if (r == 0) {
+                        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Ocurrio un error al modificar los valores del pbl");
+                        FacesContext.getCurrentInstance().addMessage(null, message);
+                    }
+                }else{
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No existen precios ponderados de refinacion ni exportacion registrados para este trimestre/mes y año");
                     FacesContext.getCurrentInstance().addMessage(null, message);
                 }
             }

@@ -142,8 +142,9 @@ public class CalidadCrudoDao {
         }
         return resultado;
     }
-
+    
     public CalidadCrudo consultarCalidadCrudo(CalidadCrudo calidadCrudo) throws Exception {
+        
         CalidadCrudo resultado = new CalidadCrudo();
         Statement st = ConexionSQL.conexion();
         try {
@@ -154,7 +155,46 @@ public class CalidadCrudoDao {
                         + "corr_ref_azufre_exportacion, corr_ref_azufre_refinado, "
                         + "precio_referencia_exportacion, precio_referencia_refinado, "
                         + "trimestre_mes, anio FROM public.calidad_crudos "
-                        + "WHERE idcalidadcrudo = '" + calidadCrudo.getIdCalidadcrudo() + "'";
+                        + "WHERE anio = '" + calidadCrudo.getAnio() + "' AND trimestre_mes = '" + calidadCrudo.getTrimestre_mes() + "' or idcalidadCrudo = '"+calidadCrudo.getIdCalidadcrudo()+"'";
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()) {
+                    resultado = new CalidadCrudo(rs.getInt(1),
+                            rs.getDouble(2),
+                            rs.getDouble(3),
+                            rs.getDouble(4),
+                            rs.getDouble(5),
+                            rs.getDouble(6),
+                            rs.getDouble(7),
+                            rs.getDouble(8),
+                            rs.getDouble(9),
+                            rs.getDouble(10),
+                            rs.getDouble(11),
+                            rs.getInt(12), rs.getInt(13));
+                }               
+            } catch (SQLException e) {
+                throw e;
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            ConexionSQL.CerrarConexion();
+        }
+        return resultado;
+    }
+    
+    public double consultarPrecioReferenciaExportacion(int anio, int trimestre_mes) throws Exception {
+        double valor = 0;
+        CalidadCrudo resultado = new CalidadCrudo();
+        Statement st = ConexionSQL.conexion();
+        try {
+            try {
+                String sql = "SELECT idcalidadcrudo, cal_ref_api_exportacion, cal_ref_api_refinado, "
+                        + "cal_ref_azufre_exportacion, cal_ref_azufre_refinado, "
+                        + "corr_ref_api_exportacion, corr_ref_api_refinado, "
+                        + "corr_ref_azufre_exportacion, corr_ref_azufre_refinado, "
+                        + "precio_referencia_exportacion, precio_referencia_refinado, "
+                        + "trimestre_mes, anio FROM public.calidad_crudos "
+                        + "WHERE anio = '" + anio + "' AND trimestre_mes = '" + trimestre_mes + "'";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     resultado = new CalidadCrudo(rs.getInt(1),
@@ -170,6 +210,7 @@ public class CalidadCrudoDao {
                             rs.getDouble(11),
                             rs.getInt(12), rs.getInt(13));
                 }
+                valor = resultado.getPrecioReferenciaExportacion();
             } catch (SQLException e) {
                 throw e;
             }
@@ -178,7 +219,7 @@ public class CalidadCrudoDao {
         } finally {
             ConexionSQL.CerrarConexion();
         }
-        return resultado;
+        return valor;
     }
 
 }

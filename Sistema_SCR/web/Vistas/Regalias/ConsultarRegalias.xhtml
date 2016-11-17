@@ -51,9 +51,9 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="inputCampo" class="col-sm-4 control-label">Municipio: </label>
-                                                                <b:selectOneMenu value="#{regaliasCT.municipio.nombre}" col-xs="8" class="ajuste-Campo">
+                                                                <b:selectOneMenu value="#{regaliasCT.municipio.idmunicipio}" col-xs="8" class="ajuste-Campo">
                                                                     <f:selectItem noSelectionOption="true" itemLabel="Seleccione municipio"/>
-                                                                    <f:selectItems value="#{municipioCT.municipios}" var="municipio" itemLabel="#{municipio.nombre}" itemValue="#{municipio.nombre}" />
+                                                                    <f:selectItems value="#{municipioCT.municipios}" var="municipio" itemLabel="#{municipio.nombre}" itemValue="#{municipio.idmunicipio}" />
                                                                 </b:selectOneMenu>
                                                             </div>
                                                             <p:separator/>
@@ -91,7 +91,7 @@
                                                         <p:scrollPanel mode="native" style="width:100%;height:auto"> 
                                                             <p:dataTable value="#{regaliasCT.regalias}" var="item">
                                                                 <p:column headerText="Municipio">
-                                                                    <p:outputLabel value="#{item.municipio}"/>
+                                                                    <p:outputLabel value="#{item.municipio.nombre}"/>
                                                                 </p:column>
                                                                 <p:column headerText="Contrato">
                                                                     <p:outputLabel value="#{item.contrato.nombre}"/>

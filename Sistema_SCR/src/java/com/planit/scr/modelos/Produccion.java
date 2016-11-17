@@ -36,27 +36,39 @@ public class Produccion implements Serializable {
     private Double producciontotalmes;
 
     private Campo campo;
-    
+
     private Contrato contrato;
-    
+
     private Municipio municipio;
-    
-    
 
     public Produccion() {
-        idproduccion = 0;
-        mes = 0;
-        anio = 0;
-        campo = new Campo();
-        contrato = new Contrato();
+        this.idproduccion = 0;
+        this.produccionhdia = 0.0;
+        this.produccionhmes = 0.0;
+        this.producciongdia = 0.0;
+        this.producciongmes = 0.0;
+        this.producciontotaldia = 0.0;
+        this.mes = 0;
+        this.anio = 0;
+        this.producciontotalmes = 0.0;
+        this.campo = new Campo();
+        this.contrato = new Contrato();
+        this.municipio = new Municipio();
     }
 
     public Produccion(Integer idproduccion) {
         this.idproduccion = idproduccion;
-        mes = 0;
-        anio = 0;
-        campo = new Campo();
-        municipio = new Municipio();
+        this.produccionhdia = 0.0;
+        this.produccionhmes = 0.0;
+        this.producciongdia = 0.0;
+        this.producciongmes = 0.0;
+        this.producciontotaldia = 0.0;
+        this.mes = 0;
+        this.anio = 0;
+        this.producciontotalmes = 0.0;
+        this.campo = new Campo();
+        this.contrato = new Contrato();
+        this.municipio = new Municipio();
     }
 
     public Produccion(Integer idproduccion, Double produccionhdia, Double produccionhmes, Double producciongdia, Double producciongmes, Double producciontotaldia, Integer mes, Integer anio, Double producciontotalmes, Campo campo, Contrato contrato, Municipio municipio) {
@@ -86,7 +98,7 @@ public class Produccion implements Serializable {
         this.campo = campo;
         this.contrato = contrato;
         this.municipio = municipio;
-        
+
     }
 
     public Integer getIdproduccion() {
@@ -184,9 +196,7 @@ public class Produccion implements Serializable {
     public void setContrato(Contrato contrato) {
         this.contrato = contrato;
     }
-    
-    
-    
+
     @Override
     public String toString() {
         return "com.planit.scr.modelos.Produccion[ idproduccion=" + idproduccion + " ]";

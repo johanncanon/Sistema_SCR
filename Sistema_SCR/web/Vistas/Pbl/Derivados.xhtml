@@ -31,45 +31,22 @@
                                                     <div class="form-horizontal">
                                                         <div class="form-group">
                                                             <label for="inputAnio" class="control-label">Año:</label>
-                                                            <p:inputText value="#{ponderadoRefinacionCT.anio}" id="inputAnio" class="form-control" placeholder="2016">
-                                                                <p:ajax event="keyup" update="LTrimestreMes STrimestreMes"/>
+                                                            <p:inputText value="#{ponderadoRefinacionCT.anio}" required="true" requiredMessage="Indique año" id="inputAnio" class="form-control" placeholder="2016">
                                                             </p:inputText>                                                            
                                                             <p:message for="inputAnio"/>                                                            
                                                         </div>
-                                                        <c:choose>
-                                                            <c:when test="${ponderadoRefinacionCT.anio >= 2012}">
-                                                                <div class="form-group">  
-                                                                    <p:outputLabel id="LTrimestreMes" for="inputAnio" class="control-label" value="Seleccione Mes:"/>
-                                                                    <h:selectOneMenu id="STrimestreMes" class="form-control" value="#{ponderadoRefinacionCT.trimestremes}" label="Selecciona el Mes: ">
-                                                                        <f:selectItem itemLabel="Enero" itemValue="1"/>
-                                                                        <f:selectItem itemLabel="Febrero" itemValue="2"/>
-                                                                        <f:selectItem itemLabel="Marzo" itemValue="3"/>
-                                                                        <f:selectItem itemLabel="Abril" itemValue="4"/>
-                                                                        <f:selectItem itemLabel="Mayo" itemValue="5"/>
-                                                                        <f:selectItem itemLabel="Junio" itemValue="6"/>
-                                                                        <f:selectItem itemLabel="Julio" itemValue="7"/>
-                                                                        <f:selectItem itemLabel="Agosto" itemValue="8"/>
-                                                                        <f:selectItem itemLabel="Septiembre" itemValue="9"/>
-                                                                        <f:selectItem itemLabel="Octubre" itemValue="10"/>
-                                                                        <f:selectItem itemLabel="Noviembre" itemValue="11"/>
-                                                                        <f:selectItem itemLabel="Diciembre" itemValue="12"/>
-                                                                    </h:selectOneMenu>
-                                                                    <h:message for="inputTrimestre"/>
-                                                                </div>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <div  class="form-group">  
-                                                                    <p:outputLabel id="LTrimestreMes" for="inputAnio" class="control-label" value="Seleccione Trimestre:"/>
-                                                                    <h:selectOneMenu id="STrimestreMes" class="form-control" value="#{ponderadoRefinacionCT.trimestremes}" label="Selecciona el Trimestre: ">
-                                                                        <f:selectItem itemLabel="1er Trimestre" itemValue="1"/>
-                                                                        <f:selectItem itemLabel="2do Trimestre" itemValue="2"/>
-                                                                        <f:selectItem itemLabel="3er Trimestre" itemValue="3"/>
-                                                                        <f:selectItem itemLabel="4to Trimestre" itemValue="4"/>
-                                                                    </h:selectOneMenu>
-                                                                    <h:message for="inputTrimestre"/>
-                                                                </div>
-                                                            </c:otherwise>
-                                                        </c:choose>
+
+                                                        <div  class="form-group">  
+                                                            <p:outputLabel id="LTrimestreMes" for="inputAnio" class="control-label" value="Seleccione Trimestre:"/>
+                                                            <h:selectOneMenu id="STrimestreMes" class="form-control" value="#{ponderadoRefinacionCT.trimestremes}" label="Selecciona el Trimestre: ">
+                                                                <f:selectItem itemLabel="1er Trimestre" itemValue="1"/>
+                                                                <f:selectItem itemLabel="2do Trimestre" itemValue="2"/>
+                                                                <f:selectItem itemLabel="3er Trimestre" itemValue="3"/>
+                                                                <f:selectItem itemLabel="4to Trimestre" itemValue="4"/>
+                                                            </h:selectOneMenu>
+                                                            <h:message for="inputTrimestre"/>
+                                                        </div>
+
                                                         <hr/>
                                                         <h:dataTable width="100%" value="#{ponderadoRefinacionCT.ponderadosRegistro}" var="item">
                                                             <h:column>
@@ -106,7 +83,8 @@
                                                         <p:separator/>
                                                         <div class="form-group" align="right">
                                                             <h:panelGrid columns="2">
-                                                                <p:commandButton id="Cancelar"  process="@this" 
+                                                                <p:commandButton id="Cancelar"  process="@this"
+                                                                                 onclick="PrimeFaces.monitorDownload(start, stop);" 
                                                                                  immediate="true" class="btn btn-info" 
                                                                                  update=":formularioRegistro :formularioLista"
                                                                                  action="#{ponderadoRefinacionCT.cancelar()}"
@@ -194,12 +172,21 @@
 
                                                         <p:column headerText="Medio rdto" >
                                                             <h:outputLabel value="#{ponderado.mediordto}"/>
-                                                        </p:column>                                                                                                             
+                                                        </p:column>     
+
+                                                        <p:column headerText="Trimestre" >
+                                                            <h:outputLabel value="#{ponderado.trimestremes}"/>
+                                                        </p:column>    
+
+                                                        <p:column headerText="anio" >
+                                                            <h:outputLabel value="#{ponderado.anio}"/>
+                                                        </p:column>    
 
                                                         <p:column style="width: 50px">
                                                             <p:commandLink style="color: white; width: 100%" process="@this" update=":formularioRegistro" action="#{ponderadoRefinacionCT.seleccionarCRUD(1)}" title="Modificar" class="btn btn-block btn-info">
                                                                 <f:setPropertyActionListener value="#{ponderado.anio}" target="#{ponderadoRefinacionCT.anio}"/> 
-                                                                <f:setPropertyActionListener value="#{ponderado.trimestremes}" target="#{ponderadoRefinacionCT.trimestremes}"/>   
+                                                                <f:setPropertyActionListener value="#{ponderado.trimestremes}" target="#{ponderadoRefinacionCT.trimestremes}"/> 
+                                                                <p:confirm header="Confirmacion" message="Modificara todos los valores de los derivados de este trimestre y mes, esta seguro?" icon="ui-icon-alert" />
                                                                 <i class="fa fa-pencil"></i> 
                                                             </p:commandLink>
                                                         </p:column>
@@ -207,6 +194,7 @@
                                                             <p:commandLink style="color: white; width: 100%" action="#{ponderadoRefinacionCT.eliminar()}" onclick="PrimeFaces.monitorDownload(start, stop);" process="@this" update="@form" title="Eliminar" class="btn btn-block btn-danger">
                                                                 <f:setPropertyActionListener value="#{ponderado.anio}" target="#{ponderadoRefinacionCT.anio}"/> 
                                                                 <f:setPropertyActionListener value="#{ponderado.trimestremes}" target="#{ponderadoRefinacionCT.trimestremes}"/>   
+                                                                <p:confirm header="Confirmacion" message="Eliminara todos los valores de los derivados de este trimestre y mes, esta seguro?" icon="ui-icon-alert" />
                                                                 <i class="fa fa-trash"></i>                                                     
                                                             </p:commandLink>
                                                         </p:column>
@@ -222,6 +210,10 @@
                                                     <p:dialog  modal="true" widgetVar="statusDialog" header="Cargando" draggable="false" closable="false" resizable="false">
                                                         <p:graphicImage width="100%" value="/resources/images/demo/ajaxloadingbar.gif" />
                                                     </p:dialog>
+                                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                                        <p:commandButton value="si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                                    </p:confirmDialog>
                                                 </h:form>
                                             </div>
                                         </div>

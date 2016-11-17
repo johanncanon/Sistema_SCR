@@ -11,6 +11,9 @@ import com.planit.scr.dao.TrmDao;
 import com.planit.scr.modelos.Derivado;
 import com.planit.scr.modelos.PonderadoRefinacion;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,7 +41,8 @@ public class PonderadoRefinacionCT {
         ponderadoRefinacion = new PonderadoRefinacion();
         ponderados = new ArrayList<>();
         ponderadosRegistro = new ArrayList<>();
-        anio = 0;
+        
+        anio = 2016;
         trimestremes = 0;
         nombreOperacion = "Registrar";
         operacion = 0;
@@ -47,16 +51,10 @@ public class PonderadoRefinacionCT {
     @PostConstruct
     public void init() {
         PonderadosRefinacionDao ponderadosRefinacionDao = new PonderadosRefinacionDao();
-        DerivadoDao derivadoDao = new DerivadoDao();
         ponderadosRegistro.clear();
         try {
             ponderados = ponderadosRefinacionDao.ConsultarPonderados();
-            List<Derivado> d = derivadoDao.consultarDerivados();
-            for (int i = 0; i < derivadoDao.consultarDerivados().size(); i++) {
-                PonderadoRefinacion p = new PonderadoRefinacion();
-                p.setDerivado(d.get(i));
-                ponderadosRegistro.add(p);
-            }
+            cargarDerivados();
         } catch (Exception ex) {
             Logger.getLogger(PonderadoRefinacionCT.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -118,12 +116,11 @@ public class PonderadoRefinacionCT {
         this.ponderadosRegistro = ponderadosRegistro;
     }
 
-    
     public void registrar() throws Exception {
         PonderadosRefinacionDao ponderadosRefinacionDao = new PonderadosRefinacionDao();
         FacesMessage message = new FacesMessage();
         TrmDao trmDao = new TrmDao();
-        double trmPromedio = trmDao.consultarPromedioTrimestralTrm(ponderadosRegistro.get(0).getTrimestremes(), ponderadosRegistro.get(0).getAnio());
+        double trmPromedio = trmDao.consultarPromedioTrimestralTrm(trimestremes, anio);
 
         if (trmPromedio != 0) {
             for (int i = 0; i < ponderadosRegistro.size(); i++) {
@@ -147,6 +144,7 @@ public class PonderadoRefinacionCT {
 
         FacesContext.getCurrentInstance().addMessage(null, message);
         ponderadosRegistro.clear();
+        cargarDerivados();
         ponderados = ponderadosRefinacionDao.ConsultarPonderados();
     }
 
@@ -173,7 +171,7 @@ public class PonderadoRefinacionCT {
             message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "No existen valores de TRM registrados para este trimestre/mes y año");
         }
         FacesContext.getCurrentInstance().addMessage(null, message);
-        ponderadosRegistro.clear();
+        cargarDerivados();
         ponderados = ponderadosRefinacionDao.ConsultarPonderados();
     }
 
@@ -207,6 +205,7 @@ public class PonderadoRefinacionCT {
         if (operacion == 1) {
             nombreOperacion = "Modificar";
             PonderadosRefinacionDao ponderadosRefinacionDao = new PonderadosRefinacionDao();
+            ponderadosRegistro.clear();
             ponderadosRegistro = ponderadosRefinacionDao.ConsultarPonderado(anio, trimestremes);
         }
     }
@@ -215,7 +214,9 @@ public class PonderadoRefinacionCT {
         PonderadosRefinacionDao ponderadosRefinacionDao = new PonderadosRefinacionDao();
         ponderadoRefinacion = new PonderadoRefinacion();
         ponderados = ponderadosRefinacionDao.ConsultarPonderados();
-        ponderadosRegistro.clear();
+        anio = 2016;
+        trimestremes = 0;
+        cargarDerivados();
     }
 
     //Otros metodos
@@ -225,6 +226,17 @@ public class PonderadoRefinacionCT {
             valor = valor + lista.get(i).getProduccion();
         }
         return valor;
+    }
+
+    public void cargarDerivados() throws Exception {
+        ponderadosRegistro.clear();
+        DerivadoDao derivadoDao = new DerivadoDao();
+        List<Derivado> d = derivadoDao.consultarDerivados();
+        for (int i = 0; i < derivadoDao.consultarDerivados().size(); i++) {
+            PonderadoRefinacion p = new PonderadoRefinacion();
+            p.setDerivado(d.get(i));
+            ponderadosRegistro.add(p);
+        }
     }
 
 }
