@@ -34,11 +34,8 @@
                                                     <b:column col-lg="6">
                                                         <div class="widget-content">
                                                             <div class="form-horizontal">
-                                                                <div class="form-group">
-                                                                    <h4>Año y trimestre</h4>
-                                                                </div>
 
-                                                                <p:separator/>
+                                                                <p align="left"><strong>Año y Trimestre</strong></p>
 
                                                                 <div class="form-group">
                                                                     <label for="inputAnio" class="control-label">Año:</label>
@@ -82,11 +79,8 @@
                                                                     </c:otherwise>
                                                                 </c:choose>
 
-                                                                <div class="form-group">
-                                                                    <h4>Crudo Producido</h4>
-                                                                </div>
-
-                                                                <p:separator/>
+                                                                <hr/>
+                                                                <p align="left"><strong>Crudo producido</strong></p>
 
                                                                 <div class="form-group">
                                                                     <label for="inputV1" class="control-label">Volúmen de Crudo Refinado (V1)</label>
@@ -102,6 +96,8 @@
                                                     </b:column>
                                                     <b:column col-lg="6">
                                                         <div class="widget-content">
+                                                            <hr/>
+                                                            <p align="left"><strong>Deducible de exportacion</strong></p>
                                                             <div class="form-horizontal">                                                        
                                                                 <div class="form-group">
                                                                     <label for="inputCtc" class="control-label">CTC</label>
@@ -123,6 +119,8 @@
                                                                     <label for="inputCr" class="control-label">CR</label>
                                                                     <p:inputText class="form-control" value="#{valoresCT.valor.cr}" id="inputCr" placeholder="Valor CR"/>                                                             
                                                                 </div>
+                                                                <hr/>
+                                                                <p align="left"><strong>Deducible de refinacion</strong></p>
                                                                 <div class="form-group">
                                                                     <label for="inputCce" class="control-label">CCE</label>
                                                                     <p:inputText class="form-control" value="#{valoresCT.valor.cce}" id="inputCce" placeholder="Valor CCE" />                                                             
@@ -184,14 +182,6 @@
 
                                                         <p:column headerText="Trimestre-mes" sortBy="#{valor.trimestreMes}">
                                                             <h:outputLabel value="#{valor.trimestreMes}"/>
-                                                        </p:column>
-
-                                                        <p:column headerText="PX" sortBy="#{valor.px}">
-                                                            <h:outputLabel value="#{valor.px}"/>
-                                                        </p:column>
-
-                                                        <p:column headerText="PF" sortBy="#{valor.pf}">
-                                                            <h:outputLabel value="#{valor.pf}"/>
                                                         </p:column>
 
                                                         <p:column headerText="V1" sortBy="#{valor.v1}">

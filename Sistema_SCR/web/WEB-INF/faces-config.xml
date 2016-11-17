@@ -51,6 +51,16 @@
             <to-view-id>/Vistas/Departamentos_municipios/Departamentos.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>CalidadCrudos</from-outcome>
+            <to-view-id>/Vistas/Pbl/CalidadCrudos.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>Derivados</from-outcome>
+            <to-view-id>/Vistas/Pbl/Derivados.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
         <navigation-case>
             <from-outcome>Valores</from-outcome>
             <to-view-id>/Vistas/Pbl/Valores.xhtml</to-view-id>

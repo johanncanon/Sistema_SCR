@@ -37,8 +37,11 @@ public class PonderadoRefinacionCT {
     public PonderadoRefinacionCT() {
         ponderadoRefinacion = new PonderadoRefinacion();
         ponderados = new ArrayList<>();
+        ponderadosRegistro = new ArrayList<>();
         anio = 0;
         trimestremes = 0;
+        nombreOperacion = "Registrar";
+        operacion = 0;
     }
 
     @PostConstruct
@@ -107,6 +110,15 @@ public class PonderadoRefinacionCT {
         this.trimestremes = trimestremes;
     }
 
+    public List<PonderadoRefinacion> getPonderadosRegistro() {
+        return ponderadosRegistro;
+    }
+
+    public void setPonderadosRegistro(List<PonderadoRefinacion> ponderadosRegistro) {
+        this.ponderadosRegistro = ponderadosRegistro;
+    }
+
+    
     public void registrar() throws Exception {
         PonderadosRefinacionDao ponderadosRefinacionDao = new PonderadosRefinacionDao();
         FacesMessage message = new FacesMessage();
@@ -118,6 +130,8 @@ public class PonderadoRefinacionCT {
                 ponderadosRegistro.get(i).setRendimiento(ponderadosRegistro.get(i).getProduccion() / obtenerTotalProduccion(ponderadosRegistro));
                 ponderadosRegistro.get(i).setPreciomedio(((ponderadosRegistro.get(i).getNalbpd() * ponderadosRegistro.get(i).getPrecional()) + ((ponderadosRegistro.get(i).getExportbpd() * ponderadosRegistro.get(i).getPrecioexpo() * trmPromedio) / 42)) / ponderadosRegistro.get(i).getProduccion());
                 ponderadosRegistro.get(i).setMediordto(ponderadosRegistro.get(i).getPreciomedio() * ponderadosRegistro.get(i).getRendimiento());
+                ponderadosRegistro.get(i).setAnio(anio);
+                ponderadosRegistro.get(i).setTrimestremes(trimestremes);
             }
 
             int r = ponderadosRefinacionDao.registrarGrupoPonderado(ponderadosRegistro);
@@ -166,7 +180,7 @@ public class PonderadoRefinacionCT {
     public void eliminar() throws Exception {
         PonderadosRefinacionDao ponderadosRefinacionDao = new PonderadosRefinacionDao();
         FacesMessage message = new FacesMessage();
-        int r = ponderadosRefinacionDao.eliminarGrupoPonderado(ponderadoRefinacion.getAnio(), ponderadoRefinacion.getTrimestremes());
+        int r = ponderadosRefinacionDao.eliminarGrupoPonderado(anio, trimestremes);
         if (r == 1) {
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Los valores de cada derivado fueron eliminados correctamente");
         } else if (r == 0) {
