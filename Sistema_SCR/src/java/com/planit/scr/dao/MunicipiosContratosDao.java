@@ -19,15 +19,18 @@ import javax.faces.context.FacesContext;
  */
 public class MunicipiosContratosDao {
 
-    public int registrarMunicipioContrato(Municipio municipío, Contrato contrato) {
-        Statement st = ConexionSQL.conexion();
+    public int registrarMunicipioContrato(Municipio municipío, Contrato contrato) throws Exception {
+
         int resultado = 0;
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "INSERT INTO public.municipios_contratos (idmunicipio, idcontrato) "
                         + "VALUES('" + municipío.getIdmunicipio() + "', '" + contrato.getIdcontrato() + "')";
                 st.execute(sql);
                 resultado = 1;
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());
                 FacesContext.getCurrentInstance().addMessage(null, message);
@@ -39,15 +42,18 @@ public class MunicipiosContratosDao {
         return resultado;
     }
 
-    public int eliminarMunicipioContrato(Municipio municipío, Contrato contrato) {
-        Statement st = ConexionSQL.conexion();
+    public int eliminarMunicipioContrato(Municipio municipío, Contrato contrato) throws Exception {
+
         int resultado = 0;
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "DELETE FROM public.municipios_contratos "
                         + "WHERE idmunicipio = '" + municipío.getIdmunicipio() + "' and idcontrato = '" + contrato.getIdcontrato() + "'";
                 st.execute(sql);
                 resultado = 1;
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());
                 FacesContext.getCurrentInstance().addMessage(null, message);

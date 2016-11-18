@@ -18,49 +18,52 @@ import java.util.List;
  * @author VaioDevelopment
  */
 public class DepartamentosDao {
-   
+
     public void registrarDepartamento(Departamento departamento) throws Exception {
-        Statement st = ConexionSQL.conexion();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "INSERT INTO public.departamentos(nombre)"
                         + " VALUES('" + departamento.getNombre() + "')";
                 st.execute(sql);
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
-        }        
+        }
     }
 
     public List<Departamento> consultarDepartamentos() throws Exception {
-        Statement st = ConexionSQL.conexion();
+
         List<Departamento> listadepartamentos = new ArrayList<>();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "SELECT iddepartamento, nombre FROM public.departamentos";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     listadepartamentos.add(new Departamento(rs.getInt(1), rs.getString(2)));
                 }
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return listadepartamentos;
     }
 
     public Departamento consultarDepartamento(Departamento dp) throws Exception {
-        Statement st = ConexionSQL.conexion();
+
         Departamento nuevodepartamento = new Departamento();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "SELECT iddepartamento, nombre FROM public.departamentos "
                         + "WHERE iddepartamento = '" + dp.getIddepartamento() + "' or nombre = '" + dp.getNombre() + "'";
@@ -68,13 +71,14 @@ public class DepartamentosDao {
                 while (rs.next()) {
                     nuevodepartamento = new Departamento(rs.getInt(1), rs.getString(2));
                 }
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return nuevodepartamento;
     }

@@ -28,12 +28,12 @@
                                                     <div class="widget-content">
                                                         <div class="form-horizontal">
                                                             <div class="form-group">
-                                                                <label for="inputAnio" class="col-sm-4 control-label">Año: </label>
-                                                                <b:inputText value="#{regaliasCT.regalia.anio}" id="inputValor" placeholder="2016" span="8"/>                                                                
+                                                                <label for="inputAnio" class="control-label">Año: </label>
+                                                                <p:inputText class="form-control" value="#{regaliasCT.regalia.anio}" id="inputValor" placeholder="2016"/>                                                                
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="inputMes" class="col-sm-4 control-label">Mes a calcular: </label>
-                                                                <b:selectOneMenu value="#{regaliasCT.regalia.mes}" col-xs="8">
+                                                                <label for="inputMes" class="control-label">Mes a calcular: </label>
+                                                                <h:selectOneMenu class="form-control" value="#{regaliasCT.regalia.mes}">
                                                                     <f:selectItem noSelectionOption="true" itemLabel="Seleccione Mes"/>
                                                                     <f:selectItem itemLabel="Enero" itemValue="1"/>
                                                                     <f:selectItem itemLabel="Febrero" itemValue="2"/>   
@@ -47,15 +47,23 @@
                                                                     <f:selectItem itemLabel="Octubre" itemValue="10"/>   
                                                                     <f:selectItem itemLabel="Noviembre" itemValue="11"/>   
                                                                     <f:selectItem itemLabel="Diciembre" itemValue="12"/>   
-                                                                </b:selectOneMenu>
+                                                                </h:selectOneMenu>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="inputCampo" class="col-sm-4 control-label">Municipio: </label>
-                                                                <b:selectOneMenu value="#{regaliasCT.municipio.idmunicipio}" col-xs="8" class="ajuste-Campo">
-                                                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione municipio"/>
-                                                                    <f:selectItems value="#{municipioCT.municipios}" var="municipio" itemLabel="#{municipio.nombre}" itemValue="#{municipio.idmunicipio}" />
-                                                                </b:selectOneMenu>
+                                                                <label class="control-label">Departamento: </label>
+                                                                <h:selectOneMenu class="form-control"  id="SMDepartamento" value="#{municipioCT.municipio.departamento.iddepartamento}">
+                                                                    <f:selectItem itemLabel="Seleccione Departamento" noSelectionOption="true"/>
+                                                                    <f:selectItems value="#{departamentoCT.departamentos}" var="departamento" itemLabel="#{departamento.nombre}" itemValue="#{departamento.iddepartamento}"/>
+                                                                    <p:ajax event="change" listener="#{municipioCT.cambioDepartamentos(municipioCT.municipio.departamento)}" update="SMMunicipio"/>
+                                                                </h:selectOneMenu>
                                                             </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label">Municipio: </label>
+                                                                <h:selectOneMenu class="form-control" id="SMMunicipio" value="#{regaliasCT.municipio.idmunicipio}">
+                                                                    <f:selectItem itemLabel="Seleccione Municipio" noSelectionOption="true"/>
+                                                                    <f:selectItems value="#{municipioCT.municipiosFiltrados}" var="municipio" itemLabel="#{municipio.nombre}" itemValue="#{municipio.idmunicipio}"/>
+                                                                </h:selectOneMenu>
+                                                            </div>                                                            
                                                             <p:separator/>
                                                             <div class="form-group">
                                                                 <p:commandButton icon="fa fa-send" value="Consultar" onclick="PrimeFaces.monitorDownload(start, stop);" update=":formularioRegistro" action="#{regaliasCT.consultarRegalias()}" class="btn btn-info " style="float: right; width: 30%">
@@ -88,52 +96,46 @@
                                             <div class="widget-content" >
                                                 <div class="widget big-stats-container">
                                                     <div class="widget-content">
-                                                        <p:scrollPanel mode="native" style="width:100%;height:auto"> 
-                                                            <p:dataTable value="#{regaliasCT.regalias}" var="item">
-                                                                <p:column headerText="Municipio">
-                                                                    <p:outputLabel value="#{item.municipio.nombre}"/>
-                                                                </p:column>
-                                                                <p:column headerText="Contrato">
+                                                        <p:scrollPanel mode="native" style="height:auto"> 
+                                                            <p:dataTable value="#{regaliasCT.regalias}" var="item">                                            
+                                                                <p:column headerText="Contrato" style="width: auto;text-align: center">
                                                                     <p:outputLabel value="#{item.contrato.nombre}"/>
                                                                 </p:column>
-                                                                <p:column headerText="Campo">
+                                                                <p:column headerText="Campo" style="width: auto;text-align: center">
                                                                     <p:outputLabel value="#{item.campo.nombre}"/>
                                                                 </p:column>
-                                                                <p:column headerText="Prd Hdr">
+                                                                <p:column headerText="Prd Hdr" style="width: auto;text-align: center">
                                                                     <p:outputLabel value="#{item.produccion.produccionhdia}"/>
                                                                 </p:column>
-                                                                <p:column headerText="Prd Gas">
+                                                                <p:column headerText="Prd Gas" style="width: auto;text-align: center">
                                                                     <p:outputLabel value="#{item.produccion.producciongdia}"/>
                                                                 </p:column>
-                                                                <p:column headerText="Prod. total Mes">
+                                                                <p:column headerText="Prod. total Mes" style="width: auto;text-align: center">
                                                                     <p:outputLabel value="#{item.produccion.producciontotalmes}"/>
                                                                 </p:column>
-                                                                <p:column headerText="Prod. total Dia">
+                                                                <p:column headerText="Prod. total Dia" style="width: auto;text-align: center">
                                                                     <p:outputLabel value="#{item.produccion.producciontotaldia}"/>
                                                                 </p:column>
-                                                                <p:column headerText="% Mun">
+                                                                <p:column headerText="% Mun" style="width: auto;text-align: center">
                                                                     <p:outputLabel value="#{item.porcmunicipio}"/>
                                                                 </p:column>
-                                                                <p:column headerText="% Reg">
+                                                                <p:column headerText="% Reg" style="width: auto;text-align: center">
                                                                     <p:outputLabel value="#{item.porcregalias}"/>
                                                                 </p:column>
-                                                                <p:column headerText="Dep. Productor">
-                                                                    <p:outputLabel value="#{item.depproductor}"/>
+                                                                <p:column headerText="Dep. Productor" style="width: auto;text-align: center">
+                                                                    <p:outputLabel value="#{regaliasCT.redondear(item.depproductor, 3)}"/>
                                                                 </p:column>
-                                                                <p:column headerText="Puertos">
-                                                                    <p:outputLabel value="#{item.puertos}"/>
+                                                                <p:column headerText="Puertos" style="width: auto;text-align: center">
+                                                                    <p:outputLabel value="#{regaliasCT.redondear(item.puertos, 3)}"/>
                                                                 </p:column>
-                                                                <p:column headerText="Mun. Productor">
-                                                                    <p:outputLabel value="#{item.munproductor}"/>
+                                                                <p:column headerText="Mun. Productor" style="width: auto;text-align: center">
+                                                                    <p:outputLabel value="#{regaliasCT.redondear(item.munproductor, 3)}"/>
+                                                                </p:column>                                                              
+                                                                <p:column headerText="Fondo Nacional" style="width: auto;text-align: center"> 
+                                                                    <p:outputLabel value="#{regaliasCT.redondear(item.fondonacional, 3)}"/>
                                                                 </p:column>
-                                                                <p:column headerText="Mun. No productor">
-                                                                    <p:outputLabel value="#{item.munnoproductor}"/>
-                                                                </p:column>
-                                                                <p:column headerText="Fondo Nacional">
-                                                                    <p:outputLabel value="#{item.fondonacional}"/>
-                                                                </p:column>
-                                                                <p:column headerText="Total">
-                                                                    <p:outputLabel value="#{item.regalias}"/>
+                                                                <p:column headerText="Total" style="width: auto;text-align: center">
+                                                                    <p:outputLabel value="#{regaliasCT.redondear(item.regalias, 3)}"/>
                                                                 </p:column>
                                                             </p:dataTable>                                                             
                                                         </p:scrollPanel>

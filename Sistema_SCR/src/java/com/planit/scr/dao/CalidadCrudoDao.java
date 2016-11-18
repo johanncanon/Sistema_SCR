@@ -21,8 +21,8 @@ public class CalidadCrudoDao {
 
     public int registrarCalidadCrudo(CalidadCrudo calidadCrudo) throws Exception {
         int resultado = 0;
-        Statement st = ConexionSQL.conexion();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "INSERT INTO public.calidad_crudos (cal_ref_api_exportacion, cal_ref_api_refinado, "
                         + "cal_ref_azufre_exportacion, cal_ref_azufre_refinado, "
@@ -44,21 +44,22 @@ public class CalidadCrudoDao {
                         + "'" + calidadCrudo.getAnio() + "')";
                 st.execute(sql);
                 resultado = 1;
+
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return resultado;
     }
 
     public int modificarCalidadCrudo(CalidadCrudo calidadCrudo) throws Exception {
         int resultado = 0;
-        Statement st = ConexionSQL.conexion();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "UPDATE public.calidad_crudos SET "
                         + "cal_ref_api_exportacion = '" + calidadCrudo.getCalRefApiExportacion() + "',"
@@ -76,40 +77,41 @@ public class CalidadCrudoDao {
                         + "WHERE idcalidadcrudo = '" + calidadCrudo.getIdCalidadcrudo() + "'";
                 st.execute(sql);
                 resultado = 1;
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return resultado;
     }
 
     public int eliminarCalidadCrudo(CalidadCrudo calidadCrudo) throws Exception {
         int resultado = 0;
-        Statement st = ConexionSQL.conexion();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "DELETE FROM public.calidad_crudos WHERE idcalidadcrudo = '" + calidadCrudo.getIdCalidadcrudo() + "'";
                 st.execute(sql);
                 resultado = 1;
+
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return resultado;
     }
 
     public List<CalidadCrudo> consultarCalidadCrudos() throws Exception {
         List<CalidadCrudo> resultado = new ArrayList<>();
-        Statement st = ConexionSQL.conexion();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "SELECT idcalidadcrudo, cal_ref_api_exportacion, cal_ref_api_refinado, "
                         + "cal_ref_azufre_exportacion, cal_ref_azufre_refinado, "
@@ -130,24 +132,25 @@ public class CalidadCrudoDao {
                             rs.getDouble(9),
                             rs.getDouble(10),
                             rs.getDouble(11),
-                            rs.getInt(12), rs.getInt(13)));
+                            rs.getInt(12),
+                            rs.getInt(13)));
                 }
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return resultado;
     }
-    
+
     public CalidadCrudo consultarCalidadCrudo(CalidadCrudo calidadCrudo) throws Exception {
-        
         CalidadCrudo resultado = new CalidadCrudo();
-        Statement st = ConexionSQL.conexion();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "SELECT idcalidadcrudo, cal_ref_api_exportacion, cal_ref_api_refinado, "
                         + "cal_ref_azufre_exportacion, cal_ref_azufre_refinado, "
@@ -155,7 +158,7 @@ public class CalidadCrudoDao {
                         + "corr_ref_azufre_exportacion, corr_ref_azufre_refinado, "
                         + "precio_referencia_exportacion, precio_referencia_refinado, "
                         + "trimestre_mes, anio FROM public.calidad_crudos "
-                        + "WHERE anio = '" + calidadCrudo.getAnio() + "' AND trimestre_mes = '" + calidadCrudo.getTrimestre_mes() + "' or idcalidadCrudo = '"+calidadCrudo.getIdCalidadcrudo()+"'";
+                        + "WHERE anio = '" + calidadCrudo.getAnio() + "' AND trimestre_mes = '" + calidadCrudo.getTrimestre_mes() + "' or idcalidadCrudo = '" + calidadCrudo.getIdCalidadcrudo() + "'";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     resultado = new CalidadCrudo(rs.getInt(1),
@@ -170,23 +173,24 @@ public class CalidadCrudoDao {
                             rs.getDouble(10),
                             rs.getDouble(11),
                             rs.getInt(12), rs.getInt(13));
-                }               
+                }
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return resultado;
     }
-    
+
     public double consultarPrecioReferenciaExportacion(int anio, int trimestre_mes) throws Exception {
         double valor = 0;
         CalidadCrudo resultado = new CalidadCrudo();
-        Statement st = ConexionSQL.conexion();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "SELECT idcalidadcrudo, cal_ref_api_exportacion, cal_ref_api_refinado, "
                         + "cal_ref_azufre_exportacion, cal_ref_azufre_refinado, "
@@ -211,14 +215,16 @@ public class CalidadCrudoDao {
                             rs.getInt(12), rs.getInt(13));
                 }
                 valor = resultado.getPrecioReferenciaExportacion();
+
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
-        }
+        } 
         return valor;
     }
 

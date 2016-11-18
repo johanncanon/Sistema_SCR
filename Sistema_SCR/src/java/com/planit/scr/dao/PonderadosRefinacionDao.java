@@ -22,8 +22,9 @@ public class PonderadosRefinacionDao {
 
     public int registrarGrupoPonderado(List<PonderadoRefinacion> ponderadoRefinacion) throws Exception {
         int resultado = 0;
-        Statement st = ConexionSQL.conexion();
+
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 for (int i = 0; i < ponderadoRefinacion.size(); i++) {
                     String sql = "INSERT INTO public.ponderados_refinacion "
@@ -46,21 +47,22 @@ public class PonderadosRefinacionDao {
                     st.execute(sql);
                 }
                 resultado = 1;
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return resultado;
     }
 
     public int modificarGrupoPonderado(List<PonderadoRefinacion> ponderadoRefinacion) throws Exception {
         int resultado = 0;
-        Statement st = ConexionSQL.conexion();
+
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 for (int i = 0; i < ponderadoRefinacion.size(); i++) {
                     String sql = "UPDATE public.ponderados_refinacion SET  "
@@ -79,41 +81,42 @@ public class PonderadosRefinacionDao {
                     st.execute(sql);
                 }
                 resultado = 1;
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return resultado;
     }
 
     public int eliminarGrupoPonderado(int anio, int trimestremes) throws Exception {
         int resultado = 0;
-        Statement st = ConexionSQL.conexion();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "DELETE FROM public.ponderados_refinacion WHERE anio = '" + anio + "' AND trimestre_mes = '" + trimestremes + "'";
                 st.execute(sql);
                 resultado = 1;
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return resultado;
     }
 
     public List<PonderadoRefinacion> ConsultarPonderados() throws Exception {
         List<PonderadoRefinacion> resultado = new ArrayList<>();
-        Statement st = ConexionSQL.conexion();
+
         DerivadoDao derivadoDao = new DerivadoDao();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "SELECT idponderado,idderivado, produccion,"
                         + " rendimiento, nal_bpd,"
@@ -135,22 +138,24 @@ public class PonderadosRefinacionDao {
                             rs.getInt(11),
                             rs.getInt(12)));
                 }
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return resultado;
     }
 
     public List<PonderadoRefinacion> ConsultarPonderado(int anio, int trimestremes) throws Exception {
         List<PonderadoRefinacion> resultado = new ArrayList<>();
-        Statement st = ConexionSQL.conexion();
+
         DerivadoDao derivadoDao = new DerivadoDao();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "SELECT idponderado, idderivado, produccion,"
                         + " rendimiento, nal_bpd,"
@@ -173,23 +178,25 @@ public class PonderadosRefinacionDao {
                             rs.getInt(11),
                             rs.getInt(12)));
                 }
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return resultado;
     }
 
     public double ConsultarPFPonderado(int anio, int trimestremes) throws Exception {
         List<PonderadoRefinacion> resultado = new ArrayList<>();
-        Statement st = ConexionSQL.conexion();
+
         DerivadoDao derivadoDao = new DerivadoDao();
         double valor = 0;
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "SELECT idponderado, idderivado, produccion,"
                         + " rendimiento, nal_bpd,"
@@ -216,13 +223,14 @@ public class PonderadosRefinacionDao {
                 for (int i = 0; i < resultado.size(); i++) {
                     valor = valor + resultado.get(i).getMediordto();
                 }
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return valor;
     }

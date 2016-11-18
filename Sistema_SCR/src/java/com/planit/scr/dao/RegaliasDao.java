@@ -27,8 +27,8 @@ public class RegaliasDao {
 
     public int registrarRegalias(Regalias regalia) throws Exception {
         int resultado = 0;
-        Statement st = ConexionSQL.conexion();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "INSERT INTO public.regalias (iddepartamento, idmunicipio, idcampo, idcontrato,"
                         + " porcmunicipio, porcregalias, depproductor, munproductor, munnoproductor, puertos, anio, mes, precio, regalias, idproduccion, fondonacional)"
@@ -49,28 +49,28 @@ public class RegaliasDao {
                         + "'" + regalia.getProduccion().getIdproduccion() + "', "
                         + "'" + Redondear.redondear(regalia.getFondonacional(), 3) + "')";
                 st.execute(sql);
-                resultado = 1;
+                resultado = 1;               
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 System.out.println("Error sql" + e);
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return resultado;
     }
 
     public List<Regalias> consultarRegalias(Regalias regalia) throws Exception {
         List<Regalias> regalias = new ArrayList<>();
-        Statement st = ConexionSQL.conexion();
         DepartamentosDao departamentosDao = new DepartamentosDao();
         MunicipiosDao municipiosDao = new MunicipiosDao();
         CamposDao campoDao = new CamposDao();
         ProduccionDao produccionDao = new ProduccionDao();
-        ContratosDao contratosDao = new ContratosDao();     
+        ContratosDao contratosDao = new ContratosDao();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "SELECT idregalias, iddepartamento, idmunicipio, idcampo, porcmunicipio, porcregalias, depproductor, munproductor, munnoproductor, puertos, anio, mes, precio, regalias, idproduccion, fondonacional, idcontrato"
                         + " FROM public.regalias"
@@ -95,14 +95,39 @@ public class RegaliasDao {
                             produccionDao.consultarProduccionCampoContrato(new Produccion(rs.getInt(15))),
                             rs.getDouble(16)));
                 }
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return regalias;
+    }
+
+    public boolean verificarCalculoRegalias(Regalias regalia) throws Exception {
+        boolean valor = false;
+        try {
+            Statement st = ConexionSQL.conexion();
+            try {
+                String sql = "SELECT DISTINCT true FROM public.regalias WHERE exists(SELECT *"
+                        + " FROM public.regalias"
+                        + " WHERE idmunicipio = " + regalia.getMunicipio().getIdmunicipio() + " AND anio = " + regalia.getAnio() + " and mes = " + regalia.getMes() + ")";
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()) {
+                    valor = rs.getBoolean(1);
+                }
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
+            } catch (SQLException e) {
+                throw e;
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return valor;
     }
 }

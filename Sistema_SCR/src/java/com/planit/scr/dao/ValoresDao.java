@@ -20,9 +20,10 @@ import java.util.List;
 public class ValoresDao {
 
     public int registrarValores(Valores valor) throws Exception {
-        int resultado  = 0;
-        Statement st = ConexionSQL.conexion();       
+        int resultado = 0;
+
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "INSERT INTO public.valores (v1, v2, trimestre_mes, vt, ctc, ctmd, cmt, ctmc, cr, cce, ctme, anio)"
                         + " VALUES(" + valor.getV1() + ","
@@ -37,24 +38,24 @@ public class ValoresDao {
                         + " " + valor.getCce() + ","
                         + " " + valor.getCtme() + ","
                         + " '" + valor.getAnio() + "')";
-                
                 st.execute(sql);
                 resultado = 1;
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return resultado;
     }
 
     public int modificarValores(Valores valor) throws Exception {
         int resultado = 0;
-        Statement st = ConexionSQL.conexion();        
+
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "UPDATE public.valores SET "
                         + " v1 = " + valor.getV1() + ","
@@ -73,63 +74,65 @@ public class ValoresDao {
 
                 st.execute(sql);
                 resultado = 1;
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return resultado;
     }
-    
-    public int eliminarValores(Valores valor) throws Exception{
+
+    public int eliminarValores(Valores valor) throws Exception {
         int resultado = 0;
-        Statement st = ConexionSQL.conexion();        
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "DELETE FROM public.valores"
                         + " WHERE idvalores = '" + valor.getIdvalores() + "'";
 
                 st.execute(sql);
                 resultado = 1;
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return resultado;
     }
 
     public List<Valores> consultarValores() throws Exception {
-        Statement st = ConexionSQL.conexion();
+
         List<Valores> listaValores = new ArrayList<>();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "SELECT idvalores, v1, v2, vt, ctmd, cmt, ctmc,cr, cce, ctme, ctc, trimestre_mes, anio FROM public.valores";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     listaValores.add(new Valores(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getDouble(10), rs.getDouble(11), rs.getInt(12), rs.getInt(13)));
                 }
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return listaValores;
     }
 
     public Valores consultarValores(int trimestreMes, int anio) throws Exception {
-        Statement st = ConexionSQL.conexion();
         Valores valores = new Valores();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "SELECT idvalores, v1, v2, vt, ctmd, cmt, ctmc, cr, cce, ctme, ctc, trimestre_mes, anio FROM public.valores"
                         + " WHERE anio = " + anio + " AND trimestre_mes = " + trimestreMes + "";
@@ -137,13 +140,14 @@ public class ValoresDao {
                 while (rs.next()) {
                     valores = new Valores(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getDouble(10), rs.getDouble(11), rs.getInt(12), rs.getInt(13));
                 }
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return valores;
     }

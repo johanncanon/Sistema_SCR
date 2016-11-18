@@ -31,8 +31,8 @@ public class ProduccionDao {
     //Metodos
     public int registrarProduccion(Produccion p) throws Exception {
         int resultado = 0;
-        Statement st = ConexionSQL.conexion();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "INSERT INTO public.produccion (idcampo, produccionhdia, produccionhmes, producciongdia, producciongmes, producciontotaldia, producciontotalmes, mes, anio, idmunicipio, idcontrato)"
                         + " VALUES('" + p.getCampo().getIdcampo() + "', "
@@ -48,27 +48,28 @@ public class ProduccionDao {
                         + "'" + p.getContrato().getIdcontrato() + "')";
                 st.execute(sql);
                 resultado = 1;
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return resultado;
-    }   
+    }
 
     public Produccion consultarProduccionCampoContrato(Produccion p) throws Exception {
-        Statement st = ConexionSQL.conexion();
-        Produccion produccion = new Produccion();       
+
+        Produccion produccion = new Produccion();
         CamposDao camposDao = new CamposDao();
         MunicipiosDao municipiosDao = new MunicipiosDao();
         ContratosDao contratosDao = new ContratosDao();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "SELECT idproduccion, idcampo, produccionhdia, produccionhmes, producciongdia, producciongmes, producciontotaldia, producciontotalmes, mes, anio, idmunicipio, idcontrato "
-                        + "FROM public.produccion where (anio = '" + p.getAnio() + "' AND mes = '" + p.getMes() + "' AND idcampo = '" + p.getCampo().getIdcampo() + "' AND idcontrato = '" + p.getContrato().getIdcontrato() + "' AND idmunicipio = '"+p.getMunicipio().getIdmunicipio()+"') OR idproduccion = '" + p.getIdproduccion() + "'";
+                        + "FROM public.produccion where (anio = '" + p.getAnio() + "' AND mes = '" + p.getMes() + "' AND idcampo = '" + p.getCampo().getIdcampo() + "' AND idcontrato = '" + p.getContrato().getIdcontrato() + "' AND idmunicipio = '" + p.getMunicipio().getIdmunicipio() + "') OR idproduccion = '" + p.getIdproduccion() + "'";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     produccion = new Produccion(rs.getInt(1),
@@ -84,34 +85,37 @@ public class ProduccionDao {
                             contratosDao.consultarContrato(new Contrato(rs.getInt(12))),
                             municipiosDao.consultarMunicipio(new Municipio(rs.getInt(11))));
                 }
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return produccion;
     }
 
     public boolean verificarRegistroProduccionMunicipio(Municipio municipio, int anio, int mes) throws Exception {
-        Statement st = ConexionSQL.conexion();
+
         boolean valor = false;
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "SELECT Distinct true FROM public.produccion where exists(select * from public.produccion where idmunicipio = '" + municipio.getIdmunicipio() + "' AND anio = '" + anio + "' AND mes = '" + mes + "')";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     valor = rs.getBoolean(1);
                 }
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return valor;
     }

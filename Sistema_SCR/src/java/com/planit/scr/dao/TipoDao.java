@@ -21,9 +21,10 @@ public class TipoDao {
 
     //Metodos
     public Tipo consultarTipo(Tipo t) throws Exception {
-        Statement st = ConexionSQL.conexion();
+
         Tipo nuevotipo = new Tipo();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "SELECT idtipo, nombre FROM public.tipos "
                         + "WHERE idtipo = " + t.getIdtipo() + " or nombre = '" + t.getNombre() + "'";
@@ -31,35 +32,38 @@ public class TipoDao {
                 while (rs.next()) {
                     nuevotipo = new Tipo(rs.getInt(1), rs.getString(2));
                 }
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 nuevotipo = new Tipo();
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return nuevotipo;
     }
 
     public List<Tipo> consultarTipos() throws Exception {
-        Statement st = ConexionSQL.conexion();
+
         List<Tipo> listatipos = new ArrayList<>();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "SELECT idtipo, nombre FROM public.tipos";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     listatipos.add(new Tipo(rs.getInt(1), rs.getString(2)));
                 }
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return listatipos;
     }

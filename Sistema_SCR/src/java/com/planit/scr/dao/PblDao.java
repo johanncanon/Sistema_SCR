@@ -25,24 +25,25 @@ public class PblDao {
 
     public int registrarPbl(Valores valores) throws Exception {
         int resultado = 0;
-        Statement st = ConexionSQL.conexion();
+
         ContratosDao contratosDao = new ContratosDao();
         CalidadCrudoDao calidadCrudoDao = new CalidadCrudoDao();
         PonderadosRefinacionDao ponderadosRefinacionDao = new PonderadosRefinacionDao();
         TrmDao trmDao = new TrmDao();
-        
+
         List<Contrato> contratos = contratosDao.consultarContratos();
         Pbl pbl = new Pbl();
-        
+
         double pf = ponderadosRefinacionDao.ConsultarPFPonderado(valores.getAnio(), valores.getTrimestreMes());
         double px = calidadCrudoDao.consultarPrecioReferenciaExportacion(valores.getAnio(), valores.getTrimestreMes());
         if (valores.getAnio() <= 2012) {
             pf = (pf * 42) / trmDao.consultarPromedioTrimestralTrm(valores.getTrimestreMes(), valores.getAnio());
-        }else{
-            pf= (pf * 42)/trmDao.consultarPromedioMensualTrm(valores.getTrimestreMes(), valores.getAnio());
+        } else {
+            pf = (pf * 42) / trmDao.consultarPromedioMensualTrm(valores.getTrimestreMes(), valores.getAnio());
         }
-        
+
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 for (int i = 0; i < contratos.size(); i++) {
                     pbl = new Pbl();
@@ -70,6 +71,8 @@ public class PblDao {
                             + " " + pbl.getContrato().getIdcontrato() + ")";
                     st.execute(sql);
                     resultado = 1;
+                    st.close();
+                    ConexionSQL.CerrarConexion();
                 }
 
             } catch (SQLException e) {
@@ -77,32 +80,31 @@ public class PblDao {
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return resultado;
     }
 
     public int modificarPbl(Valores valores, int anio, int trimestreMes) throws Exception {
         int resultado = 0;
-        Statement st = ConexionSQL.conexion();
+
         ContratosDao contratosDao = new ContratosDao();
         CalidadCrudoDao calidadCrudoDao = new CalidadCrudoDao();
         PonderadosRefinacionDao ponderadosRefinacionDao = new PonderadosRefinacionDao();
         TrmDao trmDao = new TrmDao();
-        
+
         List<Contrato> contratos = contratosDao.consultarContratos();
         Pbl pbl = new Pbl();
-        
+
         double pf = ponderadosRefinacionDao.ConsultarPFPonderado(valores.getAnio(), valores.getTrimestreMes());
         double px = calidadCrudoDao.consultarPrecioReferenciaExportacion(valores.getAnio(), valores.getTrimestreMes());
         if (valores.getAnio() <= 2012) {
             pf = (pf * 42) / trmDao.consultarPromedioTrimestralTrm(valores.getTrimestreMes(), valores.getAnio());
-        }else{
-            pf= (pf*42)/trmDao.consultarPromedioMensualTrm(valores.getTrimestreMes(), valores.getAnio());
+        } else {
+            pf = (pf * 42) / trmDao.consultarPromedioMensualTrm(valores.getTrimestreMes(), valores.getAnio());
         }
-        
+
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 for (int i = 0; i < contratos.size(); i++) {
                     pbl = new Pbl();
@@ -129,46 +131,46 @@ public class PblDao {
                             + "WHERE idcontrato = " + contratos.get(i).getIdcontrato() + " and  anio = " + anio + " and trimestre_mes = " + trimestreMes + "";
                     st.execute(sql);
                     resultado = 1;
+                    st.close();
+                    ConexionSQL.CerrarConexion();
                 }
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return resultado;
     }
 
     public int eliminarPbl(int anio, int trimestreMes) throws Exception {
         int resultado = 0;
-        Statement st = ConexionSQL.conexion();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "DELETE FROM public.pbl "
                         + "WHERE anio = " + anio + " and trimestre_mes = " + trimestreMes + "";
                 st.execute(sql);
                 resultado = 1;
-
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return resultado;
     }
 
     public List<Pbl> consultarPblSegunMunicipio(Municipio municipio, Pbl pbl) throws Exception {
         List<Pbl> pbls = new ArrayList<>();
-        Statement st = ConexionSQL.conexion();
+
         ContratosDao contratosDao = new ContratosDao();
         MunicipiosDao municipiosDao = new MunicipiosDao();
         municipio = municipiosDao.consultarMunicipio(municipio);
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre_mes, p.prc, p.refinacion, p.exportacion, p.idcontrato, p.anio"
                         + " FROM public.pbl as p, public.municipios_contratos as mc"
@@ -188,23 +190,25 @@ public class PblDao {
                             rs.getInt(11),
                             contratosDao.consultarContrato(new Contrato(rs.getInt(10)))));
                 }
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return pbls;
     }
 
     public Pbl consultarPblSegunContrato(Contrato contrato, int trimestre_mes, int anio) throws Exception {
         Pbl pbl = new Pbl();
-        Statement st = ConexionSQL.conexion();
+
         ContratosDao contratosDao = new ContratosDao();
 
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre_mes, p.prc, p.refinacion, p.exportacion, p.idcontrato, p.anio"
                         + " FROM public.pbl as p"
@@ -224,23 +228,25 @@ public class PblDao {
                             rs.getInt(11),
                             contratosDao.consultarContrato(new Contrato(rs.getInt(10))));
                 }
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return pbl;
     }
 
     public List<Pbl> consultarPbl(int trimestre_mes, int anio) throws Exception {
         List<Pbl> pbl = new ArrayList<>();
-        Statement st = ConexionSQL.conexion();
+
         ContratosDao contratosDao = new ContratosDao();
 
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre_mes, p.prc, p.refinacion, p.exportacion, p.idcontrato, p.anio"
                         + " FROM public.pbl as p"
@@ -259,13 +265,14 @@ public class PblDao {
                             rs.getInt(11),
                             contratosDao.consultarContrato(new Contrato(rs.getInt(10)))));
                 }
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return pbl;
     }

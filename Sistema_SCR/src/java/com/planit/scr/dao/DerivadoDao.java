@@ -21,42 +21,45 @@ public class DerivadoDao {
 
     public Derivado consultarDerivado(Derivado derivado) throws Exception {
         Derivado resultado = new Derivado();
-        Statement st = ConexionSQL.conexion();
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "SELECT idderivado, nombre FROM public.derivados WHERE idderivado = '" + derivado.getIdderivado() + "'";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     resultado = new Derivado(rs.getInt(1), rs.getString(2));
                 }
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return resultado;
     }
-    
+
     public List<Derivado> consultarDerivados() throws Exception {
         List<Derivado> resultado = new ArrayList<>();
-        Statement st = ConexionSQL.conexion();
+
         try {
+            Statement st = ConexionSQL.conexion();
             try {
                 String sql = "SELECT idderivado, nombre FROM public.derivados";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     resultado.add(new Derivado(rs.getInt(1), rs.getString(2)));
                 }
+                rs.close();
+                st.close();
+                ConexionSQL.CerrarConexion();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            ConexionSQL.CerrarConexion();
         }
         return resultado;
     }

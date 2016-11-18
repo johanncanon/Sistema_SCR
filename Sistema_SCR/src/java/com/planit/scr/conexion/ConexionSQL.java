@@ -18,11 +18,11 @@ import java.util.logging.Logger;
  */
 public class ConexionSQL {
 
-    //static String clave = "yU7eywfXILoZjtaD";
-    static String clave = "123456";
+    static String clave = "yU7eywfXILoZjtaD";
+   // static String clave = "123456";
     //static String clave = "root";
     //static String clave = "";
-    static Statement ST = null;
+    static Statement st = null;
     static Connection cn = null;
 
     public static Statement conexion() {
@@ -40,23 +40,18 @@ public class ConexionSQL {
             //String url = "jdbc:postgresql://192.168.100.251:5432/SCR";
             // CONECCION A LA BASE DE DATOS
             cn = DriverManager.getConnection(url, "postgres", clave);
-            // TRAE LOS DATOS
-            Statement st = cn.createStatement();
-            ST = st;
-
-            System.out.print("-------------------consulta BD:" + ST);
+            st = cn.createStatement();
         } catch (ClassNotFoundException ex) {
             System.out.print("Error en el Driver");
         } catch (SQLException e) {
             System.out.print(e.getMessage());
         }
-        return ST;
+        return st;
     }
 
-    public static Connection CerrarConexion() throws SQLException {
+    public static void CerrarConexion() throws SQLException {
         cn.close();
-        ST.close();
-        return cn;
+        st.close();
     }
 
 }
