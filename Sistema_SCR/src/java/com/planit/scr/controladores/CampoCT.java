@@ -30,6 +30,8 @@ public class CampoCT {
     private List<Contrato> contratos;
     private List<Contrato> contratosRespaldo;
 
+    protected CamposDao camposDao;
+
     private int operacion;
     private String nombreOperacion;
 
@@ -40,17 +42,15 @@ public class CampoCT {
         campos = new ArrayList<>();
         contratos = new ArrayList<>();
         contratosRespaldo = new ArrayList<>();
-
+        camposDao = new CamposDao();
         nombreOperacion = "Registrar";
         operacion = 0;
-
         buscar = "";
         System.out.println("" + Thread.currentThread().getContextClassLoader().getResource("/").getPath());
     }
 
     @PostConstruct
-    public void init() {
-        CamposDao camposDao = new CamposDao();
+    public void init() {        ;
         try {
             campos = camposDao.consultarCampos();
         } catch (Exception ex) {
@@ -116,9 +116,8 @@ public class CampoCT {
 
     //Metodos     
     public void registrar() throws Exception {
-        CamposDao camposDao = new CamposDao();
-        CamposContratosDao ccDao = new CamposContratosDao();        
-       
+        CamposContratosDao ccDao = new CamposContratosDao();
+
         int registrar = camposDao.registrarCampo(campo);
         if (registrar == 1) {
             campo = camposDao.consultarCampo(campo);
@@ -143,8 +142,7 @@ public class CampoCT {
     }
 
     public void modificar() throws Exception {
-        CamposContratosDao ccDao = new CamposContratosDao();        
-        CamposDao camposDao = new CamposDao();
+        CamposContratosDao ccDao = new CamposContratosDao();
         //campo.setContrato(contratosDao.consultarContrato(campo.getContrato()));
         int modificar = camposDao.modificarCampo(campo);
         if (modificar == 1) {
@@ -156,7 +154,7 @@ public class CampoCT {
                         existe = true;
                     }
                 }
-                if (!existe) {                    
+                if (!existe) {
                     ccDao.registrarMunicipioContrato(campo, contratos.get(i));
                 }
                 existe = false;
@@ -188,7 +186,6 @@ public class CampoCT {
     }
 
     public void eliminar() throws Exception {
-        CamposDao camposDao = new CamposDao();
         int eliminar = camposDao.eliminarCampo(campo);
         if (eliminar == 1) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Se elimino el campo correctamente");
@@ -223,7 +220,7 @@ public class CampoCT {
     }
 
     public void cancelar() throws Exception {
-        CamposDao camposDao = new CamposDao();
+
         nombreOperacion = "Registrar";
         operacion = 0;
         campos = camposDao.consultarCampos();
@@ -231,7 +228,7 @@ public class CampoCT {
     }
 
     public void buscarCampo() throws Exception {
-        CamposDao camposDao = new CamposDao();
+
         if (buscar.isEmpty()) {
             campos = camposDao.consultarCampos();
         } else {

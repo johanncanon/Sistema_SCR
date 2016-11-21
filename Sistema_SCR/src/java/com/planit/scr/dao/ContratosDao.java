@@ -6,10 +6,12 @@
 package com.planit.scr.dao;
 
 import com.planit.scr.conexion.ConexionSQL;
+import com.planit.scr.conexion.Pool;
 import com.planit.scr.modelos.Campo;
 import com.planit.scr.modelos.Contrato;
 import com.planit.scr.modelos.Municipio;
 import com.planit.scr.modelos.Tipo;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -21,6 +23,8 @@ import java.util.List;
  * @author VaioDevelopment
  */
 public class ContratosDao {
+
+    Pool pool = new Pool();
 
     //Metodos 
     public int registrarContrato(Contrato contrato) throws Exception {
@@ -177,7 +181,8 @@ public class ContratosDao {
         List<Contrato> listacontratos = new ArrayList<>();
         TipoDao tipoDao = new TipoDao();
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT cr.idcontrato, cr.nombre, cr.idtipo, cr.cib, cr.car, cr.cov FROM public.contratos as cr, public.campos_contratos as cc "
                         + "WHERE cr.idcontrato = cc.idcontrato and cc.idcampo = '" + campo.getIdcampo() + "'";
@@ -187,7 +192,7 @@ public class ContratosDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -202,7 +207,8 @@ public class ContratosDao {
         List<Contrato> listacontratos = new ArrayList<>();
         TipoDao tipoDao = new TipoDao();
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT c.idcontrato, c.nombre, c.idtipo, c.cib, c.car, c.cov FROM public.contratos as c, public.municipios_contratos as mc "
                         + "WHERE mc.idmunicipio = " + municipio.getIdmunicipio() + " and mc.idcontrato = c.idcontrato ";
@@ -212,8 +218,8 @@ public class ContratosDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
-            } catch (SQLException e) {
+                con.close();
+                } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {

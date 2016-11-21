@@ -5,16 +5,20 @@
  */
 package com.planit.scr.dao;
 
-import com.planit.scr.conexion.ConexionSQL;
+import com.planit.scr.conexion.Conexion;
+import com.planit.scr.conexion.Pool;
 import com.planit.scr.modelos.Campo;
 import com.planit.scr.modelos.CampoCompleto;
 import com.planit.scr.modelos.Contrato;
 import com.planit.scr.modelos.Municipio;
+import com.sun.rowset.CachedRowSetImpl;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.sql.rowset.CachedRowSet;
 
 /**
  *
@@ -22,19 +26,23 @@ import java.util.List;
  */
 public class CamposDao {
 
+    private final MunicipiosDao municipioDao = new MunicipiosDao();
+    private final ContratosDao contratosDao = new ContratosDao();
+    private final Pool pool = new Pool();
+
     public int registrarCampo(Campo campo) throws Exception {
         int resultado = 0;
-
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "INSERT INTO public.campos("
                         + "           nombre, porcentaje)"
                         + " VALUES('" + campo.getNombre() + "', '" + campo.getPorcentaje() + "')";
                 st.execute(sql);
-                resultado = 1;
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
+                resultado = 1;
             } catch (SQLException e) {
                 throw e;
             }
@@ -47,15 +55,16 @@ public class CamposDao {
     public int modificarCampo(Campo campo) throws Exception {
         int resultado = 0;
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "UPDATE public.campos "
                         + " SET nombre = '" + campo.getNombre() + "', porcentaje = '" + campo.getPorcentaje() + "'"
                         + " WHERE idcampo = '" + campo.getIdcampo() + "'";
                 st.execute(sql);
-                resultado = 1;
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
+                resultado = 1;
             } catch (SQLException e) {
                 throw e;
             }
@@ -68,14 +77,15 @@ public class CamposDao {
     public int eliminarCampo(Campo campo) throws Exception {
         int resultado = 0;
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "DELETE FROM public.campos "
                         + "WHERE idcampo = '" + campo.getIdcampo() + "'";
                 st.execute(sql);
-                resultado = 1;
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
+                resultado = 1;
             } catch (SQLException e) {
                 throw e;
             }
@@ -88,7 +98,8 @@ public class CamposDao {
     public Campo consultarCampo(Campo campo) throws Exception {
         Campo nuevocampo = new Campo();
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT idcampo, nombre, porcentaje FROM public.campos"
                         + " WHERE idcampo = " + campo.getIdcampo() + " or nombre = '" + campo.getNombre() + "'";
@@ -98,7 +109,7 @@ public class CamposDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -111,7 +122,8 @@ public class CamposDao {
     public List<Campo> consultarCampos() throws Exception {
         List<Campo> listacampos = new ArrayList<>();
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT idcampo, nombre, porcentaje FROM public.campos";
                 ResultSet rs = st.executeQuery(sql);
@@ -120,7 +132,7 @@ public class CamposDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -133,7 +145,8 @@ public class CamposDao {
     public List<Campo> buscarCampos(String valor) throws Exception {
         List<Campo> listacampos = new ArrayList<>();
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT c.idcampo, c.nombre, c.porcentaje FROM public.campos as c, public.contratos as cr, public.campos_contratos as cc "
                         + "WHERE cc.idcontrato = cr.idcontrato AND c.idcampo = cc.idcampo (cr.nombre LIKE '%" + valor + "%' OR c.nombre LIKE '%" + valor + "%')";
@@ -143,7 +156,7 @@ public class CamposDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -154,14 +167,12 @@ public class CamposDao {
     }
 
     public List<CampoCompleto> consultarCamposSegunMunicipio(Municipio municipio) throws Exception {
-
         List<CampoCompleto> listacampos = new ArrayList<>();
-        MunicipiosDao municipioDao = new MunicipiosDao();
-        ContratosDao contratosDao = new ContratosDao();
-        municipio = municipioDao.consultarMunicipio(municipio);
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
+                municipio = municipioDao.consultarMunicipio(municipio);
                 String sql = "SELECT c.idcampo, c.nombre, cc.idcontrato, c.porcentaje FROM public.campos as c, public.municipios_contratos as mc, public.campos_contratos as cc"
                         + " WHERE mc.idmunicipio = " + municipio.getIdmunicipio() + " and cc.idcontrato = mc.idcontrato and cc.idcampo = c.idcampo";
                 ResultSet rs = st.executeQuery(sql);
@@ -170,7 +181,7 @@ public class CamposDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
