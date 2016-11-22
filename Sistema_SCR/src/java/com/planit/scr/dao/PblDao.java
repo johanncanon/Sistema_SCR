@@ -5,12 +5,13 @@
  */
 package com.planit.scr.dao;
 
-import com.planit.scr.conexion.ConexionSQL;
+import com.planit.scr.conexion.Pool;
 import com.planit.scr.metodos.Redondear;
 import com.planit.scr.modelos.Contrato;
 import com.planit.scr.modelos.Pbl;
 import com.planit.scr.modelos.Valores;
 import com.planit.scr.modelos.Municipio;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,6 +23,8 @@ import java.util.List;
  * @author VaioDevelopment
  */
 public class PblDao {
+
+    private final Pool pool = new Pool();
 
     public int registrarPbl(Valores valores) throws Exception {
         int resultado = 0;
@@ -43,7 +46,8 @@ public class PblDao {
         }
 
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 for (int i = 0; i < contratos.size(); i++) {
                     pbl = new Pbl();
@@ -70,11 +74,9 @@ public class PblDao {
                             + " '" + Redondear.redondear(pbl.getExportacion(), 2) + "',"
                             + " " + pbl.getContrato().getIdcontrato() + ")";
                     st.execute(sql);
-                    resultado = 1;
-                    st.close();
-                    ConexionSQL.CerrarConexion();
                 }
-
+                st.close();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -104,7 +106,8 @@ public class PblDao {
         }
 
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 for (int i = 0; i < contratos.size(); i++) {
                     pbl = new Pbl();
@@ -130,10 +133,9 @@ public class PblDao {
                             + "exportacion = '" + Redondear.redondear(pbl.getExportacion(), 2) + "' "
                             + "WHERE idcontrato = " + contratos.get(i).getIdcontrato() + " and  anio = " + anio + " and trimestre_mes = " + trimestreMes + "";
                     st.execute(sql);
-                    resultado = 1;
-                    st.close();
-                    ConexionSQL.CerrarConexion();
                 }
+                st.close();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -146,14 +148,15 @@ public class PblDao {
     public int eliminarPbl(int anio, int trimestreMes) throws Exception {
         int resultado = 0;
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "DELETE FROM public.pbl "
                         + "WHERE anio = " + anio + " and trimestre_mes = " + trimestreMes + "";
                 st.execute(sql);
-                resultado = 1;
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
+                resultado = 1;
             } catch (SQLException e) {
                 throw e;
             }
@@ -169,8 +172,9 @@ public class PblDao {
         ContratosDao contratosDao = new ContratosDao();
         MunicipiosDao municipiosDao = new MunicipiosDao();
         municipio = municipiosDao.consultarMunicipio(municipio);
-        try {
-            Statement st = ConexionSQL.conexion();
+       try {
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre_mes, p.prc, p.refinacion, p.exportacion, p.idcontrato, p.anio"
                         + " FROM public.pbl as p, public.municipios_contratos as mc"
@@ -192,7 +196,7 @@ public class PblDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -207,8 +211,9 @@ public class PblDao {
 
         ContratosDao contratosDao = new ContratosDao();
 
-        try {
-            Statement st = ConexionSQL.conexion();
+       try {
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre_mes, p.prc, p.refinacion, p.exportacion, p.idcontrato, p.anio"
                         + " FROM public.pbl as p"
@@ -230,7 +235,7 @@ public class PblDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -245,8 +250,9 @@ public class PblDao {
 
         ContratosDao contratosDao = new ContratosDao();
 
-        try {
-            Statement st = ConexionSQL.conexion();
+         try {
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre_mes, p.prc, p.refinacion, p.exportacion, p.idcontrato, p.anio"
                         + " FROM public.pbl as p"
@@ -267,7 +273,7 @@ public class PblDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }

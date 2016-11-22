@@ -5,7 +5,6 @@
  */
 package com.planit.scr.dao;
 
-import com.planit.scr.conexion.ConexionSQL;
 import com.planit.scr.conexion.Pool;
 import com.planit.scr.modelos.Campo;
 import com.planit.scr.modelos.Contrato;
@@ -24,7 +23,7 @@ import java.util.List;
  */
 public class ContratosDao {
 
-    Pool pool = new Pool();
+    private final Pool pool = new Pool();
 
     //Metodos 
     public int registrarContrato(Contrato contrato) throws Exception {
@@ -32,7 +31,8 @@ public class ContratosDao {
         int resultado = 0;
         contrato.setTipo(tipoDao.consultarTipo(contrato.getTipo()));
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "INSERT INTO public.contratos(nombre, idtipo, cib, car, cov)"
                         + " VALUES('" + contrato.getNombre() + "',"
@@ -43,7 +43,7 @@ public class ContratosDao {
                 st.execute(sql);
                 resultado = 1;
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -59,7 +59,8 @@ public class ContratosDao {
         int resultado = 0;
         contrato.setTipo(tipoDao.consultarTipo(contrato.getTipo()));
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "UPDATE public.contratos SET nombre = '" + contrato.getNombre() + "',"
                         + " idtipo = " + contrato.getTipo().getIdtipo() + ","
@@ -70,7 +71,7 @@ public class ContratosDao {
                 st.execute(sql);
                 resultado = 1;
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -86,13 +87,14 @@ public class ContratosDao {
         int resultado = 0;
         contrato.setTipo(tipoDao.consultarTipo(contrato.getTipo()));
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "DELETE FROM public.contratos WHERE idcontrato = '" + contrato.getIdcontrato() + "'";
                 st.execute(sql);
                 resultado = 1;
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -107,7 +109,8 @@ public class ContratosDao {
         Contrato nuevocontrato = new Contrato();
         TipoDao tipoDao = new TipoDao();
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT idcontrato, nombre, idtipo, cib, car, cov FROM public.contratos"
                         + " WHERE idcontrato = " + c.getIdcontrato() + " or nombre = '" + c.getNombre() + "' ";
@@ -117,7 +120,7 @@ public class ContratosDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -132,7 +135,8 @@ public class ContratosDao {
         Contrato nuevocontrato = new Contrato();
         TipoDao tipoDao = new TipoDao();
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT idcontrato, nombre, idtipo, cib, car, covFROM public.contratos as ct, public.campos as c"
                         + " WHERE c.idcampo = " + campo.getIdcampo() + " and c.idcontrato = ct.idcontrato";
@@ -142,7 +146,7 @@ public class ContratosDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -157,7 +161,8 @@ public class ContratosDao {
         List<Contrato> listacontratos = new ArrayList<>();
         TipoDao tipoDao = new TipoDao();
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT idcontrato, nombre, idtipo, cib, car, cov FROM public.contratos";
                 ResultSet rs = st.executeQuery(sql);
@@ -166,7 +171,7 @@ public class ContratosDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -219,7 +224,7 @@ public class ContratosDao {
                 rs.close();
                 st.close();
                 con.close();
-                } catch (SQLException e) {
+            } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
@@ -229,10 +234,11 @@ public class ContratosDao {
     }
 
     public List<Contrato> buscarContratos(String valor) throws Exception {
-        Statement st = ConexionSQL.conexion();
         List<Contrato> listacontratos = new ArrayList<>();
         TipoDao tipoDao = new TipoDao();
         try {
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT c.idcontrato, c.nombre, c.idtipo, c.cib, c.car, c.cov FROM public.tipos as t, public.contratos as c, public.municipios_contratos as mc, public.municipios as m "
                         + "WHERE mc.idmunicipio = m.idmunicipio and mc.idcontrato = c.idcontrato and c.idtipo = t.idtipo and (c.nombre LIKE '%" + valor + "%' or t.nombre LIKE '%" + valor + "%' or m.nombre LIKE '%" + valor + "%')";
@@ -240,14 +246,14 @@ public class ContratosDao {
                 while (rs.next()) {
                     listacontratos.add(new Contrato(rs.getInt(1), rs.getString(2), rs.getInt(4), rs.getInt(5), rs.getInt(6), tipoDao.consultarTipo(new Tipo(rs.getInt(3)))));
                 }
+                rs.close();
+                st.close();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
-            st.close();
-            ConexionSQL.CerrarConexion();
         }
         return listacontratos;
     }

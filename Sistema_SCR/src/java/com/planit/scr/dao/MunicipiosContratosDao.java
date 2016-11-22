@@ -5,39 +5,40 @@
  */
 package com.planit.scr.dao;
 
-import com.planit.scr.conexion.ConexionSQL;
+import com.planit.scr.conexion.Pool;
 import com.planit.scr.modelos.Contrato;
 import com.planit.scr.modelos.Municipio;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 
 /**
  *
  * @author VaioDevelopment
  */
 public class MunicipiosContratosDao {
+    
+    private final Pool pool = new Pool();
 
     public int registrarMunicipioContrato(Municipio municipío, Contrato contrato) throws Exception {
 
         int resultado = 0;
-        try {
-            Statement st = ConexionSQL.conexion();
+          try {
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "INSERT INTO public.municipios_contratos (idmunicipio, idcontrato) "
                         + "VALUES('" + municipío.getIdmunicipio() + "', '" + contrato.getIdcontrato() + "')";
-                st.execute(sql);
-                resultado = 1;
+               st.execute(sql);                
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
+                resultado = 1;
             } catch (SQLException e) {
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());
-                FacesContext.getCurrentInstance().addMessage(null, message);
+                System.out.println("Error sql" + e);
+                throw e;
             }
         } catch (Exception e) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());
-            FacesContext.getCurrentInstance().addMessage(null, message);
+            throw e;
         }
         return resultado;
     }
@@ -45,22 +46,22 @@ public class MunicipiosContratosDao {
     public int eliminarMunicipioContrato(Municipio municipío, Contrato contrato) throws Exception {
 
         int resultado = 0;
-        try {
-            Statement st = ConexionSQL.conexion();
+         try {
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "DELETE FROM public.municipios_contratos "
                         + "WHERE idmunicipio = '" + municipío.getIdmunicipio() + "' and idcontrato = '" + contrato.getIdcontrato() + "'";
-                st.execute(sql);
-                resultado = 1;
+                st.execute(sql);                
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
+                resultado = 1;
             } catch (SQLException e) {
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());
-                FacesContext.getCurrentInstance().addMessage(null, message);
+                System.out.println("Error sql" + e);
+                throw e;
             }
         } catch (Exception e) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());
-            FacesContext.getCurrentInstance().addMessage(null, message);
+            throw e;
         }
         return resultado;
     }

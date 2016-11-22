@@ -5,7 +5,7 @@
  */
 package com.planit.scr.dao;
 
-import com.planit.scr.conexion.ConexionSQL;
+import com.planit.scr.conexion.Pool;
 import com.planit.scr.metodos.Redondear;
 import com.planit.scr.modelos.Campo;
 import com.planit.scr.modelos.Contrato;
@@ -13,6 +13,7 @@ import com.planit.scr.modelos.Departamento;
 import com.planit.scr.modelos.Regalias;
 import com.planit.scr.modelos.Municipio;
 import com.planit.scr.modelos.Produccion;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -25,10 +26,13 @@ import java.util.List;
  */
 public class RegaliasDao {
 
+    private final Pool pool = new Pool();
+
     public int registrarRegalias(Regalias regalia) throws Exception {
         int resultado = 0;
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "INSERT INTO public.regalias (iddepartamento, idmunicipio, idcampo, idcontrato,"
                         + " porcmunicipio, porcregalias, depproductor, munproductor, munnoproductor, puertos, anio, mes, precio, regalias, idproduccion, fondonacional)"
@@ -48,10 +52,10 @@ public class RegaliasDao {
                         + "'" + Redondear.redondear(regalia.getRegalias(), 3) + "', "
                         + "'" + regalia.getProduccion().getIdproduccion() + "', "
                         + "'" + Redondear.redondear(regalia.getFondonacional(), 3) + "')";
-                st.execute(sql);
-                resultado = 1;               
+                st.execute(sql);                
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
+                resultado = 1;
             } catch (SQLException e) {
                 System.out.println("Error sql" + e);
                 throw e;
@@ -70,7 +74,8 @@ public class RegaliasDao {
         ProduccionDao produccionDao = new ProduccionDao();
         ContratosDao contratosDao = new ContratosDao();
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT idregalias, iddepartamento, idmunicipio, idcampo, porcmunicipio, porcregalias, depproductor, munproductor, munnoproductor, puertos, anio, mes, precio, regalias, idproduccion, fondonacional, idcontrato"
                         + " FROM public.regalias"
@@ -97,7 +102,7 @@ public class RegaliasDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -110,7 +115,8 @@ public class RegaliasDao {
     public boolean verificarCalculoRegalias(Regalias regalia) throws Exception {
         boolean valor = false;
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT DISTINCT true FROM public.regalias WHERE exists(SELECT *"
                         + " FROM public.regalias"
@@ -121,7 +127,7 @@ public class RegaliasDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }

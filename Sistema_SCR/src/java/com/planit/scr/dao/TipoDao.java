@@ -5,8 +5,9 @@
  */
 package com.planit.scr.dao;
 
-import com.planit.scr.conexion.ConexionSQL;
+import com.planit.scr.conexion.Pool;
 import com.planit.scr.modelos.Tipo;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,13 +19,14 @@ import java.util.List;
  * @author VaioDevelopment
  */
 public class TipoDao {
-
+    
+    private final Pool pool = new Pool();    
     //Metodos
     public Tipo consultarTipo(Tipo t) throws Exception {
-
         Tipo nuevotipo = new Tipo();
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT idtipo, nombre FROM public.tipos "
                         + "WHERE idtipo = " + t.getIdtipo() + " or nombre = '" + t.getNombre() + "'";
@@ -34,7 +36,7 @@ public class TipoDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 nuevotipo = new Tipo();
                 throw e;
@@ -46,10 +48,10 @@ public class TipoDao {
     }
 
     public List<Tipo> consultarTipos() throws Exception {
-
         List<Tipo> listatipos = new ArrayList<>();
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT idtipo, nombre FROM public.tipos";
                 ResultSet rs = st.executeQuery(sql);
@@ -58,7 +60,7 @@ public class TipoDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }

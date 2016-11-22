@@ -5,8 +5,9 @@
  */
 package com.planit.scr.dao;
 
-import com.planit.scr.conexion.ConexionSQL;
+import com.planit.scr.conexion.Pool;
 import com.planit.scr.modelos.Derivado;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,10 +20,13 @@ import java.util.List;
  */
 public class DerivadoDao {
 
+    private final Pool pool = new Pool();
+
     public Derivado consultarDerivado(Derivado derivado) throws Exception {
         Derivado resultado = new Derivado();
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT idderivado, nombre FROM public.derivados WHERE idderivado = '" + derivado.getIdderivado() + "'";
                 ResultSet rs = st.executeQuery(sql);
@@ -30,8 +34,10 @@ public class DerivadoDao {
                     resultado = new Derivado(rs.getInt(1), rs.getString(2));
                 }
                 rs.close();
+                st.execute(sql);
+                rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -43,18 +49,19 @@ public class DerivadoDao {
 
     public List<Derivado> consultarDerivados() throws Exception {
         List<Derivado> resultado = new ArrayList<>();
-
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT idderivado, nombre FROM public.derivados";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     resultado.add(new Derivado(rs.getInt(1), rs.getString(2)));
                 }
+                st.execute(sql);
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }

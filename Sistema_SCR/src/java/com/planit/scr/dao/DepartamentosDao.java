@@ -5,8 +5,9 @@
  */
 package com.planit.scr.dao;
 
-import com.planit.scr.conexion.ConexionSQL;
+import com.planit.scr.conexion.Pool;
 import com.planit.scr.modelos.Departamento;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,15 +20,18 @@ import java.util.List;
  */
 public class DepartamentosDao {
 
+    private final Pool pool = new Pool();
+    
     public void registrarDepartamento(Departamento departamento) throws Exception {
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "INSERT INTO public.departamentos(nombre)"
                         + " VALUES('" + departamento.getNombre() + "')";
                 st.execute(sql);
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -40,7 +44,8 @@ public class DepartamentosDao {
 
         List<Departamento> listadepartamentos = new ArrayList<>();
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT iddepartamento, nombre FROM public.departamentos";
                 ResultSet rs = st.executeQuery(sql);
@@ -49,7 +54,7 @@ public class DepartamentosDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -63,7 +68,8 @@ public class DepartamentosDao {
 
         Departamento nuevodepartamento = new Departamento();
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT iddepartamento, nombre FROM public.departamentos "
                         + "WHERE iddepartamento = '" + dp.getIddepartamento() + "' or nombre = '" + dp.getNombre() + "'";
@@ -73,7 +79,7 @@ public class DepartamentosDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }

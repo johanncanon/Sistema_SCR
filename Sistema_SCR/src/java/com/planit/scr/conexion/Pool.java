@@ -23,8 +23,8 @@ public class Pool {
 
     public String url = "jdbc:postgresql://localhost:5432/SCR";
     public String user = "postgres";
-    public String clave = "123456";
-    //public String clave = "yU7eywfXILoZjtaD";
+    //public String clave = "123456";
+    public String clave = "yU7eywfXILoZjtaD";
 
 
 

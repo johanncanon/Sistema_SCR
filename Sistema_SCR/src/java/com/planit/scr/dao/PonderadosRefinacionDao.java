@@ -5,9 +5,10 @@
  */
 package com.planit.scr.dao;
 
-import com.planit.scr.conexion.ConexionSQL;
+import com.planit.scr.conexion.Pool;
 import com.planit.scr.modelos.Derivado;
 import com.planit.scr.modelos.PonderadoRefinacion;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,11 +21,14 @@ import java.util.List;
  */
 public class PonderadosRefinacionDao {
 
+    private final Pool pool = new Pool();
+
     public int registrarGrupoPonderado(List<PonderadoRefinacion> ponderadoRefinacion) throws Exception {
         int resultado = 0;
 
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 for (int i = 0; i < ponderadoRefinacion.size(); i++) {
                     String sql = "INSERT INTO public.ponderados_refinacion "
@@ -46,9 +50,9 @@ public class PonderadosRefinacionDao {
                             + "'" + ponderadoRefinacion.get(i).getAnio() + "')";
                     st.execute(sql);
                 }
-                resultado = 1;
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
+                resultado = 1;
             } catch (SQLException e) {
                 throw e;
             }
@@ -62,7 +66,8 @@ public class PonderadosRefinacionDao {
         int resultado = 0;
 
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 for (int i = 0; i < ponderadoRefinacion.size(); i++) {
                     String sql = "UPDATE public.ponderados_refinacion SET  "
@@ -80,9 +85,9 @@ public class PonderadosRefinacionDao {
                             + "WHERE idponderado = '" + ponderadoRefinacion.get(i).getIdponderado() + "'";
                     st.execute(sql);
                 }
-                resultado = 1;
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
+                resultado = 1;
             } catch (SQLException e) {
                 throw e;
             }
@@ -95,13 +100,14 @@ public class PonderadosRefinacionDao {
     public int eliminarGrupoPonderado(int anio, int trimestremes) throws Exception {
         int resultado = 0;
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "DELETE FROM public.ponderados_refinacion WHERE anio = '" + anio + "' AND trimestre_mes = '" + trimestremes + "'";
-                st.execute(sql);
-                resultado = 1;
+                st.execute(sql);                
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
+                resultado = 1;
             } catch (SQLException e) {
                 throw e;
             }
@@ -116,7 +122,8 @@ public class PonderadosRefinacionDao {
 
         DerivadoDao derivadoDao = new DerivadoDao();
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT idponderado,idderivado, produccion,"
                         + " rendimiento, nal_bpd,"
@@ -140,7 +147,7 @@ public class PonderadosRefinacionDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -155,7 +162,8 @@ public class PonderadosRefinacionDao {
 
         DerivadoDao derivadoDao = new DerivadoDao();
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT idponderado, idderivado, produccion,"
                         + " rendimiento, nal_bpd,"
@@ -180,7 +188,7 @@ public class PonderadosRefinacionDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -196,7 +204,8 @@ public class PonderadosRefinacionDao {
         DerivadoDao derivadoDao = new DerivadoDao();
         double valor = 0;
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT idponderado, idderivado, produccion,"
                         + " rendimiento, nal_bpd,"
@@ -225,7 +234,7 @@ public class PonderadosRefinacionDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }

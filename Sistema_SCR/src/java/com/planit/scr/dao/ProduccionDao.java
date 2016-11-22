@@ -5,12 +5,13 @@
  */
 package com.planit.scr.dao;
 
-import com.planit.scr.conexion.ConexionSQL;
+import com.planit.scr.conexion.Pool;
 import com.planit.scr.metodos.Redondear;
 import com.planit.scr.modelos.Campo;
 import com.planit.scr.modelos.Contrato;
 import com.planit.scr.modelos.Municipio;
 import com.planit.scr.modelos.Produccion;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,6 +21,8 @@ import java.sql.Statement;
  * @author VaioDevelopment
  */
 public class ProduccionDao {
+
+    private final Pool pool = new Pool();
 
     //Calculos
     public double convertirABarrilesEquivalentes(double produccionGas) {
@@ -32,7 +35,8 @@ public class ProduccionDao {
     public int registrarProduccion(Produccion p) throws Exception {
         int resultado = 0;
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "INSERT INTO public.produccion (idcampo, produccionhdia, produccionhmes, producciongdia, producciongmes, producciontotaldia, producciontotalmes, mes, anio, idmunicipio, idcontrato)"
                         + " VALUES('" + p.getCampo().getIdcampo() + "', "
@@ -49,7 +53,7 @@ public class ProduccionDao {
                 st.execute(sql);
                 resultado = 1;
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -66,7 +70,8 @@ public class ProduccionDao {
         MunicipiosDao municipiosDao = new MunicipiosDao();
         ContratosDao contratosDao = new ContratosDao();
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT idproduccion, idcampo, produccionhdia, produccionhmes, producciongdia, producciongmes, producciontotaldia, producciontotalmes, mes, anio, idmunicipio, idcontrato "
                         + "FROM public.produccion where (anio = '" + p.getAnio() + "' AND mes = '" + p.getMes() + "' AND idcampo = '" + p.getCampo().getIdcampo() + "' AND idcontrato = '" + p.getContrato().getIdcontrato() + "' AND idmunicipio = '" + p.getMunicipio().getIdmunicipio() + "') OR idproduccion = '" + p.getIdproduccion() + "'";
@@ -87,7 +92,7 @@ public class ProduccionDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }
@@ -101,7 +106,8 @@ public class ProduccionDao {
 
         boolean valor = false;
         try {
-            Statement st = ConexionSQL.conexion();
+            Connection con = pool.dataSource.getConnection();
+            Statement st = con.createStatement();
             try {
                 String sql = "SELECT Distinct true FROM public.produccion where exists(select * from public.produccion where idmunicipio = '" + municipio.getIdmunicipio() + "' AND anio = '" + anio + "' AND mes = '" + mes + "')";
                 ResultSet rs = st.executeQuery(sql);
@@ -110,7 +116,7 @@ public class ProduccionDao {
                 }
                 rs.close();
                 st.close();
-                ConexionSQL.CerrarConexion();
+                con.close();
             } catch (SQLException e) {
                 throw e;
             }

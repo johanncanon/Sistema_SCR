@@ -217,6 +217,7 @@ public class PonderadoRefinacionCT {
         anio = 2016;
         trimestremes = 0;
         cargarDerivados();
+        nombreOperacion = "Registrar";
     }
 
     //Otros metodos

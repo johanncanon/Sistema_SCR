@@ -5,20 +5,17 @@
  */
 package com.planit.scr.dao;
 
-import com.planit.scr.conexion.Conexion;
 import com.planit.scr.conexion.Pool;
 import com.planit.scr.modelos.Campo;
 import com.planit.scr.modelos.CampoCompleto;
 import com.planit.scr.modelos.Contrato;
 import com.planit.scr.modelos.Municipio;
-import com.sun.rowset.CachedRowSetImpl;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import javax.sql.rowset.CachedRowSet;
 
 /**
  *
