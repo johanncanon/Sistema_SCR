@@ -10,6 +10,7 @@ import com.planit.scr.modelos.Campo;
 import com.planit.scr.modelos.CampoCompleto;
 import com.planit.scr.modelos.Contrato;
 import com.planit.scr.modelos.Municipio;
+import com.planit.scr.modelos.Tipo;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -170,11 +171,21 @@ public class CamposDao {
             Statement st = con.createStatement();
             try {
                 municipio = municipioDao.consultarMunicipio(municipio);
-                String sql = "SELECT c.idcampo, c.nombre, cc.idcontrato, c.porcentaje FROM public.campos as c, public.municipios_contratos as mc, public.campos_contratos as cc"
-                        + " WHERE mc.idmunicipio = " + municipio.getIdmunicipio() + " and cc.idcontrato = mc.idcontrato and cc.idcampo = c.idcampo";
+                String sql = "SELECT c.idcampo, c.nombre, cc.idcontrato, c.porcentaje, cr.nombre, cr.idtipo, t.nombre, cr.cib, cr.car, cr.cov "
+                        + "FROM public.campos as c, public.municipios_contratos as mc, public.campos_contratos as cc, public.contratos as cr, public.tipos as t "
+                        + "WHERE mc.idmunicipio = " + municipio.getIdmunicipio() + " and cc.idcontrato = mc.idcontrato and cc.idcampo = c.idcampo "
+                        + "and cc.idcontrato = cr.idcontrato and cr.idtipo = t.idtipo";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listacampos.add(new CampoCompleto(rs.getInt(1), rs.getString(2), contratosDao.consultarContrato(new Contrato(rs.getInt(3))), rs.getDouble(4)));
+                    listacampos.add(new CampoCompleto(rs.getInt(1), 
+                            rs.getString(2), 
+                            new Contrato(rs.getInt(3),
+                                    rs.getString(5),
+                                    rs.getInt(8),
+                                    rs.getInt(9),
+                                    rs.getInt(10),
+                                    new Tipo(rs.getInt(6), rs.getString(7))),
+                            rs.getDouble(4)));
                 }
                 rs.close();
                 st.close();

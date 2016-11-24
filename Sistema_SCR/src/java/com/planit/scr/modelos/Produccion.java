@@ -86,6 +86,16 @@ public class Produccion implements Serializable {
         this.municipio = municipio;
     }
 
+    public Produccion(Integer idproduccion, Double produccionhdia, Double producciongdia, Double producciontotaldia, Double producciontotalmes) {
+        this.idproduccion = idproduccion;
+        this.produccionhdia = produccionhdia;
+        this.producciongdia = producciongdia;
+        this.producciontotaldia = producciontotaldia;
+        this.producciontotalmes = producciontotalmes;
+    }
+    
+    
+
     public Produccion(Double produccionhdia, Double produccionhmes, Double producciongdia, Double producciongmes, Double producciontotaldia, Integer mes, Integer anio, Double producciontotalmes, Campo campo, Contrato contrato, Municipio municipio) {
         this.produccionhdia = produccionhdia;
         this.produccionhmes = produccionhmes;

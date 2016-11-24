@@ -22,11 +22,9 @@ import java.util.List;
  */
 public class MunicipiosDao {
 
-    private final Pool pool = new Pool();
-    private final DepartamentosDao departamentoDao = new DepartamentosDao();
+    private final Pool pool = new Pool(); 
 
-    public void registrarMunicipio(Municipio municipio) throws Exception {
-        municipio.setDepartamento(departamentoDao.consultarDepartamento(municipio.getDepartamento()));
+    public void registrarMunicipio(Municipio municipio) throws Exception {        
         try {
             Connection con = pool.dataSource.getConnection();
             Statement st = con.createStatement();
@@ -45,17 +43,17 @@ public class MunicipiosDao {
     }
 
     public Municipio consultarMunicipio(Municipio m) throws Exception {
-
         Municipio nuevomunicipio = new Municipio();
         try {
             Connection con = pool.dataSource.getConnection();
             Statement st = con.createStatement();
             try {
-                String sql = "SELECT idmunicipio, nombre, iddepartamento FROM public.municipios "
-                        + "WHERE idmunicipio = " + m.getIdmunicipio() + " or nombre = '" + m.getNombre() + "'";
+                String sql = "SELECT m.idmunicipio, m.nombre, m.iddepartamento, d.nombre FROM public.municipios as m, public.departamentos as d "
+                        + "WHERE m.idmunicipio = " + m.getIdmunicipio() + " or m.nombre = '" + m.getNombre() + "' and"
+                        + "m.iddepartamento = d.iddepartamento";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    nuevomunicipio = new Municipio(rs.getInt(1), rs.getString(2), departamentoDao.consultarDepartamento(new Departamento(rs.getInt(3))));
+                    nuevomunicipio = new Municipio(rs.getInt(1), rs.getString(2), new Departamento(rs.getInt(3), rs.getString(4)));
                 }
                 rs.close();
                 st.close();
@@ -77,10 +75,10 @@ public class MunicipiosDao {
             Connection con = pool.dataSource.getConnection();
             Statement st = con.createStatement();
             try {
-                String sql = "SELECT idmunicipio, nombre, iddepartamento FROM public.municipios order by nombre asc";
+                String sql = "SELECT m.idmunicipio, m.nombre, m.iddepartamento FROM public.municipios as m, public.departamentos as d where d.iddepartamento = m.iddepartamento order by nombre asc";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    listamunicipios.add(new Municipio(rs.getInt(1), rs.getString(2), departamentoDao.consultarDepartamento(new Departamento(rs.getInt(3)))));
+                    listamunicipios.add(new Municipio(rs.getInt(1), rs.getString(2), new Departamento(rs.getInt(3), rs.getString(4))));
                 }
                 rs.close();
                 st.close();
@@ -103,11 +101,11 @@ public class MunicipiosDao {
             Connection con = pool.dataSource.getConnection();
             Statement st = con.createStatement();
             try {
-                String sql = "SELECT m.idmunicipio, m.nombre, m.iddepartamento FROM public.municipios as m, public.municipios_contratos as mc "
-                        + "WHERE mc.idcontrato = '" + contrato.getIdcontrato() + "' and  mc.idmunicipio = m.idmunicipio";
+                String sql = "SELECT m.idmunicipio, m.nombre, m.iddepartamento, d.nombre FROM public.municipios as m, public.municipios_contratos as mc, public.departamentos as d "
+                        + "WHERE mc.idcontrato = '" + contrato.getIdcontrato() + "' and  mc.idmunicipio = m.idmunicipio and m.iddepartamento = d.iddepartamento";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    lista.add(new Municipio(rs.getInt(1), rs.getString(2), departamentoDao.consultarDepartamento(new Departamento(rs.getInt(3)))));
+                    lista.add(new Municipio(rs.getInt(1), rs.getString(2), new Departamento(rs.getInt(3), rs.getString(4))));
                 }
                 rs.close();
                 st.close();
@@ -131,11 +129,11 @@ public class MunicipiosDao {
             Connection con = pool.dataSource.getConnection();
             Statement st = con.createStatement();            
             try {
-                String sql = "SELECT idmunicipio, nombre, iddepartamento FROM public.municipios "
-                        + "WHERE iddepartamento = " + dep.getIddepartamento() + " or nombre = '" + dep.getNombre() + "'";
+                String sql = "SELECT m.idmunicipio, m.nombre, m.iddepartamento, d.departamento FROM public.municipios as m, public.departamentos as d "
+                        + "WHERE iddepartamento = " + dep.getIddepartamento() + " or nombre = '" + dep.getNombre() + "' and d.iddepartamento = m.iddepartamento";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    lista.add(new Municipio(rs.getInt(1), rs.getString(2), departamentodao.consultarDepartamento(new Departamento(rs.getInt(3)))));
+                    lista.add(new Municipio(rs.getInt(1), rs.getString(2),  new Departamento(rs.getInt(3), rs.getString(4))));
                 }
                 rs.close();
                 st.close();

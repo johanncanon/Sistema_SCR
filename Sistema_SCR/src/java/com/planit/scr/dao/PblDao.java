@@ -29,6 +29,9 @@ public class PblDao {
     public int registrarPbl(Valores valores) throws Exception {
         int resultado = 0;
 
+        Connection con = null;
+        Statement st = null;
+        
         ContratosDao contratosDao = new ContratosDao();
         CalidadCrudoDao calidadCrudoDao = new CalidadCrudoDao();
         PonderadosRefinacionDao ponderadosRefinacionDao = new PonderadosRefinacionDao();
@@ -46,8 +49,8 @@ public class PblDao {
         }
 
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 for (int i = 0; i < contratos.size(); i++) {
                     pbl = new Pbl();
@@ -82,12 +85,20 @@ public class PblDao {
             }
         } catch (Exception e) {
             throw e;
+        }  finally {
+            if (con != null & st != null) {
+                st.close();
+                con.close();
+            }
         }
         return resultado;
     }
 
     public int modificarPbl(Valores valores, int anio, int trimestreMes) throws Exception {
         int resultado = 0;
+
+        Connection con = null;
+        Statement st = null;
 
         ContratosDao contratosDao = new ContratosDao();
         CalidadCrudoDao calidadCrudoDao = new CalidadCrudoDao();
@@ -106,8 +117,8 @@ public class PblDao {
         }
 
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 for (int i = 0; i < contratos.size(); i++) {
                     pbl = new Pbl();
@@ -134,22 +145,27 @@ public class PblDao {
                             + "WHERE idcontrato = " + contratos.get(i).getIdcontrato() + " and  anio = " + anio + " and trimestre_mes = " + trimestreMes + "";
                     st.execute(sql);
                 }
-                st.close();
-                con.close();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (con != null & st != null) {
+                st.close();
+                con.close();
+            }
         }
         return resultado;
     }
 
     public int eliminarPbl(int anio, int trimestreMes) throws Exception {
         int resultado = 0;
+        Connection con = null;
+        Statement st = null;
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "DELETE FROM public.pbl "
                         + "WHERE anio = " + anio + " and trimestre_mes = " + trimestreMes + "";
@@ -162,19 +178,22 @@ public class PblDao {
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (con != null & st != null) {
+                st.close();
+                con.close();
+            }
         }
         return resultado;
     }
 
     public List<Pbl> consultarPblSegunMunicipio(Municipio municipio, Pbl pbl) throws Exception {
         List<Pbl> pbls = new ArrayList<>();
-
-        ContratosDao contratosDao = new ContratosDao();
-        MunicipiosDao municipiosDao = new MunicipiosDao();
-        municipio = municipiosDao.consultarMunicipio(municipio);
-       try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+        Connection con = null;
+        Statement st = null;
+        try {
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre_mes, p.prc, p.refinacion, p.exportacion, p.idcontrato, p.anio"
                         + " FROM public.pbl as p, public.municipios_contratos as mc"
@@ -192,28 +211,30 @@ public class PblDao {
                             rs.getDouble(8),
                             rs.getDouble(9),
                             rs.getInt(11),
-                            contratosDao.consultarContrato(new Contrato(rs.getInt(10)))));
+                            new Contrato(rs.getInt(10))));
                 }
                 rs.close();
-                st.close();
-                con.close();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (con != null & st != null) {
+                st.close();
+                con.close();
+            }
         }
         return pbls;
     }
 
     public Pbl consultarPblSegunContrato(Contrato contrato, int trimestre_mes, int anio) throws Exception {
         Pbl pbl = new Pbl();
-
-        ContratosDao contratosDao = new ContratosDao();
-
-       try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+        Connection con = null;
+        Statement st = null;
+        try {
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre_mes, p.prc, p.refinacion, p.exportacion, p.idcontrato, p.anio"
                         + " FROM public.pbl as p"
@@ -231,28 +252,30 @@ public class PblDao {
                             rs.getDouble(8),
                             rs.getDouble(9),
                             rs.getInt(11),
-                            contratosDao.consultarContrato(new Contrato(rs.getInt(10))));
+                            new Contrato(rs.getInt(10)));
                 }
                 rs.close();
-                st.close();
-                con.close();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (con != null & st != null) {
+                st.close();
+                con.close();
+            }
         }
         return pbl;
     }
 
     public List<Pbl> consultarPbl(int trimestre_mes, int anio) throws Exception {
         List<Pbl> pbl = new ArrayList<>();
-
-        ContratosDao contratosDao = new ContratosDao();
-
-         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+        Connection con = null;
+        Statement st = null;
+        try {
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre_mes, p.prc, p.refinacion, p.exportacion, p.idcontrato, p.anio"
                         + " FROM public.pbl as p"
@@ -269,16 +292,20 @@ public class PblDao {
                             rs.getDouble(8),
                             rs.getDouble(9),
                             rs.getInt(11),
-                            contratosDao.consultarContrato(new Contrato(rs.getInt(10)))));
+                            new Contrato(rs.getInt(10))));
                 }
                 rs.close();
-                st.close();
-                con.close();
+
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (con != null & st != null) {
+                st.close();
+                con.close();
+            }
         }
         return pbl;
     }

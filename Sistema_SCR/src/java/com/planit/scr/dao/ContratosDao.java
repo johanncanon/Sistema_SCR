@@ -112,11 +112,12 @@ public class ContratosDao {
             Connection con = pool.dataSource.getConnection();
             Statement st = con.createStatement();
             try {
-                String sql = "SELECT idcontrato, nombre, idtipo, cib, car, cov FROM public.contratos"
-                        + " WHERE idcontrato = " + c.getIdcontrato() + " or nombre = '" + c.getNombre() + "' ";
+                String sql = "SELECT cr.idcontrato, cr.nombre, cr.idtipo, cr.cib, cr.car, cr.cov, t.nombre FROM public.contratos as cr, public.tipos as t"
+                        + " WHERE cr.idcontrato = " + c.getIdcontrato() + " or cr.nombre = '" + c.getNombre() + "' "
+                        + " and cr.idtipo = t.idtipo ";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    nuevocontrato = new Contrato(rs.getInt(1), rs.getString(2), rs.getInt(4), rs.getInt(5), rs.getInt(6), tipoDao.consultarTipo(new Tipo(rs.getInt(3))));
+                    nuevocontrato = new Contrato(rs.getInt(1), rs.getString(2), rs.getInt(4), rs.getInt(5), rs.getInt(6), new Tipo(rs.getInt(3), rs.getString(7)));
                 }
                 rs.close();
                 st.close();

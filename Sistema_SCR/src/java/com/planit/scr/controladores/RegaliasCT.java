@@ -6,6 +6,8 @@
 package com.planit.scr.controladores;
 
 import com.planit.scr.dao.CamposDao;
+import com.planit.scr.dao.ContratosDao;
+import com.planit.scr.dao.DepartamentosDao;
 import com.planit.scr.dao.MunicipiosDao;
 import com.planit.scr.dao.PblDao;
 import com.planit.scr.dao.ProduccionDao;
@@ -38,6 +40,13 @@ public class RegaliasCT {
     private List<Regalias> regalias;
     private int mes;
     private int anio;
+
+    DepartamentosDao departamentosDao = new DepartamentosDao();
+    MunicipiosDao municipiosDao = new MunicipiosDao();
+    CamposDao campoDao = new CamposDao();
+    ProduccionDao produccionDao = new ProduccionDao();
+    ContratosDao contratosDao = new ContratosDao();
+    RegaliasDao regaliasDao = new RegaliasDao();
 
     public RegaliasCT() {
 
@@ -100,9 +109,7 @@ public class RegaliasCT {
         CamposDao camposDao = new CamposDao();
         List<CampoCompleto> campos = new ArrayList<>();
         regalias = new ArrayList<>();
-        ProduccionDao produccionDao = new ProduccionDao();
         if (!produccionDao.verificarRegistroProduccionMunicipio(municipio, anio, mes)) {
-            MunicipiosDao municipiosDao = new MunicipiosDao();
             municipio = municipiosDao.consultarMunicipio(municipio);
             campos = camposDao.consultarCamposSegunMunicipio(municipio);
             if (!campos.isEmpty()) {
@@ -139,9 +146,6 @@ public class RegaliasCT {
         String ruta = "";
         FacesMessage message = new FacesMessage();
 
-        RegaliasDao regaliasDao = new RegaliasDao();
-        ProduccionDao produccionDao = new ProduccionDao();
-
         Calendar cal = new GregorianCalendar(anio, mes - 1, 1);
         int diasMes = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
@@ -153,13 +157,19 @@ public class RegaliasCT {
             regalias.get(i).getProduccion().setProducciontotalmes(regalias.get(i).getProduccion().getProducciontotaldia() * diasMes);
             produccionDao.registrarProduccion(regalias.get(i).getProduccion());
         }
-
+       
         for (int i = 0; i < regalias.size(); i++) {
             regalias.get(i).setProduccion(produccionDao.consultarProduccionCampoContrato(regalias.get(i).getProduccion()));
-
+        }        
+         
+        double bpdm = promedioDiarioMensual(regalias);
+        TrmDao trmDao = new TrmDao();
+        double trm = trmDao.consultarPromedioMensualTrm(mes, anio);
+        
+        for (int i = 0; i < regalias.size(); i++) {
             //Obtenemos el porcentaje correspondiente de regalias segun el tipo de contrato
             double porcentaje = regalias.get(i).getCampo().getPorcentaje();
-            regalias.get(i).setPorcregalias((porcentaje / 100));
+            regalias.get(i).setPorcregalias(porcentaje);
 
             //Obtenemos el porcentaje al que equivale la produccion del campo con respecto al total del municipio
             double total = totalProdMesMunicipio(regalias);
@@ -167,16 +177,12 @@ public class RegaliasCT {
 
             //Obtenemos pbl correspondiente al mes seleccionado
             PblDao pblDao = new PblDao();
-            Pbl pbl = new Pbl();
             pbl = pblDao.consultarPblSegunContrato(regalias.get(i).getContrato(),
                     pblDao.obtenerTrimestre(regalias.get(i).getMes(), regalias.get(i).getAnio()), regalias.get(i).getAnio());
 
             if (pbl.getIdpbl() != 0) {
-                regalias.get(i).setPrecio(pbl.getPrc());
-                //Calculamos 
-                double bpdm = promedioDiarioMensual(regalias);
-                TrmDao trmDao = new TrmDao();
-                double trm = trmDao.consultarPromedioMensualTrm(mes, anio);
+                regalias.get(i).setPrecio(pbl.getPrc());//Calculamos 
+
                 if (trm != 0) {
                     regalias.get(i).setRegalias(regalias.get(i).getProduccion().getProducciontotalmes() * regalias.get(i).getPrecio() * regalias.get(i).getPorcregalias() * trm);
 
@@ -193,7 +199,7 @@ public class RegaliasCT {
 
                     } else if (bpdm > 10000 && bpdm <= 20000) {
 
-                        double porcentaje1 = ((10000 * 100) / bpdm)/100;
+                        double porcentaje1 = ((10000 * 100) / bpdm) / 100;
 
                         double valorA = (((regalias.get(i).getRegalias() * porcentaje1) * 52) / 100);
                         double valorB = (((regalias.get(i).getRegalias() - (regalias.get(i).getRegalias() * porcentaje1)) * 47.5) / 100);
@@ -202,12 +208,12 @@ public class RegaliasCT {
                         valorA = (((regalias.get(i).getRegalias() * porcentaje1) * 32) / 100);
                         valorB = (((regalias.get(i).getRegalias() - (regalias.get(i).getRegalias() * porcentaje1)) * 25) / 100);
                         regalias.get(i).setMunproductor(valorA + valorB);
+
                         //Calculo de participacion del municipio
-//                        double excedente = (valorA + valorB) - (valorA + (valorB * (10 / 100)));
-//                        
-//                        double fnr = (excedente) * (60 / 100);
-//                        regalias.get(i).setMunnoproductor(excedente - fnr);
-                        //fin panticipacion                  
+//                            double excedente = (valorA + valorB) - (valorA + (valorB * (10 / 100)));                            
+//                            double fnr = (excedente) * (60 / 100);
+//                            regalias.get(i).setMunnoproductor(excedente - fnr);
+//                            //fin panticipacion                  
                         valorA = (((regalias.get(i).getRegalias() * porcentaje1) * 8) / 100);
                         valorB = (((regalias.get(i).getRegalias() - (regalias.get(i).getRegalias() * porcentaje1)) * 8) / 100);
                         regalias.get(i).setPuertos(valorA + valorB);
@@ -218,8 +224,8 @@ public class RegaliasCT {
 
                     } else if (bpdm > 20000 && bpdm <= 50000) {
 
-                        double porcentaje1 = ((10000 * 100) / bpdm)/100;
-                        double porcentaje2 = ((20000 * 100) / bpdm)/100;
+                        double porcentaje1 = ((10000 * 100) / bpdm) / 100;
+                        double porcentaje2 = ((20000 * 100) / bpdm) / 100;
                         double excedente = 0;
 
                         double valorA = (((regalias.get(i).getRegalias() * porcentaje1) * 52) / 100);
@@ -231,12 +237,13 @@ public class RegaliasCT {
                         valorB = ((((regalias.get(i).getRegalias() * porcentaje2) - (regalias.get(i).getRegalias() * porcentaje1)) * 25) / 100);
                         valorC = (((regalias.get(i).getRegalias() - (regalias.get(i).getRegalias() * porcentaje2)) * 12.5) / 100);
                         regalias.get(i).setMunproductor(valorA + valorB + valorC);
-                        //Calculo de participacion del municipio
-//                        excedente = (valorA + valorB + valorC) - (valorA + ((valorB + valorC) * (10 / 100)));
-//                       
-//                        double fnr = excedente * (60 / 100);
-//                        regalias.get(i).setMunnoproductor(excedente - fnr);
+                            //Calculo de participacion del municipio
+//                            excedente = (valorA + valorB + valorC) - (valorA + ((valorB + valorC) * (10 / 100)));
+//                            
+//                            double fnr = excedente * (60 / 100);
+//                            regalias.get(i).setMunnoproductor(excedente - fnr);
                         //fin panticipacion                        
+
                         valorA = (((regalias.get(i).getRegalias() * porcentaje1) * 8) / 100);
                         valorB = ((((regalias.get(i).getRegalias() * porcentaje2) - (regalias.get(i).getRegalias() * porcentaje1)) * 8) / 100);
                         valorC = (((regalias.get(i).getRegalias() - (regalias.get(i).getRegalias() * porcentaje2)) * 8) / 100);
@@ -247,12 +254,11 @@ public class RegaliasCT {
                         regalias.get(i).setFondonacional(valorA + valorB + valorC);
                         regalias.get(i).setMunnoproductor(0.0);
                     }
-                    int r = regaliasDao.registrarRegalias(regalias.get(i));
-                    if (r == 0) {
-                        message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Ocurrio un error al registrar la distribucion de regalias");
-                        ruta = "";
-                    } else if (r == 1) {
-                        ruta = "ConsultarRegalias";
+                    if (regalias.get(i).getProduccion().getIdproduccion() != 0) {
+                        int r = regaliasDao.registrarRegalias(regalias.get(i));
+                        if (r == 0) {
+                            message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Ocurrio un error al registrar la distribucion de regalias");
+                        }
                     }
                 } else {
                     message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Ocurrio un error al consultar el trm del mes respectivo");
@@ -268,10 +274,10 @@ public class RegaliasCT {
 
     public void calculoRegaliasRapido() throws Exception {
         List<CampoCompleto> campos = new ArrayList<>();
-        CamposDao camposDao = new CamposDao();
         campos = new ArrayList<>();
-        campos = camposDao.consultarCamposSegunMunicipio(municipio);
+        campos = campoDao.consultarCamposSegunMunicipio(municipio);
         FacesMessage message = new FacesMessage();
+
         if (!campos.isEmpty()) {
             for (int i = 0; i < campos.size(); i++) {
                 Campo c = new Campo(campos.get(i).getIdcampo(), campos.get(i).getNombre(), campos.get(i).getPorcentaje());
@@ -291,15 +297,15 @@ public class RegaliasCT {
                 regalias.add(reg);
             }
 
-            RegaliasDao regaliasDao = new RegaliasDao();
-            ProduccionDao produccionDao = new ProduccionDao();
+            double bpdm = promedioDiarioMensual(regalias);
+            TrmDao trmDao = new TrmDao();
+            double trm = trmDao.consultarPromedioMensualTrm(mes, anio);
 
             for (int i = 0; i < regalias.size(); i++) {
                 regalias.get(i).setProduccion(produccionDao.consultarProduccionCampoContrato(regalias.get(i).getProduccion()));
             }
 
             for (int i = 0; i < regalias.size(); i++) {
-
                 //Obtenemos el porcentaje correspondiente de regalias segun el tipo de contrato
                 double porcentaje = regalias.get(i).getCampo().getPorcentaje();
                 regalias.get(i).setPorcregalias(porcentaje);
@@ -314,11 +320,8 @@ public class RegaliasCT {
                         pblDao.obtenerTrimestre(regalias.get(i).getMes(), regalias.get(i).getAnio()), regalias.get(i).getAnio());
 
                 if (pbl.getIdpbl() != 0) {
-                    regalias.get(i).setPrecio(pbl.getPrc());
-                    //Calculamos 
-                    double bpdm = promedioDiarioMensual(regalias);
-                    TrmDao trmDao = new TrmDao();
-                    double trm = trmDao.consultarPromedioMensualTrm(mes, anio);
+                    regalias.get(i).setPrecio(pbl.getPrc());//Calculamos 
+
                     if (trm != 0) {
                         regalias.get(i).setRegalias(regalias.get(i).getProduccion().getProducciontotalmes() * regalias.get(i).getPrecio() * regalias.get(i).getPorcregalias() * trm);
 
@@ -335,7 +338,7 @@ public class RegaliasCT {
 
                         } else if (bpdm > 10000 && bpdm <= 20000) {
 
-                            double porcentaje1 = ((10000 * 100) / bpdm)/100;
+                            double porcentaje1 = ((10000 * 100) / bpdm) / 100;
 
                             double valorA = (((regalias.get(i).getRegalias() * porcentaje1) * 52) / 100);
                             double valorB = (((regalias.get(i).getRegalias() - (regalias.get(i).getRegalias() * porcentaje1)) * 47.5) / 100);
@@ -360,8 +363,8 @@ public class RegaliasCT {
 
                         } else if (bpdm > 20000 && bpdm <= 50000) {
 
-                            double porcentaje1 = ((10000 * 100) / bpdm)/100;
-                            double porcentaje2 = ((20000 * 100) / bpdm)/100;
+                            double porcentaje1 = ((10000 * 100) / bpdm) / 100;
+                            double porcentaje2 = ((20000 * 100) / bpdm) / 100;
                             double excedente = 0;
 
                             double valorA = (((regalias.get(i).getRegalias() * porcentaje1) * 52) / 100);
@@ -407,7 +410,6 @@ public class RegaliasCT {
             message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "no existen campos registrados para este municipio");
         }
         FacesContext.getCurrentInstance().addMessage(null, message);
-
     }
 
     public double totalProdDiaMunicipio(List<Regalias> rg) {
@@ -440,9 +442,6 @@ public class RegaliasCT {
 
     //Metodos   
     public void consultarRegalias() throws Exception {
-        MunicipiosDao municipiosDao = new MunicipiosDao();
-        RegaliasDao regaliasDao = new RegaliasDao();
-        ProduccionDao produccionDao = new ProduccionDao();
 
         municipio = municipiosDao.consultarMunicipio(municipio);
         regalia.setMunicipio(municipio);
@@ -462,7 +461,6 @@ public class RegaliasCT {
         } else {
             regalias = regaliasDao.consultarRegalias(regalia);
         }
-
         municipio = new Municipio();
         regalia = new Regalias();
         anio = 0;
