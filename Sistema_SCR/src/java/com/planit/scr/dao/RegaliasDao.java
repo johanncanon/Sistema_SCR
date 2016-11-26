@@ -30,7 +30,7 @@ public class RegaliasDao {
 
     public int registrarRegalias(Regalias regalia) throws Exception {
         int resultado = 0;
-         Connection con = null;
+        Connection con = null;
         Statement st = null;
         try {
             con = pool.dataSource.getConnection();
@@ -54,9 +54,7 @@ public class RegaliasDao {
                         + "'" + Redondear.redondear(regalia.getRegalias(), 3) + "', "
                         + "'" + regalia.getProduccion().getIdproduccion() + "', "
                         + "'" + Redondear.redondear(regalia.getFondonacional(), 3) + "')";
-                st.execute(sql);
-                st.close();
-                con.close();
+                st.execute(sql);               
                 resultado = 1;
             } catch (SQLException e) {
                 System.out.println("Error sql" + e);
@@ -64,7 +62,7 @@ public class RegaliasDao {
             }
         } catch (Exception e) {
             throw e;
-        }finally {
+        } finally {
             if (st != null && con != null) {
                 st.close();
                 con.close();

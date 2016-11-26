@@ -225,6 +225,8 @@ public class CampoCT {
         operacion = 0;
         campos = camposDao.consultarCampos();
         campo = new Campo();
+        contratos.clear();
+        contratosRespaldo.clear();
     }
 
     public void buscarCampo() throws Exception {

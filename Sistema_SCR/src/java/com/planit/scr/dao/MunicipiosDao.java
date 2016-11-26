@@ -22,47 +22,56 @@ import java.util.List;
  */
 public class MunicipiosDao {
 
-    private final Pool pool = new Pool(); 
+    private final Pool pool = new Pool();
 
-    public void registrarMunicipio(Municipio municipio) throws Exception {        
+    public void registrarMunicipio(Municipio municipio) throws Exception {
+        Connection con = null;
+        Statement st = null;
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "INSERT INTO public.municipios (nombre, iddepartamento)"
                         + " VALUES ('" + municipio.getNombre() + "'," + municipio.getDepartamento().getIddepartamento() + ")";
-                st.execute(sql);
-                st.close();
-                con.close();
+                st.execute(sql);                
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (con != null && st != null) {
+                st.close();
+                con.close();
+            }
         }
     }
 
     public Municipio consultarMunicipio(Municipio m) throws Exception {
         Municipio nuevomunicipio = new Municipio();
+        Connection con = null;
+        Statement st = null;
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "SELECT m.idmunicipio, m.nombre, m.iddepartamento, d.nombre FROM public.municipios as m, public.departamentos as d "
-                        + "WHERE m.idmunicipio = " + m.getIdmunicipio() + " or m.nombre = '" + m.getNombre() + "' and"
-                        + "m.iddepartamento = d.iddepartamento";
+                        + "WHERE m.idmunicipio = " + m.getIdmunicipio() + " and m.iddepartamento = d.iddepartamento";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     nuevomunicipio = new Municipio(rs.getInt(1), rs.getString(2), new Departamento(rs.getInt(3), rs.getString(4)));
                 }
-                rs.close();
-                st.close();
-                con.close();
+                rs.close();               
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (con != null && st != null) {
+                st.close();
+                con.close();
+            }
         }
         return nuevomunicipio;
     }
@@ -70,24 +79,29 @@ public class MunicipiosDao {
     public List<Municipio> consultarMunicipios() throws Exception {
 
         List<Municipio> listamunicipios = new ArrayList<>();
-        DepartamentosDao departamentoDao = new DepartamentosDao();
+        Connection con = null;
+        Statement st = null;
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
-                String sql = "SELECT m.idmunicipio, m.nombre, m.iddepartamento FROM public.municipios as m, public.departamentos as d where d.iddepartamento = m.iddepartamento order by nombre asc";
+                String sql = "SELECT m.idmunicipio, m.nombre, m.iddepartamento, d.nombre "
+                        + "FROM public.municipios as m, public.departamentos as d where d.iddepartamento = m.iddepartamento order by m.nombre asc";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     listamunicipios.add(new Municipio(rs.getInt(1), rs.getString(2), new Departamento(rs.getInt(3), rs.getString(4))));
                 }
-                rs.close();
-                st.close();
-                con.close();
+                rs.close();                
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (con != null && st != null) {
+                st.close();
+                con.close();
+            }
         }
         return listamunicipios;
     }
@@ -95,11 +109,11 @@ public class MunicipiosDao {
     public List<Municipio> consultarMunicipiosSegunContrato(Contrato contrato) throws Exception {
 
         List<Municipio> lista = new ArrayList<>();
-        ContratosDao contratosDao = new ContratosDao();
-        contrato = contratosDao.consultarContrato(contrato);
+        Connection con = null;
+        Statement st = null;
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "SELECT m.idmunicipio, m.nombre, m.iddepartamento, d.nombre FROM public.municipios as m, public.municipios_contratos as mc, public.departamentos as d "
                         + "WHERE mc.idcontrato = '" + contrato.getIdcontrato() + "' and  mc.idmunicipio = m.idmunicipio and m.iddepartamento = d.iddepartamento";
@@ -107,15 +121,18 @@ public class MunicipiosDao {
                 while (rs.next()) {
                     lista.add(new Municipio(rs.getInt(1), rs.getString(2), new Departamento(rs.getInt(3), rs.getString(4))));
                 }
-                rs.close();
-                st.close();
-                con.close();
+                rs.close();                
             } catch (SQLException e) {
                 System.out.println("" + e.getMessage());
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (con != null && st != null) {
+                st.close();
+                con.close();
+            }
         }
         return lista;
     }
@@ -123,26 +140,29 @@ public class MunicipiosDao {
     public List<Municipio> consultarMunicipiosSegunDepartamento(Departamento dep) throws Exception {
 
         List<Municipio> lista = new ArrayList<>();
-        DepartamentosDao departamentodao = new DepartamentosDao();
-        dep = departamentodao.consultarDepartamento(dep);
+        Connection con = null;
+        Statement st = null;
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();            
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
-                String sql = "SELECT m.idmunicipio, m.nombre, m.iddepartamento, d.departamento FROM public.municipios as m, public.departamentos as d "
-                        + "WHERE iddepartamento = " + dep.getIddepartamento() + " or nombre = '" + dep.getNombre() + "' and d.iddepartamento = m.iddepartamento";
+                String sql = "SELECT m.idmunicipio, m.nombre, m.iddepartamento, d.nombre FROM public.municipios as m, public.departamentos as d "
+                        + "WHERE m.iddepartamento = " + dep.getIddepartamento() + " and d.iddepartamento = m.iddepartamento";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    lista.add(new Municipio(rs.getInt(1), rs.getString(2),  new Departamento(rs.getInt(3), rs.getString(4))));
+                    lista.add(new Municipio(rs.getInt(1), rs.getString(2), new Departamento(rs.getInt(3), rs.getString(4))));
                 }
-                rs.close();
-                st.close();
-                con.close();
+                rs.close();                
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (con != null && st != null) {
+                st.close();
+                con.close();
+            }
         }
         return lista;
     }

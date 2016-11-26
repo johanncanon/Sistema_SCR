@@ -11,6 +11,7 @@ import com.planit.scr.modelos.Contrato;
 import com.planit.scr.modelos.Pbl;
 import com.planit.scr.modelos.Valores;
 import com.planit.scr.modelos.Municipio;
+import com.planit.scr.modelos.Tipo;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -195,10 +196,12 @@ public class PblDao {
             con = pool.dataSource.getConnection();
             st = con.createStatement();
             try {
-                String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre_mes, p.prc, p.refinacion, p.exportacion, p.idcontrato, p.anio"
-                        + " FROM public.pbl as p, public.municipios_contratos as mc"
+                String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre_mes, p.prc, p.refinacion, p.exportacion, p.idcontrato, "
+                        + " p.anio, cr.nombre, cr.idtipo, t.nombre, cr.cib, cr.car, cr.cov "
+                        + " FROM public.pbl as p, public.municipios_contratos as mc, public.contratos as cr, public.tipos as t"
                         + " WHERE p.anio = " + pbl.getAnio() + " AND p.trimestre_mes = " + pbl.getTrimestreMes() + " AND"
-                        + " p.idcontrato = mc.idcontrato AND mc.idmunicipio = " + municipio.getIdmunicipio() + "";
+                        + " p.idcontrato = mc.idcontrato AND mc.idmunicipio = " + municipio.getIdmunicipio() + " AND"
+                        + " p.idcontrato = cr.idcontrato AND cr.idtipo = t.idtipo";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     pbls.add(new Pbl(rs.getInt(1),
@@ -211,7 +214,7 @@ public class PblDao {
                             rs.getDouble(8),
                             rs.getDouble(9),
                             rs.getInt(11),
-                            new Contrato(rs.getInt(10))));
+                            new Contrato(rs.getInt(10), rs.getString(12),rs.getInt(15),rs.getInt(16),rs.getInt(17),new Tipo(rs.getInt(13), rs.getString(14)))));
                 }
                 rs.close();
             } catch (SQLException e) {
@@ -236,10 +239,11 @@ public class PblDao {
             con = pool.dataSource.getConnection();
             st = con.createStatement();
             try {
-                String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre_mes, p.prc, p.refinacion, p.exportacion, p.idcontrato, p.anio"
-                        + " FROM public.pbl as p"
+                String sql = "SELECT p.idpbl, p.ctc, p.ct1, p.cce, p.ct2, p.trimestre_mes, p.prc, p.refinacion, p.exportacion, p.idcontrato,"
+                        + " p.anio, cr.nombre, cr.idtipo, t.nombre, cr.cib, cr.car, cr.cov"
+                        + " FROM public.pbl as p, public.contratos as cr, public.tipos as t"
                         + " WHERE p.anio = " + anio + " AND p.trimestre_mes = " + trimestre_mes + " AND"
-                        + " p.idcontrato = " + contrato.getIdcontrato() + " ";
+                        + " p.idcontrato = " + contrato.getIdcontrato() + " AND p.idcontrato = cr.idcontrato AND cr.idtipo = t.idtipo";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     pbl = new Pbl(rs.getInt(1),
@@ -252,7 +256,7 @@ public class PblDao {
                             rs.getDouble(8),
                             rs.getDouble(9),
                             rs.getInt(11),
-                            new Contrato(rs.getInt(10)));
+                            new Contrato(rs.getInt(10), rs.getString(12),rs.getInt(15),rs.getInt(16),rs.getInt(17),new Tipo(rs.getInt(13), rs.getString(14))));
                 }
                 rs.close();
             } catch (SQLException e) {

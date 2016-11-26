@@ -109,8 +109,7 @@ public class RegaliasCT {
         CamposDao camposDao = new CamposDao();
         List<CampoCompleto> campos = new ArrayList<>();
         regalias = new ArrayList<>();
-        if (!produccionDao.verificarRegistroProduccionMunicipio(municipio, anio, mes)) {
-            municipio = municipiosDao.consultarMunicipio(municipio);
+        if (!produccionDao.verificarRegistroProduccionMunicipio(municipio, anio, mes)) {            
             campos = camposDao.consultarCamposSegunMunicipio(municipio);
             if (!campos.isEmpty()) {
                 for (int i = 0; i < campos.size(); i++) {
@@ -139,7 +138,6 @@ public class RegaliasCT {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Ya ha sido registrada la produccion para este municipio en este mes y año");
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
-
     }
 
     public String calcularRegalias() throws Exception {

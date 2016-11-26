@@ -28,54 +28,64 @@ public class TrmDao {
 
     //Metodos
     public void registrarTrm(Trm trm, String fecha) throws Exception {
-
+        Connection con = null;
+        Statement st = null;
         String valor = redondear(trm.getValor(), 2);
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "INSERT INTO public.trm(fecha, valor) "
                         + "VALUES('" + fecha + "','" + valor + "')";
                 st.execute(sql);
-                st.close();
-                con.close();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (st != null && con != null) {
+                st.close();
+                con.close();
+            }
         }
     }
 
     public List<Trm> consultarTrm() throws Exception {
-
+        Connection con = null;
+        Statement st = null;
         List<Trm> lista = new ArrayList<>();
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "SELECT idtrm, fecha, valor FROM public.trm";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     lista.add(new Trm(rs.getInt(1), rs.getDate(2), rs.getInt(3)));
                 }
-                st.execute(sql);
-                st.close();
-                con.close();
+                rs.close();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (st != null && con != null) {
+                st.close();
+                con.close();
+            }
         }
         return lista;
     }
 
     public Trm consultarTrm(Trm tr) throws Exception {
         Trm nuevotrm = new Trm();
+        Connection con = null;
+        Statement st = null;
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "SELECT idtrm, fecha, valor FROM public.trm "
                         + "WHERE idtrm = " + tr.getIdtrm() + " or fecha = '" + tr.getFecha() + "'";
@@ -83,24 +93,28 @@ public class TrmDao {
                 while (rs.next()) {
                     nuevotrm = new Trm(rs.getInt(1), rs.getDate(2), rs.getDouble(3));
                 }
-                st.execute(sql);
-                st.close();
-                con.close();
+                rs.close();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (st != null && con != null) {
+                st.close();
+                con.close();
+            }
         }
         return nuevotrm;
     }
 
     public List<Trm> buscarTrm(String anio, String mes) throws Exception {
-
+        Connection con = null;
+        Statement st = null;
         List<Trm> nuevotrm = new ArrayList<>();
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "";
                 if (!mes.isEmpty()) {
@@ -119,23 +133,27 @@ public class TrmDao {
                     nuevotrm.add(new Trm(rs.getInt(1), rs.getDate(2), rs.getDouble(3)));
                 }
                 rs.close();
-                st.execute(sql);
-                st.close();
-                con.close();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (SQLException | NumberFormatException e) {
             throw e;
+        } finally {
+            if (st != null && con != null) {
+                st.close();
+                con.close();
+            }
         }
         return nuevotrm;
     }
 
     public Trm consultarMaxTrm() throws Exception {
         Trm nuevotrm = new Trm();
+        Connection con = null;
+        Statement st = null;
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "SELECT MAX(fecha) as fechaFROM from trm ;";
                 ResultSet rs = st.executeQuery(sql);
@@ -143,13 +161,16 @@ public class TrmDao {
                     nuevotrm = new Trm(rs.getDate(1));
                 }
                 rs.close();
-                st.close();
-                con.close();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (st != null && con != null) {
+                st.close();
+                con.close();
+            }
         }
         System.out.println("fecha trm max--------" + nuevotrm);
         return nuevotrm;
@@ -158,6 +179,8 @@ public class TrmDao {
     public double consultarPromedioMensualTrm(int mes, int anio) throws Exception {
 
         List<Trm> nuevotrm = new ArrayList<>();
+        Connection con = null;
+        Statement st = null;
 
         Calendar cal = new GregorianCalendar(anio, mes - 1, 1);
         int diasMes = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -166,8 +189,8 @@ public class TrmDao {
         String fecha2 = "" + anio + "-" + mes + "-" + diasMes + "";
 
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "SELECT idtrm, fecha, valor FROM public.trm "
                         + "WHERE fecha between '" + fecha1 + "' AND '" + fecha2 + "'";
@@ -175,14 +198,17 @@ public class TrmDao {
                 while (rs.next()) {
                     nuevotrm.add(new Trm(rs.getInt(1), rs.getDate(2), rs.getDouble(3)));
                 }
-                rs.close();                
-                st.close();
-                con.close();
+                rs.close();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (st != null && con != null) {
+                st.close();
+                con.close();
+            }
         }
         double sumatoria = 0;
         double resultado = 0;
@@ -194,7 +220,9 @@ public class TrmDao {
     }
 
     public double consultarPromedioTrimestralTrm(int trimestre, int anio) throws Exception {
-
+        Connection con = null;
+        Statement st = null;
+        
         double resultado = 0;
         List<Trm> Lista1 = new ArrayList<>();
         List<Trm> Lista2 = new ArrayList<>();
@@ -246,8 +274,8 @@ public class TrmDao {
         String fecha2m3 = "" + anio + "-" + mes3 + "-" + diasMes3 + "";
 
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql1 = "SELECT idtrm, fecha, valor FROM public.trm "
                         + "WHERE fecha between '" + fecha1m1 + "' AND '" + fecha2m1 + "'";
@@ -286,16 +314,18 @@ public class TrmDao {
                     sumatoria3 = sumatoria3 + Lista3.get(i).getValor();
                 }
 
-                resultado = ((sumatoria1 / diasMes1) + (sumatoria2 / diasMes2) + (sumatoria3 / diasMes3)) / 3;
-                
-                st.close();
-                rs.close();
-                con.close();
+                resultado = ((sumatoria1 / diasMes1) + (sumatoria2 / diasMes2) + (sumatoria3 / diasMes3)) / 3;                
+                rs.close();               
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (st != null && con != null) {
+                st.close();
+                con.close();
+            }
         }
         return resultado;
     }

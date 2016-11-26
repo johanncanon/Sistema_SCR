@@ -24,9 +24,11 @@ public class CalidadCrudoDao {
 
     public int registrarCalidadCrudo(CalidadCrudo calidadCrudo) throws Exception {
         int resultado = 0;
+        Connection con = null;
+        Statement st = null;
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "INSERT INTO public.calidad_crudos (cal_ref_api_exportacion, cal_ref_api_refinado, "
                         + "cal_ref_azufre_exportacion, cal_ref_azufre_refinado, "
@@ -47,23 +49,28 @@ public class CalidadCrudoDao {
                         + "'" + calidadCrudo.getTrimestre_mes() + "',"
                         + "'" + calidadCrudo.getAnio() + "')";
                 st.execute(sql);
-                st.close();
-                con.close();
                 resultado = 1;
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (con != null && st != null) {
+                st.close();
+                con.close();
+            }
         }
         return resultado;
     }
 
     public int modificarCalidadCrudo(CalidadCrudo calidadCrudo) throws Exception {
         int resultado = 0;
+        Connection con = null;
+        Statement st = null;
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "UPDATE public.calidad_crudos SET "
                         + "cal_ref_api_exportacion = '" + calidadCrudo.getCalRefApiExportacion() + "',"
@@ -80,43 +87,53 @@ public class CalidadCrudoDao {
                         + "anio = '" + calidadCrudo.getAnio() + "' "
                         + "WHERE idcalidadcrudo = '" + calidadCrudo.getIdCalidadcrudo() + "'";
                 st.execute(sql);
-                st.close();
-                con.close();
                 resultado = 1;
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (con != null && st != null) {
+                st.close();
+                con.close();
+            }
         }
         return resultado;
     }
 
     public int eliminarCalidadCrudo(CalidadCrudo calidadCrudo) throws Exception {
         int resultado = 0;
+        Connection con = null;
+        Statement st = null;
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "DELETE FROM public.calidad_crudos WHERE idcalidadcrudo = '" + calidadCrudo.getIdCalidadcrudo() + "'";
                 st.execute(sql);
-                st.close();
-                con.close();
                 resultado = 1;
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (con != null && st != null) {
+                st.close();
+                con.close();
+            }
         }
         return resultado;
     }
 
     public List<CalidadCrudo> consultarCalidadCrudos() throws Exception {
         List<CalidadCrudo> resultado = new ArrayList<>();
+        Connection con = null;
+        Statement st = null;
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "SELECT idcalidadcrudo, cal_ref_api_exportacion, cal_ref_api_refinado, "
                         + "cal_ref_azufre_exportacion, cal_ref_azufre_refinado, "
@@ -143,22 +160,27 @@ public class CalidadCrudoDao {
                 }
                 st.execute(sql);
                 rs.close();
-                st.close();
-                con.close();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (con != null && st != null) {
+                st.close();
+                con.close();
+            }
         }
         return resultado;
     }
 
     public CalidadCrudo consultarCalidadCrudo(CalidadCrudo calidadCrudo) throws Exception {
         CalidadCrudo resultado = new CalidadCrudo();
+        Connection con = null;
+        Statement st = null;
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "SELECT idcalidadcrudo, cal_ref_api_exportacion, cal_ref_api_refinado, "
                         + "cal_ref_azufre_exportacion, cal_ref_azufre_refinado, "
@@ -186,13 +208,16 @@ public class CalidadCrudoDao {
                 }
                 st.execute(sql);
                 rs.close();
-                st.close();
-                con.close();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (con != null && st != null) {
+                st.close();
+                con.close();
+            }
         }
         return resultado;
     }
@@ -200,9 +225,11 @@ public class CalidadCrudoDao {
     public double consultarPrecioReferenciaExportacion(int anio, int trimestre_mes) throws Exception {
         double valor = 0;
         CalidadCrudo resultado = new CalidadCrudo();
+        Connection con = null;
+        Statement st = null;
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "SELECT idcalidadcrudo, cal_ref_api_exportacion, cal_ref_api_refinado, "
                         + "cal_ref_azufre_exportacion, cal_ref_azufre_refinado, "
@@ -230,13 +257,16 @@ public class CalidadCrudoDao {
                 }
                 st.execute(sql);
                 rs.close();
-                st.close();
-                con.close();
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (con != null && st != null) {
+                st.close();
+                con.close();
+            }
         }
         valor = resultado.getPrecioReferenciaExportacion();
         return valor;

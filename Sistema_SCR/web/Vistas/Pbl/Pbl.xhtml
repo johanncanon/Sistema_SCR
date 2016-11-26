@@ -29,12 +29,13 @@
                                                     <div class="widget-content">
                                                         <div class="form-horizontal">
                                                             <div class="form-group">
-                                                                <label for="inputAnio" class="col-sm-4 control-label">Año: </label>
-                                                                <b:inputText value="#{pblCT.pbl.anio}" id="inputValor" placeholder="2016" span="8"/>                                                                
+                                                                <label for="inputAnio" class="control-label">Año: </label>
+                                                                <p:inputText required="true" requiredMessage="indique año" class="form-control" value="#{pblCT.pbl.anio}" id="inputValor" placeholder="2016"  />                                                                
+                                                                <p:message for="inputValor"/>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="inputMes" class="col-sm-4 control-label">Mes a consultar: </label>
-                                                                <b:selectOneMenu value="#{pblCT.pbl.trimestreMes}" col-xs="8">
+                                                                <label for="inputMes" class="control-label">Mes a consultar: </label>
+                                                                <h:selectOneMenu id="inputMes" required="true" requiredMessage="Seleccione mes" class="form-control" value="#{pblCT.pbl.trimestreMes}" >
                                                                     <f:selectItem noSelectionOption="true" itemLabel="Seleccione Mes"/>
                                                                     <f:selectItem itemLabel="Enero" itemValue="1"/>
                                                                     <f:selectItem itemLabel="Febrero" itemValue="2"/>   
@@ -48,15 +49,27 @@
                                                                     <f:selectItem itemLabel="Octubre" itemValue="10"/>   
                                                                     <f:selectItem itemLabel="Noviembre" itemValue="11"/>   
                                                                     <f:selectItem itemLabel="Diciembre" itemValue="12"/>   
-                                                                </b:selectOneMenu>
+                                                                </h:selectOneMenu>
+                                                                <p:message for="inputMes"/>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="inputCampo" class="col-sm-4 control-label">Municipio: </label>
-                                                                <b:selectOneMenu value="#{pblCT.municipio.nombre}" col-xs="8" class="ajuste-Campo">
-                                                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione municipio"/>
-                                                                    <f:selectItems value="#{municipioCT.municipios}" var="municipio" itemLabel="#{municipio.nombre}" itemValue="#{municipio.nombre}" />
-                                                                </b:selectOneMenu>
+                                                                <label class="control-label">Departamento: </label>
+                                                                <h:selectOneMenu class="form-control" required="true" requiredMessage="Seleccione departamento" id="SMDepartamento" value="#{municipioCT.municipio.departamento.iddepartamento}">
+                                                                    <f:selectItem itemLabel="Seleccione Departamento" noSelectionOption="true"/>
+                                                                    <f:selectItems value="#{departamentoCT.departamentos}" var="departamento" itemLabel="#{departamento.nombre}" itemValue="#{departamento.iddepartamento}"/>
+                                                                    <p:ajax event="change" listener="#{municipioCT.cambioDepartamentos(municipioCT.municipio.departamento)}" update="SMMunicipio"/>
+                                                                </h:selectOneMenu>
+                                                                 <p:message for="SMDepartamento"/>
                                                             </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label">Municipio: </label>
+                                                                <h:selectOneMenu class="form-control" required="true" requiredMessage="Seleccione municipio" id="SMMunicipio" value="#{pblCT.municipio.idmunicipio}">
+                                                                    <f:selectItem itemLabel="Seleccione Municipio" noSelectionOption="true"/>
+                                                                    <f:selectItems value="#{municipioCT.municipiosFiltrados}" var="municipio" itemLabel="#{municipio.nombre}" itemValue="#{municipio.idmunicipio}"/>
+                                                                </h:selectOneMenu>
+                                                                 <p:message for="SMMunicipio"/>
+                                                            </div>        
+
                                                             <div class="form-group">
                                                                 <p:commandButton onclick="PrimeFaces.monitorDownload(start, stop);" icon="fa fa-send" value="Enviar" update=":formularioRegistro :formularioLista" action="#{pblCT.consultarPbl()}" class="btn btn-info "  style="float: right"/>
                                                             </div>

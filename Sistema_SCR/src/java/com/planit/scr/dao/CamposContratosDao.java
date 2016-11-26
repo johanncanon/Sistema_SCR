@@ -23,21 +23,26 @@ public class CamposContratosDao {
     public int registrarMunicipioContrato(Campo campo, Contrato contrato) throws Exception {
 
         int resultado = 0;
+        Connection con = null;
+        Statement st = null;
         try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "INSERT INTO public.campos_contratos (idcampo, idcontrato) "
                         + "VALUES('" + campo.getIdcampo() + "', '" + contrato.getIdcontrato() + "')";
-                st.execute(sql);
-                st.close();
-                con.close();
+                st.execute(sql);               
                 resultado = 1;
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (con != null && st != null) {
+                st.close();
+                con.close();
+            }
         }
         return resultado;
     }
@@ -45,21 +50,26 @@ public class CamposContratosDao {
     public int eliminarCamposContrato(Campo campo, Contrato contrato) throws Exception {
 
         int resultado = 0;
-          try {
-            Connection con = pool.dataSource.getConnection();
-            Statement st = con.createStatement();
+        Connection con = null;
+        Statement st = null;
+        try {
+            con = pool.dataSource.getConnection();
+            st = con.createStatement();
             try {
                 String sql = "DELETE FROM public.campos_contratos "
                         + "WHERE idcampo = '" + campo.getIdcampo() + "' and idcontrato = '" + contrato.getIdcontrato() + "'";
                 st.execute(sql);
-                st.close();
-                con.close();
                 resultado = 1;
             } catch (SQLException e) {
                 throw e;
             }
         } catch (Exception e) {
             throw e;
+        } finally {
+            if (con != null && st != null) {
+                st.close();
+                con.close();
+            }
         }
         return resultado;
     }
