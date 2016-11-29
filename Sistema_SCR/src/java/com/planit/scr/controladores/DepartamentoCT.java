@@ -5,12 +5,9 @@
  */
 package com.planit.scr.controladores;
 
-import com.planit.scr.conexion.ConexionSQL;
+
 import com.planit.scr.dao.DepartamentosDao;
 import com.planit.scr.modelos.Departamento;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;

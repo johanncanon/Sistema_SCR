@@ -110,7 +110,6 @@ public class TrmCT {
             dias = ((((dias / 1000) / 60) / 60) / 24);
 
             for (int i = 1; i <= dias; i++) {
-
                 calendar.setTime(nuevotrm.getFecha()); // Configuramos la fecha que se recibe
                 calendar.add(Calendar.DAY_OF_MONTH, i);
 //                if (calendar.get(Calendar.DAY_OF_MONTH) == calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
@@ -122,29 +121,18 @@ public class TrmCT {
 //                }else{
 //                 mes = calendar.get(Calendar.MONTH) + 1;
 //                }
-
                 int dia = calendar.get(Calendar.DAY_OF_MONTH);
                 mes = calendar.get(Calendar.MONTH) + 1;
                 int anio = calendar.get(Calendar.YEAR);
-
                 String fec = anio + "-" + mes + "-" + dia;
-
                 double valorTrm = consultarTRM(fec);
 //                double valorTrmd = Double.parseDouble(valorTrm);
                 nuevotrm.setValor(valorTrm);
                 trmDao.registrarTrm(nuevotrm, fec);
             }
-
         }
-
     }
 
-//    public void registrar() throws Exception {
-//        TrmDao trmDao = new TrmDao();
-//        trmDao.registrarTrm(trm);
-//        trm = new Trm();
-//        listatrm = trmDao.consultarTrm();
-//    }
     
     //Metodos de busqueda
     public void buscartrm() throws Exception{

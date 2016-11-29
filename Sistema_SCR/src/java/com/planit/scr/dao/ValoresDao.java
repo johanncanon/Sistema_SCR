@@ -5,7 +5,6 @@
  */
 package com.planit.scr.dao;
 
-import com.planit.scr.conexion.ConexionSQL;
 import com.planit.scr.conexion.Pool;
 import com.planit.scr.modelos.Valores;
 import java.sql.Connection;
