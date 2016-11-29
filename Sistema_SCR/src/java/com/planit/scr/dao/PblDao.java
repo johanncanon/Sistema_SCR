@@ -32,7 +32,7 @@ public class PblDao {
 
         Connection con = null;
         Statement st = null;
-        
+
         ContratosDao contratosDao = new ContratosDao();
         CalidadCrudoDao calidadCrudoDao = new CalidadCrudoDao();
         PonderadosRefinacionDao ponderadosRefinacionDao = new PonderadosRefinacionDao();
@@ -78,6 +78,7 @@ public class PblDao {
                             + " '" + Redondear.redondear(pbl.getExportacion(), 2) + "',"
                             + " " + pbl.getContrato().getIdcontrato() + ")";
                     st.execute(sql);
+                    resultado = 1;
                 }
                 st.close();
                 con.close();
@@ -86,7 +87,7 @@ public class PblDao {
             }
         } catch (Exception e) {
             throw e;
-        }  finally {
+        } finally {
             if (con != null & st != null) {
                 st.close();
                 con.close();
@@ -214,7 +215,7 @@ public class PblDao {
                             rs.getDouble(8),
                             rs.getDouble(9),
                             rs.getInt(11),
-                            new Contrato(rs.getInt(10), rs.getString(12),rs.getInt(15),rs.getInt(16),rs.getInt(17),new Tipo(rs.getInt(13), rs.getString(14)))));
+                            new Contrato(rs.getInt(10), rs.getString(12), rs.getInt(15), rs.getInt(16), rs.getInt(17), new Tipo(rs.getInt(13), rs.getString(14)))));
                 }
                 rs.close();
             } catch (SQLException e) {
@@ -256,7 +257,7 @@ public class PblDao {
                             rs.getDouble(8),
                             rs.getDouble(9),
                             rs.getInt(11),
-                            new Contrato(rs.getInt(10), rs.getString(12),rs.getInt(15),rs.getInt(16),rs.getInt(17),new Tipo(rs.getInt(13), rs.getString(14))));
+                            new Contrato(rs.getInt(10), rs.getString(12), rs.getInt(15), rs.getInt(16), rs.getInt(17), new Tipo(rs.getInt(13), rs.getString(14))));
                 }
                 rs.close();
             } catch (SQLException e) {

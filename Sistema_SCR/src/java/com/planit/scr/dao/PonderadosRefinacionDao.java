@@ -233,7 +233,7 @@ public class PonderadosRefinacionDao {
                         + " pr.rendimiento, pr.nal_bpd,"
                         + " pr.export_bpd, pr.precio_nal,"
                         + " pr.precio_expo, pr.precio_medio,"
-                        + " pr.medio_rdto, pr.trimestre_mes, pr.anio FROM public.ponderados_refinacion as pr, public.derivados as d"
+                        + " pr.medio_rdto, pr.trimestre_mes, pr.anio, d.nombre FROM public.ponderados_refinacion as pr, public.derivados as d"
                         + " WHERE pr.trimestre_mes = '" + trimestremes + "' AND pr.anio = '" + anio + "' AND pr.idderivado = d.idderivado";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {

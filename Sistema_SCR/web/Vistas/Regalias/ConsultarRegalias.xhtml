@@ -29,11 +29,12 @@
                                                         <div class="form-horizontal">
                                                             <div class="form-group">
                                                                 <label for="inputAnio" class="control-label">Año: </label>
-                                                                <p:inputText class="form-control" value="#{regaliasCT.regalia.anio}" id="inputValor" placeholder="2016"/>                                                                
+                                                                <p:inputText class="form-control" required="true" requiredMessage="indique año" value="#{regaliasCT.regalia.anio}" id="inputValor" placeholder="2016"/>                                                                
+                                                                <p:message for="inputValor"/>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="inputMes" class="control-label">Mes a calcular: </label>
-                                                                <h:selectOneMenu class="form-control" value="#{regaliasCT.regalia.mes}">
+                                                                <h:selectOneMenu id="SMMes" required="true" requiredMessage="Seleccione mes" class="form-control" value="#{regaliasCT.regalia.mes}">
                                                                     <f:selectItem noSelectionOption="true" itemLabel="Seleccione Mes"/>
                                                                     <f:selectItem itemLabel="Enero" itemValue="1"/>
                                                                     <f:selectItem itemLabel="Febrero" itemValue="2"/>   
@@ -48,21 +49,24 @@
                                                                     <f:selectItem itemLabel="Noviembre" itemValue="11"/>   
                                                                     <f:selectItem itemLabel="Diciembre" itemValue="12"/>   
                                                                 </h:selectOneMenu>
+                                                                <p:message for="SMMes"/>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="control-label">Departamento: </label>
-                                                                <h:selectOneMenu class="form-control"  id="SMDepartamento" value="#{municipioCT.municipio.departamento.iddepartamento}">
+                                                                <h:selectOneMenu class="form-control" required="true" requiredMessage="Seleccione departamentos" id="SMDepartamento" value="#{municipioCT.municipio.departamento.iddepartamento}">
                                                                     <f:selectItem itemLabel="Seleccione Departamento" noSelectionOption="true"/>
                                                                     <f:selectItems value="#{departamentoCT.departamentos}" var="departamento" itemLabel="#{departamento.nombre}" itemValue="#{departamento.iddepartamento}"/>
                                                                     <p:ajax event="change" listener="#{municipioCT.cambioDepartamentos(municipioCT.municipio.departamento)}" update="SMMunicipio"/>
                                                                 </h:selectOneMenu>
+                                                                <p:message for="SMDepartamento"/>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="control-label">Municipio: </label>
-                                                                <h:selectOneMenu class="form-control" id="SMMunicipio" value="#{regaliasCT.municipio.idmunicipio}">
+                                                                <h:selectOneMenu class="form-control" required="true" requiredMessage="Seleccione municipio" id="SMMunicipio" value="#{regaliasCT.municipio.idmunicipio}">
                                                                     <f:selectItem itemLabel="Seleccione Municipio" noSelectionOption="true"/>
                                                                     <f:selectItems value="#{municipioCT.municipiosFiltrados}" var="municipio" itemLabel="#{municipio.nombre}" itemValue="#{municipio.idmunicipio}"/>
                                                                 </h:selectOneMenu>
+                                                                <p:message for="SMMunicipio"/>
                                                             </div>                                                            
                                                             <p:separator/>
                                                             <div class="form-group">

@@ -16,17 +16,17 @@ public class Pool {
     public DataSource dataSource;
     
     //public String db = "planitco_scr";
-    //public String db = "planitco_scrdb";
-    public String db = "SCR";
+    public String db = "planitco_scrdb";
+    //public String db = "SCR";
 
-    public String user = "postgres";
-    //public String user = "planitco_scruser";
+    //public String user = "postgres";
+    public String user = "planitco_scruser";
 
-    public String clave = "123456";
-    //public String clave = "yU7eywfXILoZjtaD";
+    //public String clave = "123456";
+    public String clave = "yU7eywfXILoZjtaD";
 
-    public String url = "jdbc:postgresql://localhost:5432/" + db + "";
-    //public String url = "jdbc:postgresql://70.38.109.121:5432/" + db + "";
+    //public String url = "jdbc:postgresql://localhost:5432/" + db + "";
+    public String url = "jdbc:postgresql://70.38.109.121:5432/" + db + "";
     //public String url = "jdbc:postgresql://190.146.44:81/" + db + "";
 
     public Pool() {

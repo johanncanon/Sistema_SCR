@@ -22,7 +22,7 @@ import java.sql.Statement;
  * @author VaioDevelopment
  */
 public class ProduccionDao {
-    
+
     private final Pool pool = new Pool();
 
     //Calculos
@@ -63,20 +63,25 @@ public class ProduccionDao {
         }
         return resultado;
     }
-    
+
     public Produccion consultarProduccionCampoContrato(Produccion p) throws Exception {
-        
-        Produccion produccion = new Produccion();      
+
+        Produccion produccion = new Produccion();
         try {
             Connection con = pool.dataSource.getConnection();
             Statement st = con.createStatement();
             try {
                 String sql = "SELECT p.idproduccion, p.idcampo, p.produccionhdia, p.produccionhmes, p.producciongdia, "
                         + "p.producciongmes, p.producciontotaldia, p.producciontotalmes, p.mes, p.anio, p.idmunicipio, p.idcontrato, "
-                        + "c.nombre, cr.nombre, cr.idtipo, t.nombre, cr.cib, cr.car, cr.cov, m.nombre "
-                        + "FROM public.produccion as p, public.campos as c, public.municipios as m, public.contratos as cr, public.tipos as t "
+                        + "c.nombre, cr.nombre, cr.idtipo, cr.cib, cr.car, cr.cov, m.nombre "
+                        + "FROM public.produccion as p "
+                        + "JOIN public.campos as c "
+                        + "ON p.idcampo = c.idcampo "
+                        + "JOIN public.contratos as cr "
+                        + "ON p.idcontrato = cr.idcontrato "
+                        + "JOIN public.municipios as m "
+                        + "ON p.idmunicipio = m.idmunicipio "
                         + "WHERE "
-                        + "p.idcampo = c.idcampo AND p.idcontrato = cr.idcontrato AND cr.idtipo = t.idtipo and p.idmunicipio = m.idmunicipio AND "
                         + "(p.anio = '" + p.getAnio() + "' AND "
                         + "p.mes = '" + p.getMes() + "' AND "
                         + "p.idcampo = '" + p.getCampo().getIdcampo() + "' AND "
@@ -95,8 +100,8 @@ public class ProduccionDao {
                             rs.getInt(10),
                             rs.getDouble(8),
                             new Campo(rs.getInt(2), rs.getString(13)),
-                            new Contrato(rs.getInt(12), rs.getString(14), rs.getInt(17), rs.getInt(18), rs.getInt(19), new Tipo(rs.getInt(15), rs.getString(16))),
-                            new Municipio(rs.getInt(11), rs.getString(20)));
+                            new Contrato(rs.getInt(12), rs.getString(14), rs.getInt(16), rs.getInt(17), rs.getInt(18), new Tipo(rs.getInt(15))),
+                            new Municipio(rs.getInt(11), rs.getString(19)));
                 }
                 rs.close();
                 st.close();
@@ -109,9 +114,9 @@ public class ProduccionDao {
         }
         return produccion;
     }
-    
+
     public boolean verificarRegistroProduccionMunicipio(Municipio municipio, int anio, int mes) throws Exception {
-        
+
         boolean valor = false;
         try {
             Connection con = pool.dataSource.getConnection();

@@ -108,7 +108,7 @@ public class PblCT {
 
         //Verifica el año de consulta para determinar la forma en que se registra el pbl
         if (pbl.getAnio() < 2012) {
-            pbl.setTrimestreMes(pblDao.obtenerTrimestre(pbl.getTrimestreMes(), pbl.getAnio()));
+            pbl.setTrimestreMes(pblDao.obtenerTrimestre(mes, pbl.getAnio()));
         }
         valores = valoresDao.consultarValores(pbl.getTrimestreMes(), pbl.getAnio());
         if (valores.getIdvalores() != 0) {
@@ -132,6 +132,6 @@ public class PblCT {
         } else {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "No existen deducibles de exportacion o refinacion registrados para calcular el pbl consultado");
             FacesContext.getCurrentInstance().addMessage(null, message);
-        }
+        }        
     }
 }
