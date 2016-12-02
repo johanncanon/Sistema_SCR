@@ -15,7 +15,7 @@ import org.apache.commons.dbcp.BasicDataSource;
 public class Pool {
     public DataSource dataSource;
     
-    //public String db = "planitco_scr";
+   
     public String db = "planitco_scrdb";
     //public String db = "SCR";
 
